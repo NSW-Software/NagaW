@@ -1,0 +1,544 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3E526926-D265-4C47-82AC-6B9780AC31E1}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>NagaW</RootNamespace>
+    <AssemblyName>NagaW</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>C:\Program Files %28x86%29\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <BootstrapperComponentsLocation>Relative</BootstrapperComponentsLocation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>1</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>4AB8EFC93E1389DB81D2D7F4E781AE00531B9BDA</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>NagaS_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Emgu.CV.UI">
+      <HintPath>..\dll\Emgu.CV.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.CV.World.Netstandard">
+      <HintPath>..\dll\Emgu.CV.World.Netstandard.dll</HintPath>
+    </Reference>
+    <Reference Include="MEDAQLib.NET">
+      <HintPath>..\dll\MEDAQLib Release\MEDAQLib.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dll\netstandard.dll</HintPath>
+    </Reference>
+    <Reference Include="SpinnakerNET_v140">
+      <HintPath>..\dll\SpinnakerNET_v140.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="frmAdmin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAdmin.designer.cs">
+      <DependentUpon>frmAdmin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmAuto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAuto.Designer.cs">
+      <DependentUpon>frmAuto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmConfig.designer.cs">
+      <DependentUpon>frmConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmConveyorcs.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmConveyorcs.Designer.cs">
+      <DependentUpon>frmConveyorcs.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmFlirCamera.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmFlirCamera.designer.cs">
+      <DependentUpon>frmFlirCamera.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmImageSelectBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmImageSelectBox.designer.cs">
+      <DependentUpon>frmImageSelectBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmIOPage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmIOPage.Designer.cs">
+      <DependentUpon>frmIOPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmJogCtrl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmJogCtrl.designer.cs">
+      <DependentUpon>frmJogCtrl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmLog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmLog.designer.cs">
+      <DependentUpon>frmLog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmLogin.designer.cs">
+      <DependentUpon>frmLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMain.Designer.cs">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmMotorPage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMotorPage.Designer.cs">
+      <DependentUpon>frmMotorPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmMsgbox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMsgbox.designer.cs">
+      <DependentUpon>frmMsgbox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmNozzleInsp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmNozzleInsp.Designer.cs">
+      <DependentUpon>frmNozzleInsp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmParaEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmParaEditor.designer.cs">
+      <DependentUpon>frmParaEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPressCtrlTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPressCtrlTest.Designer.cs">
+      <DependentUpon>frmPressCtrlTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPressureMaster.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPressureMaster.Designer.cs">
+      <DependentUpon>frmPressureMaster.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmProcessing.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmProcessing.designer.cs">
+      <DependentUpon>frmProcessing.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmProcessPara.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmProcessPara.designer.cs">
+      <DependentUpon>frmProcessPara.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPrompt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPrompt.designer.cs">
+      <DependentUpon>frmPrompt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPumpCtrl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPumpCtrl.designer.cs">
+      <DependentUpon>frmPumpCtrl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPumpSetup_HM.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPumpSetup_HM.designer.cs">
+      <DependentUpon>frmPumpSetup_HM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPumpSetup_PnuematicJet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPumpSetup_PnuematicJet.Designer.cs">
+      <DependentUpon>frmPumpSetup_PnuematicJet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmRecipe.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRecipe.designer.cs">
+      <DependentUpon>frmRecipe.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmRecipeCmdEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRecipeCmdEditor.Designer.cs">
+      <DependentUpon>frmRecipeCmdEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmRecipeCommonPara.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRecipeCommonPara.designer.cs">
+      <DependentUpon>frmRecipeCommonPara.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmRecipeFunction.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRecipeFunction.designer.cs">
+      <DependentUpon>frmRecipeFunction.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmRecipeHeightAlign.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRecipeHeightAlign.designer.cs">
+      <DependentUpon>frmRecipeHeightAlign.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmRecipeLayout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRecipeLayout.designer.cs">
+      <DependentUpon>frmRecipeLayout.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmRecipeMap.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRecipeMap.designer.cs">
+      <DependentUpon>frmRecipeMap.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmRecipePatAlign.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRecipePatAlign.designer.cs">
+      <DependentUpon>frmRecipePatAlign.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmRecipeXYZ.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRecipeXYZ.designer.cs">
+      <DependentUpon>frmRecipeXYZ.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmReticle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmReticle.designer.cs">
+      <DependentUpon>frmReticle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmSetup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSetup.designer.cs">
+      <DependentUpon>frmSetup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPumpSetup_SynchroPulse.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPumpSetup_SynchroPulse.designer.cs">
+      <DependentUpon>frmPumpSetup_SynchroPulse.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmTempCtrl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTempCtrl.designer.cs">
+      <DependentUpon>frmTempCtrl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmToolEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmToolEdit.designer.cs">
+      <DependentUpon>frmToolEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPumpSetup_Vermes32xx.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPumpSetup_Vermes32xx.designer.cs">
+      <DependentUpon>frmPumpSetup_Vermes32xx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmVermesTerminal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmVermesTerminal.designer.cs">
+      <DependentUpon>frmVermesTerminal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmWaferSetup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmWaferSetup.Designer.cs">
+      <DependentUpon>frmWaferSetup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmWeighFunction.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmWeighFunction.designer.cs">
+      <DependentUpon>frmWeighFunction.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmWeightScale.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmWeightScale.designer.cs">
+      <DependentUpon>frmWeightScale.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GModule\GAlarm.cs" />
+    <Compile Include="GModule\GControl.cs" />
+    <Compile Include="GModule\GDefine.cs" />
+    <Compile Include="GModule\GDoc.cs" />
+    <Compile Include="GModule\GEnum.cs" />
+    <Compile Include="GModule\GEvent.cs" />
+    <Compile Include="GModule\GLog.cs" />
+    <Compile Include="GModule\GMotDef.cs" />
+    <Compile Include="GModule\GVar.cs" />
+    <Compile Include="GRecipes.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TCDisp.cs" />
+    <Compile Include="TCSystem.cs" />
+    <Compile Include="TEFlirCamera.cs" />
+    <Compile Include="TEMEDAQ.cs" />
+    <Compile Include="TFMap.cs" />
+    <Compile Include="TFWeigh.cs" />
+    <Compile Include="TEZMCAux.cs" />
+    <Compile Include="TFCamera.cs" />
+    <Compile Include="TFCL3.cs" />
+    <Compile Include="TFConv.cs" />
+    <Compile Include="TFGantry.cs" />
+    <Compile Include="TFHSensor.cs" />
+    <Compile Include="TFJogGantry.cs" />
+    <Compile Include="TFLightCtrl.cs" />
+    <Compile Include="TFPressCtrl.cs" />
+    <Compile Include="TFPump.cs" />
+    <Compile Include="TFReticles.cs" />
+    <Compile Include="TFTempCtrl.cs" />
+    <Compile Include="TFTools.cs" />
+    <Compile Include="TFUser.cs" />
+    <EmbeddedResource Include="frmAdmin.resx">
+      <DependentUpon>frmAdmin.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAuto.resx">
+      <DependentUpon>frmAuto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmConfig.resx">
+      <DependentUpon>frmConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmConveyorcs.resx">
+      <DependentUpon>frmConveyorcs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmFlirCamera.resx">
+      <DependentUpon>frmFlirCamera.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmImageSelectBox.resx">
+      <DependentUpon>frmImageSelectBox.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmIOPage.resx">
+      <DependentUpon>frmIOPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmJogCtrl.resx">
+      <DependentUpon>frmJogCtrl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmLog.resx">
+      <DependentUpon>frmLog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmLogin.resx">
+      <DependentUpon>frmLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMain.resx">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMotorPage.resx">
+      <DependentUpon>frmMotorPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMsgbox.resx">
+      <DependentUpon>frmMsgbox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmNozzleInsp.resx">
+      <DependentUpon>frmNozzleInsp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmParaEditor.resx">
+      <DependentUpon>frmParaEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPressCtrlTest.resx">
+      <DependentUpon>frmPressCtrlTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPressureMaster.resx">
+      <DependentUpon>frmPressureMaster.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmProcessing.resx">
+      <DependentUpon>frmProcessing.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmProcessPara.resx">
+      <DependentUpon>frmProcessPara.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPrompt.resx">
+      <DependentUpon>frmPrompt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPumpCtrl.resx">
+      <DependentUpon>frmPumpCtrl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPumpSetup_HM.resx">
+      <DependentUpon>frmPumpSetup_HM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPumpSetup_PnuematicJet.resx">
+      <DependentUpon>frmPumpSetup_PnuematicJet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmRecipe.resx">
+      <DependentUpon>frmRecipe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmRecipeCmdEditor.resx">
+      <DependentUpon>frmRecipeCmdEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmRecipeCommonPara.resx">
+      <DependentUpon>frmRecipeCommonPara.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmRecipeFunction.resx">
+      <DependentUpon>frmRecipeFunction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmRecipeHeightAlign.resx">
+      <DependentUpon>frmRecipeHeightAlign.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmRecipeLayout.resx">
+      <DependentUpon>frmRecipeLayout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmRecipeMap.resx">
+      <DependentUpon>frmRecipeMap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmRecipePatAlign.resx">
+      <DependentUpon>frmRecipePatAlign.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmRecipeXYZ.resx">
+      <DependentUpon>frmRecipeXYZ.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmReticle.resx">
+      <DependentUpon>frmReticle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSetup.resx">
+      <DependentUpon>frmSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPumpSetup_SynchroPulse.resx">
+      <DependentUpon>frmPumpSetup_SynchroPulse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTempCtrl.resx">
+      <DependentUpon>frmTempCtrl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmToolEdit.resx">
+      <DependentUpon>frmToolEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPumpSetup_Vermes32xx.resx">
+      <DependentUpon>frmPumpSetup_Vermes32xx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmVermesTerminal.resx">
+      <DependentUpon>frmVermesTerminal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmWaferSetup.resx">
+      <DependentUpon>frmWaferSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmWeighFunction.resx">
+      <DependentUpon>frmWeighFunction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmWeightScale.resx">
+      <DependentUpon>frmWeightScale.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
