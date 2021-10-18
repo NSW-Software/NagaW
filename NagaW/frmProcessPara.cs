@@ -31,7 +31,7 @@ namespace NagaW
             Updatedgv(typeof(GProcessPara.Home));
             Updatedgv(typeof(GProcessPara.Operation));
             Updatedgv(typeof(GProcessPara.Jog));
-            Updatedgv(typeof(GProcessPara.Conveyor));
+            //Updatedgv(typeof(GProcessPara.Conveyor));
             Updatedgv(typeof(GProcessPara.HSensor));
             Updatedgv(typeof(GProcessPara.Vision));
         }

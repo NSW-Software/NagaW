@@ -179,7 +179,7 @@ namespace NagaW
         CONV_LEFT_STOPPER_UP_TIMEOUT,
         //CONV_LEFT_MOVE_TIMEOUT,
         CONV_LEFT_VAC_TIMEOUT,
-        
+
         CONV_LEFT_SMEMA_COMMUNICATION_FAILED,
         CONV_LEFT_SMEMA_LOAD_IN_PSNT_TIMEOUT,
         CONV_LEFT_SMEMA_SEND_OUT_IN_PSNT_TIMEOUT,
@@ -216,5 +216,12 @@ namespace NagaW
 
         WAFER_PRECISOR_FAILTO_OFF,
         WAFER_PRECISOR_FAILTO_ON,
+        WAFER_DETECTED,
+        WAFER_NO_DETECTED,
+        WAFER_NOTCH_ALIGNMENT_FAIL,
+
+        #region Safety
+        DOOR_LOCK_FAIL,
+        #endregion
     }
 }

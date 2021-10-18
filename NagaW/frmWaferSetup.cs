@@ -47,6 +47,8 @@ namespace NagaW
             lblLifterAccel.UpdatePara(GProcessPara.Wafer.LifterAccel);
 
             cbxAirblowPre.Checked = GProcessPara.Wafer.PreAirBlow;
+
+            lblNotchTeachCamPos.Text = GSetupPara.Wafer.TeachNotchCamPos.ToStringForDisplay();
         }
 
         private async void btnManualLoad_Click(object sender, EventArgs e)
@@ -82,7 +84,6 @@ namespace NagaW
 
         private void btnAirBlowPosGoto_Click(object sender, EventArgs e)
         {
-            var a = GProcessPara.Home.GXYSpeedProfile;
             gantry.GotoXYZ(GSetupPara.Wafer.AirBlowPos);
 
         }
@@ -101,7 +102,7 @@ namespace NagaW
 
         private void btnSVWaferVacLow_Click(object sender, EventArgs e)
         {
-            TCWafer.WaferLowVacuum.Status = !TCWafer.WaferLowVacuum.Status;
+            TCWafer.WaferVacLow.Status = !TCWafer.WaferVacLow.Status;
         }
 
         private void btnSVChuckVacOn_Click(object sender, EventArgs e)
@@ -111,7 +112,7 @@ namespace NagaW
 
         private void btnSVWaferVacOn_Click(object sender, EventArgs e)
         {
-            TCWafer.WaferVac.Status = !TCWafer.WaferVac.Status;
+            TCWafer.WaferVacHigh.Status = !TCWafer.WaferVacHigh.Status;
         }
 
         private void btnSVWaferExhOn_Click(object sender, EventArgs e)
@@ -130,15 +131,16 @@ namespace NagaW
             Color off = SystemColors.Control;
 
             btnBlowerIonizer.BackColor = TCWafer.AirBlow.Status ? on : off;
-            btnSVWaferVacLow.BackColor = TCWafer.WaferLowVacuum.Status ? on : off;
+            btnSVWaferVacLow.BackColor = TCWafer.WaferVacLow.Status ? on : off;
             btnSVChuckVacOn.BackColor = TCWafer.ChuckVac.Status ? on : off;
-            btnSVWaferVacOn.BackColor = TCWafer.WaferVac.Status ? on : off;
+            btnSVWaferVacOn.BackColor = TCWafer.WaferVacHigh.Status ? on : off;
             btnSVWaferExhOn.BackColor = TCWafer.WaferExh.Status ? on : off;
 
             lblDIChuckVac.BackColor = TCWafer.ChuckVacSens.Status ? on : off;
-            lblDIWaferVac.BackColor = TCWafer.WaferVacSens.Status ? on : off;
+            lblDIWaferVacHigh.BackColor = TCWafer.WaferVacHighSens.Status ? on : off;
+            lblDIWaferVacLow.BackColor = TCWafer.WaferVacLowSens.Status ? on : off;
 
-            lblSMEMA_UpIn.BackColor = TCWafer.SMEMA_UP_IN.Status?on:off;
+            lblSMEMA_UpIn.BackColor = TCWafer.SMEMA_UP_IN.Status ? on : off;
             btnSMEMA_UpOut.BackColor = TCWafer.SMEMA_UP_OUT.Status ? on : off;
             lblSMEMA_DownIn.BackColor = TCWafer.SMEMA_DN_IN.Status ? on : off;
             btnSMEMA_DnOut.BackColor = TCWafer.SMEMA_DN_OUT.Status ? on : off;
@@ -273,6 +275,8 @@ namespace NagaW
 
         private async void btnLifterUp_Click(object sender, EventArgs e)
         {
+            //await Task.Run(() =>{ });
+
             GControl.UI_Disable();
             await Task.Run(() => TCWafer.LifterUp());
             GControl.UI_Enable();
@@ -331,6 +335,26 @@ namespace NagaW
         {
             GProcessPara.Wafer.PreAirBlow = !GProcessPara.Wafer.PreAirBlow;
             UpdateDisplay();
+        }
+
+        private void btnNotchTeachCamPosSet_Click(object sender, EventArgs e)
+        {
+            GLog.SetPos(ref GSetupPara.Wafer.TeachNotchCamPos, gantry.PointXYZ, nameof(GSetupPara.Wafer.TeachNotchCamPos));
+            UpdateDisplay();
+        }
+
+        private void btnNotchTeachCamPosGoto_Click(object sender, EventArgs e)
+        {
+            TFLightCtrl.LightPair[gantry.Index].Set(GRecipes.Board[gantry.Index].LightDefault);
+            gantry.GotoXYZ(GSetupPara.Wafer.TeachNotchCamPos);
+
+        }
+
+        private async void btnNotchAlign_Click(object sender, EventArgs e)
+        {
+            GControl.UI_Disable();
+            await Task.Run(() => TCWafer.NotchAlignment());
+            GControl.UI_Enable();
         }
     }
 }

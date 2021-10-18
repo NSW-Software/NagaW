@@ -441,9 +441,6 @@ namespace NagaW
             }
             public bool OneCluster(int funcNo)
             {
-                if (!TCTempCtrl.Monitoring()) return false;
-                TCPressCtrl.CanCheck = true;
-
                 int layoutNo = GRecipes.Functions[gantryNo][funcNo].LayoutNo;
 
                 bRun = true;
@@ -502,38 +499,58 @@ namespace NagaW
 
             public bool All()
             {
-                bufferUnitCR = Inst.Board[gantryNo].UnitCR;
-                bufferClusterCR = Inst.Board[gantryNo].ClusterCR;
-
-                bRun = true;
-                while (bRun)
+                try
                 {
-                    //if (!OneFunction())
-                    if (!OneFunction(InstBoard.FuncNo))
+                    bufferUnitCR = Inst.Board[gantryNo].UnitCR;
+                    bufferClusterCR = Inst.Board[gantryNo].ClusterCR;
+
+                    if (!TFSafety.LockDoor()) return false;
+
+                    if (!TCTempCtrl.Monitoring()) return false;
+                    TCPressCtrl.CanCheck = true;
+
+                    bRun = true;
+                    while (bRun)
                     {
-                        bRun = false;
-                        return false;
+                        //if (!OneFunction())
+                        if (!OneFunction(InstBoard.FuncNo))
+                        {
+                            bRun = false;
+                            return false;
+                        }
+
+                        GRecipes.Functions[gantryNo][InstBoard.FuncNo].ClearData();
+                        InstBoard.MAP.SetStateFromState(EDispState.COMPLETE, EDispState.READY);
+
+                        if (InstBoard.FuncNo >= GRecipes.Functions[gantryNo].Count - 1)
+                            InstBoard.FuncNo = 0;
+                        else
+                            InstBoard.FuncNo++;
+
+                        if (InstBoard.FuncNo == 0)
+                        {
+                            InstBoard.ClearData();
+                            //StartClusterCR = new PointI(0, 0);
+                            //StartUnitCR = new PointI(0, 0);
+                            break;
+                        }
+
+                        if (!bRun) return true;
                     }
 
-                    GRecipes.Functions[gantryNo][InstBoard.FuncNo].ClearData();
-                    InstBoard.MAP.SetStateFromState(EDispState.COMPLETE, EDispState.READY);
+                    if (!TCTempCtrl.Monitoring()) return false;
 
-                    if (InstBoard.FuncNo >= GRecipes.Functions[gantryNo].Count - 1)
-                        InstBoard.FuncNo = 0;
-                    else
-                        InstBoard.FuncNo++;
-
-                    if (InstBoard.FuncNo == 0)
-                    {
-                        InstBoard.ClearData();
-                        //StartClusterCR = new PointI(0, 0);
-                        //StartUnitCR = new PointI(0, 0);
-                        break;
-                    }
-
-                    if (!bRun) return true;
                 }
+                catch { }
+                finally
+                {
+                    GSystemCfg.Pump.Pumps.Select(x => x.FPressDO).ToList().ForEach(x => GMotDef.Outputs[(int)x].Status = false);
+                    GSystemCfg.Pump.Pumps.Select(x => x.VacDO).ToList().ForEach(x => GMotDef.Outputs[(int)x].Status = true);
+                    System.Threading.Thread.Sleep(100);
+                    GSystemCfg.Pump.Pumps.Select(x => x.VacDO).ToList().ForEach(x => GMotDef.Outputs[(int)x].Status = false);
 
+                    TFSafety.ReleaseDock();
+                }
                 return true;
             }
             public bool Continuous()
@@ -571,9 +588,6 @@ namespace NagaW
                         if (!Continuous()) bRun = false;
                         break;
                 }
-
-                GSystemCfg.Pump.Pumps.Select(x => x.FPressDO).ToList().ForEach(x => GMotDef.Outputs[(int)x].Status = false);
-
                 return true;
             }
         }

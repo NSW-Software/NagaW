@@ -368,7 +368,7 @@ namespace NagaW
         {
             EZErrorCode ZmotionErrorCode;
             Enum.TryParse(TEZMCAux.QueryInt("ErrorCode").ToString(), out ZmotionErrorCode);
-            switch (ZmotionErrorCode)
+            switch (ZmotionErrorCode)   
             {
                 case EZErrorCode.SlotScanFailed:
                     GAlarm.Prompt(EAlarm.ETHERCAT_SCAN_FAILED);
@@ -1064,15 +1064,104 @@ namespace NagaW
         }
         public static TCAirBladeClean[] AirBladeClean = new TCAirBladeClean[] { new TCAirBladeClean(TFGantry.GantryLeft), new TCAirBladeClean(TFGantry.GantryRight) };
 
-        public class TCClapClap
+        public class TCNeedleSprayClean
         {
             readonly TEZMCAux.TGroup gantry;
-            public TCClapClap(TEZMCAux.TGroup gantry)
+            public bool running = false;
+
+            public TCNeedleSprayClean(TEZMCAux.TGroup gantry)
             {
                 this.gantry = gantry;
             }
+            public bool Execute(int dnwait, int spraytime, int postwait, int count)
+            {
+                running = true;
+
+                TEZMCAux.TOutput sprayIO = GMotDef.Out42;
+
+
+                PointXYZ pos = new PointXYZ(GSetupPara.NeedleSprayClean.Pos[gantry.Index]);
+                double hSensorValue = GSetupPara.NeedleSprayClean.HSensorValue[gantry.Index];
+                double relZ = GProcessPara.NeedleSpray.RelZPos[gantry.Index].Value;
+
+                pos.X += GSetupPara.Calibration.NeedleXYOffset[gantry.Index].X;
+                pos.Y += GSetupPara.Calibration.NeedleXYOffset[gantry.Index].Y;
+
+                double hSenseDiff = hSensorValue - GSetupPara.Calibration.HSensorValue[gantry.Index];
+                pos.Z = GSetupPara.Calibration.ZTouchValue[gantry.Index] - hSenseDiff + relZ;
+
+
+                for (int c = 0; c < count; c++)
+                {
+                    if (!running) return InComplete();
+
+                    if (!gantry.GotoXYZ(pos)) return InComplete();
+
+                    GLog.LogProcess($"H{gantry.Index + 1} SprayClean Count:{c + 1} start");
+
+                    Thread.Sleep(dnwait);
+
+                    sprayIO.Status = true;
+                    Thread.Sleep(spraytime);
+                    sprayIO.Status = false;
+
+                    Thread.Sleep(postwait);
+
+                    if (!gantry.MoveOpZAbs(0)) return InComplete();
+                }
+                return true;
+
+                bool InComplete()
+                {
+                    gantry.MoveOpZAbs(0);
+                    running = false;
+                    return false;
+                }
+            }
+
+            public bool Execute()
+            {
+                int dnwait, spraytime, postwait, count;
+
+                dnwait = GProcessPara.NeedleSpray.DownWait[gantry.Index].Value;
+
+                spraytime = GProcessPara.NeedleSpray.SprayTime[gantry.Index].Value;
+                postwait = GProcessPara.NeedleSpray.PostWait[gantry.Index].Value;
+                count = GProcessPara.NeedleSpray.Count[gantry.Index].Value;
+
+                return Execute(dnwait, spraytime, postwait, count);
+            }
+            public bool Learn()
+            {
+                GEvent.Start(EEvent.NEEDLE_SPRAY_CLEAN, gantry.Name);
+
+                PointXYZ pos = new PointXYZ(GSetupPara.NeedleSprayClean.Pos[gantry.Index]);
+                PointXYZ laserPos = pos + GSetupPara.Calibration.LaserOffset[gantry.Index] + GSetupPara.NeedleSprayClean.HSensorOffset[gantry.Index];
+
+                if (!gantry.GotoXYZ(laserPos)) return InComplete();
+
+                Thread.Sleep(GProcessPara.HSensor.SettleTime.Value);
+                double hSensorValue = 0;
+                TFHSensors.Sensor[gantry.Index].GetValue(ref hSensorValue);
+
+                GSetupPara.NeedleSprayClean.HSensorValue[gantry.Index] = hSensorValue;
+
+                pos.X += GSetupPara.Calibration.NeedleXYOffset[gantry.Index].X;
+                pos.Y += GSetupPara.Calibration.NeedleXYOffset[gantry.Index].Y;
+
+                if (!gantry.GotoXYZ(pos)) return InComplete();
+
+                return true;
+
+                bool InComplete()
+                {
+                    gantry.MoveOpZAbs(0);
+                    return false;
+                }
+            }
         }
-        public static TCClapClap[] ClapClap = new TCClapClap[] { new TCClapClap(TFGantry.GantrySetup), new TCClapClap(TFGantry.GantryRight) };
+        public static TCNeedleSprayClean[] SprayClean = new TCNeedleSprayClean[] { new TCNeedleSprayClean(TFGantry.GantrySetup), new TCNeedleSprayClean(TFGantry.GantryRight) };
+
     }
 
 
@@ -1792,7 +1881,6 @@ namespace NagaW
             {
                 double hvalue = 0;
 
-
                 if (!gantry.MoveOpXYAbs((dynamicXYCam.GetPointD() + laseroffset).ToArray)) return false;
                 Thread.Sleep(GProcessPara.HSensor.SettleTime.Value);
 
@@ -1804,7 +1892,6 @@ namespace NagaW
                     GAlarm.Prompt(EAlarm.CONFOCAL_VALUE_ERROR);
                     return false;
                 }
-
 
                 if (!gantry.MoveOpXYAbs((dynamicXYCam.GetPointD() + needleXYOffset).ToArray)) return false;
 
@@ -2051,6 +2138,7 @@ namespace NagaW
                             var setup = GRecipes.Vermes_Setups[gantryIdx];
 
                             TFPressCtrl.FPress[gantryIdx].Set(setup.FPress.Value);
+                            if (!TFPump.Vermes_Pump[gantry.Index].TriggerAset(setup)) return false;
 
                             Thread.Sleep(500);
                             fpressIO.Status = true;
@@ -2203,7 +2291,6 @@ namespace NagaW
                     GMotDef.Inputs[GProcessPara.NozzleInspection.DI_Idx[1]], GProcessPara.NozzleInspection.WaitTime.Value, GSetupPara.NozzleInsp.Pos[gantry.Index]);
             }
         }
-
         public static NozzleInspection[] NoozleInsps = new NozzleInspection[] { new NozzleInspection(TFGantry.GantryLeft), new NozzleInspection(TFGantry.GantryRight) };
     }
 
@@ -2211,19 +2298,20 @@ namespace NagaW
     {
         static readonly TEZMCAux.TGroup gantry = TFGantry.GantryLeft;
 
-        public static readonly TEZMCAux.TOutput WaferLowVacuum = GMotDef.Out43;
+        public static readonly TEZMCAux.TOutput WaferVacLow = GMotDef.Out43;
         public static readonly TEZMCAux.TOutput ChuckVac = GMotDef.Out44;
-        public static readonly TEZMCAux.TOutput WaferVac = GMotDef.Out45;
+        public static readonly TEZMCAux.TOutput WaferVacHigh = GMotDef.Out45;
         public static readonly TEZMCAux.TOutput WaferExh = GMotDef.Out46;
         public static readonly TEZMCAux.TOutput AirBlow = GMotDef.Out51;
 
         public static readonly TEZMCAux.TInput ChuckVacSens = GMotDef.IN41;
-        public static readonly TEZMCAux.TInput WaferVacSens = GMotDef.IN42;
+        public static readonly TEZMCAux.TInput WaferVacHighSens = GMotDef.IN42;
+        public static readonly TEZMCAux.TInput WaferVacLowSens = GMotDef.IN35;
+
 
         public static TEZMCAux.TInput SMEMA_UP_IN = GMotDef.IN32;
-        public static TEZMCAux.TOutput SMEMA_UP_OUT = GMotDef.Out36;
-
         public static TEZMCAux.TInput SMEMA_DN_IN = GMotDef.IN33;
+        public static TEZMCAux.TOutput SMEMA_UP_OUT = GMotDef.Out36;
         public static TEZMCAux.TOutput SMEMA_DN_OUT = GMotDef.Out37;
 
         public static bool SMEMA_ING = false;
@@ -2232,10 +2320,11 @@ namespace NagaW
         //lifer motor stroke 21 - lifter Z-dimension stroke 12
         public static bool LifterUp()
         {
-            //if (!IsPrecisorOrg()) return false;
             int axisno = GMotDef.Lifter.AxisNo;
 
             TEZMCAux.Execute($"BASE({axisno}) SPEED={GProcessPara.Wafer.LifterSpeed.Value}");
+
+            GMotDef.GRAxis.SetParam(0, 30, 500, 500);
 
             if (!GMotDef.GRAxis.MoveAbs(0)) return false;
 
@@ -2245,6 +2334,8 @@ namespace NagaW
         }
         public static bool PreciserOn()
         {
+            GMotDef.GRAxis.SetParam(0, 30, 500, 500);
+
             if (!GMotDef.GRAxis.MoveAbs(0)) return false;
             string sbase = $"BASE({GMotDef.Preciser_0.AxisNo},{GMotDef.Preciser_1.AxisNo},{GMotDef.Preciser_2.AxisNo}) ";
             sbase += $"SPEED={GProcessPara.Wafer.PrecisorSpeed.Value},ACCEL={GProcessPara.Wafer.PrecisorAccel.Value},DECEL={GProcessPara.Wafer.PrecisorAccel.Value} ";
@@ -2265,7 +2356,7 @@ namespace NagaW
             {
                 int homemode = 4;
 
-                for(int i = 0; i < 3; i++)
+                for (int i = 0; i < 3; i++)
                 {
                     TEZMCAux.Execute($"BASE({i}) SPEED={50}");
                     TEZMCAux.Execute($"DATUM({0})AXIS({i})");
@@ -2318,6 +2409,15 @@ namespace NagaW
             return true;
         }
 
+        static bool ChuckVacToggle(bool state)
+        {
+            ChuckVac.Status = state;
+            Thread.Sleep(500);
+            return ChuckVacSens.Status == state;
+        }
+
+
+
         static bool CatchWafer()
         {
             try
@@ -2325,31 +2425,35 @@ namespace NagaW
                 if (!PrecisorHoming()) return false;
                 if (!LifterUp()) return false;
 
-                ChuckVac.Status = true;
-
-                WaferVac.Status = true;
-                WaferLowVacuum.Status = true;
+                WaferVacHigh.Status = true;
+                WaferVacLow.Status = true;
 
                 if (!LifterHoming()) return false;
 
-                WaferVac.Status = false;
-                WaferLowVacuum.Status = false;
-                
-                //if (!WaferVacSens.Status) return false;
+                WaferVacHigh.Status = false;
+                WaferVacLow.Status = false;
+
                 if (!PreciserOn()) return false;
                 if (!gantry.GotoXYZ(GSetupPara.Wafer.AirBlowPos)) return false;
-                WaferLowVacuum.Status = false;
+
+                WaferVacHigh.Status = false;
+                WaferVacLow.Status = false;
+
                 AirBlow.Status = true;
                 Thread.Sleep(GProcessPara.Wafer.AirBlowDuration.Value - GProcessPara.Wafer.PreOnVacuum.Value);
-                WaferVac.Status = true;
+                WaferVacHigh.Status = true;
+                WaferVacLow.Status = true;
                 Thread.Sleep(GProcessPara.Wafer.PreOnVacuum.Value);
                 AirBlow.Status = false;
-                WaferLowVacuum.Status = true;
+
+
                 if (!PrecisorHoming()) return false;
 
-                if (!WaferVacSens.Status)
+                Thread.Sleep(100);
+
+                if (!WaferVacHighSens.Status || !WaferVacLowSens.Status)
                 {
-                    MessageBox.Show("No Object Deteced!");
+                    GAlarm.Prompt(EAlarm.WAFER_NO_DETECTED, "Check Wafer in positon");
                     return false;
                 }
             }
@@ -2364,12 +2468,12 @@ namespace NagaW
             try
             {
 
-                ChuckVac.Status = false;
+                //ChuckVac.Status = false;
 
                 if (!PrecisorHoming()) return false;
 
-                WaferVac.Status = false;
-                WaferLowVacuum.Status = false;
+                WaferVacHigh.Status = false;
+                WaferVacLow.Status = false;
                 WaferExh.Status = true;
                 Thread.Sleep(GProcessPara.Wafer.ExhaustTime.Value);
                 WaferExh.Status = false;
@@ -2388,6 +2492,26 @@ namespace NagaW
         {
             try
             {
+                if (!ChuckVacToggle(true)) return false;
+
+                WaferVacHigh.Status = true;
+                WaferVacLow.Status = true;
+
+                Thread.Sleep(100);
+
+                if (WaferVacHighSens.Status || WaferVacLowSens.Status)
+                {
+                    WaferVacHigh.Status = false;
+                    WaferVacLow.Status = false;
+
+                    GAlarm.Prompt(EAlarm.WAFER_DETECTED, "Remove wafer from table chuck");
+                    return false;
+                }
+
+                WaferVacHigh.Status = false;
+                WaferVacLow.Status = false;
+
+
                 if (!PreAirBlow()) return false;
 
                 if (!gantry.GotoXYZ(GSetupPara.Wafer.ManualLoadPos)) return false;
@@ -2421,6 +2545,9 @@ namespace NagaW
                 if (!LifterHoming()) return false;
 
                 MsgBox.ShowDialog("Finish unload.");
+
+                if (!ChuckVacToggle(false)) return false;
+
             }
             catch
             {
@@ -2429,14 +2556,15 @@ namespace NagaW
             return true;
         }
 
-
         public static bool AutoLoad()
         {
             try
             {
-                if (WaferVacSens.Status)
+                if (!ChuckVacToggle(true)) return false;
+
+                if (WaferVacHighSens.Status)
                 {
-                    GAlarm.Prompt(EAlarm.WAFER_PRECISOR_FAILTO_OFF);
+                    MsgBox.ShowDialog("Object Sensed, Operation Fail");
                     return false;
                 }
 
@@ -2521,6 +2649,8 @@ namespace NagaW
 
                 if (!LifterHoming()) return false;
 
+                if (!ChuckVacToggle(false)) return false;
+
             }
             catch
             {
@@ -2533,6 +2663,206 @@ namespace NagaW
             }
             return true;
 
+        }
+
+        static TEZMCAux.TAxis RAxis = GMotDef.GRAxis;
+        public static bool NotchAlignment()
+        {
+            try
+            {
+                double stepheight = 0.1;
+                //List<double> hvaluelist = new List<double>();
+
+                if (!LifterHoming()) return false;
+                if (!PrecisorHoming()) return false;
+
+                var xypos = GSetupPara.Wafer.TeachNotchCamPos.GetPointD() + GSetupPara.Calibration.LaserOffset[gantry.Index];
+                if (!gantry.GotoXYZ(new PointXYZ(xypos.X, xypos.Y, 0))) return false;
+
+                double rotaryactualpos = RAxis.ActualPos;
+
+                double notch_edge_1 = 0;    //left notch edge
+                double notch_edge_2 = 0;    //right notch edge
+
+
+                const int degree = 45;
+                //apply detection every 45 degree, 360/45 = 8 times shift checking
+                for (int i = 0; i < 360; i += degree)
+                {
+                    if (!findnotchedge(stepheight)) return false;
+
+                    while (RAxis.Busy) Thread.Sleep(0);
+                    Thread.Sleep(500);
+                    //couter-clockwise
+                    if (!RAxis.MoveRel(new double[] { 0, 10, 500, 500, 0 }, degree, false)) return false;
+
+                    double firsthvalue = 9999;
+                    double hvalue = 0;
+
+                    while (TFHSensors.Sensor[gantry.Index].GetValue(ref hvalue))
+                    {
+                        if (firsthvalue == 9999)
+                        {
+                            firsthvalue = hvalue;
+                            continue;
+                        }
+
+                        //***\____
+                        if (notch_edge_1 is 0)
+                        {
+                            if ((hvalue - firsthvalue) > stepheight)
+                            {
+                                notch_edge_1 = RAxis.ActualPos;
+                                RAxis.StopEmg();
+                                RAxis.SetParam(0, 30, 500, 500);
+
+                                return true;
+                            }
+                        }
+
+                        //_____/*****
+                        //if (notch_edge_1 != 0 && notch_edge_2 is 0)
+                        //{
+                        //    if ((firsthvalue - hvalue) > stepheight) notch_edge_2 = RAxis.ActualPos;
+                        //}
+
+                        //firsthvalue = hvalue;
+
+                        //drop looping conditions
+
+                        if (notch_edge_1 != 0 /*&& notch_edge_2 != 0*/) break;
+                        if (!RAxis.Busy) break;
+                    }
+
+                    if (notch_edge_1 is 0 /*|| notch_edge_2 is 0*/) continue;
+                                        
+                    //RAxis.StopEmg();
+                    //while (RAxis.Busy) Thread.Sleep(0);
+
+                    //var parallel = (notch_edge_1 + notch_edge_2) / 2;
+                    //RAxis.SetParam(0, 30, 500, 500);
+                    //if (!RAxis.MoveAbs(parallel)) return false;
+
+                    //return true;
+                }
+
+                return false;
+            }
+
+            catch (Exception ex)
+            {
+                GAlarm.Prompt(EAlarm.WAFER_NOTCH_ALIGNMENT_FAIL, ex);
+                return false;
+            }
+
+            finally
+            {
+                RAxis.SetParam(0, 30, 500, 500);
+                RAxis.StopEmg();
+            }
+
+            bool findnotchedge(double stepheight)
+            {
+                try
+                {
+                    double hvalue = 0;
+                    bool findedge = false;
+                    List<double> hvaluelist = new List<double>();
+
+                    var xypos = GSetupPara.Wafer.TeachNotchCamPos.GetPointD() + GSetupPara.Calibration.LaserOffset[gantry.Index];
+
+                    //*******\________
+                    #region
+                    if (!gantry.GotoXYZ(new PointXYZ(xypos.X, xypos.Y + 2, 0))) return false;
+                    if (!gantry.MoveXYRel(new double[] { 0, 2, 1000, 1000, 0 }, new double[] { 0, -5 }, false)) return false;
+                    while (TFHSensors.Sensor[gantry.Index].GetValue(ref hvalue))
+                    {
+                        hvaluelist.Add(hvalue);
+                        if (hvaluelist.Count > 1)
+                        {
+                            if (hvalue - hvaluelist.FirstOrDefault() > stepheight || hvalue <= -50)
+                            {
+                                gantry.StopDecel();
+                                while (gantry.Busy) Thread.Sleep(0);
+                                gantry.MoveOpXYRel(new double[] { 0, 0.75 });
+
+                                //check pos with cam
+                                //gantry.MoveOpXYRel(new double[] { -GSetupPara.Calibration.LaserOffset[gantry.Index].X, -GSetupPara.Calibration.LaserOffset[gantry.Index].Y });
+
+                                findedge = true;
+                                return true;
+                            }
+                        }
+                        if (!gantry.Busy) break;
+                    }
+                    #endregion
+
+                    return findedge;
+                }
+                catch
+                {
+                    return false;
+                }
+                finally
+                {
+                    gantry.SetParam(GProcessPara.Operation.GXYStartSpeed.Value, GProcessPara.Operation.GXYFastSpeed.Value, GProcessPara.Operation.GXYAccel.Value, GProcessPara.Operation.GXYDecel.Value, GProcessPara.Operation.GXYJerk.Value);
+                }
+
+            }
+        }
+    }
+
+
+    public class TFSafety
+    {
+        static TEZMCAux.TOutput DoorLock = GMotDef.Out11;
+        static TEZMCAux.TInput DoorLocked = GMotDef.IN15;
+
+        static TEZMCAux.TInput DoorClosed = GMotDef.IN14;
+
+        static TEZMCAux.TInput TeachAutoSens = GMotDef.IN16;
+
+        public static bool LockDoor()
+        {
+            try
+            {
+                DoorLock.Status = false;
+
+                while (!DoorClosed.Status)
+                {
+                    if (MsgBox.ShowDialog("Pls Close the Door", MsgBoxBtns.OKCancel) == DialogResult.Cancel) return false;
+                }
+
+                GLog.LogProcess("Door Closed");
+
+                DoorLock.Status = true;
+
+                Thread.Sleep(500);
+
+                if (!DoorLocked.Status) throw new Exception($"{DoorLocked.Name} Sense Fail.");
+
+                GLog.LogProcess("Door Locked");
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                GAlarm.Prompt(EAlarm.DOOR_LOCK_FAIL, ex);
+                return false;
+            }
+
+        }
+        public static bool ReleaseDock()
+        {
+            while (!TeachAutoSens.Status)
+            {
+                if (MsgBox.ShowDialog("Pls Set Key to Teach Mode", MsgBoxBtns.OKCancel) == DialogResult.Cancel) return false;
+            }
+
+            GLog.LogProcess("Door Unlocked");
+            DoorLock.Status = false;
+
+            return true;
         }
     }
 }

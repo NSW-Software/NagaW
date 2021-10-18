@@ -598,7 +598,7 @@ namespace NagaW
 
         //**Reserved for NagaN** SELECT_HEAD = 5,        //  H2/H1
         SPEED = 10,                     //  Speed       Accel
-
+        COMMENT,
         ADJUST_OFFSET = 15,             //  FRX         FRY
 
         //****Pump Setup >=20~49
@@ -657,14 +657,18 @@ namespace NagaW
         NEEDLE_FLUSH,                   //  Count       PerUnit                 DnWait      DispTime    VacTime     PostVacTime PostWait
         NEEDLE_PURGE,                   //  Count       PerUnit                 DnWait      DispTime    VacTime     PostVacTime PostWait
         NEEDLE_AB_CLEAN,                //  Count       PerUnit                 
+        NEEDLE_SPRAY_CLEAN,             //  Count       PerUnit                 DnWait                  SprayTime               PostWait
+
 
         PURGE_STAGE = 750,              //  Count       PerUnit
 
         LINE_SPEED = 800,               //  LSpeed
-        LINE_GAP_ADJUST = 801,          //  RZ              Length
+        LINE_GAP_ADJUST = 801,          //  RZ          Length
 
         NOZZLE_INSPECTION = 1001,       //  PerUnit
-        GOTO_POSITION,                  //  Position    
+        GOTO_POSITION,                  //  Position
+
+        NOTCH_ALIGNMENT,                //  X           Y           Z           SettleTime  Tolerance
     }
 
     public enum ECutTailType { None, Fwd, Bwd, SqFwd, SqBwd, Rev, SqRev };
@@ -748,7 +752,7 @@ namespace NagaW
                     case ECmd.NEEDLE_FLUSH:
                     case ECmd.NEEDLE_PURGE: Info = $"Count:{Para[0]} PerUnit:{Para[1]} DnWait:{Para[3]} DispTime:{Para[4]} VacTime:{Para[5]} PostVacTime:{Para[6]} PostWait:{Para[7]}"; break;
                     case ECmd.NEEDLE_AB_CLEAN: Info = $"Count:{Para[0]} PerUnit:{Para[1]}"; break;
-
+                    case ECmd.NEEDLE_SPRAY_CLEAN: Info = $"Count:{Para[0]} PerUnit:{Para[1]} DnWait:{Para[3]} SprayTime:{Para[5]} PostWait:{Para[7]}"; break;
                     case ECmd.PURGE_STAGE: Info = $"Count:{Para[0]} PerUnit:{Para[1]}"; break;
 
                     case ECmd.LINE_SPEED: Info = $"LSpeed:{Para[0]}"; break;
@@ -847,7 +851,7 @@ namespace NagaW
 
         bool running = false;
 
-        int NeedleCleanCount, NeedleFlushCount, NeedlePurgeCount, NeedlePurgeStageCount, NeedleABCleanCount = 0;
+        int NeedleCleanCount, NeedleFlushCount, NeedlePurgeCount, NeedlePurgeStageCount, NeedleABCleanCount, NeedleSprayCount = 0;
 
         int NoozleInspecCount = 0;
         int PressCtrlCheckCount = 0;
@@ -889,7 +893,7 @@ namespace NagaW
             if (FunctionFirstExecution)
             {
                 HeightSetData = new THeightData();
-                NeedleCleanCount = NeedleFlushCount = NeedlePurgeCount = NeedlePurgeStageCount = NeedleABCleanCount = 0;
+                NeedleCleanCount = NeedleFlushCount = NeedlePurgeCount = NeedlePurgeStageCount = NeedleABCleanCount = NeedleSprayCount = 0;
             }
 
             bool moveNextDispCmdAtXYPlane = false;//move to disp command position at XY Plane
@@ -1027,7 +1031,9 @@ namespace NagaW
 
             //***dynamicjet_useparam
             bool firstjet = true;
-            bool predisp = false;
+            EDynamicDispMode predisp = EDynamicDispMode.False;
+            EDynamicDispMode postdisp = EDynamicDispMode.False;
+            
             PointI serpentine_CR = new PointI(unitCR);
             double dynamic_accelDist = 0;
 
@@ -1047,6 +1053,8 @@ namespace NagaW
             double productZRun = 0;
             bool MoveToStartGap2(TCmd cmd, bool merge = false)
             {
+                if (!GMotDef.GVAxis.MoveAbs(0)) return false;
+
                 #region
                 //PointI absUnitCR = GRecipes.MultiLayout[gantry.Index][layoutNo].CR(clusterCR, unitCR);
 
@@ -1357,7 +1365,8 @@ namespace NagaW
                     case ECmd.DYNAMIC_JET_SETUP:
                         #region
                         {
-                            predisp = cmd.Para[0] > 0;
+                            predisp = (EDynamicDispMode)(int)cmd.Para[0];
+                            postdisp = (EDynamicDispMode)(int)cmd.Para[2];
                             dynamic_accelDist = cmd.Para[1];
 
                             dyspeed = cmd.Para[3];
@@ -2208,7 +2217,7 @@ namespace NagaW
 
                             abs_point += dyoffset + accel_relDist;
 
-                            if (firstjet && FunctionFirstExecution && predisp)
+                            if (predisp == EDynamicDispMode.Everytime || firstjet && FunctionFirstExecution && predisp == EDynamicDispMode.FirstJet)
                             {
                                 var prevpoint = new PointD(abs_point);
                                 for (int i = 0; i < (int)ratiocount; i++)
@@ -2223,7 +2232,7 @@ namespace NagaW
 
                             var dd = new PointD(abs_point);
                             abs_point -= dy_serp_unitRel;
-                            firstjet = false;
+                            //firstjet = false;
 
                             int startIdx = isRow ? unitCR.X : unitCR.Y;
                             int finalIdx = startIdx;
@@ -2255,7 +2264,23 @@ namespace NagaW
                                 if (jetDir == layoutdir) finalIdx++; else finalIdx--;
                             }
 
+                            //abs_point += accel_relDist;
+
+                            if (postdisp == EDynamicDispMode.Everytime || firstjet && FunctionFirstExecution && postdisp == EDynamicDispMode.FirstJet)
+                            {
+                                var prevpoint = new PointD(abs_point);
+                                for (int i = 0; i < (int)ratiocount; i++)
+                                {
+                                    prevpoint += dy_serp_unitRel;
+                                    table_points.Add(isRow ? prevpoint.X : prevpoint.Y);
+
+                                    var stoppt = prevpoint + new PointD(dy_serp_unitRel.X / 2, dy_serp_unitRel.Y / 2);
+                                    table_points.Add(isRow ? stoppt.X : stoppt.Y);
+                                }
+                            }
+
                             abs_point += accel_relDist;
+                            firstjet = false;
 
                             #endregion
 
@@ -2925,10 +2950,43 @@ namespace NagaW
                             vm3280Param[gantry.Index] = new Vermes3280_Param();
 
                             fpressIO.Status = fpress_state;
+
+                            if (!GMotDef.GVAxis.MoveAbs(0)) return false;
+
                             break;
                         }
                     #endregion
+                    case ECmd.NEEDLE_SPRAY_CLEAN:
+                        #region
+                        {
+                            var n_dnwait = (int)cmd.Para[3];
+                            var n_spraytime = (int)cmd.Para[5];
+                            var n_postwait = (int)cmd.Para[7];
 
+                            var n_count = Math.Max((int)cmd.Para[0], 1);
+                            var n_perUnit = (int)cmd.Para[1];
+
+                            if (n_perUnit <= 0) break;
+
+                            bool run = false;
+                            if (NeedleSprayCount++ % n_perUnit != 0) break;
+                            run = true;
+                            if (!run) break;
+
+                            Task.Run(() =>
+                            {
+                                TCNeedleFunc.SprayClean[gantry.Index].running = true;
+                                while (TCDisp.Run[gantry.Index].bRun && TCNeedleFunc.SprayClean[gantry.Index].running) Thread.Sleep(0);
+                                TCNeedleFunc.SprayClean[gantry.Index].running = false;
+                            });
+
+                            if (!TCNeedleFunc.SprayClean[gantry.Index].Execute(n_dnwait,n_spraytime, n_postwait, n_count)) return false;
+
+                            if (!GMotDef.GVAxis.MoveAbs(0)) return false;
+
+                            break;
+                        }
+                    #endregion
                     case ECmd.PURGE_STAGE:
                         #region
                         {
@@ -3027,7 +3085,8 @@ namespace NagaW
                     case ECmd.PAT_ALIGN_ROTARY:
                         #region
                         {
-                            if (!GMotDef.GRAxis.MoveAbs(0)) return false;
+                            //noneed to move rotary
+                            //if (!GMotDef.GRAxis.MoveAbs(0)) return false;
 
                             PointI[] ij = new PointI[2] { clusterCR, unitCR };
 
@@ -3293,6 +3352,7 @@ namespace NagaW
             NeedleFlushCount =
             NeedlePurgeCount =
             NeedlePurgeStageCount =
+            NeedleSprayCount =
             NeedleABCleanCount = 0;
             goposition_executed = false;
             //InstSelectHead = 0;

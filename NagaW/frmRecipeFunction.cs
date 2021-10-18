@@ -502,6 +502,7 @@ namespace NagaW
                     case ECmd.NEEDLE_FLUSH:
                     case ECmd.NEEDLE_PURGE:
                     case ECmd.NEEDLE_AB_CLEAN:
+                    case ECmd.NEEDLE_SPRAY_CLEAN:
                     case ECmd.PURGE_STAGE:
                     case ECmd.LINE_SPEED:
                     case ECmd.LINE_GAP_ADJUST:

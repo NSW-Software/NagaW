@@ -31,8 +31,10 @@ namespace NagaW
         {
             Set(tpConfig, new CustomObjectWrapper(Activator.CreateInstance(typeof(GSystemCfg.Config))));
             Set(tpGantry, new CustomObjectWrapper(Activator.CreateInstance(typeof(GSystemCfg.Gantry))));
-            Set(tpConveyor, new CustomObjectWrapper(Activator.CreateInstance(typeof(GSystemCfg.Conveyor))));
 
+            //Set(tpConveyor, new CustomObjectWrapper(Activator.CreateInstance(typeof(GSystemCfg.Conveyor))));
+            tabcontrol1.TabPages.Remove(tpConveyor);
+            
             Set(tpHSensor, GSystemCfg.HSensor.HSensors);
             Set(tpCamera, GSystemCfg.Camera.Cameras);
 

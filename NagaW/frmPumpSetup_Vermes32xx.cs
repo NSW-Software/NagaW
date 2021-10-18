@@ -20,14 +20,14 @@ namespace NagaW
         readonly TEZMCAux.TOutput TrigOutput;
         readonly TEZMCAux.TInput TrigInput;
         readonly TEZMCAux.TOutput FPressIO;
+        readonly TEZMCAux.TOutput VacIO;
 
         public frmPumpSetup_Vermes32xx()
         {
             InitializeComponent();
         }
 
-        public frmPumpSetup_Vermes32xx(Vermes3280_Param vms, Vermes_3280_SerialCom vmspump, TEPressCtrl fpress
-            , TEZMCAux.TOutput trigout, TEZMCAux.TInput trigin, TEZMCAux.TOutput fpressio) : this()
+        public frmPumpSetup_Vermes32xx(Vermes3280_Param vms, Vermes_3280_SerialCom vmspump, TEPressCtrl fpress, TEZMCAux.TOutput trigout, TEZMCAux.TInput trigin, TEZMCAux.TOutput fpressio, TEZMCAux.TOutput vacio) : this()
         {
             V_Setup = vms;
             V_Pump = vmspump;
@@ -36,6 +36,7 @@ namespace NagaW
             TrigOutput = trigout;
             TrigInput = trigin;
             FPressIO = fpressio;
+            VacIO = vacio;
         }
 
         private void frmVermesCtrl_Load(object sender, EventArgs e)
@@ -160,11 +161,13 @@ namespace NagaW
         {
             FPressIO.Status = !TrigOutput.Status;
             TrigOutput.Status = !TrigOutput.Status;
-        }
-        private void EnableFPress(bool on)
-        {
-            FPress.Set(V_Setup.FPress.Value);
-            FPressIO.Status = on;
+
+            if (!FPressIO.Status)
+            {
+                VacIO.Status = true;
+                Thread.Sleep(50);
+                VacIO.Status = false;
+            }
         }
 
         private void btnAdjust_Click(object sender, EventArgs e)

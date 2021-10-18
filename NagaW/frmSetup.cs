@@ -33,6 +33,8 @@ namespace NagaW
 
             //GControl.ConvertTabCtrlToFLP(tabctrlSetup);
 
+            tabctrlSetup.TabPages.Remove(tpAirClean);
+            tabctrlSetup.TabPages.Remove(tpNozzleInsp);
             GControl.LogForm(this);
 
             //var frm = new frmNozzleInsp(gantry);
@@ -227,6 +229,20 @@ namespace NagaW
             lblDyCalState.Text = lasecalstate.ToString();
             lblDyCalState.BackColor = lasecalstate == ECalibrationState.Completed ? Color.Lime : lasecalstate == ECalibrationState.Fail ? Color.Orange : Color.Red;
 
+            #endregion
+
+            #region Spray
+            btnSprayPosSet.Text = "Set " + (cbNeedleSpray.Checked ? "(Needle)" : "(Camera)");
+            btnSprayPosGoto.Text = "Goto " + (cbNeedleSpray.Checked ? "(Needle)" : "(Camera)");
+
+            lblSprayPos.Text = GSetupPara.NeedleSprayClean.Pos[SelectedHead].ToStringForDisplay();
+            lblSprayHSensorOffset.Text = GSetupPara.NeedleSprayClean.HSensorOffset[SelectedHead].ToStringForDisplay() + $", H:{GSetupPara.NeedleSprayClean.HSensorValue[SelectedHead]:f3}";
+
+            lblSprayDnWait.UpdatePara(GProcessPara.NeedleSpray.DownWait[SelectedHead]);
+            lblSprayTime.UpdatePara(GProcessPara.NeedleSpray.SprayTime[SelectedHead]);
+            lblSprayCount.UpdatePara(GProcessPara.NeedleSpray.Count[SelectedHead]);
+            lblSprayPostWait.UpdatePara(GProcessPara.NeedleSpray.PostWait[SelectedHead]);
+            lblSprayRelZPos.UpdatePara(GProcessPara.NeedleSpray.RelZPos[SelectedHead]);
             #endregion
 
             GControl.UpdateFormControl(this);
@@ -987,6 +1003,76 @@ namespace NagaW
 
         #endregion
 
+        #region SprayNeedle
+        private void btnSprayExec_Click(object sender, EventArgs e)
+        {
+            MsgBox.Processing("Spray", () => TCNeedleFunc.SprayClean[gantry.Index].Execute(), () => TCNeedleFunc.SprayClean[gantry.Index].running = false);
+        }
+
+        private void btnSprayLearn_Click(object sender, EventArgs e)
+        {
+            MsgBox.Processing("Spray Learn", () => TCNeedleFunc.SprayClean[gantry.Index].Learn());
+            UpdateDisplay();
+        }
+        private void btnSprayPosSet_Click(object sender, EventArgs e)
+        {
+            PointXYZ point = gantry.PointXYZ;
+            if (cbNeedleSpray.Checked)
+            {
+                point.X -= GSetupPara.Calibration.NeedleXYOffset[gantry.Index].X;
+                point.Y -= GSetupPara.Calibration.NeedleXYOffset[gantry.Index].Y;
+            }
+
+            GLog.SetPos(ref GSetupPara.NeedleSprayClean.Pos[SelectedHead], point, gantry.Name + " Spray Pos");
+            gantry.MoveOpZAbs(0);
+
+            UpdateDisplay();
+        }
+        private void btnSprayPosGoto_Click(object sender, EventArgs e)
+        {
+            PointXYZ point = new PointXYZ(GSetupPara.NeedleSprayClean.Pos[SelectedHead]);
+            if (cbNeedleSpray.Checked)
+            {
+                point.X += GSetupPara.Calibration.NeedleXYOffset[gantry.Index].X;
+                point.Y += GSetupPara.Calibration.NeedleXYOffset[gantry.Index].Y;
+            }
+
+            TFLightCtrl.LightPair[gantry.Index].Set(GRecipes.Board[gantry.Index].LightDefault);
+            gantry.GotoXYZ(point, true);
+        }
+
+        private void cbNeedleSpray_Click(object sender, EventArgs e)
+        {
+            UpdateDisplay();
+        }
+
+        private void lblSprayDnWait_Click(object sender, EventArgs e)
+        {
+            GLog.SetPara(ref GProcessPara.NeedleSpray.DownWait[SelectedHead]);
+            UpdateDisplay();
+        }
+        private void lblSprayTime_Click(object sender, EventArgs e)
+        {
+            GLog.SetPara(ref GProcessPara.NeedleSpray.SprayTime[SelectedHead]);
+            UpdateDisplay();
+        }
+        private void lblSprayPostWait_Click(object sender, EventArgs e)
+        {
+            GLog.SetPara(ref GProcessPara.NeedleSpray.PostWait[SelectedHead]);
+            UpdateDisplay();
+        }
+        private void lblSprayCount_Click(object sender, EventArgs e)
+        {
+            GLog.SetPara(ref GProcessPara.NeedleSpray.Count[SelectedHead]);
+            UpdateDisplay();
+        }
+        private void lblSprayRelZPos_Click(object sender, EventArgs e)
+        {
+            GLog.SetPara(ref GProcessPara.NeedleSpray.RelZPos[SelectedHead]);
+            UpdateDisplay();
+        }
+        #endregion
+
         private void lblXTTouchGap_Click(object sender, EventArgs e)
         {
             GLog.SetPara(ref GProcessPara.Calibration.XYTouchMarkGap[gantry.Index]);
@@ -998,5 +1084,6 @@ namespace NagaW
             TFGantry.GantrySelect = TFGantry.GantryLeft;
             GMotDef.GVAxis.MoveAbs(0);
         }
+
     }
 }

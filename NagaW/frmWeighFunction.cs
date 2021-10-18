@@ -457,5 +457,6 @@ namespace NagaW
             //GProcessPara.Weighing.EnableUpdateTCmd = !GProcessPara.Weighing.EnableUpdateTCmd;
             //UpdateDisplay();
         }
+
     }
 }

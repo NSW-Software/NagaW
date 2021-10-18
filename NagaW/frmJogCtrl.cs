@@ -73,9 +73,7 @@ namespace NagaW
             lblLightValue.Text = TFLightCtrl.lightPair.CurrentLight.ToStringForDisplay();
 
             lblAxisPos.ForeColor = offsetAxis ? Color.Red : this.ForeColor;
-            string pos = new PointXYZ(gantry.Axis[0].ActualPos - xyzPos[0],
-                            gantry.Axis[1].ActualPos - xyzPos[1],
-                            gantry.Axis[2].ActualPos - xyzPos[2]).ToStringForDisplay();
+            string pos = new PointXYZ(gantry.Axis[0].ActualPos - xyzPos[0], gantry.Axis[1].ActualPos - xyzPos[1], gantry.Axis[2].ActualPos - xyzPos[2]).ToStringForDisplay();
             lblAxisPos.Text = pos.Replace(",", "\r\n").Replace(" ", "");
 
             btnPosX.BackColor = gantry.Axis[0].HLmtP ? Parent.BackColor : Color.Red;

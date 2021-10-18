@@ -80,10 +80,10 @@
             this.lblZCamPos = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.gboxNeedleXY = new System.Windows.Forms.GroupBox();
+            this.lblXTTouchGap = new System.Windows.Forms.Label();
             this.lblXYCalState = new System.Windows.Forms.Label();
             this.label61 = new System.Windows.Forms.Label();
             this.label59 = new System.Windows.Forms.Label();
-            this.lblXTTouchGap = new System.Windows.Forms.Label();
             this.btnNeedleXYCamPosGoto = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.btnNeedleXYCamPosSet = new System.Windows.Forms.Button();
@@ -260,6 +260,26 @@
             this.btnABCleanPosSet = new System.Windows.Forms.Button();
             this.btnABCleanPosGoto = new System.Windows.Forms.Button();
             this.tpNozzleInsp = new System.Windows.Forms.TabPage();
+            this.tbSpray = new System.Windows.Forms.TabPage();
+            this.groupBox19 = new System.Windows.Forms.GroupBox();
+            this.label66 = new System.Windows.Forms.Label();
+            this.lblSprayRelZPos = new System.Windows.Forms.Label();
+            this.btnSprayExec = new System.Windows.Forms.Button();
+            this.label68 = new System.Windows.Forms.Label();
+            this.lblSprayPostWait = new System.Windows.Forms.Label();
+            this.lblSprayCount = new System.Windows.Forms.Label();
+            this.label71 = new System.Windows.Forms.Label();
+            this.label72 = new System.Windows.Forms.Label();
+            this.lblSprayDnWait = new System.Windows.Forms.Label();
+            this.lblSprayTime = new System.Windows.Forms.Label();
+            this.label78 = new System.Windows.Forms.Label();
+            this.groupBox18 = new System.Windows.Forms.GroupBox();
+            this.lblSprayHSensorOffset = new System.Windows.Forms.Label();
+            this.btnSprayLearn = new System.Windows.Forms.Button();
+            this.cbNeedleSpray = new System.Windows.Forms.CheckBox();
+            this.lblSprayPos = new System.Windows.Forms.Label();
+            this.btnSprayPosSet = new System.Windows.Forms.Button();
+            this.btnSprayPosGoto = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -292,6 +312,9 @@
             this.tpAirClean.SuspendLayout();
             this.groupBox11.SuspendLayout();
             this.groupBox10.SuspendLayout();
+            this.tbSpray.SuspendLayout();
+            this.groupBox19.SuspendLayout();
+            this.groupBox18.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -631,6 +654,7 @@
             this.tabctrlSetup.Controls.Add(this.tpMaintenance);
             this.tabctrlSetup.Controls.Add(this.tpAirClean);
             this.tabctrlSetup.Controls.Add(this.tpNozzleInsp);
+            this.tabctrlSetup.Controls.Add(this.tbSpray);
             this.tabctrlSetup.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabctrlSetup.ItemSize = new System.Drawing.Size(100, 35);
             this.tabctrlSetup.Location = new System.Drawing.Point(5, 5);
@@ -914,10 +938,10 @@
             // gboxNeedleXY
             // 
             this.gboxNeedleXY.AutoSize = true;
+            this.gboxNeedleXY.Controls.Add(this.lblXTTouchGap);
             this.gboxNeedleXY.Controls.Add(this.lblXYCalState);
             this.gboxNeedleXY.Controls.Add(this.label61);
             this.gboxNeedleXY.Controls.Add(this.label59);
-            this.gboxNeedleXY.Controls.Add(this.lblXTTouchGap);
             this.gboxNeedleXY.Controls.Add(this.btnNeedleXYCamPosGoto);
             this.gboxNeedleXY.Controls.Add(this.label9);
             this.gboxNeedleXY.Controls.Add(this.btnNeedleXYCamPosSet);
@@ -932,6 +956,20 @@
             this.gboxNeedleXY.TabIndex = 4;
             this.gboxNeedleXY.TabStop = false;
             this.gboxNeedleXY.Text = "Needle XY";
+            // 
+            // lblXTTouchGap
+            // 
+            this.lblXTTouchGap.BackColor = System.Drawing.Color.White;
+            this.lblXTTouchGap.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblXTTouchGap.Location = new System.Drawing.Point(108, 87);
+            this.lblXTTouchGap.Margin = new System.Windows.Forms.Padding(3);
+            this.lblXTTouchGap.Name = "lblXTTouchGap";
+            this.lblXTTouchGap.Size = new System.Drawing.Size(90, 25);
+            this.lblXTTouchGap.TabIndex = 28;
+            this.lblXTTouchGap.Text = "999.999";
+            this.lblXTTouchGap.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblXTTouchGap.Visible = false;
+            this.lblXTTouchGap.Click += new System.EventHandler(this.lblXTTouchGap_Click);
             // 
             // lblXYCalState
             // 
@@ -964,20 +1002,6 @@
             this.label59.Text = "Touch Gap";
             this.label59.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.label59.Visible = false;
-            // 
-            // lblXTTouchGap
-            // 
-            this.lblXTTouchGap.BackColor = System.Drawing.Color.White;
-            this.lblXTTouchGap.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblXTTouchGap.Location = new System.Drawing.Point(108, 87);
-            this.lblXTTouchGap.Margin = new System.Windows.Forms.Padding(3);
-            this.lblXTTouchGap.Name = "lblXTTouchGap";
-            this.lblXTTouchGap.Size = new System.Drawing.Size(90, 25);
-            this.lblXTTouchGap.TabIndex = 28;
-            this.lblXTTouchGap.Text = "999.999";
-            this.lblXTTouchGap.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblXTTouchGap.Visible = false;
-            this.lblXTTouchGap.Click += new System.EventHandler(this.lblXTTouchGap_Click);
             // 
             // btnNeedleXYCamPosGoto
             // 
@@ -3072,6 +3096,246 @@
             this.tpNozzleInsp.Text = "NozzleInsp";
             this.tpNozzleInsp.UseVisualStyleBackColor = true;
             // 
+            // tbSpray
+            // 
+            this.tbSpray.Controls.Add(this.groupBox19);
+            this.tbSpray.Controls.Add(this.groupBox18);
+            this.tbSpray.Location = new System.Drawing.Point(4, 77);
+            this.tbSpray.Name = "tbSpray";
+            this.tbSpray.Size = new System.Drawing.Size(516, 571);
+            this.tbSpray.TabIndex = 15;
+            this.tbSpray.Text = "Spray";
+            this.tbSpray.UseVisualStyleBackColor = true;
+            // 
+            // groupBox19
+            // 
+            this.groupBox19.AutoSize = true;
+            this.groupBox19.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox19.Controls.Add(this.label66);
+            this.groupBox19.Controls.Add(this.lblSprayRelZPos);
+            this.groupBox19.Controls.Add(this.btnSprayExec);
+            this.groupBox19.Controls.Add(this.label68);
+            this.groupBox19.Controls.Add(this.lblSprayPostWait);
+            this.groupBox19.Controls.Add(this.lblSprayCount);
+            this.groupBox19.Controls.Add(this.label71);
+            this.groupBox19.Controls.Add(this.label72);
+            this.groupBox19.Controls.Add(this.lblSprayDnWait);
+            this.groupBox19.Controls.Add(this.lblSprayTime);
+            this.groupBox19.Controls.Add(this.label78);
+            this.groupBox19.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox19.Location = new System.Drawing.Point(0, 128);
+            this.groupBox19.Name = "groupBox19";
+            this.groupBox19.Size = new System.Drawing.Size(516, 180);
+            this.groupBox19.TabIndex = 15;
+            this.groupBox19.TabStop = false;
+            this.groupBox19.Text = "Parameter";
+            // 
+            // label66
+            // 
+            this.label66.Location = new System.Drawing.Point(217, 87);
+            this.label66.Margin = new System.Windows.Forms.Padding(3);
+            this.label66.Name = "label66";
+            this.label66.Size = new System.Drawing.Size(87, 25);
+            this.label66.TabIndex = 15;
+            this.label66.Text = "Rel Z Pos";
+            this.label66.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblSprayRelZPos
+            // 
+            this.lblSprayRelZPos.BackColor = System.Drawing.Color.White;
+            this.lblSprayRelZPos.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblSprayRelZPos.Location = new System.Drawing.Point(310, 87);
+            this.lblSprayRelZPos.Margin = new System.Windows.Forms.Padding(3);
+            this.lblSprayRelZPos.Name = "lblSprayRelZPos";
+            this.lblSprayRelZPos.Size = new System.Drawing.Size(90, 25);
+            this.lblSprayRelZPos.TabIndex = 16;
+            this.lblSprayRelZPos.Text = "999.999";
+            this.lblSprayRelZPos.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblSprayRelZPos.Click += new System.EventHandler(this.lblSprayRelZPos_Click);
+            // 
+            // btnSprayExec
+            // 
+            this.btnSprayExec.Location = new System.Drawing.Point(320, 118);
+            this.btnSprayExec.Name = "btnSprayExec";
+            this.btnSprayExec.Size = new System.Drawing.Size(80, 37);
+            this.btnSprayExec.TabIndex = 9;
+            this.btnSprayExec.Text = "Execute";
+            this.btnSprayExec.UseVisualStyleBackColor = true;
+            this.btnSprayExec.Click += new System.EventHandler(this.btnSprayExec_Click);
+            // 
+            // label68
+            // 
+            this.label68.Location = new System.Drawing.Point(217, 56);
+            this.label68.Margin = new System.Windows.Forms.Padding(3);
+            this.label68.Name = "label68";
+            this.label68.Size = new System.Drawing.Size(87, 25);
+            this.label68.TabIndex = 11;
+            this.label68.Text = "Count";
+            this.label68.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblSprayPostWait
+            // 
+            this.lblSprayPostWait.BackColor = System.Drawing.Color.White;
+            this.lblSprayPostWait.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblSprayPostWait.Location = new System.Drawing.Point(310, 25);
+            this.lblSprayPostWait.Margin = new System.Windows.Forms.Padding(3);
+            this.lblSprayPostWait.Name = "lblSprayPostWait";
+            this.lblSprayPostWait.Size = new System.Drawing.Size(90, 25);
+            this.lblSprayPostWait.TabIndex = 10;
+            this.lblSprayPostWait.Text = "999.999";
+            this.lblSprayPostWait.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblSprayPostWait.Click += new System.EventHandler(this.lblSprayPostWait_Click);
+            // 
+            // lblSprayCount
+            // 
+            this.lblSprayCount.BackColor = System.Drawing.Color.White;
+            this.lblSprayCount.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblSprayCount.Location = new System.Drawing.Point(310, 56);
+            this.lblSprayCount.Margin = new System.Windows.Forms.Padding(3);
+            this.lblSprayCount.Name = "lblSprayCount";
+            this.lblSprayCount.Size = new System.Drawing.Size(90, 25);
+            this.lblSprayCount.TabIndex = 12;
+            this.lblSprayCount.Text = "999.999";
+            this.lblSprayCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblSprayCount.Click += new System.EventHandler(this.lblSprayCount_Click);
+            // 
+            // label71
+            // 
+            this.label71.Location = new System.Drawing.Point(217, 25);
+            this.label71.Margin = new System.Windows.Forms.Padding(3);
+            this.label71.Name = "label71";
+            this.label71.Size = new System.Drawing.Size(87, 25);
+            this.label71.TabIndex = 9;
+            this.label71.Text = "Post Wait";
+            this.label71.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label72
+            // 
+            this.label72.Location = new System.Drawing.Point(9, 25);
+            this.label72.Margin = new System.Windows.Forms.Padding(3);
+            this.label72.Name = "label72";
+            this.label72.Size = new System.Drawing.Size(87, 25);
+            this.label72.TabIndex = 1;
+            this.label72.Text = "Dn Wait";
+            this.label72.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblSprayDnWait
+            // 
+            this.lblSprayDnWait.BackColor = System.Drawing.Color.White;
+            this.lblSprayDnWait.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblSprayDnWait.Location = new System.Drawing.Point(102, 25);
+            this.lblSprayDnWait.Margin = new System.Windows.Forms.Padding(3);
+            this.lblSprayDnWait.Name = "lblSprayDnWait";
+            this.lblSprayDnWait.Size = new System.Drawing.Size(90, 25);
+            this.lblSprayDnWait.TabIndex = 2;
+            this.lblSprayDnWait.Text = "999.999";
+            this.lblSprayDnWait.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblSprayDnWait.Click += new System.EventHandler(this.lblSprayDnWait_Click);
+            // 
+            // lblSprayTime
+            // 
+            this.lblSprayTime.BackColor = System.Drawing.Color.White;
+            this.lblSprayTime.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblSprayTime.Location = new System.Drawing.Point(102, 87);
+            this.lblSprayTime.Margin = new System.Windows.Forms.Padding(3);
+            this.lblSprayTime.Name = "lblSprayTime";
+            this.lblSprayTime.Size = new System.Drawing.Size(90, 25);
+            this.lblSprayTime.TabIndex = 6;
+            this.lblSprayTime.Text = "999.999";
+            this.lblSprayTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblSprayTime.Click += new System.EventHandler(this.lblSprayTime_Click);
+            // 
+            // label78
+            // 
+            this.label78.Location = new System.Drawing.Point(9, 87);
+            this.label78.Margin = new System.Windows.Forms.Padding(3);
+            this.label78.Name = "label78";
+            this.label78.Size = new System.Drawing.Size(87, 25);
+            this.label78.TabIndex = 5;
+            this.label78.Text = "Spray Time";
+            this.label78.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // groupBox18
+            // 
+            this.groupBox18.AutoSize = true;
+            this.groupBox18.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox18.Controls.Add(this.lblSprayHSensorOffset);
+            this.groupBox18.Controls.Add(this.btnSprayLearn);
+            this.groupBox18.Controls.Add(this.cbNeedleSpray);
+            this.groupBox18.Controls.Add(this.lblSprayPos);
+            this.groupBox18.Controls.Add(this.btnSprayPosSet);
+            this.groupBox18.Controls.Add(this.btnSprayPosGoto);
+            this.groupBox18.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox18.Location = new System.Drawing.Point(0, 0);
+            this.groupBox18.Name = "groupBox18";
+            this.groupBox18.Size = new System.Drawing.Size(516, 128);
+            this.groupBox18.TabIndex = 14;
+            this.groupBox18.TabStop = false;
+            this.groupBox18.Text = "Position";
+            // 
+            // lblSprayHSensorOffset
+            // 
+            this.lblSprayHSensorOffset.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblSprayHSensorOffset.Location = new System.Drawing.Point(6, 67);
+            this.lblSprayHSensorOffset.Margin = new System.Windows.Forms.Padding(3);
+            this.lblSprayHSensorOffset.Name = "lblSprayHSensorOffset";
+            this.lblSprayHSensorOffset.Size = new System.Drawing.Size(222, 25);
+            this.lblSprayHSensorOffset.TabIndex = 17;
+            this.lblSprayHSensorOffset.Text = "label2";
+            this.lblSprayHSensorOffset.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // btnSprayLearn
+            // 
+            this.btnSprayLearn.Location = new System.Drawing.Point(234, 67);
+            this.btnSprayLearn.Name = "btnSprayLearn";
+            this.btnSprayLearn.Size = new System.Drawing.Size(80, 36);
+            this.btnSprayLearn.TabIndex = 16;
+            this.btnSprayLearn.Text = "Learn HSensor";
+            this.btnSprayLearn.UseVisualStyleBackColor = true;
+            this.btnSprayLearn.Click += new System.EventHandler(this.btnSprayLearn_Click);
+            // 
+            // cbNeedleSpray
+            // 
+            this.cbNeedleSpray.AutoSize = true;
+            this.cbNeedleSpray.Location = new System.Drawing.Point(320, 67);
+            this.cbNeedleSpray.Name = "cbNeedleSpray";
+            this.cbNeedleSpray.Size = new System.Drawing.Size(74, 22);
+            this.cbNeedleSpray.TabIndex = 11;
+            this.cbNeedleSpray.Text = "Needle";
+            this.cbNeedleSpray.UseVisualStyleBackColor = true;
+            this.cbNeedleSpray.Click += new System.EventHandler(this.cbNeedleSpray_Click);
+            // 
+            // lblSprayPos
+            // 
+            this.lblSprayPos.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblSprayPos.Location = new System.Drawing.Point(6, 25);
+            this.lblSprayPos.Margin = new System.Windows.Forms.Padding(3);
+            this.lblSprayPos.Name = "lblSprayPos";
+            this.lblSprayPos.Size = new System.Drawing.Size(222, 25);
+            this.lblSprayPos.TabIndex = 6;
+            this.lblSprayPos.Text = "label2";
+            this.lblSprayPos.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // btnSprayPosSet
+            // 
+            this.btnSprayPosSet.Location = new System.Drawing.Point(234, 25);
+            this.btnSprayPosSet.Name = "btnSprayPosSet";
+            this.btnSprayPosSet.Size = new System.Drawing.Size(80, 36);
+            this.btnSprayPosSet.TabIndex = 7;
+            this.btnSprayPosSet.Text = "Set (Camera)";
+            this.btnSprayPosSet.UseVisualStyleBackColor = true;
+            this.btnSprayPosSet.Click += new System.EventHandler(this.btnSprayPosSet_Click);
+            // 
+            // btnSprayPosGoto
+            // 
+            this.btnSprayPosGoto.Location = new System.Drawing.Point(320, 25);
+            this.btnSprayPosGoto.Name = "btnSprayPosGoto";
+            this.btnSprayPosGoto.Size = new System.Drawing.Size(80, 36);
+            this.btnSprayPosGoto.TabIndex = 8;
+            this.btnSprayPosGoto.Text = "Goto (Camera)";
+            this.btnSprayPosGoto.UseVisualStyleBackColor = true;
+            this.btnSprayPosGoto.Click += new System.EventHandler(this.btnSprayPosGoto_Click);
+            // 
             // frmSetup
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -3136,6 +3400,11 @@
             this.groupBox11.ResumeLayout(false);
             this.groupBox10.ResumeLayout(false);
             this.groupBox10.PerformLayout();
+            this.tbSpray.ResumeLayout(false);
+            this.tbSpray.PerformLayout();
+            this.groupBox19.ResumeLayout(false);
+            this.groupBox18.ResumeLayout(false);
+            this.groupBox18.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -3373,5 +3642,25 @@
         private System.Windows.Forms.TabPage tpNozzleInsp;
         private System.Windows.Forms.Label lblDyCalState;
         private System.Windows.Forms.Label label64;
+        private System.Windows.Forms.TabPage tbSpray;
+        private System.Windows.Forms.GroupBox groupBox18;
+        private System.Windows.Forms.Label lblSprayHSensorOffset;
+        private System.Windows.Forms.Button btnSprayLearn;
+        private System.Windows.Forms.CheckBox cbNeedleSpray;
+        private System.Windows.Forms.Label lblSprayPos;
+        private System.Windows.Forms.Button btnSprayPosSet;
+        private System.Windows.Forms.Button btnSprayPosGoto;
+        private System.Windows.Forms.GroupBox groupBox19;
+        private System.Windows.Forms.Label label66;
+        private System.Windows.Forms.Label lblSprayRelZPos;
+        private System.Windows.Forms.Button btnSprayExec;
+        private System.Windows.Forms.Label label68;
+        private System.Windows.Forms.Label lblSprayPostWait;
+        private System.Windows.Forms.Label lblSprayCount;
+        private System.Windows.Forms.Label label71;
+        private System.Windows.Forms.Label label72;
+        private System.Windows.Forms.Label lblSprayDnWait;
+        private System.Windows.Forms.Label lblSprayTime;
+        private System.Windows.Forms.Label label78;
     }
 }

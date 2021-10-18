@@ -67,6 +67,21 @@ namespace NagaW
                         break;
                 }
 
+                switch (direction)
+                {
+                    case EDirection.Negative:
+                        if (axisIndex is 0) RealTimeChecking(axisIndex);
+                        if (axisIndex is 1) RealTimeChecking(axisIndex);
+                        if (axisIndex is 2) RealTimeChecking(axisIndex);
+
+                        break;
+                    case EDirection.Positive:
+                        if (axisIndex is 0) RealTimeChecking(axisIndex);
+                        if (axisIndex is 1) RealTimeChecking(axisIndex);
+
+                        break;
+                }
+
                 void MoveRel(double dist)
                 {
                     switch (direction)
@@ -106,10 +121,10 @@ namespace NagaW
             {
                 case EJogMode.Step:
                 case EJogMode.Coarse:
-                        JogMode = EJogMode.Fine;
+                    JogMode = EJogMode.Fine;
                     break;
                 case EJogMode.Fine:
-                        JogMode = EJogMode.Coarse;
+                    JogMode = EJogMode.Coarse;
                     break;
             }
         }
@@ -124,5 +139,26 @@ namespace NagaW
             JogMode = EJogMode.Step;
             JogRate = rate;
         }
+
+
+        public static void RealTimeChecking(int axisindex)
+        {
+            Task.Run(() =>
+            {
+                while (gantry.Axis[axisindex].Busy)
+                {
+                    if (GMotDef.GXAxis.ActualPos > GSetupPara.Calibration.ZTouchCamPos[0].X)
+                    {
+                        if (GMotDef.GZAxis.ActualPos < GSetupPara.Calibration.ZTouchValue[0] + 1)
+                        {
+                            JogStop(axisindex);
+                            MsgBox.ShowDialog("Exit limitation, lift Z up to safety zone");
+                            break;
+                        }
+                    }
+                }
+            });
+        }
     }
 }
+

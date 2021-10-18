@@ -11,6 +11,12 @@ namespace NagaW
     class GEnum
     {
     }
+    public enum EDynamicDispMode
+    {
+        False,
+        FirstJet,
+        Everytime,
+    }
 
     public enum ECalibrationState
     {

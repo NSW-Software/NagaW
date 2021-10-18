@@ -33,6 +33,8 @@ namespace NagaW
 
         NEEDLE_CFP,
         NEEDLE_CFP_LEARN,
+        NEEDLE_SPRAY_CLEAN,
+
         PURGE_STAGE,
         NEEDLE_AIR_BLADE_CLEAN,
 

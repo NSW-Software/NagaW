@@ -56,9 +56,9 @@
             this.lblSMEMA_DownIn = new System.Windows.Forms.Label();
             this.lblSMEMA_UpIn = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label5 = new System.Windows.Forms.Label();
+            this.lblDIWaferVacLow = new System.Windows.Forms.Label();
             this.lblDIChuckVac = new System.Windows.Forms.Label();
-            this.lblDIWaferVac = new System.Windows.Forms.Label();
+            this.lblDIWaferVacHigh = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnSVWaferVacOn = new System.Windows.Forms.Button();
             this.btnSVWaferExhOn = new System.Windows.Forms.Button();
@@ -69,6 +69,7 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.cbxAirblowPre = new System.Windows.Forms.CheckBox();
             this.lblExhaustTime = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
@@ -97,7 +98,12 @@
             this.lblLifterAccel = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.lblLifterSpeed = new System.Windows.Forms.Label();
-            this.cbxAirblowPre = new System.Windows.Forms.CheckBox();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.btnNotchAlign = new System.Windows.Forms.Button();
+            this.btnNotchTeachCamPosSet = new System.Windows.Forms.Button();
+            this.btnNotchTeachCamPosGoto = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.lblNotchTeachCamPos = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.groupBox8.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -107,6 +113,7 @@
             this.groupBox5.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox7.SuspendLayout();
+            this.groupBox9.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -323,7 +330,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel1.Location = new System.Drawing.Point(565, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(131, 685);
+            this.panel1.Size = new System.Drawing.Size(131, 796);
             this.panel1.TabIndex = 2;
             // 
             // groupBox8
@@ -335,7 +342,7 @@
             this.groupBox8.Controls.Add(this.lblSMEMA_DownIn);
             this.groupBox8.Controls.Add(this.lblSMEMA_UpIn);
             this.groupBox8.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox8.Location = new System.Drawing.Point(0, 389);
+            this.groupBox8.Location = new System.Drawing.Point(0, 382);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Size = new System.Drawing.Size(131, 193);
             this.groupBox8.TabIndex = 11;
@@ -388,32 +395,32 @@
             // 
             this.groupBox2.AutoSize = true;
             this.groupBox2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.groupBox2.Controls.Add(this.label5);
+            this.groupBox2.Controls.Add(this.lblDIWaferVacLow);
             this.groupBox2.Controls.Add(this.lblDIChuckVac);
-            this.groupBox2.Controls.Add(this.lblDIWaferVac);
+            this.groupBox2.Controls.Add(this.lblDIWaferVacHigh);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox2.Location = new System.Drawing.Point(0, 235);
+            this.groupBox2.Location = new System.Drawing.Point(0, 228);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(131, 154);
             this.groupBox2.TabIndex = 10;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Input";
             // 
-            // label5
+            // lblDIWaferVacLow
             // 
-            this.label5.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.label5.Location = new System.Drawing.Point(6, 100);
-            this.label5.Margin = new System.Windows.Forms.Padding(3);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(120, 33);
-            this.label5.TabIndex = 3;
-            this.label5.Text = "Ionizer OK";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblDIWaferVacLow.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.lblDIWaferVacLow.Location = new System.Drawing.Point(6, 61);
+            this.lblDIWaferVacLow.Margin = new System.Windows.Forms.Padding(3);
+            this.lblDIWaferVacLow.Name = "lblDIWaferVacLow";
+            this.lblDIWaferVacLow.Size = new System.Drawing.Size(120, 33);
+            this.lblDIWaferVacLow.TabIndex = 3;
+            this.lblDIWaferVacLow.Text = "Wafer Vac Low";
+            this.lblDIWaferVacLow.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblDIChuckVac
             // 
             this.lblDIChuckVac.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.lblDIChuckVac.Location = new System.Drawing.Point(6, 61);
+            this.lblDIChuckVac.Location = new System.Drawing.Point(6, 100);
             this.lblDIChuckVac.Margin = new System.Windows.Forms.Padding(3);
             this.lblDIChuckVac.Name = "lblDIChuckVac";
             this.lblDIChuckVac.Size = new System.Drawing.Size(120, 33);
@@ -421,16 +428,16 @@
             this.lblDIChuckVac.Text = "Chuck Vac";
             this.lblDIChuckVac.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // lblDIWaferVac
+            // lblDIWaferVacHigh
             // 
-            this.lblDIWaferVac.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.lblDIWaferVac.Location = new System.Drawing.Point(6, 22);
-            this.lblDIWaferVac.Margin = new System.Windows.Forms.Padding(3);
-            this.lblDIWaferVac.Name = "lblDIWaferVac";
-            this.lblDIWaferVac.Size = new System.Drawing.Size(120, 33);
-            this.lblDIWaferVac.TabIndex = 1;
-            this.lblDIWaferVac.Text = "Wafer Vac";
-            this.lblDIWaferVac.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblDIWaferVacHigh.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.lblDIWaferVacHigh.Location = new System.Drawing.Point(6, 22);
+            this.lblDIWaferVacHigh.Margin = new System.Windows.Forms.Padding(3);
+            this.lblDIWaferVacHigh.Name = "lblDIWaferVacHigh";
+            this.lblDIWaferVacHigh.Size = new System.Drawing.Size(120, 33);
+            this.lblDIWaferVacHigh.TabIndex = 1;
+            this.lblDIWaferVacHigh.Text = "Wafer Vac High";
+            this.lblDIWaferVacHigh.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // groupBox1
             // 
@@ -444,24 +451,24 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(131, 235);
+            this.groupBox1.Size = new System.Drawing.Size(131, 228);
             this.groupBox1.TabIndex = 9;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Output";
             // 
             // btnSVWaferVacOn
             // 
-            this.btnSVWaferVacOn.Location = new System.Drawing.Point(6, 103);
+            this.btnSVWaferVacOn.Location = new System.Drawing.Point(6, 18);
             this.btnSVWaferVacOn.Name = "btnSVWaferVacOn";
             this.btnSVWaferVacOn.Size = new System.Drawing.Size(120, 33);
             this.btnSVWaferVacOn.TabIndex = 9;
-            this.btnSVWaferVacOn.Text = "Sv Wafer Vac On";
+            this.btnSVWaferVacOn.Text = "Sv Wafer Vac High";
             this.btnSVWaferVacOn.UseVisualStyleBackColor = true;
             this.btnSVWaferVacOn.Click += new System.EventHandler(this.btnSVWaferVacOn_Click);
             // 
             // btnSVWaferExhOn
             // 
-            this.btnSVWaferExhOn.Location = new System.Drawing.Point(6, 142);
+            this.btnSVWaferExhOn.Location = new System.Drawing.Point(6, 135);
             this.btnSVWaferExhOn.Name = "btnSVWaferExhOn";
             this.btnSVWaferExhOn.Size = new System.Drawing.Size(120, 33);
             this.btnSVWaferExhOn.TabIndex = 10;
@@ -471,7 +478,7 @@
             // 
             // btnSVWaferVacLow
             // 
-            this.btnSVWaferVacLow.Location = new System.Drawing.Point(6, 25);
+            this.btnSVWaferVacLow.Location = new System.Drawing.Point(6, 57);
             this.btnSVWaferVacLow.Name = "btnSVWaferVacLow";
             this.btnSVWaferVacLow.Size = new System.Drawing.Size(120, 33);
             this.btnSVWaferVacLow.TabIndex = 6;
@@ -481,7 +488,7 @@
             // 
             // btnBlowerIonizer
             // 
-            this.btnBlowerIonizer.Location = new System.Drawing.Point(6, 181);
+            this.btnBlowerIonizer.Location = new System.Drawing.Point(6, 174);
             this.btnBlowerIonizer.Name = "btnBlowerIonizer";
             this.btnBlowerIonizer.Size = new System.Drawing.Size(120, 33);
             this.btnBlowerIonizer.TabIndex = 7;
@@ -491,7 +498,7 @@
             // 
             // btnSVChuckVacOn
             // 
-            this.btnSVChuckVacOn.Location = new System.Drawing.Point(6, 64);
+            this.btnSVChuckVacOn.Location = new System.Drawing.Point(6, 96);
             this.btnSVChuckVacOn.Name = "btnSVChuckVacOn";
             this.btnSVChuckVacOn.Size = new System.Drawing.Size(120, 33);
             this.btnSVChuckVacOn.TabIndex = 8;
@@ -561,6 +568,17 @@
             this.groupBox5.TabIndex = 5;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Ionizer Setting";
+            // 
+            // cbxAirblowPre
+            // 
+            this.cbxAirblowPre.AutoSize = true;
+            this.cbxAirblowPre.Location = new System.Drawing.Point(350, 22);
+            this.cbxAirblowPre.Name = "cbxAirblowPre";
+            this.cbxAirblowPre.Size = new System.Drawing.Size(88, 18);
+            this.cbxAirblowPre.TabIndex = 12;
+            this.cbxAirblowPre.Text = "Pre-AirBlow";
+            this.cbxAirblowPre.UseVisualStyleBackColor = true;
+            this.cbxAirblowPre.Click += new System.EventHandler(this.cbxAirblowPre_Click);
             // 
             // lblExhaustTime
             // 
@@ -818,7 +836,7 @@
             this.groupBox7.Controls.Add(this.lblLifterAccel);
             this.groupBox7.Controls.Add(this.label13);
             this.groupBox7.Controls.Add(this.lblLifterSpeed);
-            this.groupBox7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox7.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox7.Location = new System.Drawing.Point(0, 585);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Size = new System.Drawing.Size(565, 100);
@@ -892,22 +910,77 @@
             this.lblLifterSpeed.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblLifterSpeed.Click += new System.EventHandler(this.lblLifterSpeed_Click);
             // 
-            // cbxAirblowPre
+            // groupBox9
             // 
-            this.cbxAirblowPre.AutoSize = true;
-            this.cbxAirblowPre.Location = new System.Drawing.Point(343, 85);
-            this.cbxAirblowPre.Name = "cbxAirblowPre";
-            this.cbxAirblowPre.Size = new System.Drawing.Size(88, 18);
-            this.cbxAirblowPre.TabIndex = 12;
-            this.cbxAirblowPre.Text = "Pre-AirBlow";
-            this.cbxAirblowPre.UseVisualStyleBackColor = true;
-            this.cbxAirblowPre.Click += new System.EventHandler(this.cbxAirblowPre_Click);
+            this.groupBox9.Controls.Add(this.btnNotchAlign);
+            this.groupBox9.Controls.Add(this.btnNotchTeachCamPosSet);
+            this.groupBox9.Controls.Add(this.btnNotchTeachCamPosGoto);
+            this.groupBox9.Controls.Add(this.label3);
+            this.groupBox9.Controls.Add(this.lblNotchTeachCamPos);
+            this.groupBox9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox9.Location = new System.Drawing.Point(0, 685);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(565, 111);
+            this.groupBox9.TabIndex = 8;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "Other";
+            // 
+            // btnNotchAlign
+            // 
+            this.btnNotchAlign.Location = new System.Drawing.Point(343, 18);
+            this.btnNotchAlign.Name = "btnNotchAlign";
+            this.btnNotchAlign.Size = new System.Drawing.Size(95, 40);
+            this.btnNotchAlign.TabIndex = 27;
+            this.btnNotchAlign.Text = "Execute";
+            this.btnNotchAlign.UseVisualStyleBackColor = true;
+            this.btnNotchAlign.Click += new System.EventHandler(this.btnNotchAlign_Click);
+            // 
+            // btnNotchTeachCamPosSet
+            // 
+            this.btnNotchTeachCamPosSet.Location = new System.Drawing.Point(171, 46);
+            this.btnNotchTeachCamPosSet.Name = "btnNotchTeachCamPosSet";
+            this.btnNotchTeachCamPosSet.Size = new System.Drawing.Size(80, 25);
+            this.btnNotchTeachCamPosSet.TabIndex = 13;
+            this.btnNotchTeachCamPosSet.Text = "Set";
+            this.btnNotchTeachCamPosSet.UseVisualStyleBackColor = true;
+            this.btnNotchTeachCamPosSet.Click += new System.EventHandler(this.btnNotchTeachCamPosSet_Click);
+            // 
+            // btnNotchTeachCamPosGoto
+            // 
+            this.btnNotchTeachCamPosGoto.Location = new System.Drawing.Point(257, 46);
+            this.btnNotchTeachCamPosGoto.Name = "btnNotchTeachCamPosGoto";
+            this.btnNotchTeachCamPosGoto.Size = new System.Drawing.Size(80, 25);
+            this.btnNotchTeachCamPosGoto.TabIndex = 12;
+            this.btnNotchTeachCamPosGoto.Text = "Goto";
+            this.btnNotchTeachCamPosGoto.UseVisualStyleBackColor = true;
+            this.btnNotchTeachCamPosGoto.Click += new System.EventHandler(this.btnNotchTeachCamPosGoto_Click);
+            // 
+            // label3
+            // 
+            this.label3.Location = new System.Drawing.Point(20, 18);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(115, 25);
+            this.label3.TabIndex = 10;
+            this.label3.Text = "Notch Teach CamPos";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblNotchTeachCamPos
+            // 
+            this.lblNotchTeachCamPos.BackColor = System.Drawing.Color.White;
+            this.lblNotchTeachCamPos.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblNotchTeachCamPos.Location = new System.Drawing.Point(141, 18);
+            this.lblNotchTeachCamPos.Name = "lblNotchTeachCamPos";
+            this.lblNotchTeachCamPos.Size = new System.Drawing.Size(196, 25);
+            this.lblNotchTeachCamPos.TabIndex = 11;
+            this.lblNotchTeachCamPos.Text = "label2";
+            this.lblNotchTeachCamPos.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // frmWaferSetup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(696, 685);
+            this.ClientSize = new System.Drawing.Size(696, 796);
+            this.Controls.Add(this.groupBox9);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox5);
@@ -931,6 +1004,7 @@
             this.groupBox5.PerformLayout();
             this.groupBox6.ResumeLayout(false);
             this.groupBox7.ResumeLayout(false);
+            this.groupBox9.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -949,9 +1023,9 @@
         private System.Windows.Forms.Button btnBlowerIonizer;
         private System.Windows.Forms.Button btnSVWaferVacLow;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lblDIWaferVacLow;
         private System.Windows.Forms.Label lblDIChuckVac;
-        private System.Windows.Forms.Label lblDIWaferVac;
+        private System.Windows.Forms.Label lblDIWaferVacHigh;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label lblAirBlowDuration;
         private System.Windows.Forms.Label label7;
@@ -1007,5 +1081,11 @@
         private System.Windows.Forms.Button btnSMEMA_DnOut;
         private System.Windows.Forms.Button btnSMEMA_UpOut;
         private System.Windows.Forms.CheckBox cbxAirblowPre;
+        private System.Windows.Forms.GroupBox groupBox9;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblNotchTeachCamPos;
+        private System.Windows.Forms.Button btnNotchTeachCamPosSet;
+        private System.Windows.Forms.Button btnNotchTeachCamPosGoto;
+        private System.Windows.Forms.Button btnNotchAlign;
     }
 }

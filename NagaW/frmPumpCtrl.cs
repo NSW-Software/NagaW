@@ -69,9 +69,7 @@ namespace NagaW
                         }
                     case EPumpType.VERMES_3280:
                         {
-                            Showform(new frmPumpSetup_Vermes32xx(GRecipes.Vermes_Setups[i], TFPump.Vermes_Pump[i], 
-                                TFPressCtrl.FPress[i], GMotDef.Outputs[(int)x.DispDO]
-                                , GMotDef.Inputs[(int)x.DispDI], GMotDef.Outputs[(int)x.FPressDO]));
+                            Showform(new frmPumpSetup_Vermes32xx(GRecipes.Vermes_Setups[i], TFPump.Vermes_Pump[i], TFPressCtrl.FPress[i], GMotDef.Outputs[(int)x.DispDO], GMotDef.Inputs[(int)x.DispDI], GMotDef.Outputs[(int)x.FPressDO], GMotDef.Outputs[(int)x.VacDO]));
                             break;
                         }
                     case EPumpType.SP:

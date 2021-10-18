@@ -93,13 +93,16 @@ namespace NagaW
             }
         }
         private void frmMsgbox_Load(object sender, EventArgs e)
-        {            
+        {
             //Location = new Point(Location.X, 0);
             //When frmMain is not created, prompt in default location Primary Screen Center
-            if (Application.OpenForms[0].Name.Contains("frmMain"))
-                Location = new Point(Location.X, Application.OpenForms[0].Top);
+
+            if (Application.OpenForms[0].Name.Contains("frmMain")) Location = new Point(Location.X, Application.OpenForms[0].Top);
             BringToFront();
             GControl.LogForm(this);
+            TopMost = true;
+            TopLevel = true;
+            timer1.Enabled = true;
         }
 
         private void btnOK_Click(object sender, EventArgs e)

@@ -431,6 +431,14 @@ namespace NagaW
             public static DPara PrecisorPos_1 = new DPara(nameof(Wafer) + nameof(PrecisorPos_1), 0, 0, 120, EUnit.DEGREE_CELSIUS);
             public static DPara PrecisorPos_2 = new DPara(nameof(Wafer) + nameof(PrecisorPos_2), 0, 0, 120, EUnit.DEGREE_CELSIUS);
             public static DPara PrecisorPos_3 = new DPara(nameof(Wafer) + nameof(PrecisorPos_3), 0, 0, 120, EUnit.DEGREE_CELSIUS);
+
+            public static PointXYZ TeachNotchCamPos = new PointXYZ();
+        }
+        public class NeedleSprayClean
+        {
+            public static PointXYZ[] Pos = Enumerable.Range(0, HeadCount).Select(x => new PointXYZ()).ToArray();
+            public static PointD[] HSensorOffset = Enumerable.Range(0, HeadCount).Select(x => new PointD(0, 5)).ToArray();
+            public static double[] HSensorValue = new double[HeadCount];
         }
 
         public static bool SaveFile(string filepath)
@@ -611,6 +619,16 @@ namespace NagaW
             public static IPara[] Count = Enumerable.Range(0, Headno).Select(x => new IPara(nameof(NeedlePurge) + nameof(Count) + $"Head{(x == 0 ? "L" : "R")}", 1, 0, 10, EUnit.COUNT)).ToArray();
             public static DPara[] RelZPos = Enumerable.Range(0, Headno).Select(x => new DPara(nameof(NeedleVacClean) + nameof(RelZPos) + $"Head{(x == 0 ? "L" : "R")}", 0, -10, 10, EUnit.MILLIMETER)).ToArray();
         }
+
+        public class NeedleSpray
+        {
+            public static IPara[] DownWait = Enumerable.Range(0, Headno).Select(x => new IPara(nameof(NeedlePurge) + nameof(DownWait) + $"Head{(x == 0 ? "L" : "R")}", 0, 0, 10000, EUnit.MILLISECOND)).ToArray();
+            public static IPara[] SprayTime = Enumerable.Range(0, Headno).Select(x => new IPara(nameof(NeedlePurge) + nameof(SprayTime) + $"Head{(x == 0 ? "L" : "R")}", 2000, 0, 10000, EUnit.MILLISECOND)).ToArray();
+            public static IPara[] PostWait = Enumerable.Range(0, Headno).Select(x => new IPara(nameof(NeedlePurge) + nameof(PostWait) + $"Head{(x == 0 ? "L" : "R")}", 0, 0, 10000, EUnit.MILLISECOND)).ToArray();
+            public static IPara[] Count = Enumerable.Range(0, Headno).Select(x => new IPara(nameof(NeedlePurge) + nameof(Count) + $"Head{(x == 0 ? "L" : "R")}", 1, 0, 10, EUnit.COUNT)).ToArray();
+            public static DPara[] RelZPos = Enumerable.Range(0, Headno).Select(x => new DPara(nameof(NeedleVacClean) + nameof(RelZPos) + $"Head{(x == 0 ? "L" : "R")}", 0, -10, 10, EUnit.MILLIMETER)).ToArray();
+        }
+
         public class PurgeStage
         {
             public static TLayout Layout = new TLayout();

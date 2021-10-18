@@ -96,14 +96,8 @@ namespace NagaW
 
                     Para[6] = new DPara($"{index} FPress", cmd.Para[6], 0, jet_setup.FPress.Max, EUnit.MPA);
                     Para[7] = new DPara($"{index} JPress", cmd.Para[7], 0, jet_setup.VPress.Max, EUnit.MPA);
-
                     break;
-                //case ECmd.TEMP_SETUP:
-                //    Para[4] = new DPara($"{index} CheckUnit", cmd.Para[4], 0, 100000, EUnit.COUNT, 0);
-                //    break;
-                //case ECmd.PRESSURE_MONITORING:
-                //    Para[4] = new DPara($"{index} CheckUnit", cmd.Para[4], 0, 100000, EUnit.COUNT, 0);
-                //    break;
+
                 case ECmd.DOT_SETUP:
                     Para[0] = new DPara($"{index} Disp Time", cmd.Para[0], minTime, maxTime, EUnit.MILLISECOND, 0);
                     Para[1] = new DPara($"{index} Wait", cmd.Para[1], minTime, maxTime, EUnit.MILLISECOND, 0);
@@ -140,8 +134,9 @@ namespace NagaW
                     break;
 
                 case ECmd.DYNAMIC_JET_SETUP:
-                    Para[0] = new DPara($"{index} Pre-Disp", cmd.Para[0], 0, 1, EUnit.NONE, 0, new string[] { bool.FalseString, bool.TrueString });
+                    Para[0] = new DPara($"{index} Pre-Disp", cmd.Para[0], 0, 2, EUnit.NONE, 0, Enum.GetNames(typeof(EDynamicDispMode)));
                     Para[1] = new DPara($"{index} AccelDist", cmd.Para[1], 0, 50, EUnit.MILLIMETER);
+                    Para[2] = new DPara($"{index} Post-Disp", cmd.Para[2], 0, 2, EUnit.NONE, 0, Enum.GetNames(typeof(EDynamicDispMode)));
                     break;
 
                 case ECmd.CLUSTER_GAP_SETUP:
@@ -164,6 +159,13 @@ namespace NagaW
                     Para[5] = new DPara($"{index} VacTime", cmd.Para[5], 0, GProcessPara.NeedleVacClean.VacTime[0].Max, EUnit.MILLISECOND, 0);
                     Para[6] = new DPara($"{index} PostVacTime", cmd.Para[6], 0, GProcessPara.NeedleVacClean.PostVacTime[0].Max, EUnit.MILLISECOND, 0);
                     Para[7] = new DPara($"{index} PostWait", cmd.Para[7], 0, GProcessPara.NeedleVacClean.PostWait[0].Max, EUnit.MILLISECOND, 0);
+                    break;
+                case ECmd.NEEDLE_SPRAY_CLEAN:
+                    Para[0] = new DPara($"{index} Count", cmd.Para[0], 0, 10, EUnit.COUNT, 0);
+                    Para[1] = new DPara($"{index} Per Unit", cmd.Para[1], 0, 50000, EUnit.COUNT, 0);
+                    Para[3] = new DPara($"{index} DnWait", cmd.Para[3], 0, GProcessPara.NeedleSpray.DownWait[0].Max, EUnit.MILLISECOND, 0);
+                    Para[5] = new DPara($"{index} SprayTime", cmd.Para[5], 0, GProcessPara.NeedleSpray.SprayTime[0].Max, EUnit.MILLISECOND, 0);
+                    Para[7] = new DPara($"{index} PostWait", cmd.Para[7], 0, GProcessPara.NeedleSpray.PostWait[0].Max, EUnit.MILLISECOND, 0);
                     break;
                 case ECmd.PURGE_STAGE:
                 case ECmd.NEEDLE_AB_CLEAN:
