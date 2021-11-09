@@ -92,6 +92,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.lblP1Pos = new System.Windows.Forms.Label();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.lblLifterStroke = new System.Windows.Forms.Label();
             this.btnLifterHoming = new System.Windows.Forms.Button();
             this.btnLifterUp = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
@@ -330,7 +332,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel1.Location = new System.Drawing.Point(565, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(131, 796);
+            this.panel1.Size = new System.Drawing.Size(131, 822);
             this.panel1.TabIndex = 2;
             // 
             // groupBox8
@@ -342,9 +344,9 @@
             this.groupBox8.Controls.Add(this.lblSMEMA_DownIn);
             this.groupBox8.Controls.Add(this.lblSMEMA_UpIn);
             this.groupBox8.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox8.Location = new System.Drawing.Point(0, 382);
+            this.groupBox8.Location = new System.Drawing.Point(0, 390);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(131, 193);
+            this.groupBox8.Size = new System.Drawing.Size(131, 197);
             this.groupBox8.TabIndex = 11;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "SMEMA";
@@ -399,9 +401,9 @@
             this.groupBox2.Controls.Add(this.lblDIChuckVac);
             this.groupBox2.Controls.Add(this.lblDIWaferVacHigh);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox2.Location = new System.Drawing.Point(0, 228);
+            this.groupBox2.Location = new System.Drawing.Point(0, 232);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(131, 154);
+            this.groupBox2.Size = new System.Drawing.Size(131, 158);
             this.groupBox2.TabIndex = 10;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Input";
@@ -451,7 +453,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(131, 228);
+            this.groupBox1.Size = new System.Drawing.Size(131, 232);
             this.groupBox1.TabIndex = 9;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Output";
@@ -523,7 +525,7 @@
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox3.Location = new System.Drawing.Point(0, 0);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(565, 94);
+            this.groupBox3.Size = new System.Drawing.Size(565, 98);
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Manual Seting";
@@ -539,9 +541,9 @@
             this.groupBox4.Controls.Add(this.btnAutoPosGoto);
             this.groupBox4.Controls.Add(this.lblAutoPostion);
             this.groupBox4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox4.Location = new System.Drawing.Point(0, 94);
+            this.groupBox4.Location = new System.Drawing.Point(0, 98);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(565, 96);
+            this.groupBox4.Size = new System.Drawing.Size(565, 100);
             this.groupBox4.TabIndex = 4;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Auto Setting";
@@ -562,9 +564,9 @@
             this.groupBox5.Controls.Add(this.lblPreOnVac);
             this.groupBox5.Controls.Add(this.label9);
             this.groupBox5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox5.Location = new System.Drawing.Point(0, 190);
+            this.groupBox5.Location = new System.Drawing.Point(0, 198);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(565, 193);
+            this.groupBox5.Size = new System.Drawing.Size(565, 197);
             this.groupBox5.TabIndex = 5;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Ionizer Setting";
@@ -574,7 +576,7 @@
             this.cbxAirblowPre.AutoSize = true;
             this.cbxAirblowPre.Location = new System.Drawing.Point(350, 22);
             this.cbxAirblowPre.Name = "cbxAirblowPre";
-            this.cbxAirblowPre.Size = new System.Drawing.Size(88, 18);
+            this.cbxAirblowPre.Size = new System.Drawing.Size(101, 22);
             this.cbxAirblowPre.TabIndex = 12;
             this.cbxAirblowPre.Text = "Pre-AirBlow";
             this.cbxAirblowPre.UseVisualStyleBackColor = true;
@@ -626,9 +628,9 @@
             this.groupBox6.Controls.Add(this.label2);
             this.groupBox6.Controls.Add(this.lblP1Pos);
             this.groupBox6.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox6.Location = new System.Drawing.Point(0, 383);
+            this.groupBox6.Location = new System.Drawing.Point(0, 395);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(565, 202);
+            this.groupBox6.Size = new System.Drawing.Size(565, 206);
             this.groupBox6.TabIndex = 6;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Precisor setting";
@@ -830,6 +832,10 @@
             // 
             // groupBox7
             // 
+            this.groupBox7.AutoSize = true;
+            this.groupBox7.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox7.Controls.Add(this.label5);
+            this.groupBox7.Controls.Add(this.lblLifterStroke);
             this.groupBox7.Controls.Add(this.btnLifterHoming);
             this.groupBox7.Controls.Add(this.btnLifterUp);
             this.groupBox7.Controls.Add(this.label8);
@@ -837,16 +843,39 @@
             this.groupBox7.Controls.Add(this.label13);
             this.groupBox7.Controls.Add(this.lblLifterSpeed);
             this.groupBox7.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox7.Location = new System.Drawing.Point(0, 585);
+            this.groupBox7.Location = new System.Drawing.Point(0, 601);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(565, 100);
+            this.groupBox7.Size = new System.Drawing.Size(565, 137);
             this.groupBox7.TabIndex = 7;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Lifter Setting";
             // 
+            // label5
+            // 
+            this.label5.Location = new System.Drawing.Point(12, 87);
+            this.label5.Margin = new System.Windows.Forms.Padding(3);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(65, 25);
+            this.label5.TabIndex = 28;
+            this.label5.Text = "Stroke";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblLifterStroke
+            // 
+            this.lblLifterStroke.BackColor = System.Drawing.Color.White;
+            this.lblLifterStroke.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblLifterStroke.Location = new System.Drawing.Point(83, 87);
+            this.lblLifterStroke.Margin = new System.Windows.Forms.Padding(3);
+            this.lblLifterStroke.Name = "lblLifterStroke";
+            this.lblLifterStroke.Size = new System.Drawing.Size(140, 25);
+            this.lblLifterStroke.TabIndex = 29;
+            this.lblLifterStroke.Text = "label6";
+            this.lblLifterStroke.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblLifterStroke.Click += new System.EventHandler(this.lblLifterStroke_Click);
+            // 
             // btnLifterHoming
             // 
-            this.btnLifterHoming.Location = new System.Drawing.Point(444, 41);
+            this.btnLifterHoming.Location = new System.Drawing.Point(444, 72);
             this.btnLifterHoming.Name = "btnLifterHoming";
             this.btnLifterHoming.Size = new System.Drawing.Size(95, 40);
             this.btnLifterHoming.TabIndex = 27;
@@ -856,7 +885,7 @@
             // 
             // btnLifterUp
             // 
-            this.btnLifterUp.Location = new System.Drawing.Point(343, 41);
+            this.btnLifterUp.Location = new System.Drawing.Point(343, 72);
             this.btnLifterUp.Name = "btnLifterUp";
             this.btnLifterUp.Size = new System.Drawing.Size(95, 40);
             this.btnLifterUp.TabIndex = 26;
@@ -918,9 +947,9 @@
             this.groupBox9.Controls.Add(this.label3);
             this.groupBox9.Controls.Add(this.lblNotchTeachCamPos);
             this.groupBox9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox9.Location = new System.Drawing.Point(0, 685);
+            this.groupBox9.Location = new System.Drawing.Point(0, 738);
             this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(565, 111);
+            this.groupBox9.Size = new System.Drawing.Size(565, 84);
             this.groupBox9.TabIndex = 8;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Other";
@@ -977,9 +1006,9 @@
             // 
             // frmWaferSetup
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(696, 796);
+            this.ClientSize = new System.Drawing.Size(696, 822);
             this.Controls.Add(this.groupBox9);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.groupBox6);
@@ -1087,5 +1116,7 @@
         private System.Windows.Forms.Button btnNotchTeachCamPosSet;
         private System.Windows.Forms.Button btnNotchTeachCamPosGoto;
         private System.Windows.Forms.Button btnNotchAlign;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lblLifterStroke;
     }
 }

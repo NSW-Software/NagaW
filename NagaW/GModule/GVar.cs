@@ -756,6 +756,7 @@ namespace NagaW
 
             public static DPara LifterSpeed = new DPara(nameof(Wafer) + nameof(LifterSpeed), 50, 10, 500, EUnit.MILLIMETER_PER_SECOND);
             public static DPara LifterAccel = new DPara(nameof(Wafer) + nameof(LifterAccel), 250, 50, 800, EUnit.MILLIMETER_PER_SECOND_SQUARED);
+            public static DPara LifterStroke = new DPara(nameof(Wafer) + nameof(LifterStroke), 21, 0, 50, EUnit.MILLIMETER);
 
             public static bool PreAirBlow = true;
         }

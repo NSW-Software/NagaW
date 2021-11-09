@@ -1011,7 +1011,7 @@ namespace NagaW
                     }
                     break;
             }
-            if(dispCtrl.PumpType> EPumpType.None)
+            if (dispCtrl.PumpType > EPumpType.None)
             {
                 if (!TCPressCtrl.Monitoring(gantryIdx, pressuremaster)) return false;
             }
@@ -1033,7 +1033,7 @@ namespace NagaW
             bool firstjet = true;
             EDynamicDispMode predisp = EDynamicDispMode.False;
             EDynamicDispMode postdisp = EDynamicDispMode.False;
-            
+
             PointI serpentine_CR = new PointI(unitCR);
             double dynamic_accelDist = 0;
 
@@ -2864,6 +2864,20 @@ namespace NagaW
                     case ECmd.NEEDLE_PURGE:
                         #region
                         {
+
+                            double fpress = 0;
+
+                            switch (dispCtrl.PumpType)
+                            {
+                                case EPumpType.HM: fpress = hmParam[gantry.Index].FPress.Value; break;
+                                case EPumpType.PNEUMATIC_JET: fpress = pneumaticJet_Params[gantry.Index].FPress.Value; break;
+                                case EPumpType.SP:
+                                case EPumpType.SPLite:
+                                case EPumpType.TP: fpress = spParam[gantry.Index].FPress.Value; break;
+                                case EPumpType.VERMES_3280: fpress = vm3280Param[gantry.Index].FPress.Value; break;
+                            }
+
+
                             var fpress_state = fpressIO.Status;
 
                             var n_dnwait = (int)cmd.Para[3];
@@ -2947,7 +2961,15 @@ namespace NagaW
                             moveNextDispCmdAtXYPlane = true;
                             if (!TCNeedleFunc.CFP[gantry.Index].Execute(mode, n_dnwait, n_disptime, n_vactime, n_postvactime, n_postwait, n_count)) return false;
 
-                            vm3280Param[gantry.Index] = new Vermes3280_Param();
+                            #region Set Pump Para Back
+                            if (!TFPressCtrl.FPress[gantry.Index].Set(pressuremaster.Master ? pressuremaster.FPress.Value : fpress)) return false;
+
+                            if (dispCtrl.PumpType == EPumpType.VERMES_3280)
+                            {
+                                Vermes3280_Param vermes3280_Param_temp = new Vermes3280_Param(vm3280Param[gantry.Index]);
+                                if (!TFPump.Vermes_Pump[gantry.Index].TriggerAset(vermes3280_Param_temp)) return false;
+                            }
+                            #endregion
 
                             fpressIO.Status = fpress_state;
 
@@ -2980,7 +3002,7 @@ namespace NagaW
                                 TCNeedleFunc.SprayClean[gantry.Index].running = false;
                             });
 
-                            if (!TCNeedleFunc.SprayClean[gantry.Index].Execute(n_dnwait,n_spraytime, n_postwait, n_count)) return false;
+                            if (!TCNeedleFunc.SprayClean[gantry.Index].Execute(n_dnwait, n_spraytime, n_postwait, n_count)) return false;
 
                             if (!GMotDef.GVAxis.MoveAbs(0)) return false;
 
@@ -3089,7 +3111,6 @@ namespace NagaW
                             //if (!GMotDef.GRAxis.MoveAbs(0)) return false;
 
                             PointI[] ij = new PointI[2] { clusterCR, unitCR };
-
                             if (instBoard.LayerData[layoutNo].GetUnitAlign(ij).Status >= EPatAlignStatus.BoardOK) break;
                             PointD clusterRel = GRecipes.MultiLayout[gantry.Index][layoutNo].Cluster.RelPos(new PointI());
                             PointD originAbs = boardOrigin + clusterRel;
@@ -3179,7 +3200,7 @@ namespace NagaW
                                 currentClusterCR = mlayout.Cluster.NextCR(currentClusterCR);
                                 if (currentClusterCR.IsZero) break;
                             }
-                            
+
                             break;
                         }
                         #endregion
@@ -3503,7 +3524,9 @@ namespace NagaW
                     //TFCameras.Camera[gantryGroup.Index].FlirCamera.Live();
 
                     id = cmd.ID;
-                    if (GRecipes.PatRecog[gantryGroup.Index][id].RegImage[1] == null)
+                    var secpointIdx = cmd.Para[9] is 10 ? 0 : 1;
+
+                    if (GRecipes.PatRecog[gantryGroup.Index][id].RegImage[secpointIdx] == null)
                     {
                         alignData.Status = EPatAlignStatus.Error;
                         GAlarm.Prompt(EAlarm.VISION_MATCH_IMAGE_REGISTER_ERROR);
@@ -3514,7 +3537,7 @@ namespace NagaW
                     pLOfst = new PointD(0, 0);
                     score = 0;
 
-                    var secpointIdx = cmd.Para[9] is 10 ? 0 : 1;
+                    //var secpointIdx = cmd.Para[9] is 10 ? 0 : 1;
                     if (!TFVision.PatMatch(img, GRecipes.PatRecog[gantryGroup.Index][id].RegImage[secpointIdx], GRecipes.PatRecog[gantryGroup.Index][id].ImgThld[secpointIdx], new Rectangle[] { GRecipes.PatRecog[gantryGroup.Index][id].SearchRect[secpointIdx], GRecipes.PatRecog[gantryGroup.Index][id].PatRect[secpointIdx] }, ref pLoc, ref pLOfst, ref score)) return EAction.Fail;
                     ofst = new PointD(pLOfst.X * distPerPixelX, -pLOfst.Y * distPerPixelY);
 
@@ -3600,6 +3623,8 @@ namespace NagaW
 
                     if (rad > Math.PI) rad = (2 * Math.PI) - rad;
                     if (rad < -Math.PI) rad = (2 * Math.PI) + rad;
+
+                    GLog.LogProcess($"Rad {rad:f3}");
 
                     alignData.Angle_Rad = rad;
 

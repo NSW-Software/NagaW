@@ -73,11 +73,7 @@ namespace NagaW
 
         private async void btnRun_Click(object sender, EventArgs e)
         {
-            //if (!TCTempCtrl.Monitoring()) return;
             TCPressCtrl.StartTime[gantry.Index] = DateTime.Now;
-
-            //if (gantry.Index == 0 && !TFGantry.GLReady()) return;
-            //if (gantry.Index == 1 && !TFGantry.GRReady()) return;
 
             GControl.UI_Disable(btnStop);
 
@@ -87,11 +83,7 @@ namespace NagaW
             {
                 if (!gantry.MoveOpZAbs(0)) return;
 
-                await Task.Run(() =>
-                {
-                    TCDisp.Run[gantry.Index].Disp();
-                });
-
+                await Task.Run(() => TCDisp.Run[gantry.Index].Disp());
 
                 gantry.MoveOpZAbs(GRecipes.Board[gantry.Index].StartPos.Z);
                 TFLightCtrl.LightPair[gantry.Index].Set(GRecipes.Board[gantry.Index].LightDefault);

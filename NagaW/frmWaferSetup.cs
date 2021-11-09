@@ -45,6 +45,7 @@ namespace NagaW
 
             lblLifterSpeed.UpdatePara(GProcessPara.Wafer.LifterSpeed);
             lblLifterAccel.UpdatePara(GProcessPara.Wafer.LifterAccel);
+            lblLifterStroke.UpdatePara(GProcessPara.Wafer.LifterStroke);
 
             cbxAirblowPre.Checked = GProcessPara.Wafer.PreAirBlow;
 
@@ -170,6 +171,7 @@ namespace NagaW
             }
             else
             {
+                if (MessageBox.Show("Wafer - Robot performing Loading.\nAbort process", "Warning", MessageBoxButtons.OKCancel) != DialogResult.OK) return;
                 TCWafer.SMEMA_ING = false;
             }
         }
@@ -186,6 +188,7 @@ namespace NagaW
             }
             else
             {
+                if (MessageBox.Show("Wafer - Robot performing Unloading.\nAbort process", "Warning", MessageBoxButtons.OKCancel) != DialogResult.OK) return;
                 TCWafer.SMEMA_ING = false;
             }
             
@@ -273,10 +276,14 @@ namespace NagaW
             UpdateDisplay();
         }
 
+        private void lblLifterStroke_Click(object sender, EventArgs e)
+        {
+            GLog.SetPara(ref GProcessPara.Wafer.LifterStroke);
+            UpdateDisplay();
+        }
+
         private async void btnLifterUp_Click(object sender, EventArgs e)
         {
-            //await Task.Run(() =>{ });
-
             GControl.UI_Disable();
             await Task.Run(() => TCWafer.LifterUp());
             GControl.UI_Enable();
@@ -356,5 +363,7 @@ namespace NagaW
             await Task.Run(() => TCWafer.NotchAlignment());
             GControl.UI_Enable();
         }
+
+
     }
 }

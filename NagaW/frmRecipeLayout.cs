@@ -19,6 +19,9 @@ namespace NagaW
         PointD StartPos = new PointD();
         string name;
 
+        public static PointXYZ VirtualStartPos = new PointXYZ();
+        public static bool EnableDynamicJetSWSetXY = false;
+
         public frmRecipeLayout(TEZMCAux.TGroup gantry)
         {
             InitializeComponent();
@@ -31,6 +34,8 @@ namespace NagaW
             cbxPath.DataSource = Enum.GetValues(typeof(ERunPath));
             UpdateDisplay();
             GControl.LogForm(this);
+
+            gbxVirtual.Visible = false;
         }
         public void UpdateDisplay()
         {
@@ -64,6 +69,10 @@ namespace NagaW
 
             lblStartPosCol.UpdatePara(StartPosCol);
             lblStartPosRow.UpdatePara(StartPosRow);
+
+            // Virtual
+            lblVirtualStartPos.Text = VirtualStartPos.ToStringForDisplay();
+            chbxEnaDynJet.Checked = EnableDynamicJetSWSetXY;
         }
 
         private void btnBoardOrgPosSet_Click(object sender, EventArgs e)
@@ -347,7 +356,7 @@ namespace NagaW
             form.ShowDialog();
             var maptype = (EMapType)combo.SelectedItem;
 
-            if (TFMap.Decode(openFile.FileName, maptype, out TMultiLayout layout, out TMAP map, out string mapname, out TFunction function))
+            if (TFMap.Decode(openFile.FileName, maptype, out TMultiLayout layout, out TMAP map, out string mapname, out TFunction function, out PointI ref1colrow))
             {
                 var path = MLayout.Unit.RunPath;
                 var idx = 0;
@@ -360,6 +369,8 @@ namespace NagaW
                 MapRefine();
                 GRecipes.Maps[gantryidx][idx] = map;
 
+                StartPosCol.Value = ref1colrow.X; StartPosRow.Value = ref1colrow.Y;
+
                 UpdateDisplay();
 
                 if (MessageBox.Show("Use pat align from Wafer MapData?\r\nOK to continue\r\nCancel to Skip", "Alignment", MessageBoxButtons.OKCancel) == DialogResult.OK)
@@ -371,14 +382,14 @@ namespace NagaW
         }
 
 
-        IPara StartPosCol = new IPara("", 0, 0, 10000, EUnit.NONE);
-        IPara StartPosRow = new IPara("", 0, 0, 10000, EUnit.NONE);
+        static IPara StartPosCol = new IPara("", 0, 0, 10000, EUnit.NONE);
+        static IPara StartPosRow = new IPara("", 0, 0, 10000, EUnit.NONE);
 
 
         private void btnSetFromColRow_Click(object sender, EventArgs e)
         {
-            var a = MLayout.Unit.PitchCol.X * StartPosCol.Value * -1;
-            var b = MLayout.Unit.PitchRow.Y * StartPosRow.Value * -1;
+            var a = MLayout.Unit.PitchCol.X * (StartPosCol.Value - 1) * -1;
+            var b = MLayout.Unit.PitchRow.Y * (StartPosRow.Value - 1) * -1;
 
             var currentpos = gantry.PointXYZ;
 
@@ -395,6 +406,17 @@ namespace NagaW
         private void lblStartPosRow_Click(object sender, EventArgs e)
         {
             GLog.SetPara(ref StartPosRow);
+            UpdateDisplay();
+        }
+
+        private void btnViewVirtualMode_Click(object sender, EventArgs e)
+        {
+            gbxVirtual.Visible = !gbxVirtual.Visible;
+        }
+
+        private void chbxEnaDynJet_Click(object sender, EventArgs e)
+        {
+            EnableDynamicJetSWSetXY = !EnableDynamicJetSWSetXY;
             UpdateDisplay();
         }
     }

@@ -15,12 +15,13 @@ namespace NagaW
     }
     public class TFMap
     {
-        public static bool Decode(string filepath, EMapType type, out TMultiLayout layout, out TMAP unitmap, out string mapName, out TFunction function) 
+        public static bool Decode(string filepath, EMapType type, out TMultiLayout layout, out TMAP unitmap, out string mapName, out TFunction function, out PointI ref1colrow) 
         {
             layout = new TMultiLayout();
             unitmap = new TMAP();
             mapName = string.Empty;
             function = new TFunction();
+            ref1colrow = new PointI();
 
             try
             {
@@ -67,14 +68,17 @@ namespace NagaW
                             var firstidx = content[2].IndexOf('(') + 1;
                             var lastidx = content[2].IndexOf(')');
                             var xycount_1 = content[2].Substring(firstidx, lastidx - firstidx).Split(',');
-                            PointI ref1 = new PointI(int.Parse(xycount_1[0]), int.Parse(xycount_1[1]));
+                            //flip XY as map data inverted
+                            int countx = 1; int county = 0;
+                            PointI ref1 = new PointI(int.Parse(xycount_1[countx]), int.Parse(xycount_1[county]));
                             PointD ref1XY = new PointD((ref1.X - 1) * unitpitch.X, (ref1.Y - 1) * unitpitch.Y);
-
+                            ref1colrow = new PointI(ref1);
 
                             var firstidx2 = content[3].IndexOf('(') + 1;
                             var lastidx2 = content[3].IndexOf(')');
                             var xycount_2 = content[3].Substring(firstidx2, lastidx2 - firstidx2).Split(',');
-                            PointI ref2 = new PointI(int.Parse(xycount_2[0]), int.Parse(xycount_2[1]));
+                            //flip XY2 as map data inverted
+                            PointI ref2 = new PointI(int.Parse(xycount_2[countx]), int.Parse(xycount_2[county]));
                             PointD ref2XY = new PointD((ref2.X - 1) * unitpitch.X, (ref2.Y - 1) * unitpitch.Y);
 
 

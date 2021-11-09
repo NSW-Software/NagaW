@@ -16,7 +16,7 @@ namespace NagaW
             //WindowState = FormWindowState.Maximized;
             //StartPosition = FormStartPosition.CenterScreen;
 
-            btnAuto.Parent.Controls.Remove(btnAuto);
+            //btnAuto.Parent.Controls.Remove(btnAuto);
             btnRecipeRight.Parent.Controls.Remove(btnRecipeRight);
             btnSetupRight.Parent.Controls.Remove(btnSetupRight);
             btnConv.Parent.Controls.Remove(btnConv);

@@ -2316,6 +2316,7 @@ namespace NagaW
 
         public static bool SMEMA_ING = false;
 
+        public static bool IsWaferDetected => WaferVacHighSens.Status || WaferVacLowSens.Status;
 
         //lifer motor stroke 21 - lifter Z-dimension stroke 12
         public static bool LifterUp()
@@ -2328,7 +2329,8 @@ namespace NagaW
 
             if (!GMotDef.GRAxis.MoveAbs(0)) return false;
 
-            TEZMCAux.Execute($"BASE({axisno}) MOVEABS({21})");
+            double dist = GProcessPara.Wafer.LifterStroke.Value;
+            TEZMCAux.Execute($"BASE({axisno}) MOVEABS({dist})");
             while (GMotDef.Lifter.Busy) Thread.Sleep(0);
             return true;
         }
@@ -2556,7 +2558,7 @@ namespace NagaW
             return true;
         }
 
-        public static bool AutoLoad()
+        public static bool AutoLoad(int timeout_ms = 5000)
         {
             try
             {
@@ -2578,6 +2580,8 @@ namespace NagaW
 
                 SMEMA_UP_OUT.Status = true;
 
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
                 while (!SMEMA_UP_IN.Status)
                 {
                     Thread.Sleep(0);
@@ -2586,20 +2590,27 @@ namespace NagaW
                         SMEMA_UP_OUT.Status = false;
                         return false;
                     }
-                }
-
-                while (SMEMA_UP_IN.Status)
-                {
-                    Thread.Sleep(0);
-                    if (!SMEMA_ING)
+                    if(stopwatch.ElapsedMilliseconds> timeout_ms)
                     {
                         SMEMA_UP_OUT.Status = false;
+                        MsgBox.ShowDialog($"Load Wafer Timeout.\nSetting Time {timeout_ms} ms");
                         return false;
                     }
                 }
-                SMEMA_UP_OUT.Status = false;
+
+                //while (SMEMA_UP_IN.Status)
+                //{
+                //    Thread.Sleep(0);
+                //    if (!SMEMA_ING)
+                //    {
+                //        SMEMA_UP_OUT.Status = false;
+                //        return false;
+                //    }
+                //}
 
                 if (!CatchWafer()) return false;
+
+                SMEMA_UP_OUT.Status = false;
 
             }
             catch
@@ -2625,6 +2636,8 @@ namespace NagaW
                 if (!ReleaseWafer()) return false;
 
                 SMEMA_DN_OUT.Status = true;
+                Thread.Sleep(200);
+                SMEMA_DN_OUT.Status = false;
 
                 while (!SMEMA_DN_IN.Status)
                 {
@@ -2636,15 +2649,16 @@ namespace NagaW
                     }
                 }
 
-                while (SMEMA_DN_IN.Status)
-                {
-                    Thread.Sleep(0);
-                    if (!SMEMA_ING)
-                    {
-                        SMEMA_DN_OUT.Status = false;
-                        return false;
-                    }
-                }
+                //while (SMEMA_DN_IN.Status)
+                //{
+                //    Thread.Sleep(0);
+                //    if (!SMEMA_ING)
+                //    {
+                //        SMEMA_DN_OUT.Status = false;
+                //        return false;
+                //    }
+                //}
+
                 SMEMA_DN_OUT.Status = false;
 
                 if (!LifterHoming()) return false;
