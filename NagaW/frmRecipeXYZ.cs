@@ -150,6 +150,8 @@ namespace NagaW
             lblPara7.UpdatePara(Para[7]);
             lblPara8.UpdatePara(Para[8]);
             lblPara9.UpdatePara(Para[9]);
+
+            lblVirtualPos.Visible = frmRecipeLayout.EnableDynamicJetSWSetXY;
         }
 
         private void lblX0_Click(object sender, EventArgs e)
@@ -183,6 +185,21 @@ namespace NagaW
             pos.Y = gantry.Axis[1].ActualPos;
             pos.Z = gantry.Axis[2].ActualPos;
 
+            if (frmRecipeLayout.EnableDynamicJetSWSetXY)
+            {
+                var xyz = frmRecipeLayout.VirtualStartPos;
+
+                var newPosV = new PointXYZ(pos.X - xyz.X, pos.Y - xyz.Y, 0);
+                Para[0].Value = Tcmd.Para[0] = newPosV.X;
+                Para[1].Value = Tcmd.Para[1] = newPosV.Y;
+
+                GLog.WriteLog(ELogType.PARA, $"XY0 {oldPos.ToStringForDisplay()} " + $"=> {newPosV.ToStringForDisplay()}");
+
+                UpdateDisplay();
+
+                return;
+            }
+
             var newPos = new PointXYZ(pos.X - ptBase.X, pos.Y - ptBase.Y, pos.Z);
             Para[0].Value = Tcmd.Para[0] = newPos.X;
             Para[1].Value = Tcmd.Para[1] = newPos.Y;
@@ -215,6 +232,15 @@ namespace NagaW
 
             ptPos.X = ptBase.X + Tcmd.Para[0];
             ptPos.Y = ptBase.Y + Tcmd.Para[1];
+
+
+            if (frmRecipeLayout.EnableDynamicJetSWSetXY)
+            {
+                var xyz = frmRecipeLayout.VirtualStartPos;
+
+                ptPos.X = xyz.X + Tcmd.Para[0];
+                ptPos.Y = xyz.Y + Tcmd.Para[1];
+            }
 
             TFLightCtrl.LightPair[gantry.Index].Set(GRecipes.Board[gantry.Index].LightDefault);
 

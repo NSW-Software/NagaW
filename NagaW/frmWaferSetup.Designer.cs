@@ -101,11 +101,17 @@
             this.label13 = new System.Windows.Forms.Label();
             this.lblLifterSpeed = new System.Windows.Forms.Label();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.lblWaferThickness = new System.Windows.Forms.Label();
             this.btnNotchAlign = new System.Windows.Forms.Button();
             this.btnNotchTeachCamPosSet = new System.Windows.Forms.Button();
             this.btnNotchTeachCamPosGoto = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.lblNotchTeachCamPos = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.lblNotchCheckInterval = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.lblNotchAlignSpeed = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.groupBox8.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -282,7 +288,7 @@
             // 
             this.lblPreOnVac.BackColor = System.Drawing.Color.White;
             this.lblPreOnVac.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblPreOnVac.Location = new System.Drawing.Point(141, 116);
+            this.lblPreOnVac.Location = new System.Drawing.Point(473, 53);
             this.lblPreOnVac.Margin = new System.Windows.Forms.Padding(3);
             this.lblPreOnVac.Name = "lblPreOnVac";
             this.lblPreOnVac.Size = new System.Drawing.Size(140, 25);
@@ -293,7 +299,7 @@
             // 
             // label9
             // 
-            this.label9.Location = new System.Drawing.Point(20, 116);
+            this.label9.Location = new System.Drawing.Point(352, 53);
             this.label9.Margin = new System.Windows.Forms.Padding(3);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(115, 25);
@@ -305,7 +311,7 @@
             // 
             this.lblAirBlowDuration.BackColor = System.Drawing.Color.White;
             this.lblAirBlowDuration.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblAirBlowDuration.Location = new System.Drawing.Point(141, 85);
+            this.lblAirBlowDuration.Location = new System.Drawing.Point(473, 22);
             this.lblAirBlowDuration.Margin = new System.Windows.Forms.Padding(3);
             this.lblAirBlowDuration.Name = "lblAirBlowDuration";
             this.lblAirBlowDuration.Size = new System.Drawing.Size(140, 25);
@@ -316,7 +322,7 @@
             // 
             // label7
             // 
-            this.label7.Location = new System.Drawing.Point(20, 85);
+            this.label7.Location = new System.Drawing.Point(352, 22);
             this.label7.Margin = new System.Windows.Forms.Padding(3);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(115, 25);
@@ -330,9 +336,9 @@
             this.panel1.Controls.Add(this.groupBox2);
             this.panel1.Controls.Add(this.groupBox1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(565, 0);
+            this.panel1.Location = new System.Drawing.Point(624, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(131, 822);
+            this.panel1.Size = new System.Drawing.Size(131, 819);
             this.panel1.TabIndex = 2;
             // 
             // groupBox8
@@ -525,7 +531,8 @@
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox3.Location = new System.Drawing.Point(0, 0);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(565, 98);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.groupBox3.Size = new System.Drawing.Size(624, 95);
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Manual Seting";
@@ -541,9 +548,10 @@
             this.groupBox4.Controls.Add(this.btnAutoPosGoto);
             this.groupBox4.Controls.Add(this.lblAutoPostion);
             this.groupBox4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox4.Location = new System.Drawing.Point(0, 98);
+            this.groupBox4.Location = new System.Drawing.Point(0, 95);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(565, 100);
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.groupBox4.Size = new System.Drawing.Size(624, 97);
             this.groupBox4.TabIndex = 4;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Auto Setting";
@@ -564,9 +572,10 @@
             this.groupBox5.Controls.Add(this.lblPreOnVac);
             this.groupBox5.Controls.Add(this.label9);
             this.groupBox5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox5.Location = new System.Drawing.Point(0, 198);
+            this.groupBox5.Location = new System.Drawing.Point(0, 192);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(565, 197);
+            this.groupBox5.Padding = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.groupBox5.Size = new System.Drawing.Size(624, 131);
             this.groupBox5.TabIndex = 5;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Ionizer Setting";
@@ -574,7 +583,7 @@
             // cbxAirblowPre
             // 
             this.cbxAirblowPre.AutoSize = true;
-            this.cbxAirblowPre.Location = new System.Drawing.Point(350, 22);
+            this.cbxAirblowPre.Location = new System.Drawing.Point(21, 62);
             this.cbxAirblowPre.Name = "cbxAirblowPre";
             this.cbxAirblowPre.Size = new System.Drawing.Size(101, 22);
             this.cbxAirblowPre.TabIndex = 12;
@@ -586,7 +595,7 @@
             // 
             this.lblExhaustTime.BackColor = System.Drawing.Color.White;
             this.lblExhaustTime.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblExhaustTime.Location = new System.Drawing.Point(141, 147);
+            this.lblExhaustTime.Location = new System.Drawing.Point(473, 84);
             this.lblExhaustTime.Margin = new System.Windows.Forms.Padding(3);
             this.lblExhaustTime.Name = "lblExhaustTime";
             this.lblExhaustTime.Size = new System.Drawing.Size(140, 25);
@@ -597,7 +606,7 @@
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(20, 147);
+            this.label4.Location = new System.Drawing.Point(352, 84);
             this.label4.Margin = new System.Windows.Forms.Padding(3);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(115, 25);
@@ -628,9 +637,10 @@
             this.groupBox6.Controls.Add(this.label2);
             this.groupBox6.Controls.Add(this.lblP1Pos);
             this.groupBox6.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox6.Location = new System.Drawing.Point(0, 395);
+            this.groupBox6.Location = new System.Drawing.Point(0, 323);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(565, 206);
+            this.groupBox6.Padding = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.groupBox6.Size = new System.Drawing.Size(624, 203);
             this.groupBox6.TabIndex = 6;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Precisor setting";
@@ -843,9 +853,10 @@
             this.groupBox7.Controls.Add(this.label13);
             this.groupBox7.Controls.Add(this.lblLifterSpeed);
             this.groupBox7.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox7.Location = new System.Drawing.Point(0, 601);
+            this.groupBox7.Location = new System.Drawing.Point(0, 526);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(565, 137);
+            this.groupBox7.Padding = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.groupBox7.Size = new System.Drawing.Size(624, 134);
             this.groupBox7.TabIndex = 7;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Lifter Setting";
@@ -941,22 +952,52 @@
             // 
             // groupBox9
             // 
+            this.groupBox9.Controls.Add(this.label18);
+            this.groupBox9.Controls.Add(this.lblNotchAlignSpeed);
+            this.groupBox9.Controls.Add(this.label15);
+            this.groupBox9.Controls.Add(this.lblNotchCheckInterval);
+            this.groupBox9.Controls.Add(this.label11);
+            this.groupBox9.Controls.Add(this.lblWaferThickness);
             this.groupBox9.Controls.Add(this.btnNotchAlign);
             this.groupBox9.Controls.Add(this.btnNotchTeachCamPosSet);
             this.groupBox9.Controls.Add(this.btnNotchTeachCamPosGoto);
             this.groupBox9.Controls.Add(this.label3);
             this.groupBox9.Controls.Add(this.lblNotchTeachCamPos);
             this.groupBox9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox9.Location = new System.Drawing.Point(0, 738);
+            this.groupBox9.Location = new System.Drawing.Point(0, 660);
             this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(565, 84);
+            this.groupBox9.Padding = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.groupBox9.Size = new System.Drawing.Size(624, 159);
             this.groupBox9.TabIndex = 8;
             this.groupBox9.TabStop = false;
-            this.groupBox9.Text = "Other";
+            this.groupBox9.Text = "Notch Alignment";
+            // 
+            // label11
+            // 
+            this.label11.Location = new System.Drawing.Point(12, 57);
+            this.label11.Margin = new System.Windows.Forms.Padding(3);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(65, 25);
+            this.label11.TabIndex = 28;
+            this.label11.Text = "Thickness";
+            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblWaferThickness
+            // 
+            this.lblWaferThickness.BackColor = System.Drawing.Color.White;
+            this.lblWaferThickness.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblWaferThickness.Location = new System.Drawing.Point(83, 57);
+            this.lblWaferThickness.Margin = new System.Windows.Forms.Padding(3);
+            this.lblWaferThickness.Name = "lblWaferThickness";
+            this.lblWaferThickness.Size = new System.Drawing.Size(140, 25);
+            this.lblWaferThickness.TabIndex = 29;
+            this.lblWaferThickness.Text = "label6";
+            this.lblWaferThickness.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblWaferThickness.Click += new System.EventHandler(this.lblWaferThickness_Click);
             // 
             // btnNotchAlign
             // 
-            this.btnNotchAlign.Location = new System.Drawing.Point(343, 18);
+            this.btnNotchAlign.Location = new System.Drawing.Point(444, 104);
             this.btnNotchAlign.Name = "btnNotchAlign";
             this.btnNotchAlign.Size = new System.Drawing.Size(95, 40);
             this.btnNotchAlign.TabIndex = 27;
@@ -966,7 +1007,7 @@
             // 
             // btnNotchTeachCamPosSet
             // 
-            this.btnNotchTeachCamPosSet.Location = new System.Drawing.Point(171, 46);
+            this.btnNotchTeachCamPosSet.Location = new System.Drawing.Point(285, 26);
             this.btnNotchTeachCamPosSet.Name = "btnNotchTeachCamPosSet";
             this.btnNotchTeachCamPosSet.Size = new System.Drawing.Size(80, 25);
             this.btnNotchTeachCamPosSet.TabIndex = 13;
@@ -976,7 +1017,7 @@
             // 
             // btnNotchTeachCamPosGoto
             // 
-            this.btnNotchTeachCamPosGoto.Location = new System.Drawing.Point(257, 46);
+            this.btnNotchTeachCamPosGoto.Location = new System.Drawing.Point(371, 26);
             this.btnNotchTeachCamPosGoto.Name = "btnNotchTeachCamPosGoto";
             this.btnNotchTeachCamPosGoto.Size = new System.Drawing.Size(80, 25);
             this.btnNotchTeachCamPosGoto.TabIndex = 12;
@@ -986,29 +1027,76 @@
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(20, 18);
+            this.label3.Location = new System.Drawing.Point(12, 26);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(115, 25);
+            this.label3.Size = new System.Drawing.Size(65, 25);
             this.label3.TabIndex = 10;
-            this.label3.Text = "Notch Teach CamPos";
+            this.label3.Text = "CamPos";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblNotchTeachCamPos
             // 
             this.lblNotchTeachCamPos.BackColor = System.Drawing.Color.White;
             this.lblNotchTeachCamPos.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblNotchTeachCamPos.Location = new System.Drawing.Point(141, 18);
+            this.lblNotchTeachCamPos.Location = new System.Drawing.Point(83, 26);
+            this.lblNotchTeachCamPos.Margin = new System.Windows.Forms.Padding(3);
             this.lblNotchTeachCamPos.Name = "lblNotchTeachCamPos";
             this.lblNotchTeachCamPos.Size = new System.Drawing.Size(196, 25);
             this.lblNotchTeachCamPos.TabIndex = 11;
             this.lblNotchTeachCamPos.Text = "label2";
             this.lblNotchTeachCamPos.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // label15
+            // 
+            this.label15.Location = new System.Drawing.Point(12, 88);
+            this.label15.Margin = new System.Windows.Forms.Padding(3);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(65, 25);
+            this.label15.TabIndex = 30;
+            this.label15.Text = "Interval";
+            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblNotchCheckInterval
+            // 
+            this.lblNotchCheckInterval.BackColor = System.Drawing.Color.White;
+            this.lblNotchCheckInterval.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblNotchCheckInterval.Location = new System.Drawing.Point(83, 88);
+            this.lblNotchCheckInterval.Margin = new System.Windows.Forms.Padding(3);
+            this.lblNotchCheckInterval.Name = "lblNotchCheckInterval";
+            this.lblNotchCheckInterval.Size = new System.Drawing.Size(140, 25);
+            this.lblNotchCheckInterval.TabIndex = 31;
+            this.lblNotchCheckInterval.Text = "label6";
+            this.lblNotchCheckInterval.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblNotchCheckInterval.Click += new System.EventHandler(this.lblNotchCheckInterval_Click);
+            // 
+            // label18
+            // 
+            this.label18.Location = new System.Drawing.Point(12, 119);
+            this.label18.Margin = new System.Windows.Forms.Padding(3);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(65, 25);
+            this.label18.TabIndex = 32;
+            this.label18.Text = "Speed";
+            this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblNotchAlignSpeed
+            // 
+            this.lblNotchAlignSpeed.BackColor = System.Drawing.Color.White;
+            this.lblNotchAlignSpeed.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblNotchAlignSpeed.Location = new System.Drawing.Point(83, 119);
+            this.lblNotchAlignSpeed.Margin = new System.Windows.Forms.Padding(3);
+            this.lblNotchAlignSpeed.Name = "lblNotchAlignSpeed";
+            this.lblNotchAlignSpeed.Size = new System.Drawing.Size(140, 25);
+            this.lblNotchAlignSpeed.TabIndex = 33;
+            this.lblNotchAlignSpeed.Text = "label6";
+            this.lblNotchAlignSpeed.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblNotchAlignSpeed.Click += new System.EventHandler(this.lblNotchAlignSpeed_Click);
+            // 
             // frmWaferSetup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(696, 822);
+            this.ClientSize = new System.Drawing.Size(755, 819);
             this.Controls.Add(this.groupBox9);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.groupBox6);
@@ -1118,5 +1206,11 @@
         private System.Windows.Forms.Button btnNotchAlign;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label lblLifterStroke;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label lblWaferThickness;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label lblNotchCheckInterval;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label lblNotchAlignSpeed;
     }
 }

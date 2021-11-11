@@ -40,11 +40,12 @@ namespace NagaW
 
             foreach (ELogType logtype in Enum.GetValues(typeof(ELogType)))
             {
-                ToolStripButton tsbtn = new ToolStripButton(logtype.ToString()) { CheckOnClick = true, Checked = true };
+                ToolStripButton tsbtn = new ToolStripButton(logtype.ToString()) { CheckOnClick = true };
                 switch (logtype)
                 {
                     case ELogType.ALARM:
                         tsbtn.ForeColor = AlarmClr;
+                        tsbtn.Checked = true;
                         break;
                     case ELogType.PARA:
                         tsbtn.ForeColor = ParaChangeClr;
@@ -60,6 +61,7 @@ namespace NagaW
                         break;
                     case ELogType.PROCESS:
                         tsbtn.ForeColor = ProcessClr;
+                        tsbtn.Checked = true;
                         break;
                     default:
                         tsbtn.ForeColor = DefaultClr;

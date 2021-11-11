@@ -59,7 +59,7 @@
             this.tsbtnImport});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1012, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(1012, 27);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -70,7 +70,7 @@
             this.tsbtnImport.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnImport.Image")));
             this.tsbtnImport.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbtnImport.Name = "tsbtnImport";
-            this.tsbtnImport.Size = new System.Drawing.Size(47, 22);
+            this.tsbtnImport.Size = new System.Drawing.Size(58, 24);
             this.tsbtnImport.Text = "Import";
             this.tsbtnImport.Click += new System.EventHandler(this.tsbtnImport_Click);
             // 
@@ -81,7 +81,7 @@
             this.dtpickerFrom.Location = new System.Drawing.Point(52, 3);
             this.dtpickerFrom.Name = "dtpickerFrom";
             this.dtpickerFrom.ShowUpDown = true;
-            this.dtpickerFrom.Size = new System.Drawing.Size(101, 22);
+            this.dtpickerFrom.Size = new System.Drawing.Size(101, 26);
             this.dtpickerFrom.TabIndex = 2;
             // 
             // dtpickerTo
@@ -90,7 +90,7 @@
             this.dtpickerTo.Location = new System.Drawing.Point(208, 3);
             this.dtpickerTo.Name = "dtpickerTo";
             this.dtpickerTo.ShowUpDown = true;
-            this.dtpickerTo.Size = new System.Drawing.Size(115, 22);
+            this.dtpickerTo.Size = new System.Drawing.Size(115, 26);
             this.dtpickerTo.TabIndex = 3;
             // 
             // label2
@@ -117,7 +117,7 @@
             this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBox1.Location = new System.Drawing.Point(0, 0);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(1004, 557);
+            this.richTextBox1.Size = new System.Drawing.Size(1004, 547);
             this.richTextBox1.TabIndex = 5;
             this.richTextBox1.Text = "";
             // 
@@ -127,12 +127,12 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiCopyLog});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(103, 26);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(113, 28);
             // 
             // tsmiCopyLog
             // 
             this.tsmiCopyLog.Name = "tsmiCopyLog";
-            this.tsmiCopyLog.Size = new System.Drawing.Size(102, 22);
+            this.tsmiCopyLog.Size = new System.Drawing.Size(112, 24);
             this.tsmiCopyLog.Text = "Copy";
             this.tsmiCopyLog.Click += new System.EventHandler(this.tsmiCopyLog_Click);
             // 
@@ -144,7 +144,7 @@
             this.flowLayoutPanel1.Controls.Add(this.dtpickerTo);
             this.flowLayoutPanel1.Controls.Add(this.btnFilter);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 25);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 27);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(1012, 34);
             this.flowLayoutPanel1.TabIndex = 6;
@@ -164,18 +164,18 @@
             this.tabControl1.Appearance = System.Windows.Forms.TabAppearance.Buttons;
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 73);
+            this.tabControl1.Location = new System.Drawing.Point(0, 79);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1012, 587);
+            this.tabControl1.Size = new System.Drawing.Size(1012, 581);
             this.tabControl1.TabIndex = 8;
             // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.richTextBox1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 26);
+            this.tabPage1.Location = new System.Drawing.Point(4, 30);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(1004, 557);
+            this.tabPage1.Size = new System.Drawing.Size(1004, 547);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Text";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -184,15 +184,15 @@
             // 
             this.lblLogTitle.AutoSize = true;
             this.lblLogTitle.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblLogTitle.Location = new System.Drawing.Point(0, 59);
+            this.lblLogTitle.Location = new System.Drawing.Point(0, 61);
             this.lblLogTitle.Name = "lblLogTitle";
-            this.lblLogTitle.Size = new System.Drawing.Size(51, 14);
+            this.lblLogTitle.Size = new System.Drawing.Size(58, 18);
             this.lblLogTitle.TabIndex = 9;
             this.lblLogTitle.Text = "LogTitle";
             // 
             // frmLog
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1012, 660);
             this.Controls.Add(this.tabControl1);

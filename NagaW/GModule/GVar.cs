@@ -32,6 +32,9 @@ namespace NagaW
             public static int EquipmentID { get; set; }
 
             public static EZTouchType ZTouchType { get; set; } = EZTouchType.LINEAR;
+
+            [Description("Second")]
+            public static int SafetyDoorDelaySens_Seconds { get; set; } = 5;
         }
         public class Gantry
         {
@@ -759,6 +762,12 @@ namespace NagaW
             public static DPara LifterStroke = new DPara(nameof(Wafer) + nameof(LifterStroke), 21, 0, 50, EUnit.MILLIMETER);
 
             public static bool PreAirBlow = true;
+
+            public static DPara WaferThickness = new DPara(nameof(Wafer) + nameof(WaferThickness), 0.1, 0.1, 1, EUnit.MILLIMETER);
+
+            public static IPara NotchAngleCheck = new IPara(nameof(Wafer) + nameof(NotchAngleCheck), 30, 10, 45, EUnit.ANGLE);
+            public static DPara NotchAlignSpeed = new DPara(nameof(Wafer) + nameof(NotchAlignSpeed), 10, 5, 50, EUnit.MILLIMETER_PER_SECOND);
+
         }
 
         public static bool SaveFile(string filepath)

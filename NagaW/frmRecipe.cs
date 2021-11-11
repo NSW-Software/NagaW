@@ -73,6 +73,12 @@ namespace NagaW
 
         private async void btnRun_Click(object sender, EventArgs e)
         {
+            if (!TFSafety.LockDoor())
+            {
+                TFSafety.ReleaseDoor();
+                return;
+            }
+
             TCPressCtrl.StartTime[gantry.Index] = DateTime.Now;
 
             GControl.UI_Disable(btnStop);
@@ -96,6 +102,7 @@ namespace NagaW
             finally
             {
                 GControl.UI_Enable();
+                TFSafety.ReleaseDoor();
             }
         }
 

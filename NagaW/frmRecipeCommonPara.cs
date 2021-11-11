@@ -137,6 +137,7 @@ namespace NagaW
                     Para[0] = new DPara($"{index} Pre-Disp", cmd.Para[0], 0, 2, EUnit.NONE, 0, Enum.GetNames(typeof(EDynamicDispMode)));
                     Para[1] = new DPara($"{index} AccelDist", cmd.Para[1], 0, 50, EUnit.MILLIMETER);
                     Para[2] = new DPara($"{index} Post-Disp", cmd.Para[2], 0, 2, EUnit.NONE, 0, Enum.GetNames(typeof(EDynamicDispMode)));
+                    Para[3] = new DPara($"{index} Serpentine", cmd.Para[3], 0, 1, EUnit.NONE, 0, new string[] { "No", "Yes" });
                     break;
 
                 case ECmd.CLUSTER_GAP_SETUP:

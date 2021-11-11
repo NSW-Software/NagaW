@@ -2308,7 +2308,6 @@ namespace NagaW
         public static readonly TEZMCAux.TInput WaferVacHighSens = GMotDef.IN42;
         public static readonly TEZMCAux.TInput WaferVacLowSens = GMotDef.IN35;
 
-
         public static TEZMCAux.TInput SMEMA_UP_IN = GMotDef.IN32;
         public static TEZMCAux.TInput SMEMA_DN_IN = GMotDef.IN33;
         public static TEZMCAux.TOutput SMEMA_UP_OUT = GMotDef.Out36;
@@ -2317,6 +2316,8 @@ namespace NagaW
         public static bool SMEMA_ING = false;
 
         public static bool IsWaferDetected => WaferVacHighSens.Status || WaferVacLowSens.Status;
+
+        public static TEZMCAux.TOutput SvIonizer = GMotDef.Out41;
 
         //lifer motor stroke 21 - lifter Z-dimension stroke 12
         public static bool LifterUp()
@@ -2590,7 +2591,7 @@ namespace NagaW
                         SMEMA_UP_OUT.Status = false;
                         return false;
                     }
-                    if(stopwatch.ElapsedMilliseconds> timeout_ms)
+                    if (stopwatch.ElapsedMilliseconds > timeout_ms)
                     {
                         SMEMA_UP_OUT.Status = false;
                         MsgBox.ShowDialog($"Load Wafer Timeout.\nSetting Time {timeout_ms} ms");
@@ -2680,11 +2681,14 @@ namespace NagaW
         }
 
         static TEZMCAux.TAxis RAxis = GMotDef.GRAxis;
-        public static bool NotchAlignment()
+        public static bool NotchAlignment(double stepheight = 0, int angle = 0, double speed = 0)
         {
             try
             {
-                double stepheight = 0.1;
+                if (stepheight <= 0) stepheight = GProcessPara.Wafer.WaferThickness.Value;
+                if (angle <= 0) angle = GProcessPara.Wafer.NotchAngleCheck.Value;
+                if (speed <= 0) speed = GProcessPara.Wafer.NotchAlignSpeed.Value;
+
                 //List<double> hvaluelist = new List<double>();
 
                 if (!LifterHoming()) return false;
@@ -2696,19 +2700,19 @@ namespace NagaW
                 double rotaryactualpos = RAxis.ActualPos;
 
                 double notch_edge_1 = 0;    //left notch edge
-                double notch_edge_2 = 0;    //right notch edge
 
-
-                const int degree = 45;
                 //apply detection every 45 degree, 360/45 = 8 times shift checking
-                for (int i = 0; i < 360; i += degree)
+                for (int i = 0; i < 361; i += angle)
                 {
-                    if (!findnotchedge(stepheight)) return false;
+                    if (!findnotchedge()) return false;
 
                     while (RAxis.Busy) Thread.Sleep(0);
                     Thread.Sleep(500);
                     //couter-clockwise
-                    if (!RAxis.MoveRel(new double[] { 0, 10, 500, 500, 0 }, degree, false)) return false;
+
+                    GLog.LogProcess($"Notch alignment Start R Pos:{RAxis.ActualPos}, degree:{i}");
+
+                    if (!RAxis.MoveRel(new double[] { 0, speed, 500, 500, 0 }, angle, false)) return false;
 
                     double firsthvalue = 9999;
                     double hvalue = 0;
@@ -2717,6 +2721,8 @@ namespace NagaW
                     {
                         if (firsthvalue == 9999)
                         {
+                            GLog.LogProcess($"Notch alignment firstvalue:{firsthvalue}");
+
                             firsthvalue = hvalue;
                             continue;
                         }
@@ -2724,7 +2730,9 @@ namespace NagaW
                         //***\____
                         if (notch_edge_1 is 0)
                         {
-                            if ((hvalue - firsthvalue) > stepheight)
+                            GLog.LogProcess($"Notch alignment {hvalue}");
+
+                            if (((hvalue - firsthvalue) > stepheight) || (hvalue <= -50))
                             {
                                 notch_edge_1 = RAxis.ActualPos;
                                 RAxis.StopEmg();
@@ -2733,31 +2741,10 @@ namespace NagaW
                                 return true;
                             }
                         }
-
-                        //_____/*****
-                        //if (notch_edge_1 != 0 && notch_edge_2 is 0)
-                        //{
-                        //    if ((firsthvalue - hvalue) > stepheight) notch_edge_2 = RAxis.ActualPos;
-                        //}
-
-                        //firsthvalue = hvalue;
-
-                        //drop looping conditions
-
-                        if (notch_edge_1 != 0 /*&& notch_edge_2 != 0*/) break;
+                        if (notch_edge_1 != 0) break;
                         if (!RAxis.Busy) break;
                     }
-
-                    if (notch_edge_1 is 0 /*|| notch_edge_2 is 0*/) continue;
-                                        
-                    //RAxis.StopEmg();
-                    //while (RAxis.Busy) Thread.Sleep(0);
-
-                    //var parallel = (notch_edge_1 + notch_edge_2) / 2;
-                    //RAxis.SetParam(0, 30, 500, 500);
-                    //if (!RAxis.MoveAbs(parallel)) return false;
-
-                    //return true;
+                    if (notch_edge_1 is 0) continue;
                 }
 
                 return false;
@@ -2775,7 +2762,7 @@ namespace NagaW
                 RAxis.StopEmg();
             }
 
-            bool findnotchedge(double stepheight)
+            bool findnotchedge(/*double stepheight*/)
             {
                 try
                 {
@@ -2794,7 +2781,7 @@ namespace NagaW
                         hvaluelist.Add(hvalue);
                         if (hvaluelist.Count > 1)
                         {
-                            if (hvalue - hvaluelist.FirstOrDefault() > stepheight || hvalue <= -50)
+                            if ((hvalue - hvaluelist.FirstOrDefault() > stepheight) || (hvalue <= -50))
                             {
                                 gantry.StopDecel();
                                 while (gantry.Busy) Thread.Sleep(0);
@@ -2829,12 +2816,12 @@ namespace NagaW
 
     public class TFSafety
     {
-        static TEZMCAux.TOutput DoorLock = GMotDef.Out11;
-        static TEZMCAux.TInput DoorLocked = GMotDef.IN15;
+        public static TEZMCAux.TOutput DoorLock = GMotDef.Out11;
+        public static TEZMCAux.TInput DoorLocked = GMotDef.IN15;
 
-        static TEZMCAux.TInput DoorClosed = GMotDef.IN14;
+        public static TEZMCAux.TInput DoorClosed = GMotDef.IN14;
 
-        static TEZMCAux.TInput TeachAutoSens = GMotDef.IN16;
+        public static TEZMCAux.TInput TeachAutoSens = GMotDef.IN16;
 
         public static bool LockDoor()
         {
@@ -2851,7 +2838,9 @@ namespace NagaW
 
                 DoorLock.Status = true;
 
-                Thread.Sleep(500);
+                var delay = GSystemCfg.Config.SafetyDoorDelaySens_Seconds * 1000;
+                if (delay <= 0) delay = 5000;
+                Thread.Sleep(delay);
 
                 if (!DoorLocked.Status) throw new Exception($"{DoorLocked.Name} Sense Fail.");
 
@@ -2866,7 +2855,7 @@ namespace NagaW
             }
 
         }
-        public static bool ReleaseDock()
+        public static bool ReleaseDoor()
         {
             while (!TeachAutoSens.Status)
             {

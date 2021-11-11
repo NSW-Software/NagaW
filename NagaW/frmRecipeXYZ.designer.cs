@@ -39,7 +39,9 @@
             this.btnSetXY1 = new System.Windows.Forms.Button();
             this.cbxDisp = new System.Windows.Forms.CheckBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnGotoXY0 = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.btnGotoXY1 = new System.Windows.Forms.Button();
             this.pnlPara = new System.Windows.Forms.Panel();
             this.pnlPara9 = new System.Windows.Forms.Panel();
             this.lblParaDesc9 = new System.Windows.Forms.Label();
@@ -53,8 +55,7 @@
             this.pnlPara6 = new System.Windows.Forms.Panel();
             this.lblParaDesc6 = new System.Windows.Forms.Label();
             this.lblPara6 = new System.Windows.Forms.Label();
-            this.btnGotoXY0 = new System.Windows.Forms.Button();
-            this.btnGotoXY1 = new System.Windows.Forms.Button();
+            this.lblVirtualPos = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.pnlPara.SuspendLayout();
@@ -183,6 +184,7 @@
             // 
             this.panel1.AutoSize = true;
             this.panel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panel1.Controls.Add(this.lblVirtualPos);
             this.panel1.Controls.Add(this.btnGotoXY0);
             this.panel1.Controls.Add(this.lblXY0);
             this.panel1.Controls.Add(this.lblX0);
@@ -193,6 +195,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(392, 64);
             this.panel1.TabIndex = 25;
+            // 
+            // btnGotoXY0
+            // 
+            this.btnGotoXY0.Location = new System.Drawing.Point(180, 36);
+            this.btnGotoXY0.Name = "btnGotoXY0";
+            this.btnGotoXY0.Size = new System.Drawing.Size(65, 25);
+            this.btnGotoXY0.TabIndex = 23;
+            this.btnGotoXY0.Text = "Goto";
+            this.btnGotoXY0.UseVisualStyleBackColor = true;
+            this.btnGotoXY0.Click += new System.EventHandler(this.btnGotoXY0_Click);
             // 
             // panel2
             // 
@@ -208,6 +220,16 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(392, 62);
             this.panel2.TabIndex = 26;
+            // 
+            // btnGotoXY1
+            // 
+            this.btnGotoXY1.Location = new System.Drawing.Point(180, 34);
+            this.btnGotoXY1.Name = "btnGotoXY1";
+            this.btnGotoXY1.Size = new System.Drawing.Size(65, 25);
+            this.btnGotoXY1.TabIndex = 24;
+            this.btnGotoXY1.Text = "Goto";
+            this.btnGotoXY1.UseVisualStyleBackColor = true;
+            this.btnGotoXY1.Click += new System.EventHandler(this.btnGotoXY1_Click);
             // 
             // pnlPara
             // 
@@ -357,25 +379,15 @@
             this.lblPara6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lblPara6.Click += new System.EventHandler(this.lblPara6_Click);
             // 
-            // btnGotoXY0
+            // lblVirtualPos
             // 
-            this.btnGotoXY0.Location = new System.Drawing.Point(180, 36);
-            this.btnGotoXY0.Name = "btnGotoXY0";
-            this.btnGotoXY0.Size = new System.Drawing.Size(65, 25);
-            this.btnGotoXY0.TabIndex = 23;
-            this.btnGotoXY0.Text = "Goto";
-            this.btnGotoXY0.UseVisualStyleBackColor = true;
-            this.btnGotoXY0.Click += new System.EventHandler(this.btnGotoXY0_Click);
-            // 
-            // btnGotoXY1
-            // 
-            this.btnGotoXY1.Location = new System.Drawing.Point(180, 34);
-            this.btnGotoXY1.Name = "btnGotoXY1";
-            this.btnGotoXY1.Size = new System.Drawing.Size(65, 25);
-            this.btnGotoXY1.TabIndex = 24;
-            this.btnGotoXY1.Text = "Goto";
-            this.btnGotoXY1.UseVisualStyleBackColor = true;
-            this.btnGotoXY1.Click += new System.EventHandler(this.btnGotoXY1_Click);
+            this.lblVirtualPos.Location = new System.Drawing.Point(3, 34);
+            this.lblVirtualPos.Margin = new System.Windows.Forms.Padding(3);
+            this.lblVirtualPos.Name = "lblVirtualPos";
+            this.lblVirtualPos.Size = new System.Drawing.Size(100, 25);
+            this.lblVirtualPos.TabIndex = 24;
+            this.lblVirtualPos.Text = "Virtual Pos";
+            this.lblVirtualPos.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // frmRecipeXYZ
             // 
@@ -434,5 +446,6 @@
         private System.Windows.Forms.Label lblPara7;
         private System.Windows.Forms.Button btnGotoXY0;
         private System.Windows.Forms.Button btnGotoXY1;
+        private System.Windows.Forms.Label lblVirtualPos;
     }
 }

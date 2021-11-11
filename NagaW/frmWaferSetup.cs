@@ -50,6 +50,9 @@ namespace NagaW
             cbxAirblowPre.Checked = GProcessPara.Wafer.PreAirBlow;
 
             lblNotchTeachCamPos.Text = GSetupPara.Wafer.TeachNotchCamPos.ToStringForDisplay();
+            lblWaferThickness.UpdatePara(GProcessPara.Wafer.WaferThickness);
+            lblNotchCheckInterval.UpdatePara(GProcessPara.Wafer.NotchAngleCheck);
+            lblNotchAlignSpeed.UpdatePara(GProcessPara.Wafer.NotchAlignSpeed);
         }
 
         private async void btnManualLoad_Click(object sender, EventArgs e)
@@ -191,7 +194,6 @@ namespace NagaW
                 if (MessageBox.Show("Wafer - Robot performing Unloading.\nAbort process", "Warning", MessageBoxButtons.OKCancel) != DialogResult.OK) return;
                 TCWafer.SMEMA_ING = false;
             }
-            
         }
 
         private void lblP1Pos_Click(object sender, EventArgs e)
@@ -364,6 +366,22 @@ namespace NagaW
             GControl.UI_Enable();
         }
 
+        private void lblWaferThickness_Click(object sender, EventArgs e)
+        {
+            GLog.SetPara(ref GProcessPara.Wafer.WaferThickness);
+            UpdateDisplay();
+        }
 
+        private void lblNotchCheckInterval_Click(object sender, EventArgs e)
+        {
+            GLog.SetPara(ref GProcessPara.Wafer.NotchAngleCheck);
+            UpdateDisplay();
+        }
+
+        private void lblNotchAlignSpeed_Click(object sender, EventArgs e)
+        {
+            GLog.SetPara(ref GProcessPara.Wafer.NotchAlignSpeed);
+            UpdateDisplay();
+        }
     }
 }

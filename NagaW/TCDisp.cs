@@ -504,7 +504,7 @@ namespace NagaW
                     bufferUnitCR = Inst.Board[gantryNo].UnitCR;
                     bufferClusterCR = Inst.Board[gantryNo].ClusterCR;
 
-                    if (!TFSafety.LockDoor()) return false;
+                    //if (!TFSafety.LockDoor()) return false;
 
                     if (!TCTempCtrl.Monitoring()) return false;
                     TCPressCtrl.CanCheck = true;
@@ -549,7 +549,7 @@ namespace NagaW
                     System.Threading.Thread.Sleep(100);
                     GSystemCfg.Pump.Pumps.Select(x => x.VacDO).ToList().ForEach(x => GMotDef.Outputs[(int)x].Status = false);
 
-                    TFSafety.ReleaseDock();
+                    //TFSafety.ReleaseDoor();
                 }
                 return true;
             }

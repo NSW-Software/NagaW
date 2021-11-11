@@ -35,15 +35,26 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.cbxRunMode = new System.Windows.Forms.ComboBox();
-            this.tmr1s = new System.Windows.Forms.Timer(this.components);
             this.label13 = new System.Windows.Forms.Label();
             this.lblWaferInput = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.lblIntervalTimeout = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.chbxEnaNotch = new System.Windows.Forms.CheckBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lblDoorLockSens = new System.Windows.Forms.Label();
+            this.btnDoorUnlock = new System.Windows.Forms.Button();
+            this.btnDoorLock = new System.Windows.Forms.Button();
+            this.btnManualUnload = new System.Windows.Forms.Button();
+            this.btnManualLoad = new System.Windows.Forms.Button();
+            this.btnAutoUnload = new System.Windows.Forms.Button();
+            this.btnAutoLoad = new System.Windows.Forms.Button();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.chbxEnableIonizer = new System.Windows.Forms.CheckBox();
             this.flowLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // flowLayoutPanel1
@@ -54,9 +65,9 @@
             this.flowLayoutPanel1.Controls.Add(this.btnStop);
             this.flowLayoutPanel1.Controls.Add(this.btnCancel);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 252);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 465);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(420, 46);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(378, 46);
             this.flowLayoutPanel1.TabIndex = 6;
             // 
             // btnStart
@@ -107,10 +118,6 @@
             this.cbxRunMode.Size = new System.Drawing.Size(121, 26);
             this.cbxRunMode.TabIndex = 13;
             // 
-            // tmr1s
-            // 
-            this.tmr1s.Tick += new System.EventHandler(this.tmr1s_Tick);
-            // 
             // label13
             // 
             this.label13.Location = new System.Drawing.Point(12, 12);
@@ -139,9 +146,9 @@
             this.label1.Location = new System.Drawing.Point(255, 12);
             this.label1.Margin = new System.Windows.Forms.Padding(3);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(178, 25);
+            this.label1.Size = new System.Drawing.Size(137, 25);
             this.label1.TabIndex = 28;
-            this.label1.Text = "(Set 0 for infinite mode)";
+            this.label1.Text = "(0 = ∞)";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label3
@@ -174,22 +181,140 @@
             this.panel1.Controls.Add(this.label9);
             this.panel1.Controls.Add(this.cbxRunMode);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 217);
+            this.panel1.Location = new System.Drawing.Point(0, 430);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(420, 35);
+            this.panel1.Size = new System.Drawing.Size(378, 35);
             this.panel1.TabIndex = 31;
+            // 
+            // chbxEnaNotch
+            // 
+            this.chbxEnaNotch.AutoSize = true;
+            this.chbxEnaNotch.Location = new System.Drawing.Point(15, 85);
+            this.chbxEnaNotch.Name = "chbxEnaNotch";
+            this.chbxEnaNotch.Size = new System.Drawing.Size(271, 22);
+            this.chbxEnaNotch.TabIndex = 32;
+            this.chbxEnaNotch.Text = "Enable Notch Alignment After Load-in";
+            this.chbxEnaNotch.UseVisualStyleBackColor = true;
+            this.chbxEnaNotch.Click += new System.EventHandler(this.chbxEnaNotch_Click);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.AutoSize = true;
+            this.groupBox1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox1.Controls.Add(this.lblDoorLockSens);
+            this.groupBox1.Controls.Add(this.btnDoorUnlock);
+            this.groupBox1.Controls.Add(this.btnDoorLock);
+            this.groupBox1.Controls.Add(this.btnManualUnload);
+            this.groupBox1.Controls.Add(this.btnManualLoad);
+            this.groupBox1.Controls.Add(this.btnAutoUnload);
+            this.groupBox1.Controls.Add(this.btnAutoLoad);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.groupBox1.Location = new System.Drawing.Point(378, 0);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(102, 511);
+            this.groupBox1.TabIndex = 33;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Function";
+            // 
+            // lblDoorLockSens
+            // 
+            this.lblDoorLockSens.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblDoorLockSens.Location = new System.Drawing.Point(6, 431);
+            this.lblDoorLockSens.Name = "lblDoorLockSens";
+            this.lblDoorLockSens.Size = new System.Drawing.Size(90, 45);
+            this.lblDoorLockSens.TabIndex = 34;
+            this.lblDoorLockSens.Text = "DoorLock Sens";
+            this.lblDoorLockSens.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btnDoorUnlock
+            // 
+            this.btnDoorUnlock.Location = new System.Drawing.Point(6, 383);
+            this.btnDoorUnlock.Name = "btnDoorUnlock";
+            this.btnDoorUnlock.Size = new System.Drawing.Size(90, 45);
+            this.btnDoorUnlock.TabIndex = 5;
+            this.btnDoorUnlock.Text = "Door Unlock";
+            this.btnDoorUnlock.UseVisualStyleBackColor = true;
+            this.btnDoorUnlock.Click += new System.EventHandler(this.btnDoorUnlock_Click);
+            // 
+            // btnDoorLock
+            // 
+            this.btnDoorLock.Location = new System.Drawing.Point(6, 332);
+            this.btnDoorLock.Name = "btnDoorLock";
+            this.btnDoorLock.Size = new System.Drawing.Size(90, 45);
+            this.btnDoorLock.TabIndex = 4;
+            this.btnDoorLock.Text = "Door Lock";
+            this.btnDoorLock.UseVisualStyleBackColor = true;
+            this.btnDoorLock.Click += new System.EventHandler(this.btnDoorLock_Click);
+            // 
+            // btnManualUnload
+            // 
+            this.btnManualUnload.Location = new System.Drawing.Point(6, 209);
+            this.btnManualUnload.Name = "btnManualUnload";
+            this.btnManualUnload.Size = new System.Drawing.Size(90, 45);
+            this.btnManualUnload.TabIndex = 3;
+            this.btnManualUnload.Text = "Manual Unload";
+            this.btnManualUnload.UseVisualStyleBackColor = true;
+            this.btnManualUnload.Click += new System.EventHandler(this.btnManualUnload_Click);
+            // 
+            // btnManualLoad
+            // 
+            this.btnManualLoad.Location = new System.Drawing.Point(6, 158);
+            this.btnManualLoad.Name = "btnManualLoad";
+            this.btnManualLoad.Size = new System.Drawing.Size(90, 45);
+            this.btnManualLoad.TabIndex = 2;
+            this.btnManualLoad.Text = "Manual Load";
+            this.btnManualLoad.UseVisualStyleBackColor = true;
+            this.btnManualLoad.Click += new System.EventHandler(this.btnManualLoad_Click);
+            // 
+            // btnAutoUnload
+            // 
+            this.btnAutoUnload.Location = new System.Drawing.Point(6, 76);
+            this.btnAutoUnload.Name = "btnAutoUnload";
+            this.btnAutoUnload.Size = new System.Drawing.Size(90, 45);
+            this.btnAutoUnload.TabIndex = 1;
+            this.btnAutoUnload.Text = "Auto Unload";
+            this.btnAutoUnload.UseVisualStyleBackColor = true;
+            this.btnAutoUnload.Click += new System.EventHandler(this.btnAutoUnload_Click);
+            // 
+            // btnAutoLoad
+            // 
+            this.btnAutoLoad.Location = new System.Drawing.Point(6, 25);
+            this.btnAutoLoad.Name = "btnAutoLoad";
+            this.btnAutoLoad.Size = new System.Drawing.Size(90, 45);
+            this.btnAutoLoad.TabIndex = 0;
+            this.btnAutoLoad.Text = "Auto Load";
+            this.btnAutoLoad.UseVisualStyleBackColor = true;
+            this.btnAutoLoad.Click += new System.EventHandler(this.btnAutoLoad_Click);
+            // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // chbxEnableIonizer
+            // 
+            this.chbxEnableIonizer.AutoSize = true;
+            this.chbxEnableIonizer.Location = new System.Drawing.Point(15, 113);
+            this.chbxEnableIonizer.Name = "chbxEnableIonizer";
+            this.chbxEnableIonizer.Size = new System.Drawing.Size(121, 22);
+            this.chbxEnableIonizer.TabIndex = 34;
+            this.chbxEnableIonizer.Text = "Enable Ionizer";
+            this.chbxEnableIonizer.UseVisualStyleBackColor = true;
+            this.chbxEnableIonizer.Click += new System.EventHandler(this.chbxEnableIonizer_Click);
             // 
             // frmAuto
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(420, 298);
+            this.ClientSize = new System.Drawing.Size(480, 511);
+            this.Controls.Add(this.chbxEnableIonizer);
             this.Controls.Add(this.panel1);
+            this.Controls.Add(this.flowLayoutPanel1);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.chbxEnaNotch);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.lblIntervalTimeout);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.lblWaferInput);
-            this.Controls.Add(this.flowLayoutPanel1);
             this.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.Navy;
             this.Name = "frmAuto";
@@ -199,6 +324,7 @@
             this.flowLayoutPanel1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -212,12 +338,22 @@
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.ComboBox cbxRunMode;
-        private System.Windows.Forms.Timer tmr1s;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label lblWaferInput;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lblIntervalTimeout;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.CheckBox chbxEnaNotch;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button btnManualUnload;
+        private System.Windows.Forms.Button btnManualLoad;
+        private System.Windows.Forms.Button btnAutoUnload;
+        private System.Windows.Forms.Button btnAutoLoad;
+        private System.Windows.Forms.Button btnDoorUnlock;
+        private System.Windows.Forms.Button btnDoorLock;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label lblDoorLockSens;
+        private System.Windows.Forms.CheckBox chbxEnableIonizer;
     }
 }

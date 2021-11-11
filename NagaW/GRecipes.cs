@@ -620,7 +620,7 @@ namespace NagaW
         DOT_SETUP = 100,                //  DispTime    Wait
         LINE_SETUP = 120,               //  LStartDelay LSpeed      LEndDelay   Wait        (spare)     StartGap    StartLen  
         CUT_TAIL_SETUP = 130,//180,     //  ECutTailTypeLength	    Height	    Speed
-        DYNAMIC_JET_SETUP = 140,        //  Pre-Disp?   AccelDist    
+        DYNAMIC_JET_SETUP = 140,        //  Pre-Disp?   AccelDist   Post-Disp?  Serpentine    
 
         //REPEAT_SETUP,                   //  PitchX      PitchY                                                      CountX      CountY
 
@@ -628,13 +628,13 @@ namespace NagaW
         HEIGHT_SETUP = 160,//570,       //  SettleTime  RangeULmt
 
         //***Path Motions >= 200~499
-        DOT = 200,                      //  FRX         FRY                                             (resv)       Disp?
-        LINE_START = 220,               //  FRX         FRY                                             (resv)       Disp?
-        LINE_PASS = 230,                //  LRX         LRY                                             (resv)       Disp?       Radius      CornerSp    EarlyCut
-        CIRC_CENTER = 240,              //  CRX         CRY                                             (resv)       Disp?       CCW=0,CW>0
-        CIRC_PASS = 241,                //  PRX         PRY                     PRX2        PRY2        (resv)       Disp?
-        ARC_PASS = 242,                 //  PRX         PRY                     ERX2        ERY2        (resv)       Disp?
-        LINE_END = 250,                 //  LRX         LRY                                                         Disp?       ()          ()          EarlyCut
+        DOT = 200,                      //  FRX         FRY                                             (resv)      Disp?
+        LINE_START = 220,               //  FRX         FRY                                             (resv)      Disp?
+        LINE_PASS = 230,                //  LRX         LRY                                             (resv)      Disp?       Radius      CornerSp        EarlyCut
+        CIRC_CENTER = 240,              //  CRX         CRY                                             (resv)      Disp?       CCW=0,CW>0
+        CIRC_PASS = 241,                //  PRX         PRY                     PRX2        PRY2        (resv)      Disp?
+        ARC_PASS = 242,                 //  PRX         PRY                     ERX2        ERY2        (resv)      Disp?
+        LINE_END = 250,                 //  LRX         LRY                                                         Disp?       ()          ()              EarlyCut
 
         DYNAMIC_JET_DOT = 260,          //  FRX         FRY                                                         Disp?
         DYNAMIC_JET_DOT_SW,             //  FRX         FRY                                                         Disp?       JetDir 
@@ -1046,6 +1046,8 @@ namespace NagaW
             double dyAcc = 500;
 
             ERunPath dyrunpath = ERunPath.X_ZPath;
+
+            bool serpentine_enable = false;
             //***
             string cmdBuffer = sBase;
             PointXYZ lastAbsPos = new PointXYZ(0, 0, 0);
@@ -1369,8 +1371,10 @@ namespace NagaW
                             postdisp = (EDynamicDispMode)(int)cmd.Para[2];
                             dynamic_accelDist = cmd.Para[1];
 
-                            dyspeed = cmd.Para[3];
-                            dyAcc = cmd.Para[4];
+                            serpentine_enable = cmd.Para[3] > 0;
+
+                            dyspeed = cmd.Para[8];
+                            dyAcc = cmd.Para[9];
                             break;
                         }
                     #endregion
@@ -2130,16 +2134,25 @@ namespace NagaW
                             var abs_point = new PointD();
                             var accel_relDist = new PointD();
                             EDynamicJetDir jetDir = (EDynamicJetDir)(int)cmd.Para[7];
+                            bool isDisp = cmd.Para[6] is 0;
 
                             if (firstjet)
                             {
                                 dyrunpath = jetDir >= EDynamicJetDir.BackToFront ? ERunPath.Y_ZPath : ERunPath.X_ZPath;
+
+                                if (serpentine_enable)
+                                {
+                                    dyrunpath = jetDir >= EDynamicJetDir.BackToFront ? ERunPath.Y_SPath : ERunPath.X_SPath;
+                                }
+
                                 instBoard.CurrentMLayout.Unit.RunPath = dyrunpath;
                                 GRecipes.MultiLayout[gantry.Index][layoutNo].Unit.RunPath = dyrunpath;
                             }
                             else
                             {
                                 var instantrunpath = jetDir >= EDynamicJetDir.BackToFront ? ERunPath.Y_ZPath : ERunPath.X_ZPath;
+                                if (serpentine_enable) instantrunpath = jetDir >= EDynamicJetDir.BackToFront ? ERunPath.Y_SPath : ERunPath.X_SPath;
+
                                 if (dyrunpath != instantrunpath)
                                 {
                                     GAlarm.Prompt(EAlarm.DYNAMIC_JET_INVAID_DIRECTION, "Cant mix X and Y dir in a recipe");
@@ -2285,7 +2298,7 @@ namespace NagaW
                             #endregion
 
                             #region Jet
-                            if (runMode == ERunMode.Normal)
+                            if (runMode == ERunMode.Normal && isDisp)
                             {
                                 int table_startIdx = (gantryIdx + 1) * 10000;
                                 int table_endIdx = table_startIdx + table_points.Count - 1;
