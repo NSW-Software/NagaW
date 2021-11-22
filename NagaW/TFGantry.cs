@@ -2379,6 +2379,8 @@ namespace NagaW
         }
         public static bool LifterHoming()
         {
+            int timeout_ms = 10000;
+
             try
             {
                 int axisno = GMotDef.Lifter.AxisNo;
@@ -2388,12 +2390,20 @@ namespace NagaW
                 TEZMCAux.Execute($"DATUM({0})AXIS({axisno})");
                 TEZMCAux.Execute($"DATUM({homemode})AXIS({axisno})");
 
-                while (GMotDef.Lifter.Busy) Thread.Sleep(0);
-
-
+                Stopwatch sw = new Stopwatch();
+                sw.Start();
+                while (GMotDef.Lifter.Busy)
+                {
+                    Thread.Sleep(0);
+                    if (sw.ElapsedMilliseconds > timeout_ms)
+                    {
+                        throw new Exception("Check speed or lifter motor off issue");
+                    }
+                }
             }
-            catch
+            catch (Exception ex)
             {
+                GAlarm.Prompt(EAlarm.WAFER_LIFTER_HOMING_FAIL, ex);
                 return false;
             }
             return true;
@@ -2685,7 +2695,7 @@ namespace NagaW
         {
             try
             {
-                if (stepheight <= 0) stepheight = GProcessPara.Wafer.WaferThickness.Value;
+                if (stepheight <= 0) stepheight = GProcessPara.Wafer.WaferThickness.Value * 0.75;
                 if (angle <= 0) angle = GProcessPara.Wafer.NotchAngleCheck.Value;
                 if (speed <= 0) speed = GProcessPara.Wafer.NotchAlignSpeed.Value;
 
@@ -2712,16 +2722,16 @@ namespace NagaW
 
                     GLog.LogProcess($"Notch alignment Start R Pos:{RAxis.ActualPos}, degree:{i}");
 
-                    if (!RAxis.MoveRel(new double[] { 0, speed, 500, 500, 0 }, angle, false)) return false;
-
                     double firsthvalue = 9999;
                     double hvalue = 0;
+
+                    if (!RAxis.MoveRel(new double[] { 0, speed, 500, 500, 0 }, angle, false)) return false;
 
                     while (TFHSensors.Sensor[gantry.Index].GetValue(ref hvalue))
                     {
                         if (firsthvalue == 9999)
                         {
-                            GLog.LogProcess($"Notch alignment firstvalue:{firsthvalue}");
+                            GLog.LogProcess($"Notch alignment firstvalue: {hvalue}");
 
                             firsthvalue = hvalue;
                             continue;
@@ -2730,17 +2740,33 @@ namespace NagaW
                         //***\____
                         if (notch_edge_1 is 0)
                         {
-                            GLog.LogProcess($"Notch alignment {hvalue}");
 
+                            //5-3=2
                             if (((hvalue - firsthvalue) > stepheight) || (hvalue <= -50))
                             {
                                 notch_edge_1 = RAxis.ActualPos;
                                 RAxis.StopEmg();
                                 RAxis.SetParam(0, 30, 500, 500);
 
+                                GLog.LogProcess($"Notch alignment successfully: {hvalue}");
+
+                                return true;
+                            }
+
+                            //3-5=-2
+                            if ((firsthvalue - hvalue) < -stepheight)
+                            {
+                                RAxis.StopEmg();
+                                RAxis.SetParam(0, 30, 500, 500);
+                                RAxis.MoveRel(-1);
+
+                                notch_edge_1 = RAxis.ActualPos;
+
+                                GLog.LogProcess($"Notch alignment successfully: {hvalue}");
                                 return true;
                             }
                         }
+
                         if (notch_edge_1 != 0) break;
                         if (!RAxis.Busy) break;
                     }
@@ -2764,6 +2790,7 @@ namespace NagaW
 
             bool findnotchedge(/*double stepheight*/)
             {
+                #region
                 try
                 {
                     double hvalue = 0;
@@ -2808,7 +2835,7 @@ namespace NagaW
                 {
                     gantry.SetParam(GProcessPara.Operation.GXYStartSpeed.Value, GProcessPara.Operation.GXYFastSpeed.Value, GProcessPara.Operation.GXYAccel.Value, GProcessPara.Operation.GXYDecel.Value, GProcessPara.Operation.GXYJerk.Value);
                 }
-
+                #endregion
             }
         }
     }

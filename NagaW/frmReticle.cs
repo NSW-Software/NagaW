@@ -18,7 +18,7 @@ namespace NagaW
         {
             InitializeComponent();
             GControl.EditForm(this);
-            Text = "Reticle Editor";
+            this.Text = "Reticle Editor";
 
             selectedCam = SelectedCam;
         }
@@ -43,6 +43,10 @@ namespace NagaW
 
             lblColor.BackColor = reticle.Color;
             lblColor.Text = new ColorConverter().ConvertToString(reticle.Color);
+
+            tbxText.Text = reticle.Text;
+
+            nudLineWidth.Value = reticle.LineWidth;
         }
 
         private void lblColor_Click(object sender, EventArgs e)
@@ -86,6 +90,12 @@ namespace NagaW
         {
             reticle.LineWidth = (int)nudLineWidth.Value;
 
+        }
+
+        private void tbxText_TextChanged(object sender, EventArgs e)
+        {
+            reticle.Text = (sender as TextBox).Text;
+            UpdateDisplay();
         }
     }
 

@@ -29,6 +29,13 @@
         private void InitializeComponent()
         {
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.btnViewVirtualMode = new System.Windows.Forms.Button();
+            this.gbxVirtual = new System.Windows.Forms.GroupBox();
+            this.chbxEnaDynJet = new System.Windows.Forms.CheckBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.btnSetVirtualPos = new System.Windows.Forms.Button();
+            this.lblVirtualStartPos = new System.Windows.Forms.Label();
+            this.btnGotoVirtualPos = new System.Windows.Forms.Button();
             this.lblStartPosRow = new System.Windows.Forms.Label();
             this.lblStartPosCol = new System.Windows.Forms.Label();
             this.btnSetFromColRow = new System.Windows.Forms.Button();
@@ -71,18 +78,11 @@
             this.lblLayoutRow = new System.Windows.Forms.Label();
             this.lblLayoutCol = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.lblVirtualStartPos = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.gbxVirtual = new System.Windows.Forms.GroupBox();
-            this.chbxEnaDynJet = new System.Windows.Forms.CheckBox();
-            this.btnViewVirtualMode = new System.Windows.Forms.Button();
             this.groupBox4.SuspendLayout();
+            this.gbxVirtual.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.gbxLayout.SuspendLayout();
             this.gbox.SuspendLayout();
-            this.gbxVirtual.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox4
@@ -109,6 +109,84 @@
             this.groupBox4.TabIndex = 12;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Board";
+            // 
+            // btnViewVirtualMode
+            // 
+            this.btnViewVirtualMode.Location = new System.Drawing.Point(15, 99);
+            this.btnViewVirtualMode.Name = "btnViewVirtualMode";
+            this.btnViewVirtualMode.Size = new System.Drawing.Size(129, 28);
+            this.btnViewVirtualMode.TabIndex = 27;
+            this.btnViewVirtualMode.Text = "View VirtualMode";
+            this.btnViewVirtualMode.UseVisualStyleBackColor = true;
+            this.btnViewVirtualMode.Click += new System.EventHandler(this.btnViewVirtualMode_Click);
+            // 
+            // gbxVirtual
+            // 
+            this.gbxVirtual.AutoSize = true;
+            this.gbxVirtual.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.gbxVirtual.Controls.Add(this.chbxEnaDynJet);
+            this.gbxVirtual.Controls.Add(this.label6);
+            this.gbxVirtual.Controls.Add(this.btnSetVirtualPos);
+            this.gbxVirtual.Controls.Add(this.lblVirtualStartPos);
+            this.gbxVirtual.Controls.Add(this.btnGotoVirtualPos);
+            this.gbxVirtual.Location = new System.Drawing.Point(12, 133);
+            this.gbxVirtual.Name = "gbxVirtual";
+            this.gbxVirtual.Size = new System.Drawing.Size(463, 106);
+            this.gbxVirtual.TabIndex = 26;
+            this.gbxVirtual.TabStop = false;
+            this.gbxVirtual.Text = "Virtual (Enable for recipe teaching only)";
+            // 
+            // chbxEnaDynJet
+            // 
+            this.chbxEnaDynJet.AutoSize = true;
+            this.chbxEnaDynJet.Location = new System.Drawing.Point(9, 59);
+            this.chbxEnaDynJet.Name = "chbxEnaDynJet";
+            this.chbxEnaDynJet.Size = new System.Drawing.Size(197, 22);
+            this.chbxEnaDynJet.TabIndex = 26;
+            this.chbxEnaDynJet.Text = "Enable DynamicJetDotSW";
+            this.chbxEnaDynJet.UseVisualStyleBackColor = true;
+            this.chbxEnaDynJet.Click += new System.EventHandler(this.chbxEnaDynJet_Click);
+            // 
+            // label6
+            // 
+            this.label6.Location = new System.Drawing.Point(6, 25);
+            this.label6.Margin = new System.Windows.Forms.Padding(3);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(75, 25);
+            this.label6.TabIndex = 23;
+            this.label6.Text = "Start Pos";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // btnSetVirtualPos
+            // 
+            this.btnSetVirtualPos.Location = new System.Drawing.Point(301, 22);
+            this.btnSetVirtualPos.Name = "btnSetVirtualPos";
+            this.btnSetVirtualPos.Size = new System.Drawing.Size(75, 28);
+            this.btnSetVirtualPos.TabIndex = 25;
+            this.btnSetVirtualPos.Text = "Set";
+            this.btnSetVirtualPos.UseVisualStyleBackColor = true;
+            this.btnSetVirtualPos.Click += new System.EventHandler(this.btnSetVirtualPos_Click);
+            // 
+            // lblVirtualStartPos
+            // 
+            this.lblVirtualStartPos.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblVirtualStartPos.Location = new System.Drawing.Point(87, 25);
+            this.lblVirtualStartPos.Margin = new System.Windows.Forms.Padding(3);
+            this.lblVirtualStartPos.Name = "lblVirtualStartPos";
+            this.lblVirtualStartPos.Size = new System.Drawing.Size(208, 28);
+            this.lblVirtualStartPos.TabIndex = 22;
+            this.lblVirtualStartPos.Text = "X: 999,999 Y:999,999 Z:999,999";
+            this.lblVirtualStartPos.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // btnGotoVirtualPos
+            // 
+            this.btnGotoVirtualPos.Location = new System.Drawing.Point(382, 22);
+            this.btnGotoVirtualPos.Name = "btnGotoVirtualPos";
+            this.btnGotoVirtualPos.Size = new System.Drawing.Size(75, 28);
+            this.btnGotoVirtualPos.TabIndex = 24;
+            this.btnGotoVirtualPos.Text = "Goto";
+            this.btnGotoVirtualPos.UseVisualStyleBackColor = true;
+            this.btnGotoVirtualPos.Click += new System.EventHandler(this.btnGotoVirtualPos_Click);
             // 
             // lblStartPosRow
             // 
@@ -594,82 +672,6 @@
             this.label3.Text = "Pitch Row";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // label6
-            // 
-            this.label6.Location = new System.Drawing.Point(6, 25);
-            this.label6.Margin = new System.Windows.Forms.Padding(3);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(75, 25);
-            this.label6.TabIndex = 23;
-            this.label6.Text = "Start Pos";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lblVirtualStartPos
-            // 
-            this.lblVirtualStartPos.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblVirtualStartPos.Location = new System.Drawing.Point(87, 25);
-            this.lblVirtualStartPos.Margin = new System.Windows.Forms.Padding(3);
-            this.lblVirtualStartPos.Name = "lblVirtualStartPos";
-            this.lblVirtualStartPos.Size = new System.Drawing.Size(208, 28);
-            this.lblVirtualStartPos.TabIndex = 22;
-            this.lblVirtualStartPos.Text = "X: 999,999 Y:999,999 Z:999,999";
-            this.lblVirtualStartPos.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(301, 22);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 28);
-            this.button1.TabIndex = 25;
-            this.button1.Text = "Set";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(382, 22);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 28);
-            this.button2.TabIndex = 24;
-            this.button2.Text = "Goto";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // gbxVirtual
-            // 
-            this.gbxVirtual.AutoSize = true;
-            this.gbxVirtual.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.gbxVirtual.Controls.Add(this.chbxEnaDynJet);
-            this.gbxVirtual.Controls.Add(this.label6);
-            this.gbxVirtual.Controls.Add(this.button1);
-            this.gbxVirtual.Controls.Add(this.lblVirtualStartPos);
-            this.gbxVirtual.Controls.Add(this.button2);
-            this.gbxVirtual.Location = new System.Drawing.Point(12, 133);
-            this.gbxVirtual.Name = "gbxVirtual";
-            this.gbxVirtual.Size = new System.Drawing.Size(463, 106);
-            this.gbxVirtual.TabIndex = 26;
-            this.gbxVirtual.TabStop = false;
-            this.gbxVirtual.Text = "Virtual (Enable for recipe teaching only)";
-            // 
-            // chbxEnaDynJet
-            // 
-            this.chbxEnaDynJet.AutoSize = true;
-            this.chbxEnaDynJet.Location = new System.Drawing.Point(9, 59);
-            this.chbxEnaDynJet.Name = "chbxEnaDynJet";
-            this.chbxEnaDynJet.Size = new System.Drawing.Size(197, 22);
-            this.chbxEnaDynJet.TabIndex = 26;
-            this.chbxEnaDynJet.Text = "Enable DynamicJetDotSW";
-            this.chbxEnaDynJet.UseVisualStyleBackColor = true;
-            this.chbxEnaDynJet.Click += new System.EventHandler(this.chbxEnaDynJet_Click);
-            // 
-            // btnViewVirtualMode
-            // 
-            this.btnViewVirtualMode.Location = new System.Drawing.Point(15, 99);
-            this.btnViewVirtualMode.Name = "btnViewVirtualMode";
-            this.btnViewVirtualMode.Size = new System.Drawing.Size(129, 28);
-            this.btnViewVirtualMode.TabIndex = 27;
-            this.btnViewVirtualMode.Text = "View VirtualMode";
-            this.btnViewVirtualMode.UseVisualStyleBackColor = true;
-            this.btnViewVirtualMode.Click += new System.EventHandler(this.btnViewVirtualMode_Click);
-            // 
             // frmRecipeLayout
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 18F);
@@ -685,14 +687,14 @@
             this.Load += new System.EventHandler(this.frmRecipeLayout_Load);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.gbxVirtual.ResumeLayout(false);
+            this.gbxVirtual.PerformLayout();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
             this.gbxLayout.ResumeLayout(false);
             this.gbxLayout.PerformLayout();
             this.gbox.ResumeLayout(false);
             this.gbox.PerformLayout();
-            this.gbxVirtual.ResumeLayout(false);
-            this.gbxVirtual.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -745,8 +747,8 @@
         private System.Windows.Forms.Label lblStartPosCol;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label lblVirtualStartPos;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnSetVirtualPos;
+        private System.Windows.Forms.Button btnGotoVirtualPos;
         private System.Windows.Forms.GroupBox gbxVirtual;
         private System.Windows.Forms.CheckBox chbxEnaDynJet;
         private System.Windows.Forms.Button btnViewVirtualMode;

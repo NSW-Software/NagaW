@@ -419,5 +419,16 @@ namespace NagaW
             EnableDynamicJetSWSetXY = !EnableDynamicJetSWSetXY;
             UpdateDisplay();
         }
+
+        private void btnSetVirtualPos_Click(object sender, EventArgs e)
+        {
+            VirtualStartPos = new PointXYZ(gantry.PointXYZ);
+            UpdateDisplay();
+        }
+
+        private void btnGotoVirtualPos_Click(object sender, EventArgs e)
+        {
+            gantry.MoveOpXYAbs(VirtualStartPos.GetPointD().ToArray);
+        }
     }
 }

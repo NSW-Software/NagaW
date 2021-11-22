@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.tmrDisplay = new System.Windows.Forms.Timer(this.components);
             this.btnHomeAll = new System.Windows.Forms.Button();
             this.btnSetupPara = new System.Windows.Forms.Button();
@@ -485,6 +486,7 @@
             this.Controls.Add(this.pnlTop);
             this.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.Navy;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Name = "frmMain";
             this.Text = "NagaW";

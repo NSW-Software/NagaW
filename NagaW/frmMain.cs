@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace NagaW
 {
@@ -317,7 +318,8 @@ namespace NagaW
         }
         private void tsslblEvent_Click(object sender, EventArgs e)
         {
-            new frmLog().ShowDialog();
+            Process.Start(GDoc.MachineLogFile.FullName);
+            //new frmLog().ShowDialog();
         }
 
         private void pnlMain_Paint(object sender, PaintEventArgs e)

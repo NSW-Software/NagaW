@@ -38,6 +38,9 @@
             this.cbxListReticles = new System.Windows.Forms.CheckedListBox();
             this.label4 = new System.Windows.Forms.Label();
             this.nudLineWidth = new System.Windows.Forms.NumericUpDown();
+            this.label5 = new System.Windows.Forms.Label();
+            this.tbxText = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.nudSizeX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudSizeY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudLineWidth)).BeginInit();
@@ -52,13 +55,18 @@
             0,
             0});
             this.nudSizeX.Minimum = new decimal(new int[] {
-            2000,
+            1,
             0,
             0,
-            -2147483648});
+            0});
             this.nudSizeX.Name = "nudSizeX";
             this.nudSizeX.Size = new System.Drawing.Size(85, 26);
             this.nudSizeX.TabIndex = 0;
+            this.nudSizeX.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.nudSizeX.ValueChanged += new System.EventHandler(this.nudSizeX_ValueChanged);
             // 
             // nudSizeY
@@ -70,13 +78,18 @@
             0,
             0});
             this.nudSizeY.Minimum = new decimal(new int[] {
-            2000,
+            1,
             0,
             0,
-            -2147483648});
+            0});
             this.nudSizeY.Name = "nudSizeY";
             this.nudSizeY.Size = new System.Drawing.Size(85, 26);
             this.nudSizeY.TabIndex = 1;
+            this.nudSizeY.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.nudSizeY.ValueChanged += new System.EventHandler(this.nudSizeY_ValueChanged);
             // 
             // label1
@@ -174,11 +187,42 @@
             0});
             this.nudLineWidth.ValueChanged += new System.EventHandler(this.nudLineWidth_ValueChanged);
             // 
+            // label5
+            // 
+            this.label5.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.label5.Location = new System.Drawing.Point(120, 137);
+            this.label5.Margin = new System.Windows.Forms.Padding(3);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(75, 25);
+            this.label5.TabIndex = 10;
+            this.label5.Text = "Text";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // tbxText
+            // 
+            this.tbxText.Location = new System.Drawing.Point(201, 137);
+            this.tbxText.Name = "tbxText";
+            this.tbxText.Size = new System.Drawing.Size(176, 26);
+            this.tbxText.TabIndex = 11;
+            this.tbxText.TextChanged += new System.EventHandler(this.tbxText_TextChanged);
+            // 
+            // label6
+            // 
+            this.label6.Location = new System.Drawing.Point(198, 166);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(184, 25);
+            this.label6.TabIndex = 12;
+            this.label6.Text = "Use @ to split text content";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // frmReticle
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(394, 310);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.tbxText);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.nudLineWidth);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label2);
@@ -198,6 +242,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudSizeY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudLineWidth)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -213,5 +258,8 @@
         private System.Windows.Forms.CheckedListBox cbxListReticles;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.NumericUpDown nudLineWidth;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox tbxText;
+        private System.Windows.Forms.Label label6;
     }
 }

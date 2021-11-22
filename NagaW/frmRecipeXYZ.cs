@@ -187,9 +187,9 @@ namespace NagaW
 
             if (frmRecipeLayout.EnableDynamicJetSWSetXY)
             {
-                var xyz = frmRecipeLayout.VirtualStartPos;
+                var virtualpos = frmRecipeLayout.VirtualStartPos;
 
-                var newPosV = new PointXYZ(pos.X - xyz.X, pos.Y - xyz.Y, 0);
+                var newPosV = new PointXYZ(pos.X - virtualpos.X, pos.Y - virtualpos.Y, 0);
                 Para[0].Value = Tcmd.Para[0] = newPosV.X;
                 Para[1].Value = Tcmd.Para[1] = newPosV.Y;
 
@@ -236,10 +236,10 @@ namespace NagaW
 
             if (frmRecipeLayout.EnableDynamicJetSWSetXY)
             {
-                var xyz = frmRecipeLayout.VirtualStartPos;
+                var virtualpos = frmRecipeLayout.VirtualStartPos;
 
-                ptPos.X = xyz.X + Tcmd.Para[0];
-                ptPos.Y = xyz.Y + Tcmd.Para[1];
+                ptPos.X = virtualpos.X + Tcmd.Para[0];
+                ptPos.Y = virtualpos.Y + Tcmd.Para[1];
             }
 
             TFLightCtrl.LightPair[gantry.Index].Set(GRecipes.Board[gantry.Index].LightDefault);

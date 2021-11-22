@@ -2116,6 +2116,8 @@ namespace NagaW
                     case ECmd.DYNAMIC_JET_DOT_SW:
                         #region
                         {
+                            if (serpentine_enable && !firstjet) break;
+
                             var isPneumatic = dispCtrl.PumpType == EPumpType.PNEUMATIC_JET;
 
                             //  Define Direction
@@ -2144,14 +2146,12 @@ namespace NagaW
                                 {
                                     dyrunpath = jetDir >= EDynamicJetDir.BackToFront ? ERunPath.Y_SPath : ERunPath.X_SPath;
                                 }
-
                                 instBoard.CurrentMLayout.Unit.RunPath = dyrunpath;
                                 GRecipes.MultiLayout[gantry.Index][layoutNo].Unit.RunPath = dyrunpath;
                             }
                             else
                             {
                                 var instantrunpath = jetDir >= EDynamicJetDir.BackToFront ? ERunPath.Y_ZPath : ERunPath.X_ZPath;
-                                if (serpentine_enable) instantrunpath = jetDir >= EDynamicJetDir.BackToFront ? ERunPath.Y_SPath : ERunPath.X_SPath;
 
                                 if (dyrunpath != instantrunpath)
                                 {
@@ -2160,16 +2160,6 @@ namespace NagaW
                                 }
                             }
                             bool isRow = dyrunpath == ERunPath.X_SPath || dyrunpath == ERunPath.X_ZPath;
-
-                            bool[] array;
-                            switch (jetDir)
-                            {
-                                default:
-                                case EDynamicJetDir.LeftToRight:
-                                case EDynamicJetDir.RightToLeft: array = map.GetRowArray(clusterCR, unitCR); break;
-                                case EDynamicJetDir.FrontToBack:
-                                case EDynamicJetDir.BackToFront: array = map.GetColArray(clusterCR, unitCR); break;
-                            }
 
                             if (firstjet)
                             {
@@ -2187,7 +2177,19 @@ namespace NagaW
                                 if (!isNext) dy_unitRel = new PointD() - dy_unitRel;
                             }
 
+                            bool[] array;
+                            switch (jetDir)
+                            {
+                                default:
+                                case EDynamicJetDir.LeftToRight:
+                                case EDynamicJetDir.RightToLeft: array = map.GetRowArray(clusterCR, unitCR); break;
+                                case EDynamicJetDir.BackToFront:
+                                case EDynamicJetDir.FrontToBack: array = map.GetColArray(clusterCR, unitCR); break;
+                            }
+
                             EDynamicJetDir layoutdir = isRow ? dy_unitRel.X > 0 ? EDynamicJetDir.LeftToRight : EDynamicJetDir.RightToLeft : dy_unitRel.Y > 0 ? EDynamicJetDir.FrontToBack : EDynamicJetDir.BackToFront;
+
+                            if (serpentine_enable) jetDir = layoutdir;
 
                             dy_serp_unitRel = layoutdir == jetDir ? dy_unitRel : new PointD() - dy_unitRel;
 
@@ -2274,7 +2276,17 @@ namespace NagaW
                                 if (arr.Where(x => x).Count() is 0) break;
 
                                 //apply logic
-                                if (jetDir == layoutdir) finalIdx++; else finalIdx--;
+
+                                if (serpentine_enable)
+                                {
+                                    var idx = isRow ? unitCR.Y : unitCR.X;
+                                    var a = idx % 2 is 0 ? finalIdx++ : finalIdx--;
+                                }
+                                else
+                                {
+                                    if (jetDir == layoutdir) finalIdx++; else finalIdx--;
+                                }
+
                             }
 
                             //abs_point += accel_relDist;
@@ -2291,14 +2303,13 @@ namespace NagaW
                                     table_points.Add(isRow ? stoppt.X : stoppt.Y);
                                 }
                             }
-
                             abs_point += accel_relDist;
                             firstjet = false;
 
                             #endregion
 
                             #region Jet
-                            if (runMode == ERunMode.Normal && isDisp)
+                            if (runMode == ERunMode.Normal)
                             {
                                 int table_startIdx = (gantryIdx + 1) * 10000;
                                 int table_endIdx = table_startIdx + table_points.Count - 1;
@@ -2317,7 +2328,6 @@ namespace NagaW
                                     double cycletime = pneumaticJet_Params[gantry.Index].DispTime.Value + pneumaticJet_Params[gantry.Index].OffTime.Value;
                                     double optime = pneumaticJet_Params[gantry.Index].DispTime.Value;
 
-
                                     cmdBuffer += $"HW_TIMER(2, {Math.Max(2, cycletime * 1000)},{Math.Max(1, optime * 1000)},1,OFF,{trig.OutputNo}) ";
                                 }
 
@@ -2326,8 +2336,6 @@ namespace NagaW
                             }
 
                             cmdBuffer += $"MOVEABSSP({abs_point.X},{abs_point.Y}) ";
-
-                            while (gantry.Busy) Thread.Sleep(0);
 
                             TEZMCAux.DirectCommand(cmdBuffer);
                             Thread.Sleep(0);
@@ -2342,7 +2350,10 @@ namespace NagaW
                             #region Ending + SetState
                             unitCR = new PointI(temp_unitCR);
 
-                            if (CmdEnabled.Where(x => x.Cmd == cmd.Cmd).LastOrDefault() == cmd)
+                            //if (serpentine_enable) CmdEnabled.RemoveAll(x => x.Cmd == ECmd.DYNAMIC_JET_DOT_SW);
+
+
+                            if (CmdEnabled.Where(x => x.Cmd == cmd.Cmd).LastOrDefault() == cmd || serpentine_enable)
                             {
                                 foreach (var i in arr_dispIdx)
                                 {

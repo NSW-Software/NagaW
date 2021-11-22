@@ -219,6 +219,7 @@ namespace NagaW
         WAFER_DETECTED,
         WAFER_NO_DETECTED,
         WAFER_NOTCH_ALIGNMENT_FAIL,
+        WAFER_LIFTER_HOMING_FAIL,
 
         #region Safety
         DOOR_LOCK_FAIL,

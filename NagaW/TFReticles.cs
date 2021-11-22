@@ -12,18 +12,17 @@ namespace NagaW
         public enum EType
         {
             None = 0,
-            CenterCross = 1,
-            //CenterCross3 = 7,
-            //CenterReticle,
-            //Line = 2,
+            CrossCentre = 1,
             Cross = 3,
             Circle = 4,
             Rectangle = 5,
-            Text = 6
+            Text = 6,
+            CrossSplit = 47,
         }
+
         public EType Type { get; set; }
         public Point Location { get; set; }
-        public SizeF Size { get; set; } = new SizeF(1, 1);
+        public SizeF Size { get; set; } = new SizeF(50, 50);
         public string Text { get; set; } = string.Empty;
         public Color Color { get; set; } = Color.Yellow;
         public int LineWidth { get; set; } = 1;
@@ -70,12 +69,15 @@ namespace NagaW
                     {
                         default: break;
                         case TEReticle.EType.Cross:
+                            #region
                             {
                                 g.DrawLine(pen, new PointF(half_w, 0), new PointF(half_w, h));
                                 g.DrawLine(pen, new PointF(0, half_h), new PointF(w, half_h));
                                 break;
                             }
-                        case TEReticle.EType.CenterCross:
+                        #endregion
+                        case TEReticle.EType.CrossCentre:
+                            #region
                             {
                                 g.DrawLine(pen, new PointF(half_w, (float)(h * 0.4)), new PointF(half_w, (float)(h * 0.6)));
                                 g.DrawLine(pen, new PointF((float)(w * 0.4), half_h), new PointF((float)(w * 0.6), half_h));
@@ -95,25 +97,78 @@ namespace NagaW
                                 }
                                 break;
                             }
+                        #endregion
                         case TEReticle.EType.Circle:
+                            #region
                             {
-                                RectangleF Rect = new RectangleF(new PointF(half_w, half_h), r.Size);
-                                g.DrawArc(pen, (float)-0.5 + Rect.X - (r.Size.Width / 2), (float)-0.5 + Rect.Y - (r.Size.Height / 2), Rect.Width, Rect.Height, 0, 360);
+                                var camx = (float)GSystemCfg.Camera.Cameras[camNo].DistPerPixelX * 1000;
+                                var camy = (float)GSystemCfg.Camera.Cameras[camNo].DistPerPixelX * 1000;
+                                SizeF newsize = new SizeF(r.Size.Width / camx, r.Size.Height / camy);
+
+                                RectangleF Rect = new RectangleF(new PointF(half_w, half_h), newsize);
+                                g.DrawArc(pen, (float)-0.5 + Rect.X - (newsize.Width / 2), (float)-0.5 + Rect.Y - (newsize.Height / 2), Rect.Width, Rect.Height, 0, 360);
 
                                 break;
                             }
+                        #endregion
                         case TEReticle.EType.Rectangle:
+                            #region
                             {
-                                RectangleF Rect = new RectangleF(new PointF(half_w, half_h), r.Size);
-                                g.DrawRectangle(pen, (float)-0.5 + Rect.X - (r.Size.Width / 2), (float)-0.5 + Rect.Y - (r.Size.Height / 2), Rect.Width, Rect.Height);
+                                var camx = (float)GSystemCfg.Camera.Cameras[camNo].DistPerPixelX * 1000;
+                                var camy = (float)GSystemCfg.Camera.Cameras[camNo].DistPerPixelX * 1000;
+                                SizeF newsize = new SizeF(r.Size.Width / camx, r.Size.Height / camy);
+
+                                RectangleF Rect = new RectangleF(new PointF(half_w, half_h), newsize);
+                                g.DrawRectangle(pen, (float)-0.5 + Rect.X - (newsize.Width / 2), (float)-0.5 + Rect.Y - (newsize.Height / 2), Rect.Width, Rect.Height);
 
                                 break;
                             }
+                        #endregion
                         case TEReticle.EType.Text:
+                            #region
                             {
-                                g.DrawString(r.Text, new Font(new frmReticle(camNo).Font.FontFamily, r.LineWidth), pen.Brush, r.Location);
+                                string[] texts = r.Text.Split('@');
+
+                                for (int i = 0; i < texts.Length; i++)
+                                {
+                                    Point loc = new Point(r.Location.X, r.Location.Y + ((r.LineWidth + 10) * i));
+                                    g.DrawString(texts[i], new Font(new frmReticle(camNo).Font.FontFamily, r.LineWidth), pen.Brush, loc);
+                                }
+
+                                //g.DrawString(r.Text, new Font(new frmReticle(camNo).Font.FontFamily, r.LineWidth), pen.Brush, r.Location);
+
                                 break;
                             }
+                        #endregion
+                        case TEReticle.EType.CrossSplit:
+                            #region
+                            {
+                                float offset = 0.5F;
+
+                                var camx = (float)GSystemCfg.Camera.Cameras[0].DistPerPixelX * 1000;
+                                float pitchx = r.Size.Width / camx;
+                                for (float i = half_w; i < w; i += pitchx)
+                                {
+                                    g.DrawLine(pen, new PointF(i - offset, half_h + pitchx - offset), new PointF(i - offset, half_h - pitchx - offset));
+                                }
+                                for (float i = half_w; i > 0; i -= pitchx)
+                                {
+                                    g.DrawLine(pen, new PointF(i - offset, half_h + pitchx - offset), new PointF(i - offset, half_h - pitchx - offset));
+                                }
+
+                                var camy = (float)GSystemCfg.Camera.Cameras[0].DistPerPixelY * 1000;
+                                float pitchy = r.Size.Height / camy;
+                                for (float i = half_h; i < h; i += pitchy)
+                                {
+                                    g.DrawLine(pen, new PointF(half_w - pitchy - offset, i - offset), new PointF(half_w + pitchy - offset, i - offset));
+                                }
+                                for (float i = half_h; i > 0; i -= pitchy)
+                                {
+                                    g.DrawLine(pen, new PointF(half_w - pitchy - offset, i - offset), new PointF(half_w + pitchy - offset, i - offset));
+                                }
+                                break;
+                            }
+                            #endregion
                     }
                 }
             }
