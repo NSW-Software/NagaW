@@ -488,7 +488,7 @@ namespace NagaW
                         case EType.SENSOR_ILD1420:
                             //0 = Full
                             //1 = Off
-                            Sensor.SetIntExecSCmd("Set_LaserPower", "SP_LaserPower", value? 1 : 0);
+                            Sensor.SetIntExecSCmd("Set_LaserPower", "SP_LaserPower", value ? 1 : 0);
                             break;
                         default:
                             break;//no support
@@ -511,7 +511,7 @@ namespace NagaW
                             //3 = Software 
                             //4 = Encoder1(only available at option 208)
                             //5 = Encoder2(only available at option 208)
-                            Sensor.SetIntExecSCmd("Set_TriggerSource", "SP_TriggerSource", value ? 3 : 0);
+                            Sensor.SetIntExecSCmd("Set_TriggerSource", "SP_TriggerSource", value ? 2 : 0);
                             break;
                     }
 

@@ -326,12 +326,10 @@ namespace NagaW
         {
 
         }
-
         private void btnConv_Click(object sender, EventArgs e)
         {
             PublishForm(new frmConveyorcs(), pnlNone);
         }
-
         private void frmMain_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Control && e.Shift && e.Alt)
@@ -347,12 +345,10 @@ namespace NagaW
         {
             PublishForm(new frmTempCtrl(), null);
         }
-
         private void btnPressureMaster_Click(object sender, EventArgs e)
         {
             new frmPressureMaster().ShowDialog();
         }
-
         private void btnWafer_Click(object sender, EventArgs e)
         {
             PublishForm(new frmWaferSetup(TFGantry.GantryLeft), pnlRecipe);

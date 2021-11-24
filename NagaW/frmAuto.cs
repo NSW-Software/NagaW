@@ -128,6 +128,7 @@ namespace NagaW
             lblWaferInput.UpdatePara(count);
             lblIntervalTimeout.UpdatePara(timeout);
             chbxEnaNotch.Checked = EnableNotchAlignment;
+            chbxEnableIonizer.Checked = EnableSVIonizer;
         }
 
         private void lblWaferInput_Click(object sender, EventArgs e)

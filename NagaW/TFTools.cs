@@ -232,56 +232,56 @@ namespace NagaW
 
             Size btnsize = new Size(80, 40);
 
-            ToolStripButton tsbtnSelect = new ToolStripButton();
-            ToolStripButton tsbtnDual = new ToolStripButton();
+            //ToolStripButton tsbtnSelect = new ToolStripButton();
+            //ToolStripButton tsbtnDual = new ToolStripButton();
 
-            #region Select Button
-            EditTsbtn(tsbtnSelect, GantrySelect.ToString());
-            tsbtnSelect.Alignment = ToolStripItemAlignment.Left;
-            updateBtnSelect();
-            tsbtnSelect.Click += (a, b) =>
-            {
-                dualMode = false;
-                if ((int)GantrySelect >= Enum.GetNames(typeof(EGanytrySelect)).Length - 1)
-                    GantrySelect = EGanytrySelect.GantryL;
-                else
-                    GantrySelect++;
-                updateBtnSelect();
-                updateBtnDual();
-            };
-            ts.Items.Add(tsbtnSelect);
-            ts.Items.Add(new ToolStripSeparator());
+            //#region Select Button
+            //EditTsbtn(tsbtnSelect, GantrySelect.ToString());
+            //tsbtnSelect.Alignment = ToolStripItemAlignment.Left;
+            //updateBtnSelect();
+            //tsbtnSelect.Click += (a, b) =>
+            //{
+            //    dualMode = false;
+            //    if ((int)GantrySelect >= Enum.GetNames(typeof(EGanytrySelect)).Length - 1)
+            //        GantrySelect = EGanytrySelect.GantryL;
+            //    else
+            //        GantrySelect++;
+            //    updateBtnSelect();
+            //    //updateBtnDual();
+            //};
+            //ts.Items.Add(tsbtnSelect);
+            //ts.Items.Add(new ToolStripSeparator());
 
-            void updateBtnSelect()
-            {
-                tsbtnSelect.Text = GantrySelect.ToString();
-                ts.BackColor = GantrySelect == EGanytrySelect.GantryL ? GSystemCfg.Display.LeftColor : GSystemCfg.Display.RightColor;
-            }
-            #endregion
+            //void updateBtnSelect()
+            //{
+            //    tsbtnSelect.Text = GantrySelect.ToString();
+            //    ts.BackColor = GantrySelect == EGanytrySelect.GantryL ? GSystemCfg.Display.LeftColor : GSystemCfg.Display.RightColor;
+            //}
+            //#endregion
 
-            #region Dual Button - Momentary Dual Head Select
-            EditTsbtn(tsbtnDual, "Single");
-            tsbtnDual.Alignment = ToolStripItemAlignment.Left;
-            updateBtnDual();
-            tsbtnDual.Click += (a, b) =>
-            {
-                dualMode = !dualMode;
-                updateBtnSelect();
-                updateBtnDual();
-            };
-            ts.Items.Add(tsbtnDual);
-            ts.Items.Add(new ToolStripSeparator());
+            //#region Dual Button - Momentary Dual Head Select
+            //EditTsbtn(tsbtnDual, "Single");
+            //tsbtnDual.Alignment = ToolStripItemAlignment.Left;
+            //updateBtnDual();
+            //tsbtnDual.Click += (a, b) =>
+            //{
+            //    dualMode = !dualMode;
+            //    updateBtnSelect();
+            //    updateBtnDual();
+            //};
+            //ts.Items.Add(tsbtnDual);
+            //ts.Items.Add(new ToolStripSeparator());
 
-            void updateBtnDual()
-            {
-                tsbtnDual.Text = dualMode ? "Single" : "Dual";
-                if (dualMode)
-                {
-                    tsbtnSelect.Text = "Gantry(L + R)";
-                    ts.BackColor = GSystemCfg.Display.DualColor;
-                }
-            }
-            #endregion
+            //void updateBtnDual()
+            //{
+            //    tsbtnDual.Text = dualMode ? "Single" : "Dual";
+            //    if (dualMode)
+            //    {
+            //        tsbtnSelect.Text = "Gantry(L + R)";
+            //        ts.BackColor = GSystemCfg.Display.DualColor;
+            //    }
+            //}
+            //#endregion
 
             foreach (var t in DispTools)
             {
@@ -300,8 +300,8 @@ namespace NagaW
                     }
                     Execute(t.Tool);
                     dualMode = false;
-                    updateBtnSelect();
-                    updateBtnDual();
+                    //updateBtnSelect();
+                    //updateBtnDual();
                 };
                 ts.Items.Add(tsbtn);
                 ts.Items.Add(new ToolStripSeparator());

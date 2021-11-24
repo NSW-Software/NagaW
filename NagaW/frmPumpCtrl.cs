@@ -91,6 +91,8 @@ namespace NagaW
             });
 
             tabControl1.SelectedIndex = index;
+
+            tabControl1.TabPages.RemoveAt(1);
         }
     }
 }

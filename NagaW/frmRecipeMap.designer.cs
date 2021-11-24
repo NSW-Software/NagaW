@@ -51,6 +51,7 @@
             this.ssBottom = new System.Windows.Forms.StatusStrip();
             this.tsslUnit = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.tscbxViewMode = new System.Windows.Forms.ToolStripComboBox();
             this.tsbtnZoomPlus.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBox)).BeginInit();
@@ -74,7 +75,7 @@
             this.tsbtnZoomPlus.Dock = System.Windows.Forms.DockStyle.Top;
             this.tsbtnZoomPlus.Location = new System.Drawing.Point(0, 0);
             this.tsbtnZoomPlus.Name = "tsbtnZoomPlus";
-            this.tsbtnZoomPlus.Size = new System.Drawing.Size(653, 93);
+            this.tsbtnZoomPlus.Size = new System.Drawing.Size(772, 93);
             this.tsbtnZoomPlus.TabIndex = 9;
             this.tsbtnZoomPlus.TabStop = false;
             this.tsbtnZoomPlus.Text = "Navigator";
@@ -192,10 +193,11 @@
             this.tsbtnZoomFit,
             this.toolStripButton2,
             this.toolStripSeparator2,
-            this.tsbtnGoto});
+            this.tsbtnGoto,
+            this.tscbxViewMode});
             this.toolStrip1.Location = new System.Drawing.Point(0, 93);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(653, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(772, 28);
             this.toolStrip1.TabIndex = 13;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -205,14 +207,14 @@
             this.tsbtnClearAll.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnClearAll.Image")));
             this.tsbtnClearAll.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbtnClearAll.Name = "tsbtnClearAll";
-            this.tsbtnClearAll.Size = new System.Drawing.Size(69, 24);
+            this.tsbtnClearAll.Size = new System.Drawing.Size(69, 25);
             this.tsbtnClearAll.Text = "Clear All";
             this.tsbtnClearAll.Click += new System.EventHandler(this.tsbtnClearAll_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 31);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 28);
             // 
             // tsbtnZoomMinus
             // 
@@ -220,7 +222,7 @@
             this.tsbtnZoomMinus.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnZoomMinus.Image")));
             this.tsbtnZoomMinus.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbtnZoomMinus.Name = "tsbtnZoomMinus";
-            this.tsbtnZoomMinus.Size = new System.Drawing.Size(59, 28);
+            this.tsbtnZoomMinus.Size = new System.Drawing.Size(59, 25);
             this.tsbtnZoomMinus.Text = "Zoom-";
             this.tsbtnZoomMinus.Click += new System.EventHandler(this.tsbtnZoomMinus_Click);
             // 
@@ -230,7 +232,7 @@
             this.tsbtnZoomFit.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnZoomFit.Image")));
             this.tsbtnZoomFit.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbtnZoomFit.Name = "tsbtnZoomFit";
-            this.tsbtnZoomFit.Size = new System.Drawing.Size(69, 28);
+            this.tsbtnZoomFit.Size = new System.Drawing.Size(69, 25);
             this.tsbtnZoomFit.Text = "ZoomFit";
             this.tsbtnZoomFit.Click += new System.EventHandler(this.tsbtnZoomFit_Click);
             // 
@@ -240,14 +242,14 @@
             this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
             this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(63, 28);
+            this.toolStripButton2.Size = new System.Drawing.Size(63, 25);
             this.toolStripButton2.Text = "Zoom+";
             this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 31);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 28);
             // 
             // tsbtnGoto
             // 
@@ -255,13 +257,13 @@
             this.tsbtnGoto.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnGoto.Image")));
             this.tsbtnGoto.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbtnGoto.Name = "tsbtnGoto";
-            this.tsbtnGoto.Size = new System.Drawing.Size(46, 28);
+            this.tsbtnGoto.Size = new System.Drawing.Size(46, 25);
             this.tsbtnGoto.Text = "Goto";
             this.tsbtnGoto.Click += new System.EventHandler(this.tsbtnGoto_Click);
             // 
             // picBox
             // 
-            this.picBox.Location = new System.Drawing.Point(66, 22);
+            this.picBox.Location = new System.Drawing.Point(3, 3);
             this.picBox.Name = "picBox";
             this.picBox.Size = new System.Drawing.Size(284, 314);
             this.picBox.TabIndex = 11;
@@ -275,9 +277,9 @@
             this.ssBottom.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.ssBottom.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsslUnit});
-            this.ssBottom.Location = new System.Drawing.Point(0, 471);
+            this.ssBottom.Location = new System.Drawing.Point(0, 565);
             this.ssBottom.Name = "ssBottom";
-            this.ssBottom.Size = new System.Drawing.Size(653, 26);
+            this.ssBottom.Size = new System.Drawing.Size(772, 26);
             this.ssBottom.TabIndex = 12;
             this.ssBottom.Text = "statusStrip1";
             // 
@@ -292,16 +294,24 @@
             this.panel2.AutoScroll = true;
             this.panel2.Controls.Add(this.picBox);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(0, 120);
+            this.panel2.Location = new System.Drawing.Point(0, 121);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(653, 351);
+            this.panel2.Size = new System.Drawing.Size(772, 444);
             this.panel2.TabIndex = 12;
+            // 
+            // tscbxViewMode
+            // 
+            this.tscbxViewMode.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.tscbxViewMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.tscbxViewMode.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.tscbxViewMode.Name = "tscbxViewMode";
+            this.tscbxViewMode.Size = new System.Drawing.Size(121, 28);
             // 
             // frmRecipeMap
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(653, 497);
+            this.ClientSize = new System.Drawing.Size(772, 591);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.ssBottom);
             this.Controls.Add(this.toolStrip1);
@@ -348,5 +358,6 @@
         private System.Windows.Forms.StatusStrip ssBottom;
         private System.Windows.Forms.ToolStripStatusLabel tsslUnit;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.ToolStripComboBox tscbxViewMode;
     }
 }

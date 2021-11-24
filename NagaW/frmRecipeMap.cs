@@ -13,6 +13,10 @@ namespace NagaW
 {
     public partial class frmRecipeMap : Form
     {
+        enum ViewMode { NoIndex, Ordering, RowCol }
+
+        ViewMode UnitViewMode = ViewMode.NoIndex;
+
         TEZMCAux.TGroup gantry = null;
         Inst.TBoard instBoard = null;
 
@@ -55,9 +59,6 @@ namespace NagaW
                 runClusterCR = new PointI(TEZMCAux.Table(tableBase + 2), TEZMCAux.Table(tableBase + 3));
                 runUnitCR = new PointI(TEZMCAux.Table(tableBase + 0), TEZMCAux.Table(tableBase + 1));
 
-                Color on = Color.Lime;
-                Color off = Color.Transparent;
-                tsbtnGoto.BackColor = GotoPos ? on : off;
             };
             tmr.Enabled = true;
 
@@ -74,15 +75,23 @@ namespace NagaW
             this.DoubleBuffered = true;
             GControl.LogForm(this);
 
-            picBox.Paint += (a, b) =>
+            tscbxViewMode.ComboBox.DataSource = Enum.GetNames(typeof(ViewMode));
+            tscbxViewMode.ComboBox.SelectionChangeCommitted += (a, b) =>
             {
-                RefreshMap(b.Graphics);
+                UnitViewMode = (ViewMode)tscbxViewMode.ComboBox.SelectedIndex;
+                RefreshUI();
             };
+
+            picBox.Paint += (a, b) => RefreshMap(b.Graphics);
             RefreshUI();
         }
         private void UpdateDisplay()
         {
             tsslUnit.Text = $"Current Cluster: {selectedClusterCR.X + 1},{selectedClusterCR.Y + 1} Unit: {selectedUnitCR.X + 1},{selectedUnitCR.Y + 1}";
+
+            Color on = Color.Lime;
+            Color off = Color.Transparent;
+            tsbtnGoto.BackColor = GotoPos ? on : off;
         }
         private void MoveCR()
         {
@@ -147,7 +156,7 @@ namespace NagaW
             double scale = 10;
             scale = Math.Max(0, this.MapScale);
 
-            var sw = Stopwatch.StartNew();
+            //var sw = Stopwatch.StartNew();
             #region Do Scale
             List<PointF> pF = new List<PointF>();
             {
@@ -178,19 +187,20 @@ namespace NagaW
             var BtmRight = pF.OrderBy(x => x.X).OrderBy(x => x.Y).LastOrDefault();
 
             #endregion
-            Console.Write("Do Scale\t");
-            Console.WriteLine(sw.ElapsedMilliseconds);
+            //Console.Write("Do Scale\t");
+            //Console.WriteLine(sw.ElapsedMilliseconds);
 
-            sw = Stopwatch.StartNew();
+            //sw = Stopwatch.StartNew();
             #region Do Paint
 
             Pen paint = new Pen(Color.Navy);
             Pen p_linePath = new Pen(Color.DarkMagenta) { Width = (float)(scale * 0.35) };
             Pen p_unitIndex = new Pen(Color.BlueViolet);
-            Font f_unitIndex = new Font(Font.FontFamily, (float)(scale * 0.7));
+            Font f_unitIndex = new Font(this.Font.FontFamily, Math.Min((float)(scale * 0.5), this.Font.Size));
+
+            int unit_no = 0;
 
             SolidBrush sb_unitIndex = new SolidBrush(Color.Navy);
-
             {
                 MapInfos.Clear();
                 var clusterCR = new PointI();
@@ -200,7 +210,6 @@ namespace NagaW
                     float c_x = (float)(c_relpos.X * scale), c_y = -1 * (float)(c_relpos.Y * scale);
 
                     var unitCR = new PointI();
-                    int unit_no = 0;
 
                     int index = Map.GetClusterIndex(clusterCR);
                     while (true)
@@ -237,18 +246,19 @@ namespace NagaW
                             g.DrawLine(paint, new PointF(location.X + size.Width, location.Y), new PointF(location.X, location.Y + size.Height));
                         }
 
-                        g.DrawRectangle(paint, location.X, location.Y, size.Width, size.Height);
-                        g.FillRectangle(new SolidBrush(clr), rec);
-
                         string c = $"{index + 1}\r\n";
                         string info = $"{unit_no++ + 1}";
 
-                        var map = new TMapInfo
+                        g.DrawRectangle(paint, location.X, location.Y, size.Width, size.Height);
+                        g.FillRectangle(new SolidBrush(clr), rec);
+
+                        switch (UnitViewMode)
                         {
-                            Rec = rec,
-                            ClusterCR = clusterCR,
-                            UnitCR = unitCR
-                        };
+                            case ViewMode.Ordering: g.DrawString(info, f_unitIndex, sb_unitIndex, rec); break;
+                            case ViewMode.RowCol: g.DrawString($"{unitCR.Y + 1},{unitCR.X + 1}", f_unitIndex, sb_unitIndex, rec); break;
+                        }
+
+                        var map = new TMapInfo { Rec = rec, ClusterCR = clusterCR, UnitCR = unitCR };
                         MapInfos.Add(map);
 
                         unitCR = unit.NextCR(unitCR);
@@ -259,10 +269,10 @@ namespace NagaW
                 }
             }
             #endregion
-            Console.Write("Do Paint\t");
-            Console.WriteLine(sw.ElapsedMilliseconds);
+            //Console.Write("Do Paint\t");
+            //Console.WriteLine(sw.ElapsedMilliseconds);
 
-            sw = Stopwatch.StartNew();
+            //sw = Stopwatch.StartNew();
             #region Select Rect
             g.FillRectangle(new SolidBrush(Color.FromArgb(128, 0, 0, 100)), SelectRec);
 
@@ -315,8 +325,8 @@ namespace NagaW
             }
 
             #endregion
-            Console.Write("Do Recta\t");
-            Console.WriteLine(sw.ElapsedMilliseconds);
+            //Console.Write("Do Recta\t");
+            //Console.WriteLine(sw.ElapsedMilliseconds);
 
             //SizeF s = new SizeF(BtmRight.X - TopLeft.X + (int)(5 * MapScale) + (int)unit.PitchCol.X, (BtmRight.Y - TopLeft.Y) + (int)(5 * MapScale));
             SizeF s = new SizeF(BtmRight.X - TopLeft.X + (int)(MapScale*Math.Abs(unit.PitchCol.X)), (BtmRight.Y - TopLeft.Y) + (int)(MapScale * Math.Abs(unit.PitchRow.Y)));
@@ -390,6 +400,14 @@ namespace NagaW
         }
         private void picBox_MouseMove(object sender, MouseEventArgs e)
         {
+            //if (Map is null) return;
+            //TMapInfo map = MapInfos.Where(x => x.Rec.Right > e.Location.X && x.Rec.Left < e.Location.X && x.Rec.Top < e.Location.Y && x.Rec.Bottom > e.Location.Y).FirstOrDefault();
+            //if (map is null) return;
+
+            //var unitCR = map.UnitCR;
+
+            //tslblPointUnitCR.Text = $"{unitCR.ToStringForDisplay()}";
+
             if (GotoPos) return;
             if (e.Button != MouseButtons.Left) return;
             PtMove = e.Location;
@@ -454,30 +472,26 @@ namespace NagaW
             else Map.SetAll(EDispState.READY);
             RefreshUI();
         }
-
         private void tsbtnZoomMinus_Click(object sender, EventArgs e)
         {
             MapScale /= 1.5;
             RefreshUI();
         }
-
         private void tsbtnZoomFit_Click(object sender, EventArgs e)
         {
             MapScale = (this.Width / 150) - 2;
             RefreshUI();
         }
-
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
             MapScale *= 1.5;
             RefreshUI();
         }
-
         private void tsbtnGoto_Click(object sender, EventArgs e)
         {
             GotoPos = !GotoPos;
+            UpdateDisplay();
         }
-
         private void label12_Click(object sender, EventArgs e)
         {
 
