@@ -67,20 +67,18 @@ namespace NagaW
                         break;
                 }
 
-                switch (direction)
-                {
-                    case EDirection.Negative:
-                        if (axisIndex is 0) RealTimeChecking(axisIndex);
-                        if (axisIndex is 1) RealTimeChecking(axisIndex);
-                        if (axisIndex is 2) RealTimeChecking(axisIndex);
-
-                        break;
-                    case EDirection.Positive:
-                        if (axisIndex is 0) RealTimeChecking(axisIndex);
-                        if (axisIndex is 1) RealTimeChecking(axisIndex);
-
-                        break;
-                }
+                //switch (direction)
+                //{
+                //    case EDirection.Negative:
+                //        if (axisIndex is 0) RealTimeChecking(axisIndex);
+                //        if (axisIndex is 1) RealTimeChecking(axisIndex);
+                //        if (axisIndex is 2) RealTimeChecking(axisIndex);
+                //        break;
+                //    case EDirection.Positive:
+                //        if (axisIndex is 0) RealTimeChecking(axisIndex);
+                //        if (axisIndex is 1) RealTimeChecking(axisIndex);
+                //        break;
+                //}
 
                 void MoveRel(double dist)
                 {
@@ -94,6 +92,26 @@ namespace NagaW
                             break;
                     }
                 }
+
+                void RealTimeChecking(int axisindex)
+                {
+                    Task.Run(() =>
+                    {
+                        while (gantry.Axis[axisindex].Busy)
+                        {
+                            if (GMotDef.GXAxis.ActualPos > GSetupPara.Calibration.ZTouchCamPos[0].X)
+                            {
+                                if (GMotDef.GZAxis.ActualPos < GSetupPara.Calibration.ZTouchValue[0] + 1)
+                                {
+                                    JogStop(axisindex);
+                                    GAlarm.Prompt(EAlarm.JOG_EXCEED_SAFETY_ZONE, "Lift Z up to safety zone");
+                                    break;
+                                }
+                            }
+                        }
+                    });
+                }
+
             }
             catch (Exception ex)
             {
@@ -141,24 +159,25 @@ namespace NagaW
         }
 
 
-        public static void RealTimeChecking(int axisindex)
-        {
-            Task.Run(() =>
-            {
-                while (gantry.Axis[axisindex].Busy)
-                {
-                    if (GMotDef.GXAxis.ActualPos > GSetupPara.Calibration.ZTouchCamPos[0].X)
-                    {
-                        if (GMotDef.GZAxis.ActualPos < GSetupPara.Calibration.ZTouchValue[0] + 1)
-                        {
-                            JogStop(axisindex);
-                            MsgBox.ShowDialog("Exit limitation, lift Z up to safety zone");
-                            break;
-                        }
-                    }
-                }
-            });
-        }
+        //public static void RealTimeChecking(int axisindex)
+        //{
+        //    Task.Run(() =>
+        //    {
+        //        while (gantry.Axis[axisindex].Busy)
+        //        {
+        //            if (GMotDef.GXAxis.ActualPos > GSetupPara.Calibration.ZTouchCamPos[0].X)
+        //            {
+        //                if (GMotDef.GZAxis.ActualPos < GSetupPara.Calibration.ZTouchValue[0] + 1)
+        //                {
+        //                    JogStop(axisindex);
+        //                    GAlarm.Prompt(EAlarm.JOG_EXCEED_SAFETY_ZONE, "Lift Z up to safety zone");
+        //                    //MsgBox.ShowDialog("Exit limitation, ");
+        //                    break;
+        //                }
+        //            }
+        //        }
+        //    });
+        //}
     }
 }
 

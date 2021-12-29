@@ -36,6 +36,9 @@ namespace NagaW
             timer1.Interval = 1000;
 
             CreateTempCtrlUI();
+
+            GControl.LogForm(this);
+
             UpdateDisplay();
         }
 

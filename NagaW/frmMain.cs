@@ -318,8 +318,8 @@ namespace NagaW
         }
         private void tsslblEvent_Click(object sender, EventArgs e)
         {
-            Process.Start(GDoc.MachineLogFile.FullName);
-            //new frmLog().ShowDialog();
+            //Process.Start(GDoc.MachineLogFile.FullName);
+            new frmLog().Show();
         }
 
         private void pnlMain_Paint(object sender, PaintEventArgs e)
@@ -354,6 +354,12 @@ namespace NagaW
             PublishForm(new frmWaferSetup(TFGantry.GantryLeft), pnlRecipe);
 
             TFGantry.GantrySelect = TFGantry.GantryLeft;
+        }
+
+        private void btnAutoPump_Click_1(object sender, EventArgs e)
+        {
+            int index = TFGantry.GantrySelect.Index;
+            PublishForm(new frmPumpCtrl(index), null);
         }
     }
 }

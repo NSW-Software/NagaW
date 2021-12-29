@@ -33,7 +33,7 @@ namespace NagaW
 
             cbxFocusPoint.SelectedIndex = 0;
 
-            GControl.LogForm(this);
+            //GControl.LogForm(this);
             //btnGantryL.Parent.Controls.Remove(btnGantryL);
             //btnGantryR.Parent.Controls.Remove(btnGantryR);
         }
@@ -150,8 +150,9 @@ namespace NagaW
             UpdateDisplay();
         }
 
-        private void btnPosX_MouseDown(object sender, MouseEventArgs e)
+        private /*async*/ void btnPosX_MouseDown(object sender, MouseEventArgs e)
         {
+            //await Task.Run(() => TFJogGantry.JogStart(0, EDirection.Positive));
             TFJogGantry.JogStart(0, EDirection.Positive);
         }
         private void btnPosX_MouseUp(object sender, MouseEventArgs e)
@@ -164,8 +165,9 @@ namespace NagaW
                 TFJogGantry.JogStop(0);
         }
 
-        private void btnNegX_MouseDown(object sender, MouseEventArgs e)
+        private /*async*/ void btnNegX_MouseDown(object sender, MouseEventArgs e)
         {
+            //await Task.Run(() => TFJogGantry.JogStart(0, EDirection.Negative));
             TFJogGantry.JogStart(0, EDirection.Negative);
         }
         private void btnNegX_MouseUp(object sender, MouseEventArgs e)
@@ -178,8 +180,9 @@ namespace NagaW
                 TFJogGantry.JogStop(0);
         }
 
-        private void btnPosY_MouseDown(object sender, MouseEventArgs e)
+        private /*async*/ void btnPosY_MouseDown(object sender, MouseEventArgs e)
         {
+            //await Task.Run(() => TFJogGantry.JogStart(1, EDirection.Positive));
             TFJogGantry.JogStart(1, EDirection.Positive);
         }
         private void btnPosY_MouseUp(object sender, MouseEventArgs e)
@@ -192,8 +195,9 @@ namespace NagaW
                 TFJogGantry.JogStop(1);
         }
 
-        private void btnNegY_MouseDown(object sender, MouseEventArgs e)
+        private /*async*/ void btnNegY_MouseDown(object sender, MouseEventArgs e)
         {
+            //await Task.Run(() => TFJogGantry.JogStart(1, EDirection.Negative));
             TFJogGantry.JogStart(1, EDirection.Negative);
         }
         private void btnNegY_MouseUp(object sender, MouseEventArgs e)
@@ -206,8 +210,9 @@ namespace NagaW
                 TFJogGantry.JogStop(1);
         }
 
-        private void btnPosZ_MouseDown(object sender, MouseEventArgs e)
+        private /*async*/ void btnPosZ_MouseDown(object sender, MouseEventArgs e)
         {
+            //await Task.Run(() => TFJogGantry.JogStart(2, EDirection.Positive));
             TFJogGantry.JogStart(2, EDirection.Positive);
         }
         private void btnPosZ_MouseUp(object sender, MouseEventArgs e)
@@ -220,8 +225,9 @@ namespace NagaW
                 TFJogGantry.JogStop(2);
         }
 
-        private void btnNegZ_MouseDown(object sender, MouseEventArgs e)
+        private /*async*/ void btnNegZ_MouseDown(object sender, MouseEventArgs e)
         {
+            //await Task.Run(() => TFJogGantry.JogStart(2, EDirection.Negative));
             TFJogGantry.JogStart(2, EDirection.Negative);
         }
         private void btnNegZ_MouseUp(object sender, MouseEventArgs e)

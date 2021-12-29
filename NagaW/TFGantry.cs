@@ -12,7 +12,7 @@ namespace NagaW
 {
     class TFCommon
     {
-        public static bool SensMainAir { get => GMotDef.IN10.Status; }//Hi when air is present 
+        public static bool SensMainAir { get => GMotDef.IN10.Status; }//Hi when air is present
         public static bool CheckMainAirPressure//true = main air ready
         {
             get
@@ -26,6 +26,41 @@ namespace NagaW
                 }
                 return true;
             }
+        }
+    }
+
+    class TFTower
+    {
+        public static TEZMCAux.TOutput TLRed { get => GMotDef.Out32; }
+        public static TEZMCAux.TOutput TLYel { get => GMotDef.Out33; }
+        public static TEZMCAux.TOutput TLGrn { get => GMotDef.Out34; }
+        public static TEZMCAux.TOutput TLBzr { get => GMotDef.Out35; }
+
+        public static void Close()
+        {
+            TLRed.Status = false;
+            TLYel.Status = false;
+            TLGrn.Status = false;
+            TLBzr.Status = false;
+        }
+        public static void Init()
+        {
+            TLRed.Status = false;
+            TLYel.Status = true;
+            TLGrn.Status = false;
+            TLBzr.Status = false;
+        }
+
+        public static void Error(bool state)
+        {
+            TLRed.Status = state;
+            TLBzr.Status = state;
+        }
+
+        public static void Process(bool state)
+        {
+            TLYel.Status = !state;
+            TLGrn.Status = state;
         }
     }
 
@@ -2421,15 +2456,12 @@ namespace NagaW
 
             return true;
         }
-
         static bool ChuckVacToggle(bool state)
         {
             ChuckVac.Status = state;
             Thread.Sleep(500);
             return ChuckVacSens.Status == state;
         }
-
-
 
         static bool CatchWafer()
         {
@@ -2438,8 +2470,11 @@ namespace NagaW
                 if (!PrecisorHoming()) return false;
                 if (!LifterUp()) return false;
 
-                WaferVacHigh.Status = true;
-                WaferVacLow.Status = true;
+                //WaferVacHigh.Status = true;
+                //WaferVacLow.Status = true;
+
+                WaferVacHigh.Status = GProcessPara.Wafer.PreVacuumEnable;
+                WaferVacLow.Status = GProcessPara.Wafer.PreVacuumEnable;
 
                 if (!LifterHoming()) return false;
 
@@ -2501,10 +2536,15 @@ namespace NagaW
             return true;
         }
 
+        static double GRSpeed = 30;
         public static bool Manual_Load()
         {
             try
             {
+                foreach (var board in Inst.Board) board.ClearData();
+
+                GMotDef.GRAxis.SetParam(0, 30, 500, 500);
+
                 if (!ChuckVacToggle(true)) return false;
 
                 WaferVacHigh.Status = true;
@@ -2524,10 +2564,10 @@ namespace NagaW
                 WaferVacHigh.Status = false;
                 WaferVacLow.Status = false;
 
-
                 if (!PreAirBlow()) return false;
 
                 if (!gantry.GotoXYZ(GSetupPara.Wafer.ManualLoadPos)) return false;
+
                 if (!GMotDef.GRAxis.MoveAbs(0)) return false;
 
                 if (!LifterUp()) return false;
@@ -2548,6 +2588,10 @@ namespace NagaW
         {
             try
             {
+                foreach (var board in Inst.Board) board.ClearData();
+
+                GMotDef.GRAxis.SetParam(0, 30, 500, 500);
+
                 if (!gantry.GotoXYZ(GSetupPara.Wafer.ManualLoadPos)) return false;
                 if (!GMotDef.GRAxis.MoveAbs(0)) return false;
 
@@ -2573,6 +2617,10 @@ namespace NagaW
         {
             try
             {
+                foreach (var board in Inst.Board) board.ClearData();
+
+                GMotDef.GRAxis.SetParam(0, 30, 500, 500);
+
                 if (!ChuckVacToggle(true)) return false;
 
                 if (WaferVacHighSens.Status)
@@ -2609,16 +2657,6 @@ namespace NagaW
                     }
                 }
 
-                //while (SMEMA_UP_IN.Status)
-                //{
-                //    Thread.Sleep(0);
-                //    if (!SMEMA_ING)
-                //    {
-                //        SMEMA_UP_OUT.Status = false;
-                //        return false;
-                //    }
-                //}
-
                 if (!CatchWafer()) return false;
 
                 SMEMA_UP_OUT.Status = false;
@@ -2639,8 +2677,11 @@ namespace NagaW
         {
             try
             {
-                SMEMA_ING = true;
+                foreach (var board in Inst.Board) board.ClearData();
 
+                GMotDef.GRAxis.SetParam(0, 30, 500, 500);
+
+                SMEMA_ING = true;
 
                 if (!gantry.GotoXYZ(GSetupPara.Wafer.AutoLoadPos)) return false;
 
@@ -2659,16 +2700,6 @@ namespace NagaW
                         return false;
                     }
                 }
-
-                //while (SMEMA_DN_IN.Status)
-                //{
-                //    Thread.Sleep(0);
-                //    if (!SMEMA_ING)
-                //    {
-                //        SMEMA_DN_OUT.Status = false;
-                //        return false;
-                //    }
-                //}
 
                 SMEMA_DN_OUT.Status = false;
 

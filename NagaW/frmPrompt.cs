@@ -13,11 +13,6 @@ namespace NagaW
 {
     public partial class frmPrompt : Form
     {
-        public static TEZMCAux.TOutput TLRed { get => GMotDef.Out32; }
-        public static TEZMCAux.TOutput TLYellow { get => GMotDef.Out33; }
-        public static TEZMCAux.TOutput TLGreen { get => GMotDef.Out34; }
-        public static TEZMCAux.TOutput TLBuzzer { get => GMotDef.Out35; }
-
         public frmPrompt()
         {
             InitializeComponent();
@@ -42,8 +37,7 @@ namespace NagaW
 
             var screenbound = Screen.AllScreens[0].Bounds;
             if (Application.OpenForms[0].Name.Contains("frmMain")) Location = new Point(screenbound.Right/*Application.OpenForms[0].Right*/ - Width, screenbound.Bottom/* Application.OpenForms[0].Bottom*/ - Height);
-            TLRed.Status = true;
-            TLBuzzer.Status = true;
+            //TFTower.Error(true);
             GControl.LogForm(this);
         }
 
@@ -57,8 +51,10 @@ namespace NagaW
         }
         private void btnClear_Click(object sender, EventArgs e)
         {
-            TLRed.Status = false;
-            TLBuzzer.Status = false;
+            //TFTower.Error(false);
+
+            //TFCommon.TLRed.Status = false;
+            //TFCommon.TLBzr.Status = false;
             this.Close();
         }
 

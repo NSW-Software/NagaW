@@ -16,9 +16,12 @@ namespace NagaW
         TEZMCAux.TGroup gantry;
         Inst.TBoard InstBoard;
 
-        public frmRecipe(TEZMCAux.TGroup gantry)
+        public frmRecipe()
         {
             InitializeComponent();
+        }
+        public frmRecipe(TEZMCAux.TGroup gantry) : this()
+        {
             this.gantry = gantry;
             InstBoard = Inst.Board[gantry.Index];
 
@@ -73,17 +76,21 @@ namespace NagaW
 
         private async void btnRun_Click(object sender, EventArgs e)
         {
+
             if (!TFSafety.LockDoor())
             {
                 TFSafety.ReleaseDoor();
                 return;
             }
 
+
             TCPressCtrl.StartTime[gantry.Index] = DateTime.Now;
 
             GControl.UI_Disable(btnStop);
 
             if (InstBoard.RunMode != ERunMode.Camera) TFLightCtrl.LightPair[gantry.Index].Off();
+
+            TFTower.Process(true);
 
             try
             {
@@ -101,6 +108,8 @@ namespace NagaW
             }
             finally
             {
+                TFTower.Process(false);
+
                 GControl.UI_Enable();
                 TFSafety.ReleaseDoor();
             }

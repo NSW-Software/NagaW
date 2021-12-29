@@ -19,9 +19,11 @@ namespace NagaW
             {
                 Mtx.WaitOne();
 
-                GEvent.Start(EEvent.PROMPT_ALARM, alarm.ToString() + " " + msg);
+                TFTower.Error(true);
+                //GEvent.Start(EEvent.PROMPT_ALARM, alarm.ToString() + " " + msg);
                 GLog.WriteLog(ELogType.ALARM, $"{alarm} {msg}");
                 new frmPrompt(SystemIcons.Error, Color.Red, $"{(int)alarm:d4}", alarm.ToString() + "\r\n\n" + msg).ShowDialog();
+                TFTower.Error(false);
 
                 Mtx.ReleaseMutex();
             });
@@ -223,6 +225,7 @@ namespace NagaW
 
         #region Safety
         DOOR_LOCK_FAIL,
+        JOG_EXCEED_SAFETY_ZONE,
         #endregion
     }
 }

@@ -572,10 +572,13 @@ namespace NagaW
                     {
                         if (temp.Enable)
                         {
-                            //GLog.LogProcess($"Checking Temp{temp.Address}, status Enable[{temp.Enable}]");
+                            
+                            if (TFTempCtrl.TempCtrl.IsRunning(temp.Address))
+                            {
+                                GLog.LogProcess($"Closing Temp{temp.Address}");
+                                TFTempCtrl.TempCtrl.Stop(temp.Address);
+                            }
 
-                            GLog.LogProcess($"Closing Temp{temp.Address}");
-                            TFTempCtrl.TempCtrl.Stop(temp.Address);
                         }
                     }
                 }

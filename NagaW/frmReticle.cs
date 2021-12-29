@@ -14,9 +14,13 @@ namespace NagaW
     {
         int selectedCam = 0;
         TEReticle reticle = new TEReticle();
-        public frmReticle(int SelectedCam)
+
+        public frmReticle()
         {
             InitializeComponent();
+        }
+        public frmReticle(int SelectedCam) : this()
+        {
             GControl.EditForm(this);
             this.Text = "Reticle Editor";
 
@@ -81,7 +85,7 @@ namespace NagaW
         private void cbxListReticles_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             int i = cbxListReticles.SelectedIndex;
-            if (i< 0) return;
+            if (i < 0) return;
 
             GRecipes.Reticle[selectedCam][i].Enable = !cbxListReticles.GetItemChecked(i);
             UpdateDisplay();

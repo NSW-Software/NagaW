@@ -22,10 +22,12 @@ namespace NagaW
         public static PointXYZ VirtualStartPos = new PointXYZ();
         public static bool EnableDynamicJetSWSetXY = false;
 
-        public frmRecipeLayout(TEZMCAux.TGroup gantry)
+        public frmRecipeLayout()
         {
             InitializeComponent();
-            //TFunction Function = new TFunction();
+        }
+        public frmRecipeLayout(TEZMCAux.TGroup gantry):this()
+        {
             this.gantry = gantry;
         }
         private void frmRecipeLayout_Load(object sender, EventArgs e)

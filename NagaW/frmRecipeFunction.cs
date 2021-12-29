@@ -17,9 +17,12 @@ namespace NagaW
         TEZMCAux.TGroup gantry;
 
         TFunction Function = new TFunction();
-        public frmRecipeFunction(TEZMCAux.TGroup gantry)
+        public frmRecipeFunction()
         {
             InitializeComponent();
+        }
+        public frmRecipeFunction(TEZMCAux.TGroup gantry) : this()
+        {
             this.gantry = gantry;
         }
         private void frmRecipe_Load(object sender, EventArgs e)

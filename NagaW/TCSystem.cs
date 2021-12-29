@@ -132,6 +132,7 @@ namespace NagaW
             GSetupPara.LoadFile();
             TFTool.Load();
             TFUser.LoadFile();
+            GControl.InitLangForAll();
             #endregion
 
             RunExternalApp();
@@ -154,6 +155,8 @@ namespace NagaW
             #region Load Modules
             MsgBox.Processing("Start Up, Pls Wait...", () =>
             {
+                TFTower.Init();
+
                 if (GSystemCfg.Light.Lights.StartUpEnable) TFLightCtrl.Lights.Open();
                 for (int k = 0; k < GSystemCfg.FPress.Count; k++) if (GSystemCfg.FPress.FPresses[k].StartUpEnable) TFPressCtrl.FPress[k].Open();
                 
@@ -162,8 +165,6 @@ namespace NagaW
 
                 for (int k = 0; k < GSystemCfg.HSensor.Count; k++) if (GSystemCfg.HSensor.HSensors[k].StartUpEnable) TFHSensors.Sensor[k].Open();
                 for (int k = 0; k < GSystemCfg.Camera.Count; k++) if (GSystemCfg.Camera.Cameras[k].StartUpEnable) try { TFCameras.Camera[k].Connect(); } catch { };
-
-
                 for (int k = 0; k < GSystemCfg.Pump.Count; k++)
                 {
                     var dpCtrl = GSystemCfg.Pump.Pumps[k];
@@ -177,10 +178,6 @@ namespace NagaW
                             }
                             break;
                         case EPumpType.SP:
-                        //case EPumpType.VERMES_1560:
-                        //case EPumpType.HM:
-                        //case EPumpType.PP4:
-                        //case EPumpType.VERMES_3200:
                         default:
                             break;
                     }
@@ -190,14 +187,12 @@ namespace NagaW
             #endregion
 
             #region Initialization
-            if (GSystemCfg.Config.StartUpInitialize && MsgBox.ShowDialog("Initialize?", MsgBoxBtns.OKCancel) == DialogResult.OK) MsgBox.Processing("Homing in Progress.", () =>
-            {
-                InitAll();
-            });
+            if (GSystemCfg.Config.StartUpInitialize && MsgBox.ShowDialog("Initialize?", MsgBoxBtns.OKCancel) == DialogResult.OK) MsgBox.Processing("Homing in Progress.", () => InitAll());
 
             _LoadRecipe:
             if (GSystemCfg.Config.StartUpLoadRecipe) GRecipes.LoadLastWrite();
             return true;
+
             #endregion
         }
         public static bool ShutDown()
@@ -224,7 +219,7 @@ namespace NagaW
                 TFPump.Close();
 
             });
-
+            TFTower.Close();
             TFGantry.Close();
 
             return true;

@@ -16,9 +16,13 @@ namespace NagaW
         TEZMCAux.TGroup gantry;
 
         int SelectedHead = 0;
-        public frmSetup(TEZMCAux.TGroup gantry)
+
+        public frmSetup()
         {
             InitializeComponent();
+        }
+        public frmSetup(TEZMCAux.TGroup gantry):this()
+        {
 
             TFGantry.GantrySelect = TFGantry.GantryLeft;
             this.gantry = TFGantry.GantrySelect;

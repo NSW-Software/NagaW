@@ -1108,15 +1108,10 @@ namespace NagaW
                     cmdBuffer += $"MOVEABS({lastAbsPos.X:f6},{lastAbsPos.Y:f6},{GRecipes.Board[gantry.Index].StartPos.Z:f6}) ";
                 }
                 if (runMode > ERunMode.Camera)
-                //else
                 {
-                    //if (FunctionFirstExecution) moveNextDispCmdAtXYPlane = true;
-
                     if (moveNextDispCmdAtXYPlane)
                     {
                         moveNextDispCmdAtXYPlane = false;
-                        //double d = gantry.ZAxis.ActualPos;
-                        //cmdBuffer += $"MOVEABS({lastAbsPos.X:f6},{lastAbsPos.Y:f6},{d}) ";
                         cmdBuffer += $"MOVEABS({lastAbsPos.X:f6},{lastAbsPos.Y:f6},{moveClusterGapAbsZ}) ";
                         cmdBuffer += $"MOVE_DELAY({0}) ";
                     }
@@ -3727,8 +3722,6 @@ namespace NagaW
 
             heightData.Status = EHeightAlignStatus.NG;
 
-            //PointD ptOri1 = new PointD(cmd.Para[0], cmd.Para[1]);
-            //gantryGroup.MoveOpXYAbs((originAbs + ptOri1).ToArray);
             gantryGroup.MoveOpXYAbs((originAbs).ToArray);
 
             var settletime = cmd.Para[3] > 0 ? (int)cmd.Para[3] : GProcessPara.HSensor.SettleTime.Value;
@@ -3742,8 +3735,8 @@ namespace NagaW
                 return false;
             }
 
-
-
+            GLog.LogProcess("HeightAlignExecute" + hSensorValue.ToString());
+            
             if (hSensorValue <= -999 || hSensorValue >= 999)
             {
                 heightData.Status = EHeightAlignStatus.Error;
@@ -3754,25 +3747,11 @@ namespace NagaW
 
             heightData.SensorValue = Math.Round(hSensorValue, 5);
             heightData.Status = EHeightAlignStatus.Aligned;
+
             return true;
         }
         public EAction HeightCal(List<double> hsensor, double rangeLimit, PointI clusterCR, PointI unitCR, out double average)
         {
-            //average = 0;
-            //GLog.LogProcess($"Height Align Data {string.Join(",", hsensor)}");
-            //GLog.LogProcess($"Height Align Data Average {hsensor.Average()}");
-            //GLog.LogProcess($"Height Align Data Range {Math.Abs(hsensor.Max() - hsensor.Min())}");
-
-            //if (hsensor.Count > 0)
-            //{
-            //    if (Math.Abs(hsensor.Max() - hsensor.Min()) > offset)
-            //    {
-            //        GAlarm.Prompt(EAlarm.HEIGHT_ALIGN_OVER_OFFSET);
-            //        return false;
-            //    }
-            //}
-            //average = hsensor.Average();
-            //return true;
             average = 0;
 
             try

@@ -638,12 +638,13 @@ namespace NagaW
 
             try
             {
-                //Online = pingIpAddress;
+                Online = pingIpAddress;
 
                 WriteLog($"ZAux_OpenEth\t{0}\t{ipAddress}");
                 int errCode = ZAux_OpenEth(ipAddress, out g_handle);
                 if (errCode != 0)
                 {
+                    Online = false;
                     throw new Exception(ErrorString(errCode));
                 }
                 if (g_handle != IntPtr.Zero)

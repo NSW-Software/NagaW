@@ -350,6 +350,7 @@
             // tsTools
             // 
             this.tsTools.AutoSize = false;
+            this.tsTools.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.tsTools.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.tsTools.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.tsTools.Location = new System.Drawing.Point(0, 563);
@@ -470,6 +471,7 @@
             this.btnAutoPump.Text = "Pump";
             this.btnAutoPump.UseVisualStyleBackColor = true;
             this.btnAutoPump.Visible = false;
+            this.btnAutoPump.Click += new System.EventHandler(this.btnAutoPump_Click_1);
             // 
             // frmMain
             // 

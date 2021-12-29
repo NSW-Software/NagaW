@@ -61,7 +61,7 @@ namespace NagaW
                         break;
                     case ELogType.PROCESS:
                         tsbtn.ForeColor = ProcessClr;
-                        tsbtn.Checked = true;
+                        //tsbtn.Checked = true;
                         break;
                     default:
                         tsbtn.ForeColor = DefaultClr;
@@ -89,35 +89,31 @@ namespace NagaW
         }
         private void WriteRichTextBoxwithLog()
         {
-            var filter = toolStrip1.Items.OfType<ToolStripButton>()
-                    .Where(x => x.Checked)
-                    .Select(x => x.Text);
+            var filter = toolStrip1.Items.OfType<ToolStripButton>().Where(x => x.Checked).Select(x => x.Text);
 
-            var logs = Logs
-                .Where(x => filter.Contains(x.LogType.ToString()))
-                .Where(x => x.Time.TimeOfDay >= dtpickerFrom.Value.TimeOfDay && x.Time.TimeOfDay <= dtpickerTo.Value.TimeOfDay).ToList();
+            var logs = Logs.Where(x => filter.Contains(x.LogType.ToString())).Where(x => x.Time.TimeOfDay >= dtpickerFrom.Value.TimeOfDay && x.Time.TimeOfDay <= dtpickerTo.Value.TimeOfDay).ToList();
             
-            richTextBox1.Clear();
+            //richTextBox1.Clear();
+            string text = string.Join("\n", logs.Select(x => x.GenerateLogForDisplay()).ToArray());
 
+            //logs.ForEach(x =>
+            //{
+            //    string log = x.GenerateLogForDisplay();
+            //    //richTextBox1.Select(richTextBox1.Text.Length, log.Length);
 
-            logs.ForEach(x =>
-            {
-                string log = x.GenerateLogForDisplay();
-                //richTextBox1.Select(richTextBox1.Text.Length, log.Length);
-                
-                //switch (x.LogType)
-                //{
-                //    case ELogType.ALARM: richTextBox1.SelectionColor = AlarmClr; break;
-                //    case ELogType.PARA: richTextBox1.SelectionColor = ParaChangeClr; break;
-                //    case ELogType.EVENT: richTextBox1.SelectionColor = EventClr; break;
-                //    case ELogType.NOTIFY: richTextBox1.SelectionColor = NotifyClr; break;
-                //    case ELogType.EXCEP: richTextBox1.SelectionColor = ExceptionClr; break;
-                //    case ELogType.PROCESS: richTextBox1.SelectionColor = ProcessClr; break;
-                //    default: richTextBox1.SelectionColor = DefaultClr; break;
-                //}
-                richTextBox1.AppendText(log + Environment.NewLine);
-            });
-
+            //    //switch (x.LogType)
+            //    //{
+            //    //    case ELogType.ALARM: richTextBox1.SelectionColor = AlarmClr; break;
+            //    //    case ELogType.PARA: richTextBox1.SelectionColor = ParaChangeClr; break;
+            //    //    case ELogType.EVENT: richTextBox1.SelectionColor = EventClr; break;
+            //    //    case ELogType.NOTIFY: richTextBox1.SelectionColor = NotifyClr; break;
+            //    //    case ELogType.EXCEP: richTextBox1.SelectionColor = ExceptionClr; break;
+            //    //    case ELogType.PROCESS: richTextBox1.SelectionColor = ProcessClr; break;
+            //    //    default: richTextBox1.SelectionColor = DefaultClr; break;
+            //    //}
+            //    richTextBox1.AppendText(log + Environment.NewLine);
+            //});
+            richTextBox1.Text = text;
         }
         private void tsbtnImport_Click(object sender, EventArgs e)
         {

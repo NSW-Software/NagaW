@@ -13,15 +13,20 @@ namespace NagaW
     public partial class frmWaferSetup : Form
     {
         TEZMCAux.TGroup gantry;
-        public frmWaferSetup(TEZMCAux.TGroup gantry)
+
+        public frmWaferSetup()
         {
             InitializeComponent();
+        }
+        public frmWaferSetup(TEZMCAux.TGroup gantry) : this()
+        {
             Text = "Wafer Setup";
             this.gantry = gantry;
         }
         private void frmWaferSetup_Load(object sender, EventArgs e)
         {
             GMotDef.GVAxis.MoveAbs(0);
+            GControl.LogForm(this);
             UpdateDisplay();
             timer1.Enabled = true;
         }
@@ -48,6 +53,7 @@ namespace NagaW
             lblLifterStroke.UpdatePara(GProcessPara.Wafer.LifterStroke);
 
             cbxAirblowPre.Checked = GProcessPara.Wafer.PreAirBlow;
+            cbxPreVac.Checked = GProcessPara.Wafer.PreVacuumEnable;
 
             lblNotchTeachCamPos.Text = GSetupPara.Wafer.TeachNotchCamPos.ToStringForDisplay();
             lblWaferThickness.UpdatePara(GProcessPara.Wafer.WaferThickness);
@@ -381,6 +387,12 @@ namespace NagaW
         private void lblNotchAlignSpeed_Click(object sender, EventArgs e)
         {
             GLog.SetPara(ref GProcessPara.Wafer.NotchAlignSpeed);
+            UpdateDisplay();
+        }
+
+        private void cbxPreVac_Click(object sender, EventArgs e)
+        {
+            GProcessPara.Wafer.PreVacuumEnable = !GProcessPara.Wafer.PreVacuumEnable;
             UpdateDisplay();
         }
     }

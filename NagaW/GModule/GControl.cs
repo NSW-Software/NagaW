@@ -13,12 +13,17 @@ using System.Runtime.Hosting;
 using System.Runtime.CompilerServices;
 using System.Xml;
 using System.Runtime.InteropServices;
-//using SpinnakerNET;
-//using Emgu.CV.XFeatures2D;
+using System.IO;
+
 
 namespace NagaW
 {
-    public enum ELanguage { Default, Korea, ChineseS }
+    public enum ELanguage 
+    { 
+        Default, 
+        Korea, 
+        Chinese 
+    }
 
     public static class GControl
     {
@@ -476,9 +481,9 @@ namespace NagaW
         {
             IniFile iniFile = new IniFile(GDoc.LanguageDir.FullName + lang.ToString() + "\\" + frm.Name + ".lang");
 
-            foreach (var ctrl in GetChildItems(frm, LangUsedControl))
+            foreach (var ctrl in GetChildItems(frm, LangUsedControl).Where(x => !string.IsNullOrEmpty(x.Name)))
             {
-                if (string.IsNullOrEmpty(ctrl.Name)) continue;
+                //if (string.IsNullOrEmpty(ctrl.Name)) continue;
                 iniFile.Write(ctrl.Name, ctrl.Text, string.Empty);
             }
         }
@@ -490,9 +495,9 @@ namespace NagaW
         {
             IniFile iniFile = new IniFile(GDoc.LanguageDir.FullName + lang.ToString() + "\\" + frm.Name + ".lang");
 
-            foreach (var ctrl in GetChildItems(frm, LangUsedControl))
+            foreach (var ctrl in GetChildItems(frm, LangUsedControl).Where(x => !string.IsNullOrEmpty(x.Name)))
             {
-                if (string.IsNullOrEmpty(ctrl.Name)) continue;
+                //if (string.IsNullOrEmpty(ctrl.Name)) continue;
 
                 string ctrltext = ctrl.Text;
                 if (iniFile.ReadString(ctrl.Name, ctrl.Text, ref ctrltext))
@@ -506,13 +511,32 @@ namespace NagaW
         {
             LoadLang(frm, GSystemCfg.Display.Language);
         }
+
         public static void SaveLangForAll()
         {
-            var frms = Assembly.GetExecutingAssembly().GetTypes()
-                .Where(x => x.BaseType == typeof(Form))
-                .Select(x => (Form)Activator.CreateInstance(x));
+            var frms = Assembly.GetExecutingAssembly().GetTypes().Where(x => x.BaseType == typeof(Form)).Select(x => (Form)Activator.CreateInstance(x));
 
-            frms.ToList().ForEach(x => SaveLang(x, ELanguage.Default));
+            frms.ToList().ForEach(x => SaveLang(x, GSystemCfg.Display.Language));
+        }
+        public static void InitLangForAll()
+        {
+            Enum.GetNames(typeof(ELanguage)).SkipWhile(x => x == $"{ELanguage.Default}").ToList().ForEach(x => Directory.CreateDirectory(GDoc.LanguageDir.FullName + x));
+
+            if (GSystemCfg.Display.Language != ELanguage.Default && Directory.GetFiles(GDoc.LanguageDir.FullName + GSystemCfg.Display.Language.ToString()).Length is 0) SaveLangForAll();
+
+            Timer tmr = new Timer() { Interval = 500 };
+            tmr.Tick += (a, b) =>
+            {
+                foreach (var frm in Application.OpenForms.OfType<Form>())
+                {
+                    if (frm.Tag is null)
+                    {
+                        frm.Tag = true;
+                        GControl.LoadLang(frm);
+                    }
+                }
+            };
+            tmr.Enabled = true;
         }
 
         public static string ToStringForDisplay(this EUnit unit)

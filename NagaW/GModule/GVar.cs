@@ -431,9 +431,9 @@ namespace NagaW
             public static PointXYZ AutoLoadPos = new PointXYZ();
             public static PointXYZ AirBlowPos = new PointXYZ();
 
-            public static DPara PrecisorPos_1 = new DPara(nameof(Wafer) + nameof(PrecisorPos_1), 0, 0, 120, EUnit.DEGREE_CELSIUS);
-            public static DPara PrecisorPos_2 = new DPara(nameof(Wafer) + nameof(PrecisorPos_2), 0, 0, 120, EUnit.DEGREE_CELSIUS);
-            public static DPara PrecisorPos_3 = new DPara(nameof(Wafer) + nameof(PrecisorPos_3), 0, 0, 120, EUnit.DEGREE_CELSIUS);
+            public static DPara PrecisorPos_1 = new DPara(nameof(Wafer) + nameof(PrecisorPos_1), 0, 0, 120, EUnit.ANGLE);
+            public static DPara PrecisorPos_2 = new DPara(nameof(Wafer) + nameof(PrecisorPos_2), 0, 0, 120, EUnit.ANGLE);
+            public static DPara PrecisorPos_3 = new DPara(nameof(Wafer) + nameof(PrecisorPos_3), 0, 0, 120, EUnit.ANGLE);
 
             public static PointXYZ TeachNotchCamPos = new PointXYZ();
         }
@@ -762,6 +762,7 @@ namespace NagaW
             public static DPara LifterStroke = new DPara(nameof(Wafer) + nameof(LifterStroke), 21, 0, 50, EUnit.MILLIMETER);
 
             public static bool PreAirBlow = true;
+            public static bool PreVacuumEnable = true;
 
             public static DPara WaferThickness = new DPara(nameof(Wafer) + nameof(WaferThickness), 0.1, 0.1, 1, EUnit.MILLIMETER);
 
