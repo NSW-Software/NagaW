@@ -45,14 +45,9 @@ namespace NagaW
         {
             try
             {
-                if (!TFSafety.LockDoor())
-                {
-                    TFSafety.ReleaseDoor();
-                    return;
-                }
-
+                if (!TFSafety.LockDoor()) return;
                 TFTower.Process(true);
-
+                GControl.UI_Disable(btnStop);
                 TCWafer.SvIonizer.Status = EnableSVIonizer;
 
                 ERunMode runMode = (ERunMode)cbxRunMode.SelectedIndex;
@@ -65,8 +60,6 @@ namespace NagaW
                 }
 
                 if (!TFGantry.GLReady()) return;
-
-                GControl.UI_Disable(btnStop);
 
                 if (runMode != ERunMode.Camera) TFLightCtrl.LightPair[0].Off();
 
@@ -130,6 +123,7 @@ namespace NagaW
 
                 GControl.UI_Enable();
                 TCWafer.SvIonizer.Status = false;
+                TCWafer.LifterHoming();
                 TFSafety.ReleaseDoor();
             }
           }
@@ -223,12 +217,10 @@ namespace NagaW
 
         private void btnDoorLock_Click(object sender, EventArgs e)
         {
-            TFSafety.LockDoor();
         }
 
         private void btnDoorUnlock_Click(object sender, EventArgs e)
         {
-            TFSafety.ReleaseDoor();
         }
 
         private void timer1_Tick(object sender, EventArgs e)

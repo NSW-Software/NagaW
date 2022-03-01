@@ -57,44 +57,36 @@ namespace NagaW
             }
         }
 
+        private double lastvalue;
         public void GetValue(int outno, out double value)
         {
-            try
+            value = -1;
+            using (KeyenceAPI.PinnedObject pin = new KeyenceAPI.PinnedObject(new byte[512000]))
             {
-                value = 0;
+                KeyenceAPI.CL3IF_MEASUREMENT_DATA measurementData = new KeyenceAPI.CL3IF_MEASUREMENT_DATA();
+                measurementData.outMeasurementData = new KeyenceAPI.CL3IF_OUTMEASUREMENT_DATA[8];
 
-                using (KeyenceAPI.PinnedObject pin = new KeyenceAPI.PinnedObject(new byte[51200]))
+                int rescode = KeyenceAPI.CL3IF_GetMeasurementData(0, pin.Pointer);
+                if (rescode != KeyenceAPI.CL3IF_RC_OK) throw new Exception("Fail to Get Measurement Value");
+
+                measurementData.addInfo = (KeyenceAPI.CL3IF_ADD_INFO)Marshal.PtrToStructure(pin.Pointer, typeof(KeyenceAPI.CL3IF_ADD_INFO));
+
+                int readPosition = Marshal.SizeOf(typeof(KeyenceAPI.CL3IF_ADD_INFO));
+                for (int i = 0; i < Math.Min(outno + 1, 8); i++)
                 {
-                    KeyenceAPI.CL3IF_MEASUREMENT_DATA measurementData = new KeyenceAPI.CL3IF_MEASUREMENT_DATA();
-                    measurementData.outMeasurementData = new KeyenceAPI.CL3IF_OUTMEASUREMENT_DATA[8];
-
-                    int rescode = KeyenceAPI.CL3IF_GetMeasurementData(0, pin.Pointer);
-                    if (rescode != KeyenceAPI.CL3IF_RC_OK)
-                    {
-                        throw new Exception("Fail to Get Measurement Value");
-                    }
-
-                    measurementData.addInfo = (KeyenceAPI.CL3IF_ADD_INFO)Marshal.PtrToStructure(pin.Pointer, typeof(KeyenceAPI.CL3IF_ADD_INFO));
-
-                    int readPosition = Marshal.SizeOf(typeof(KeyenceAPI.CL3IF_ADD_INFO));
-                    for (int i = 0; i < Math.Min(outno + 1, 8); i++)
-                    {
-                        measurementData.outMeasurementData[i] = (KeyenceAPI.CL3IF_OUTMEASUREMENT_DATA)Marshal.PtrToStructure(pin.Pointer + readPosition, typeof(KeyenceAPI.CL3IF_OUTMEASUREMENT_DATA));
-                        readPosition += Marshal.SizeOf(typeof(KeyenceAPI.CL3IF_OUTMEASUREMENT_DATA));
-                    }
-
-                    value = measurementData.outMeasurementData[outno].measurementValue;
-                    value /= 10000;
+                    measurementData.outMeasurementData[i] = (KeyenceAPI.CL3IF_OUTMEASUREMENT_DATA)Marshal.PtrToStructure(pin.Pointer + readPosition, typeof(KeyenceAPI.CL3IF_OUTMEASUREMENT_DATA));
+                    readPosition += Marshal.SizeOf(typeof(KeyenceAPI.CL3IF_OUTMEASUREMENT_DATA));
                 }
-            }
-            catch
-            {
-                throw;
-            }
 
+                value = (double)measurementData.outMeasurementData[outno].measurementValue;
+                value /= (double)10000;
+
+                if (value is 0) value = lastvalue;
+                else lastvalue = value;
+            }
         }
-
     }
+
     class KeyenceAPI
     {
         #region

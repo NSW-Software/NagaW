@@ -59,7 +59,7 @@ namespace NagaW
                     Para[2] = new DPara($"{index} Falling Time", cmd.Para[2] = Math.Max(0.01, cmd.Para[2]), 0.01, 300, EUnit.MILLISECOND, 2);
                     Para[3] = new DPara($"{index} Needle Lift", cmd.Para[3] = Math.Max(1, cmd.Para[3]), 1, 100, EUnit.PERCENTAGE, 0);
                     Para[4] = new DPara($"{index} Pulse No", cmd.Para[4] = Math.Max(0, cmd.Para[4]), 0, 32000, EUnit.COUNT, 0);
-                    Para[5] = new DPara($"{index} Delay", cmd.Para[5] = Math.Max(1, cmd.Para[5]), 1, 1000, EUnit.MILLISECOND, 2);
+                    Para[5] = new DPara($"{index} Delay", cmd.Para[5] = Math.Max(1, cmd.Para[5]), 1, 1000, EUnit.MILLISECOND, 1);
                     Para[6] = new DPara($"{index} FPress", cmd.Para[6], 0, vm_setup.FPress.Max, EUnit.MPA);
                     break;
                 case ECmd.SP_SETUP:

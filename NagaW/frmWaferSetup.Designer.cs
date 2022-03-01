@@ -69,8 +69,11 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.lblPostExhaustTime = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.cbxPreVac = new System.Windows.Forms.CheckBox();
             this.cbxAirblowPre = new System.Windows.Forms.CheckBox();
-            this.lblExhaustTime = new System.Windows.Forms.Label();
+            this.lblPreExhaustTime = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.label16 = new System.Windows.Forms.Label();
@@ -112,7 +115,8 @@
             this.btnNotchTeachCamPosGoto = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.lblNotchTeachCamPos = new System.Windows.Forms.Label();
-            this.cbxPreVac = new System.Windows.Forms.CheckBox();
+            this.lblPreExhaustDelay = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.groupBox8.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -289,7 +293,7 @@
             // 
             this.lblPreOnVac.BackColor = System.Drawing.Color.White;
             this.lblPreOnVac.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblPreOnVac.Location = new System.Drawing.Point(473, 53);
+            this.lblPreOnVac.Location = new System.Drawing.Point(141, 116);
             this.lblPreOnVac.Margin = new System.Windows.Forms.Padding(3);
             this.lblPreOnVac.Name = "lblPreOnVac";
             this.lblPreOnVac.Size = new System.Drawing.Size(140, 25);
@@ -300,7 +304,7 @@
             // 
             // label9
             // 
-            this.label9.Location = new System.Drawing.Point(352, 53);
+            this.label9.Location = new System.Drawing.Point(20, 116);
             this.label9.Margin = new System.Windows.Forms.Padding(3);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(115, 25);
@@ -312,7 +316,7 @@
             // 
             this.lblAirBlowDuration.BackColor = System.Drawing.Color.White;
             this.lblAirBlowDuration.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblAirBlowDuration.Location = new System.Drawing.Point(473, 22);
+            this.lblAirBlowDuration.Location = new System.Drawing.Point(141, 85);
             this.lblAirBlowDuration.Margin = new System.Windows.Forms.Padding(3);
             this.lblAirBlowDuration.Name = "lblAirBlowDuration";
             this.lblAirBlowDuration.Size = new System.Drawing.Size(140, 25);
@@ -323,7 +327,7 @@
             // 
             // label7
             // 
-            this.label7.Location = new System.Drawing.Point(352, 22);
+            this.label7.Location = new System.Drawing.Point(20, 85);
             this.label7.Margin = new System.Windows.Forms.Padding(3);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(115, 25);
@@ -337,9 +341,9 @@
             this.panel1.Controls.Add(this.groupBox2);
             this.panel1.Controls.Add(this.groupBox1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(624, 0);
+            this.panel1.Location = new System.Drawing.Point(716, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(131, 819);
+            this.panel1.Size = new System.Drawing.Size(131, 829);
             this.panel1.TabIndex = 2;
             // 
             // groupBox8
@@ -533,7 +537,7 @@
             this.groupBox3.Location = new System.Drawing.Point(0, 0);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(3, 3, 3, 0);
-            this.groupBox3.Size = new System.Drawing.Size(624, 95);
+            this.groupBox3.Size = new System.Drawing.Size(716, 95);
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Manual Seting";
@@ -552,7 +556,7 @@
             this.groupBox4.Location = new System.Drawing.Point(0, 95);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Padding = new System.Windows.Forms.Padding(3, 3, 3, 0);
-            this.groupBox4.Size = new System.Drawing.Size(624, 97);
+            this.groupBox4.Size = new System.Drawing.Size(716, 97);
             this.groupBox4.TabIndex = 4;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Auto Setting";
@@ -561,9 +565,13 @@
             // 
             this.groupBox5.AutoSize = true;
             this.groupBox5.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox5.Controls.Add(this.lblPreExhaustDelay);
+            this.groupBox5.Controls.Add(this.label20);
+            this.groupBox5.Controls.Add(this.lblPostExhaustTime);
+            this.groupBox5.Controls.Add(this.label19);
             this.groupBox5.Controls.Add(this.cbxPreVac);
             this.groupBox5.Controls.Add(this.cbxAirblowPre);
-            this.groupBox5.Controls.Add(this.lblExhaustTime);
+            this.groupBox5.Controls.Add(this.lblPreExhaustTime);
             this.groupBox5.Controls.Add(this.label4);
             this.groupBox5.Controls.Add(this.btnAirBlowPosSet);
             this.groupBox5.Controls.Add(this.label7);
@@ -577,15 +585,49 @@
             this.groupBox5.Location = new System.Drawing.Point(0, 192);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Padding = new System.Windows.Forms.Padding(3, 3, 3, 0);
-            this.groupBox5.Size = new System.Drawing.Size(624, 134);
+            this.groupBox5.Size = new System.Drawing.Size(716, 163);
             this.groupBox5.TabIndex = 5;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Ionizer Setting";
             // 
+            // lblPostExhaustTime
+            // 
+            this.lblPostExhaustTime.BackColor = System.Drawing.Color.White;
+            this.lblPostExhaustTime.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblPostExhaustTime.Location = new System.Drawing.Point(518, 85);
+            this.lblPostExhaustTime.Margin = new System.Windows.Forms.Padding(3);
+            this.lblPostExhaustTime.Name = "lblPostExhaustTime";
+            this.lblPostExhaustTime.Size = new System.Drawing.Size(140, 25);
+            this.lblPostExhaustTime.TabIndex = 15;
+            this.lblPostExhaustTime.Text = "label8";
+            this.lblPostExhaustTime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblPostExhaustTime.Click += new System.EventHandler(this.lblPostExhaustTime_Click);
+            // 
+            // label19
+            // 
+            this.label19.Location = new System.Drawing.Point(397, 85);
+            this.label19.Margin = new System.Windows.Forms.Padding(3);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(115, 25);
+            this.label19.TabIndex = 14;
+            this.label19.Text = "PostExhaust Time";
+            this.label19.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // cbxPreVac
+            // 
+            this.cbxPreVac.AutoSize = true;
+            this.cbxPreVac.Location = new System.Drawing.Point(400, 119);
+            this.cbxPreVac.Name = "cbxPreVac";
+            this.cbxPreVac.Size = new System.Drawing.Size(109, 22);
+            this.cbxPreVac.TabIndex = 13;
+            this.cbxPreVac.Text = "Pre-Vacuum";
+            this.cbxPreVac.UseVisualStyleBackColor = true;
+            this.cbxPreVac.Click += new System.EventHandler(this.cbxPreVac_Click);
+            // 
             // cbxAirblowPre
             // 
             this.cbxAirblowPre.AutoSize = true;
-            this.cbxAirblowPre.Location = new System.Drawing.Point(21, 62);
+            this.cbxAirblowPre.Location = new System.Drawing.Point(515, 119);
             this.cbxAirblowPre.Name = "cbxAirblowPre";
             this.cbxAirblowPre.Size = new System.Drawing.Size(101, 22);
             this.cbxAirblowPre.TabIndex = 12;
@@ -593,27 +635,27 @@
             this.cbxAirblowPre.UseVisualStyleBackColor = true;
             this.cbxAirblowPre.Click += new System.EventHandler(this.cbxAirblowPre_Click);
             // 
-            // lblExhaustTime
+            // lblPreExhaustTime
             // 
-            this.lblExhaustTime.BackColor = System.Drawing.Color.White;
-            this.lblExhaustTime.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblExhaustTime.Location = new System.Drawing.Point(473, 84);
-            this.lblExhaustTime.Margin = new System.Windows.Forms.Padding(3);
-            this.lblExhaustTime.Name = "lblExhaustTime";
-            this.lblExhaustTime.Size = new System.Drawing.Size(140, 25);
-            this.lblExhaustTime.TabIndex = 11;
-            this.lblExhaustTime.Text = "label8";
-            this.lblExhaustTime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lblExhaustTime.Click += new System.EventHandler(this.lblExhaustTime_Click);
+            this.lblPreExhaustTime.BackColor = System.Drawing.Color.White;
+            this.lblPreExhaustTime.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblPreExhaustTime.Location = new System.Drawing.Point(518, 25);
+            this.lblPreExhaustTime.Margin = new System.Windows.Forms.Padding(3);
+            this.lblPreExhaustTime.Name = "lblPreExhaustTime";
+            this.lblPreExhaustTime.Size = new System.Drawing.Size(140, 25);
+            this.lblPreExhaustTime.TabIndex = 11;
+            this.lblPreExhaustTime.Text = "label8";
+            this.lblPreExhaustTime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblPreExhaustTime.Click += new System.EventHandler(this.lblPreExhaustTime_Click);
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(352, 84);
+            this.label4.Location = new System.Drawing.Point(397, 25);
             this.label4.Margin = new System.Windows.Forms.Padding(3);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(115, 25);
             this.label4.TabIndex = 10;
-            this.label4.Text = "Exhaust Time";
+            this.label4.Text = "PreExhaust Time";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // groupBox6
@@ -639,17 +681,17 @@
             this.groupBox6.Controls.Add(this.label2);
             this.groupBox6.Controls.Add(this.lblP1Pos);
             this.groupBox6.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox6.Location = new System.Drawing.Point(0, 326);
+            this.groupBox6.Location = new System.Drawing.Point(0, 355);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Padding = new System.Windows.Forms.Padding(3, 3, 3, 0);
-            this.groupBox6.Size = new System.Drawing.Size(624, 203);
+            this.groupBox6.Size = new System.Drawing.Size(716, 155);
             this.groupBox6.TabIndex = 6;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Precisor setting";
             // 
             // label16
             // 
-            this.label16.Location = new System.Drawing.Point(12, 156);
+            this.label16.Location = new System.Drawing.Point(447, 56);
             this.label16.Margin = new System.Windows.Forms.Padding(3);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(65, 25);
@@ -661,7 +703,7 @@
             // 
             this.lblPrecisorAcc.BackColor = System.Drawing.Color.White;
             this.lblPrecisorAcc.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblPrecisorAcc.Location = new System.Drawing.Point(83, 156);
+            this.lblPrecisorAcc.Location = new System.Drawing.Point(518, 56);
             this.lblPrecisorAcc.Margin = new System.Windows.Forms.Padding(3);
             this.lblPrecisorAcc.Name = "lblPrecisorAcc";
             this.lblPrecisorAcc.Size = new System.Drawing.Size(140, 25);
@@ -672,7 +714,7 @@
             // 
             // label14
             // 
-            this.label14.Location = new System.Drawing.Point(12, 125);
+            this.label14.Location = new System.Drawing.Point(447, 25);
             this.label14.Margin = new System.Windows.Forms.Padding(3);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(65, 25);
@@ -684,7 +726,7 @@
             // 
             this.lblPrecisorSpeed.BackColor = System.Drawing.Color.White;
             this.lblPrecisorSpeed.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblPrecisorSpeed.Location = new System.Drawing.Point(83, 125);
+            this.lblPrecisorSpeed.Location = new System.Drawing.Point(518, 25);
             this.lblPrecisorSpeed.Margin = new System.Windows.Forms.Padding(3);
             this.lblPrecisorSpeed.Name = "lblPrecisorSpeed";
             this.lblPrecisorSpeed.Size = new System.Drawing.Size(140, 25);
@@ -695,7 +737,7 @@
             // 
             // btnPrecisorHoming
             // 
-            this.btnPrecisorHoming.Location = new System.Drawing.Point(444, 141);
+            this.btnPrecisorHoming.Location = new System.Drawing.Point(563, 93);
             this.btnPrecisorHoming.Name = "btnPrecisorHoming";
             this.btnPrecisorHoming.Size = new System.Drawing.Size(95, 40);
             this.btnPrecisorHoming.TabIndex = 17;
@@ -705,7 +747,7 @@
             // 
             // btnPrecisorON
             // 
-            this.btnPrecisorON.Location = new System.Drawing.Point(343, 141);
+            this.btnPrecisorON.Location = new System.Drawing.Point(462, 93);
             this.btnPrecisorON.Name = "btnPrecisorON";
             this.btnPrecisorON.Size = new System.Drawing.Size(95, 40);
             this.btnPrecisorON.TabIndex = 16;
@@ -855,10 +897,10 @@
             this.groupBox7.Controls.Add(this.label13);
             this.groupBox7.Controls.Add(this.lblLifterSpeed);
             this.groupBox7.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox7.Location = new System.Drawing.Point(0, 529);
+            this.groupBox7.Location = new System.Drawing.Point(0, 510);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Padding = new System.Windows.Forms.Padding(3, 3, 3, 0);
-            this.groupBox7.Size = new System.Drawing.Size(624, 134);
+            this.groupBox7.Size = new System.Drawing.Size(716, 134);
             this.groupBox7.TabIndex = 7;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Lifter Setting";
@@ -966,10 +1008,10 @@
             this.groupBox9.Controls.Add(this.label3);
             this.groupBox9.Controls.Add(this.lblNotchTeachCamPos);
             this.groupBox9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox9.Location = new System.Drawing.Point(0, 663);
+            this.groupBox9.Location = new System.Drawing.Point(0, 644);
             this.groupBox9.Name = "groupBox9";
             this.groupBox9.Padding = new System.Windows.Forms.Padding(3, 3, 3, 0);
-            this.groupBox9.Size = new System.Drawing.Size(624, 156);
+            this.groupBox9.Size = new System.Drawing.Size(716, 185);
             this.groupBox9.TabIndex = 8;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Notch Alignment";
@@ -1094,22 +1136,34 @@
             this.lblNotchTeachCamPos.Text = "label2";
             this.lblNotchTeachCamPos.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // cbxPreVac
+            // lblPreExhaustDelay
             // 
-            this.cbxPreVac.AutoSize = true;
-            this.cbxPreVac.Location = new System.Drawing.Point(21, 90);
-            this.cbxPreVac.Name = "cbxPreVac";
-            this.cbxPreVac.Size = new System.Drawing.Size(109, 22);
-            this.cbxPreVac.TabIndex = 13;
-            this.cbxPreVac.Text = "Pre-Vacuum";
-            this.cbxPreVac.UseVisualStyleBackColor = true;
-            this.cbxPreVac.Click += new System.EventHandler(this.cbxPreVac_Click);
+            this.lblPreExhaustDelay.BackColor = System.Drawing.Color.White;
+            this.lblPreExhaustDelay.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblPreExhaustDelay.Location = new System.Drawing.Point(518, 56);
+            this.lblPreExhaustDelay.Margin = new System.Windows.Forms.Padding(3);
+            this.lblPreExhaustDelay.Name = "lblPreExhaustDelay";
+            this.lblPreExhaustDelay.Size = new System.Drawing.Size(140, 25);
+            this.lblPreExhaustDelay.TabIndex = 17;
+            this.lblPreExhaustDelay.Text = "label8";
+            this.lblPreExhaustDelay.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblPreExhaustDelay.Click += new System.EventHandler(this.lblPreExhaustDelay_Click);
+            // 
+            // label20
+            // 
+            this.label20.Location = new System.Drawing.Point(397, 56);
+            this.label20.Margin = new System.Windows.Forms.Padding(3);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(115, 25);
+            this.label20.TabIndex = 16;
+            this.label20.Text = "PreExhaust Delay";
+            this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // frmWaferSetup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(755, 819);
+            this.ClientSize = new System.Drawing.Size(847, 829);
             this.Controls.Add(this.groupBox9);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.groupBox6);
@@ -1203,7 +1257,7 @@
         private System.Windows.Forms.Label lblLifterSpeed;
         private System.Windows.Forms.Button btnLifterHoming;
         private System.Windows.Forms.Button btnLifterUp;
-        private System.Windows.Forms.Label lblExhaustTime;
+        private System.Windows.Forms.Label lblPreExhaustTime;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.GroupBox groupBox8;
         private System.Windows.Forms.Label lblSMEMA_DownIn;
@@ -1226,5 +1280,9 @@
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label lblNotchAlignSpeed;
         private System.Windows.Forms.CheckBox cbxPreVac;
+        private System.Windows.Forms.Label lblPostExhaustTime;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label lblPreExhaustDelay;
+        private System.Windows.Forms.Label label20;
     }
 }

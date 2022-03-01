@@ -431,9 +431,9 @@ namespace NagaW
             public static PointXYZ AutoLoadPos = new PointXYZ();
             public static PointXYZ AirBlowPos = new PointXYZ();
 
-            public static DPara PrecisorPos_1 = new DPara(nameof(Wafer) + nameof(PrecisorPos_1), 0, 0, 120, EUnit.ANGLE);
-            public static DPara PrecisorPos_2 = new DPara(nameof(Wafer) + nameof(PrecisorPos_2), 0, 0, 120, EUnit.ANGLE);
-            public static DPara PrecisorPos_3 = new DPara(nameof(Wafer) + nameof(PrecisorPos_3), 0, 0, 120, EUnit.ANGLE);
+            public static DPara PrecisorPos_1 = new DPara(nameof(Wafer) + nameof(PrecisorPos_1), 0, 0, 130, EUnit.ANGLE);
+            public static DPara PrecisorPos_2 = new DPara(nameof(Wafer) + nameof(PrecisorPos_2), 0, 0, 130, EUnit.ANGLE);
+            public static DPara PrecisorPos_3 = new DPara(nameof(Wafer) + nameof(PrecisorPos_3), 0, 0, 130, EUnit.ANGLE);
 
             public static PointXYZ TeachNotchCamPos = new PointXYZ();
         }
@@ -580,7 +580,7 @@ namespace NagaW
         public class Calibration
         {
             public static DPara[] XYTouchMarkGap = Enumerable.Range(0, Headno).Select(x => new DPara(nameof(Calibration) + nameof(XYTouchMarkGap) + $"Head{(x == 0 ? "L" : "R")}", 0.5, 0, 5, EUnit.MILLIMETER)).ToArray();
-            public static DPara[] TouchDotDispGap = Enumerable.Range(0, Headno).Select(x => new DPara(nameof(Calibration) + nameof(TouchDotDispGap) + $"Head{(x == 0 ? "L" : "R")}", 0.5, 0.5, 15, EUnit.MILLIMETER)).ToArray();
+            public static DPara[] TouchDotDispGap = Enumerable.Range(0, Headno).Select(x => new DPara(nameof(Calibration) + nameof(TouchDotDispGap) + $"Head{(x == 0 ? "L" : "R")}", 0.5, 0, 15, EUnit.MILLIMETER)).ToArray();
             public static DPara[] DynamicJetGap = Enumerable.Range(0, Headno).Select(x => new DPara(nameof(Calibration) + nameof(DynamicJetGap) + $"Head{(x == 0 ? "L" : "R")}", 1, 0, 10, EUnit.MILLIMETER)).ToArray();
             public static DPara[] DynamicTouchDotSpd = Enumerable.Range(0, Headno).Select(x => new DPara(nameof(Calibration) + nameof(DynamicTouchDotSpd) + $"Head{(x == 0 ? "L" : "R")}", 10, 10, 300, EUnit.MILLIMETER_PER_SECOND)).ToArray();
             public static DPara[] DynamicTouchDotAcc = Enumerable.Range(0, Headno).Select(x => new DPara(nameof(Calibration) + nameof(DynamicTouchDotAcc) + $"Head{(x == 0 ? "L" : "R")}", 50, 50, 1000, EUnit.MILLIMETER_PER_SECOND_SQUARED)).ToArray();
@@ -742,7 +742,6 @@ namespace NagaW
             public static bool CheckTempBeforeRun = false;
             public static IPara AwaitErrorTime = new IPara(nameof(Temp) + nameof(AwaitErrorTime), 0, 0, 1000, EUnit.SECOND);
             public static IPara IdleStopTime = new IPara(nameof(Temp) + nameof(IdleStopTime), 10, 10, 100000, EUnit.SECOND);
-
         }
 
         public class Wafer
@@ -750,7 +749,9 @@ namespace NagaW
             public static IPara AirBlowDuration = new IPara(nameof(Wafer) + nameof(AirBlowDuration), 2000, 1000, 5000, EUnit.MILLISECOND);
             public static IPara PreOnVacuum = new IPara(nameof(Wafer) + nameof(PreOnVacuum), 500, 500, 1000, EUnit.MILLISECOND);
 
-            public static IPara ExhaustTime = new IPara(nameof(Wafer) + nameof(ExhaustTime), 10, 5, 1000, EUnit.MILLISECOND);
+            public static IPara PreExhaustTime = new IPara(nameof(Wafer) + nameof(PreExhaustTime), 500, 5, 5000, EUnit.MILLISECOND);
+            public static IPara PreExhaustDelay = new IPara(nameof(Wafer) + nameof(PreExhaustDelay), 2500, 5, 3500, EUnit.MILLISECOND);
+            public static IPara PostExhaustTime = new IPara(nameof(Wafer) + nameof(PostExhaustTime), 10, 5, 1000, EUnit.MILLISECOND);
 
             public static IPara SmemaUpInWaitingTime = new IPara(nameof(Wafer) + nameof(SmemaUpInWaitingTime), 5000, 1000, 100000, EUnit.MILLISECOND);
 

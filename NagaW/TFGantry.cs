@@ -2370,7 +2370,7 @@ namespace NagaW
             while (GMotDef.Lifter.Busy) Thread.Sleep(0);
             return true;
         }
-        public static bool PreciserOn()
+        public static bool PreciserOn(bool airon=false)
         {
             GMotDef.GRAxis.SetParam(0, 30, 500, 500);
 
@@ -2470,9 +2470,6 @@ namespace NagaW
                 if (!PrecisorHoming()) return false;
                 if (!LifterUp()) return false;
 
-                //WaferVacHigh.Status = true;
-                //WaferVacLow.Status = true;
-
                 WaferVacHigh.Status = GProcessPara.Wafer.PreVacuumEnable;
                 WaferVacLow.Status = GProcessPara.Wafer.PreVacuumEnable;
 
@@ -2481,7 +2478,17 @@ namespace NagaW
                 WaferVacHigh.Status = false;
                 WaferVacLow.Status = false;
 
+                Task.Run(() =>
+                {
+                    Thread.Sleep(GProcessPara.Wafer.PreExhaustDelay.Value);
+
+                    WaferExh.Status = true;
+                    Thread.Sleep(GProcessPara.Wafer.PreExhaustTime.Value);
+                    WaferExh.Status = false;
+                });
+                
                 if (!PreciserOn()) return false;
+
                 if (!gantry.GotoXYZ(GSetupPara.Wafer.AirBlowPos)) return false;
 
                 WaferVacHigh.Status = false;
@@ -2493,7 +2500,6 @@ namespace NagaW
                 WaferVacLow.Status = true;
                 Thread.Sleep(GProcessPara.Wafer.PreOnVacuum.Value);
                 AirBlow.Status = false;
-
 
                 if (!PrecisorHoming()) return false;
 
@@ -2523,7 +2529,7 @@ namespace NagaW
                 WaferVacHigh.Status = false;
                 WaferVacLow.Status = false;
                 WaferExh.Status = true;
-                Thread.Sleep(GProcessPara.Wafer.ExhaustTime.Value);
+                Thread.Sleep(GProcessPara.Wafer.PostExhaustTime.Value);
                 WaferExh.Status = false;
 
                 if (!LifterUp()) return false;
@@ -2726,7 +2732,7 @@ namespace NagaW
         {
             try
             {
-                if (stepheight <= 0) stepheight = GProcessPara.Wafer.WaferThickness.Value * 0.75;
+                if (stepheight <= 0) stepheight = GProcessPara.Wafer.WaferThickness.Value * 0.8;
                 if (angle <= 0) angle = GProcessPara.Wafer.NotchAngleCheck.Value;
                 if (speed <= 0) speed = GProcessPara.Wafer.NotchAlignSpeed.Value;
 
@@ -2740,27 +2746,29 @@ namespace NagaW
 
                 double rotaryactualpos = RAxis.ActualPos;
 
-                double notch_edge_1 = 0;    //left notch edge
+                double notch_edge_1 = 0;//left notch edge
 
                 //apply detection every 45 degree, 360/45 = 8 times shift checking
                 for (int i = 0; i < 361; i += angle)
                 {
                     if (!findnotchedge()) return false;
 
+                    while (gantry.Busy) Thread.Sleep(0);
                     while (RAxis.Busy) Thread.Sleep(0);
                     Thread.Sleep(500);
                     //couter-clockwise
 
                     GLog.LogProcess($"Notch alignment Start R Pos:{RAxis.ActualPos}, degree:{i}");
 
-                    double firsthvalue = 9999;
-                    double hvalue = 0;
+                    double firsthvalue = double.NaN;
+                    double hvalue = -1;
 
                     if (!RAxis.MoveRel(new double[] { 0, speed, 500, 500, 0 }, angle, false)) return false;
 
-                    while (TFHSensors.Sensor[gantry.Index].GetValue(ref hvalue))
+                    bool exec = true;
+                    while (exec = TFHSensors.Sensor[gantry.Index].GetValue(ref hvalue))
                     {
-                        if (firsthvalue == 9999)
+                        if (double.IsNaN(firsthvalue))
                         {
                             GLog.LogProcess($"Notch alignment firstvalue: {hvalue}");
 
@@ -2771,7 +2779,6 @@ namespace NagaW
                         //***\____
                         if (notch_edge_1 is 0)
                         {
-
                             //5-3=2
                             if (((hvalue - firsthvalue) > stepheight) || (hvalue <= -50))
                             {
@@ -2779,7 +2786,7 @@ namespace NagaW
                                 RAxis.StopEmg();
                                 RAxis.SetParam(0, 30, 500, 500);
 
-                                GLog.LogProcess($"Notch alignment successfully: {hvalue}");
+                                GLog.LogProcess($"Notch > alignment successfully: {hvalue}");
 
                                 return true;
                             }
@@ -2793,7 +2800,7 @@ namespace NagaW
 
                                 notch_edge_1 = RAxis.ActualPos;
 
-                                GLog.LogProcess($"Notch alignment successfully: {hvalue}");
+                                GLog.LogProcess($"Notch < alignment successfully: {hvalue}");
                                 return true;
                             }
                         }
@@ -2801,9 +2808,11 @@ namespace NagaW
                         if (notch_edge_1 != 0) break;
                         if (!RAxis.Busy) break;
                     }
+                    if (!exec) throw new Exception("no value");
                     if (notch_edge_1 is 0) continue;
                 }
 
+                GAlarm.Prompt(EAlarm.WAFER_NOTCH_ALIGNMENT_FAIL);
                 return false;
             }
 
@@ -2843,10 +2852,10 @@ namespace NagaW
                             {
                                 gantry.StopDecel();
                                 while (gantry.Busy) Thread.Sleep(0);
+                                Thread.Sleep(250);
                                 gantry.MoveOpXYRel(new double[] { 0, 0.75 });
-
-                                //check pos with cam
-                                //gantry.MoveOpXYRel(new double[] { -GSetupPara.Calibration.LaserOffset[gantry.Index].X, -GSetupPara.Calibration.LaserOffset[gantry.Index].Y });
+                                while (gantry.Busy) Thread.Sleep(0);
+                                Thread.Sleep(250);
 
                                 findedge = true;
                                 return true;
@@ -2874,12 +2883,10 @@ namespace NagaW
 
     public class TFSafety
     {
-        public static TEZMCAux.TOutput DoorLock = GMotDef.Out11;
-        public static TEZMCAux.TInput DoorLocked = GMotDef.IN15;
-
-        public static TEZMCAux.TInput DoorClosed = GMotDef.IN14;
-
-        public static TEZMCAux.TInput TeachAutoSens = GMotDef.IN16;
+        public static TEZMCAux.TOutput DoorLock => GMotDef.Out11;
+        public static TEZMCAux.TInput DoorClosed => GMotDef.IN14;
+        public static TEZMCAux.TInput DoorLocked => GMotDef.IN15;
+        public static TEZMCAux.TInput TeachAutoSens => GMotDef.IN16;
 
         public static bool LockDoor()
         {
@@ -2917,7 +2924,10 @@ namespace NagaW
         {
             while (!TeachAutoSens.Status)
             {
-                if (MsgBox.ShowDialog("Pls Set Key to Teach Mode", MsgBoxBtns.OKCancel) == DialogResult.Cancel) return false;
+                if (MsgBox.ShowDialog("Pls Set Key to Teach Mode", MsgBoxBtns.OKCancel) == DialogResult.Cancel)
+                {
+                    if (MsgBox.ShowDialog("Unlock door under Auto Mode \nwill turn machine down,\nStill continue?", MsgBoxBtns.OKCancel) == DialogResult.OK) break;
+                }
             }
 
             GLog.LogProcess("Door Unlocked");

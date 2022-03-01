@@ -433,7 +433,7 @@ namespace NagaW
         public DPara FallingTime { get; set; } = new DPara(nameof(FallingTime), 0.01, 0.01, 300, EUnit.MILLISECOND, 2);
         public IPara NeedleLift { get; set; } = new IPara(nameof(NeedleLift), 1, 1, 100, EUnit.PERCENTAGE);
         public IPara Pulses { get; set; } = new IPara(nameof(Pulses), 1, 0, 32000, EUnit.COUNT);
-        public DPara Delay { get; set; } = new DPara(nameof(Delay), 1, 0.1, 1000, EUnit.MILLISECOND, 2);
+        public DPara Delay { get; set; } = new DPara(nameof(Delay), 1, 0.1, 1000, EUnit.MILLISECOND, 1);
         public DPara FPress { get; set; } = new DPara(nameof(FPress), 0, 0, TFPressCtrl.UpperLimitMPa, EUnit.MPA);
         public IPara MHC48_1Temp { get; set; } = new IPara(nameof(MHC48_1Temp), 30, 20, 180, EUnit.DEGREE_CELSIUS);
         public double[] ToArray
@@ -471,8 +471,8 @@ namespace NagaW
             FallingTime = new DPara(name + nameof(FallingTime), 0.01, 0.01, 300, EUnit.MILLISECOND, 2);
             NeedleLift = new IPara(name + nameof(NeedleLift), 1, 1, 100, EUnit.PERCENTAGE);
             Pulses = new IPara(name + nameof(Pulses), 1, 0, 32000, EUnit.COUNT);
-            Delay = new DPara(name + nameof(Delay), 1, 1, 1000, EUnit.MILLISECOND, 2);
-            FPress = new DPara(name + nameof(FPress), 0, 0, 0.45, EUnit.MPA);
+            Delay = new DPara(name + nameof(Delay), 1, 1, 1000, EUnit.MILLISECOND, 1);
+            FPress = new DPara(name + nameof(FPress), 0, 0, TFPressCtrl.UpperLimitMPa, EUnit.MPA);
         }
         public Vermes3280_Param(double[] param)
         {

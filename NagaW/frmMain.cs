@@ -76,18 +76,20 @@ namespace NagaW
         }
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            switch (MsgBox.ShowDialog("Save Recipe before close?", MsgBoxBtns.YesNoCancel))
+            if(e.CloseReason == CloseReason.UserClosing)
             {
-                case DialogResult.Yes:
-                    GRecipes.Save(false);
-                    break;
-                case DialogResult.No: break;
-                case DialogResult.Cancel:
-                    e.Cancel = true;
-                    if (!TFUser.Logged) LoginTillDie();
-                    return;
+                switch (MsgBox.ShowDialog("Save Recipe before close?", MsgBoxBtns.YesNoCancel))
+                {
+                    case DialogResult.Yes: GRecipes.Save(false); break;
+                    case DialogResult.No: break;
+                    case DialogResult.Cancel:
+                        e.Cancel = true;
+                        if (!TFUser.Logged) LoginTillDie();
+                        return;
+                }
             }
         }
+
         private void frmMain_Resize(object sender, EventArgs e)
         {
             AutoArrange();

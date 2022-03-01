@@ -37,7 +37,9 @@ namespace NagaW
 
             lblAirBlowDuration.UpdatePara(GProcessPara.Wafer.AirBlowDuration);
             lblPreOnVac.UpdatePara(GProcessPara.Wafer.PreOnVacuum);
-            lblExhaustTime.UpdatePara(GProcessPara.Wafer.ExhaustTime);
+            lblPreExhaustTime.UpdatePara(GProcessPara.Wafer.PreExhaustTime);
+            lblPostExhaustTime.UpdatePara(GProcessPara.Wafer.PostExhaustTime);
+            lblPreExhaustDelay.UpdatePara(GProcessPara.Wafer.PreExhaustDelay);
 
             lblAirBlowPos.Text = GSetupPara.Wafer.AirBlowPos.ToStringForDisplay();
 
@@ -311,9 +313,9 @@ namespace NagaW
             GControl.UI_Enable();
         }
 
-        private void lblExhaustTime_Click(object sender, EventArgs e)
+        private void lblPreExhaustTime_Click(object sender, EventArgs e)
         {
-            GLog.SetPara(ref GProcessPara.Wafer.ExhaustTime);
+            GLog.SetPara(ref GProcessPara.Wafer.PreExhaustTime);
             UpdateDisplay();
         }
 
@@ -393,6 +395,18 @@ namespace NagaW
         private void cbxPreVac_Click(object sender, EventArgs e)
         {
             GProcessPara.Wafer.PreVacuumEnable = !GProcessPara.Wafer.PreVacuumEnable;
+            UpdateDisplay();
+        }
+
+        private void lblPostExhaustTime_Click(object sender, EventArgs e)
+        {
+            GLog.SetPara(ref GProcessPara.Wafer.PostExhaustTime);
+            UpdateDisplay();
+        }
+
+        private void lblPreExhaustDelay_Click(object sender, EventArgs e)
+        {
+            GLog.SetPara(ref GProcessPara.Wafer.PreExhaustDelay);
             UpdateDisplay();
         }
     }

@@ -1193,6 +1193,9 @@ namespace NagaW
                             var setup = new Vermes3280_Param(cmd.Para[0], cmd.Para[1], cmd.Para[2], (int)cmd.Para[3], (int)cmd.Para[4], cmd.Para[5], cmd.Para[6]);
                             if (vm3280Param[gantry.Index].SameAs(setup)) break;
                             if (!TFPump.Vermes_Pump[gantry.Index].TriggerAset(setup)) return false;
+
+                            if (pressuremaster.Master) break;
+
                             var fpress = pressuremaster.Master ? pressuremaster.FPress : setup.FPress;
 
                             if (!TFPressCtrl.FPress[gantry.Index].Set(fpress.Value)) return false;
@@ -1214,6 +1217,9 @@ namespace NagaW
 
                             if (hmParam[gantry.Index].SameAs(setup)) break;
                             hmParam[gantry.Index] = new HM_Param(setup);
+
+                            if (pressuremaster.Master) break;
+
                             var fpress = pressuremaster.Master ? pressuremaster.FPress : setup.FPress;
 
                             if (!TFPressCtrl.FPress[gantry.Index].Set(fpress.Value)) return false;
@@ -1235,6 +1241,8 @@ namespace NagaW
                             if (spParam[gantry.Index].SameAs(setup)) break;
 
                             spParam[gantry.Index] = new SP_Param(setup);
+
+                            if (pressuremaster.Master) break;
 
                             var fpress = pressuremaster.Master ? pressuremaster.FPress : setup.FPress;
                             var ppress = pressuremaster.Master ? pressuremaster.PPress : setup.PPress;
@@ -1261,6 +1269,8 @@ namespace NagaW
                             if (spParam[gantry.Index].SameAs(setup)) break;
                             spParam[gantry.Index] = new SP_Param(setup);
 
+                            if (pressuremaster.Master) break;
+
                             var fpress = pressuremaster.Master ? pressuremaster.FPress : setup.FPress;
 
                             if (!TFPressCtrl.FPress[gantry.Index].Set(fpress.Value)) return false;
@@ -1282,6 +1292,8 @@ namespace NagaW
                             dotTime = setup.DispTime.Value;
                             if (pneumaticJet_Params[gantry.Index].SameAs(setup)) break;
                             pneumaticJet_Params[gantry.Index] = new PneumaticJet_Param(setup);
+
+                            if (pressuremaster.Master) break;
 
                             var fpress = pressuremaster.Master ? pressuremaster.FPress : setup.FPress;
                             var ppress = pressuremaster.Master ? pressuremaster.PPress : setup.VPress;
@@ -2303,6 +2315,8 @@ namespace NagaW
 
                             #endregion
 
+                            while (gantry.Busy) Thread.Sleep(0);
+
                             #region Jet
                             if (runMode == ERunMode.Normal)
                             {
@@ -2808,7 +2822,6 @@ namespace NagaW
 
                             heightData.SensorValue = avr;
 
-
                             var mlayout = instBoard.CurrentMLayout;
                             var currentClusterCR = new PointI(/*InstBoard.ClusterCR*/);
 
@@ -2883,7 +2896,6 @@ namespace NagaW
                     case ECmd.NEEDLE_PURGE:
                         #region
                         {
-
                             double fpress = 0;
 
                             switch (dispCtrl.PumpType)
@@ -2895,7 +2907,6 @@ namespace NagaW
                                 case EPumpType.TP: fpress = spParam[gantry.Index].FPress.Value; break;
                                 case EPumpType.VERMES_3280: fpress = vm3280Param[gantry.Index].FPress.Value; break;
                             }
-
 
                             var fpress_state = fpressIO.Status;
 
@@ -2993,7 +3004,6 @@ namespace NagaW
                             fpressIO.Status = fpress_state;
 
                             if (!GMotDef.GVAxis.MoveAbs(0)) return false;
-
                             break;
                         }
                     #endregion
