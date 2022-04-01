@@ -2354,6 +2354,8 @@ namespace NagaW
 
         public static TEZMCAux.TOutput SvIonizer = GMotDef.Out41;
 
+        public static bool IsNotch = false;
+
         //lifer motor stroke 21 - lifter Z-dimension stroke 12
         public static bool LifterUp()
         {
@@ -2465,8 +2467,11 @@ namespace NagaW
 
         static bool CatchWafer()
         {
+            IsNotch = false;
+
             try
             {
+
                 if (!PrecisorHoming()) return false;
                 if (!LifterUp()) return false;
 
@@ -2519,11 +2524,10 @@ namespace NagaW
         }
         static bool ReleaseWafer()
         {
+            IsNotch = false;
+
             try
             {
-
-                //ChuckVac.Status = false;
-
                 if (!PrecisorHoming()) return false;
 
                 WaferVacHigh.Status = false;
@@ -2542,7 +2546,6 @@ namespace NagaW
             return true;
         }
 
-        static double GRSpeed = 30;
         public static bool Manual_Load()
         {
             try
@@ -2609,7 +2612,7 @@ namespace NagaW
 
                 MsgBox.ShowDialog("Finish unload.");
 
-                if (!ChuckVacToggle(false)) return false;
+                //if (!ChuckVacToggle(false)) return false;
 
             }
             catch
@@ -2711,7 +2714,7 @@ namespace NagaW
 
                 if (!LifterHoming()) return false;
 
-                if (!ChuckVacToggle(false)) return false;
+                //if (!ChuckVacToggle(false)) return false;
 
             }
             catch
@@ -2732,6 +2735,14 @@ namespace NagaW
         {
             try
             {
+                IsNotch = false;
+
+                if (!IsWaferDetected)
+                {
+                    GAlarm.Prompt(EAlarm.WAFER_NOTCH_ALIGNMENT_FAIL, "No Wafer Detected");
+                    return false;
+                }
+
                 if (stepheight <= 0) stepheight = GProcessPara.Wafer.WaferThickness.Value * 0.8;
                 if (angle <= 0) angle = GProcessPara.Wafer.NotchAngleCheck.Value;
                 if (speed <= 0) speed = GProcessPara.Wafer.NotchAlignSpeed.Value;
@@ -2787,8 +2798,7 @@ namespace NagaW
                                 RAxis.SetParam(0, 30, 500, 500);
 
                                 GLog.LogProcess($"Notch > alignment successfully: {hvalue}");
-
-                                return true;
+                                return IsNotch = true;
                             }
 
                             //3-5=-2
@@ -2801,7 +2811,7 @@ namespace NagaW
                                 notch_edge_1 = RAxis.ActualPos;
 
                                 GLog.LogProcess($"Notch < alignment successfully: {hvalue}");
-                                return true;
+                                return IsNotch = true;
                             }
                         }
 

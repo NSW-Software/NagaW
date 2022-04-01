@@ -27,9 +27,6 @@ namespace NagaW
 
         private void frmAuto_Load(object sender, EventArgs e)
         {
-            btnDoorLock.Parent.Controls.Remove(btnDoorLock);
-            btnDoorUnlock.Parent.Controls.Remove(btnDoorUnlock);
-
             timer1.Enabled = true;
             Text = "Auto";
             cbxRunMode.SelectedIndex = (int)ERunMode.Normal;
@@ -82,14 +79,18 @@ namespace NagaW
                             continueDisp = false;
 
                             if (!TCWafer.AutoLoad(timeout.Value * 1000)) break;
+                        }
 
-                            if (EnableNotchAlignment)
+                        continueDisp = false;
+
+
+                        if (EnableNotchAlignment)
+                        {
+                            if (!TCWafer.IsNotch)
                             {
                                 if (!TCWafer.NotchAlignment()) return;
                             }
                         }
-
-                        continueDisp = false;
 
                         Inst.Board[0].RunMode = runMode;
                         if (!TCDisp.Run[0].All()) break;
@@ -215,14 +216,6 @@ namespace NagaW
             GControl.UI_Enable();
         }
 
-        private void btnDoorLock_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void btnDoorUnlock_Click(object sender, EventArgs e)
-        {
-        }
-
         private void timer1_Tick(object sender, EventArgs e)
         {
             lblDoorLockSens.BackColor = TFSafety.DoorLocked.Status ? Color.Lime : SystemColors.ControlDark;
@@ -231,11 +224,18 @@ namespace NagaW
             lblDNOUT.BackColor = TCWafer.SMEMA_DN_OUT.Status ? Color.Lime : SystemColors.ControlDark;
             lblUPIN.BackColor = TCWafer.SMEMA_UP_IN.Status ? Color.Lime : SystemColors.ControlDark;
             lblUPOUT.BackColor = TCWafer.SMEMA_UP_OUT.Status ? Color.Lime : SystemColors.ControlDark;
+
+            btnNotchAlign.BackColor = TCWafer.IsNotch ? Color.Lime : Color.Yellow;
         }
 
         private void chbxEnableIonizer_Click(object sender, EventArgs e)
         {
             EnableSVIonizer = !EnableSVIonizer;
+        }
+
+        private void btnNotchAlign_Click(object sender, EventArgs e)
+        {
+            TCWafer.NotchAlignment();
         }
     }
 }

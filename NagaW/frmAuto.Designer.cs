@@ -44,8 +44,6 @@
             this.chbxEnaNotch = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lblDoorLockSens = new System.Windows.Forms.Label();
-            this.btnDoorUnlock = new System.Windows.Forms.Button();
-            this.btnDoorLock = new System.Windows.Forms.Button();
             this.btnManualUnload = new System.Windows.Forms.Button();
             this.btnManualLoad = new System.Windows.Forms.Button();
             this.btnAutoUnload = new System.Windows.Forms.Button();
@@ -58,6 +56,7 @@
             this.lblDNIN = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.btnNotchAlign = new System.Windows.Forms.Button();
             this.flowLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -73,7 +72,7 @@
             this.flowLayoutPanel1.Controls.Add(this.btnStop);
             this.flowLayoutPanel1.Controls.Add(this.btnCancel);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 496);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 557);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(425, 46);
             this.flowLayoutPanel1.TabIndex = 6;
@@ -189,7 +188,7 @@
             this.panel1.Controls.Add(this.label9);
             this.panel1.Controls.Add(this.cbxRunMode);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 461);
+            this.panel1.Location = new System.Drawing.Point(0, 522);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(425, 35);
             this.panel1.TabIndex = 31;
@@ -209,6 +208,7 @@
             // 
             this.groupBox1.AutoSize = true;
             this.groupBox1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox1.Controls.Add(this.btnNotchAlign);
             this.groupBox1.Controls.Add(this.lblDoorLockSens);
             this.groupBox1.Controls.Add(this.btnManualUnload);
             this.groupBox1.Controls.Add(this.btnManualLoad);
@@ -217,7 +217,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(108, 320);
+            this.groupBox1.Size = new System.Drawing.Size(108, 380);
             this.groupBox1.TabIndex = 33;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Function";
@@ -232,26 +232,6 @@
             this.lblDoorLockSens.Text = "DoorLock Sens";
             this.lblDoorLockSens.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // btnDoorUnlock
-            // 
-            this.btnDoorUnlock.Location = new System.Drawing.Point(12, 209);
-            this.btnDoorUnlock.Name = "btnDoorUnlock";
-            this.btnDoorUnlock.Size = new System.Drawing.Size(90, 45);
-            this.btnDoorUnlock.TabIndex = 5;
-            this.btnDoorUnlock.Text = "Door Unlock";
-            this.btnDoorUnlock.UseVisualStyleBackColor = true;
-            this.btnDoorUnlock.Click += new System.EventHandler(this.btnDoorUnlock_Click);
-            // 
-            // btnDoorLock
-            // 
-            this.btnDoorLock.Location = new System.Drawing.Point(12, 158);
-            this.btnDoorLock.Name = "btnDoorLock";
-            this.btnDoorLock.Size = new System.Drawing.Size(90, 45);
-            this.btnDoorLock.TabIndex = 4;
-            this.btnDoorLock.Text = "Door Lock";
-            this.btnDoorLock.UseVisualStyleBackColor = true;
-            this.btnDoorLock.Click += new System.EventHandler(this.btnDoorLock_Click);
-            // 
             // btnManualUnload
             // 
             this.btnManualUnload.Location = new System.Drawing.Point(6, 193);
@@ -264,7 +244,7 @@
             // 
             // btnManualLoad
             // 
-            this.btnManualLoad.Location = new System.Drawing.Point(6, 142);
+            this.btnManualLoad.Location = new System.Drawing.Point(6, 127);
             this.btnManualLoad.Name = "btnManualLoad";
             this.btnManualLoad.Size = new System.Drawing.Size(90, 45);
             this.btnManualLoad.TabIndex = 2;
@@ -356,7 +336,7 @@
             this.groupBox2.Controls.Add(this.lblUPOUT);
             this.groupBox2.Controls.Add(this.lblDNIN);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox2.Location = new System.Drawing.Point(0, 320);
+            this.groupBox2.Location = new System.Drawing.Point(0, 380);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(108, 239);
             this.groupBox2.TabIndex = 39;
@@ -370,17 +350,25 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel2.Location = new System.Drawing.Point(425, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(108, 542);
+            this.panel2.Size = new System.Drawing.Size(108, 603);
             this.panel2.TabIndex = 40;
+            // 
+            // btnNotchAlign
+            // 
+            this.btnNotchAlign.Location = new System.Drawing.Point(6, 310);
+            this.btnNotchAlign.Name = "btnNotchAlign";
+            this.btnNotchAlign.Size = new System.Drawing.Size(90, 45);
+            this.btnNotchAlign.TabIndex = 41;
+            this.btnNotchAlign.Text = "Notch Align";
+            this.btnNotchAlign.UseVisualStyleBackColor = true;
+            this.btnNotchAlign.Click += new System.EventHandler(this.btnNotchAlign_Click);
             // 
             // frmAuto
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(533, 542);
+            this.ClientSize = new System.Drawing.Size(533, 603);
             this.Controls.Add(this.chbxEnableIonizer);
-            this.Controls.Add(this.btnDoorUnlock);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.btnDoorLock);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.chbxEnaNotch);
             this.Controls.Add(this.label3);
@@ -427,8 +415,6 @@
         private System.Windows.Forms.Button btnManualLoad;
         private System.Windows.Forms.Button btnAutoUnload;
         private System.Windows.Forms.Button btnAutoLoad;
-        private System.Windows.Forms.Button btnDoorUnlock;
-        private System.Windows.Forms.Button btnDoorLock;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label lblDoorLockSens;
         private System.Windows.Forms.CheckBox chbxEnableIonizer;
@@ -438,5 +424,6 @@
         private System.Windows.Forms.Label lblDNIN;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Button btnNotchAlign;
     }
 }
