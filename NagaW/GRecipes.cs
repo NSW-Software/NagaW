@@ -772,6 +772,7 @@ namespace NagaW
 
                 if (Cmd >= ECmd.DOT && Cmd < ECmd.NEEDLE_VAC_CLEAN) s = "[Goto]";
                 if (Cmd == ECmd.HEIGHT_SET) s = string.Empty;
+                if (Cmd == ECmd.DYNAMIC_JET_DOT_SW) s = string.Empty;
                 return s;
             }
         }
@@ -3413,15 +3414,20 @@ namespace NagaW
             //H = new List<double>();
         }
 
-        public EAction PatAlignExecute(TEZMCAux.TGroup gantryGroup, PointD originAbs, TCmd cmd, ref TAlignData alignData, int settleTime = 0)
+        public EAction PatAlignExecute(TEZMCAux.TGroup gantryGroup, PointD originAbs, TCmd cmd, ref TAlignData alignData, int settleTime = 0, bool SkipFail = false)
         {
-            string desc = $"\r\rAccept: accept current position as ref point\rRetry: remain or select new position to redo pat alignment\rIgnore: skip current unit for entire process\rAbort: Stop entire process";
+            EAction skipaction = EAction.Fail;
+
+            string desc = $"\r" +
+                $"\rAccept: accept current position as ref point" +
+                $"\rRetry: remain or select new position to redo pat alignment" +
+                $"\rIgnore: skip current unit for entire process" +
+                $"\rAbort: Stop entire process";
 
             if (settleTime <= 0) settleTime = GProcessPara.Vision.SettleTime.Value;
 
-
-            var distPerPixelX = GSystemCfg.Camera.Cameras[0].DistPerPixelX;
-            var distPerPixelY = GSystemCfg.Camera.Cameras[0].DistPerPixelY;
+            var distPerPixelX = GSystemCfg.Camera.Cameras[gantryGroup.Index].DistPerPixelX;
+            var distPerPixelY = GSystemCfg.Camera.Cameras[gantryGroup.Index].DistPerPixelY;
 
             Emgu.CV.Image<Emgu.CV.Structure.Gray, byte> img = null;
 
@@ -3439,14 +3445,13 @@ namespace NagaW
                 PointD offset2 = new PointD();
 
             _Redo:
-                //gantry.MoveOpZAbs(GSystemCfg.Camera.Cameras[gantry.Index].DefaultFocusZ + cmd.Para[2]);
                 gantry.MoveOpZAbs(GRecipes.Board[gantry.Index].StartPos.Z);
                 gantryGroup.MoveOpXYAbs((originAbs + ptOri1 + offset1).ToArray);
                 Thread.Sleep(settleTime);
 
                 TFCameras.Camera[gantryGroup.Index].FlirCamera.Snap();
                 img = TFCameras.Camera[gantryGroup.Index].FlirCamera.emgucvImage.Clone();
-                //TFCameras.Camera[gantryGroup.Index].FlirCamera.Live();
+                TFCameras.Camera[gantryIdx].FlirCamera.Live();
 
                 int id = cmd.ID;
                 if (GRecipes.PatRecog[gantryGroup.Index][id].RegImage[0] == null)
@@ -3461,6 +3466,7 @@ namespace NagaW
                 PointD pLOfst = new PointD(0, 0);
                 double score = 0;
                 if (!TFVision.PatMatch(img, GRecipes.PatRecog[gantryGroup.Index][id].RegImage[0], GRecipes.PatRecog[gantryGroup.Index][id].ImgThld[0], new Rectangle[] { GRecipes.PatRecog[gantryGroup.Index][id].SearchRect[0], GRecipes.PatRecog[gantryGroup.Index][id].PatRect[0] }, ref pLoc, ref pLOfst, ref score)) return EAction.Fail;
+
                 PointD ofst = new PointD(pLOfst.X * distPerPixelX, -pLOfst.Y * distPerPixelY);
 
                 double minScore = cmd.Para[6];
@@ -3470,12 +3476,17 @@ namespace NagaW
                 if (score < minScore)
                 {
                     GLog.LogProcess($"PatternAlign 1 Score {score:f2}");
-                    var xy = new PointD(gantryGroup.Axis[0].ActualPos, gantryGroup.Axis[1].ActualPos);
-                    GControl.UI_Enable();
 
+                    if (SkipFail) return skipaction;
+
+                    var xy = new PointD(gantryGroup.Axis[0].ActualPos, gantryGroup.Axis[1].ActualPos);
+
+                    GControl.UI_Enable();
+                    var msg = MsgBox.ShowDialog($"PA 1 Vision Match Low Score\r\nSetScore:{minScore}\r\nPA score:{score:f2}" + desc, MsgBoxBtns.OkAbortRetryIgnore);
+                    GControl.UI_Disable(GControl.ExceptionCtrl);
                     TFCameras.Camera[gantry.Index].FlirCamera.Live();
 
-                    switch (MsgBox.ShowDialog($"PA 1 Vision Match Low Score\r\nSetScore:{minScore}\r\nPA score:{score:f2}" + desc, MsgBoxBtns.OkAbortRetryIgnore))
+                    switch (msg)
                     {
                         default:
                             {
@@ -3498,15 +3509,18 @@ namespace NagaW
                     }
                 }
 
-                TFCameras.Camera[gantry.Index].FlirCamera.Live();
-
                 GLog.LogProcess($"PatternAlign 1 Score {score:f2} Offset {ofst.ToStringForDisplay()}");
                 if (Math.Abs(ofst.X) > maxOfst || Math.Abs(ofst.Y) > maxOfst)
                 {
+                    if (SkipFail) return skipaction;
+
                     var xy = new PointD(gantryGroup.Axis[0].ActualPos, gantryGroup.Axis[1].ActualPos);
                     GControl.UI_Enable();
+                    var msg = MsgBox.ShowDialog($"PA 1 Offset Fail\r\nSetOffsetTol:{maxOfst}\r\nPA Offset:{Math.Abs(ofst.X)},{Math.Abs(ofst.Y)}\r\n" + desc, MsgBoxBtns.OkRetryAbort);
+                    GControl.UI_Disable(GControl.ExceptionCtrl);
+                    TFCameras.Camera[gantry.Index].FlirCamera.Live();
 
-                    switch (MsgBox.ShowDialog($"PA 1 Offset Fail\r\nSetOffsetTol:{maxOfst}\r\nPA Offset:{Math.Abs(ofst.X)},{Math.Abs(ofst.Y)}\r\n" + desc, MsgBoxBtns.OkRetryAbort))
+                    switch (msg)
                     {
                         default:
                             {
@@ -3544,18 +3558,16 @@ namespace NagaW
                 {
                     PointD ptNew2 = originAbs + ptNew1 + (ptOri2 - ptOri1) + offset2;
 
-                    //gantry.MoveOpZAbs(GSystemCfg.Camera.Cameras[gantry.Index].DefaultFocusZ + cmd.Para[5]);
+                    gantry.MoveOpZAbs(GSystemCfg.Camera.Cameras[gantry.Index].DefaultFocusZ + cmd.Para[5]);
                     gantryGroup.MoveOpXYAbs(ptNew2.ToArray);
                     Thread.Sleep(GProcessPara.Vision.SettleTime.Value);
 
                     TFCameras.Camera[gantryGroup.Index].FlirCamera.Snap();
                     img = TFCameras.Camera[gantryGroup.Index].FlirCamera.emgucvImage.Clone();
-                    //TFCameras.Camera[gantryGroup.Index].FlirCamera.Live();
+                    TFCameras.Camera[gantryGroup.Index].FlirCamera.Live();
 
                     id = cmd.ID;
-                    var secpointIdx = cmd.Para[9] is 10 ? 0 : 1;
-
-                    if (GRecipes.PatRecog[gantryGroup.Index][id].RegImage[secpointIdx] == null)
+                    if (GRecipes.PatRecog[gantryGroup.Index][id].RegImage[1] == null)
                     {
                         alignData.Status = EPatAlignStatus.Error;
                         GAlarm.Prompt(EAlarm.VISION_MATCH_IMAGE_REGISTER_ERROR);
@@ -3566,22 +3578,26 @@ namespace NagaW
                     pLOfst = new PointD(0, 0);
                     score = 0;
 
-                    //var secpointIdx = cmd.Para[9] is 10 ? 0 : 1;
+                    var secpointIdx = cmd.Para[9] is 10 ? 0 : 1;
                     if (!TFVision.PatMatch(img, GRecipes.PatRecog[gantryGroup.Index][id].RegImage[secpointIdx], GRecipes.PatRecog[gantryGroup.Index][id].ImgThld[secpointIdx], new Rectangle[] { GRecipes.PatRecog[gantryGroup.Index][id].SearchRect[secpointIdx], GRecipes.PatRecog[gantryGroup.Index][id].PatRect[secpointIdx] }, ref pLoc, ref pLOfst, ref score)) return EAction.Fail;
+
+                    TFCameras.Camera[gantryIdx].FlirCamera.Live();
+
                     ofst = new PointD(pLOfst.X * distPerPixelX, -pLOfst.Y * distPerPixelY);
 
                     if (score < minScore)
                     {
                         GLog.LogProcess($"PatternAlign 2 Score {score:f2}");
-                        //alignData.Status = EPatAlignStatus.FailScore2;
-                        //GAlarm.Prompt(EAlarm.VISION_MATCH_LOW_SCORE_ERROR, gantryGroup.Name);
-                        //return false;
+
+                        if (SkipFail) return skipaction;
+
                         var xy = new PointD(gantryGroup.Axis[0].ActualPos, gantryGroup.Axis[1].ActualPos);
                         GControl.UI_Enable();
-
+                        var msg = MsgBox.ShowDialog($"PA 2 vision match low score\r\nSetScore:{minScore}\r\nPA score:{score}" + desc, MsgBoxBtns.OkRetryAbort);
+                        GControl.UI_Disable(GControl.ExceptionCtrl);
                         TFCameras.Camera[gantry.Index].FlirCamera.Live();
 
-                        switch (MsgBox.ShowDialog($"PA 2 vision match low score\r\nSetScore:{minScore}\r\nPA score:{score}" + desc, MsgBoxBtns.OkRetryAbort))
+                        switch (msg)
                         {
                             default:
                                 {
@@ -3607,13 +3623,15 @@ namespace NagaW
                     if (Math.Abs(ofst.X) > maxOfst || Math.Abs(ofst.Y) > maxOfst)
                     {
                         GLog.LogProcess($"PatternAlign 2 Score {score:f2} Offset {ofst.ToStringForDisplay()}");
+                        if (SkipFail) return skipaction;
 
                         var xy = new PointD(gantryGroup.Axis[0].ActualPos, gantryGroup.Axis[1].ActualPos);
                         GControl.UI_Enable();
-
+                        var msg = MsgBox.ShowDialog($"PA 2 Offset Fail\r\nSetOffsetTol:{maxOfst}\r\nPA Offset:{Math.Abs(ofst.X)},{Math.Abs(ofst.Y)}\r\n" + desc, MsgBoxBtns.OkRetryAbort);
+                        GControl.UI_Disable(GControl.ExceptionCtrl);
                         TFCameras.Camera[gantry.Index].FlirCamera.Live();
 
-                        switch (MsgBox.ShowDialog($"PA 2 Offset Fail\r\nSetOffsetTol:{maxOfst}\r\nPA Offset:{Math.Abs(ofst.X)},{Math.Abs(ofst.Y)}\r\n" + desc, MsgBoxBtns.OkRetryAbort))
+                        switch (msg)
                         {
                             default:
                                 {
@@ -3645,29 +3663,24 @@ namespace NagaW
                     GLog.LogProcess($"Angle1 {angle1:f3}");
                     GLog.LogProcess($"Angle2 {angle2:f3}");
 
-                    //if (angle2 < 0) angle2 = 2 * Math.PI + angle2;
-
                     alignData.Scores.Add(score);
                     var rad = angle2 - angle1;
 
                     if (rad > Math.PI) rad = (2 * Math.PI) - rad;
                     if (rad < -Math.PI) rad = (2 * Math.PI) + rad;
 
-                    GLog.LogProcess($"Rad {rad:f3}");
-
                     alignData.Angle_Rad = rad;
 
                     var angle = alignData.Angle_Rad * 180 / Math.PI;
-
-                    TFCameras.Camera[gantry.Index].FlirCamera.Live();
 
                     GLog.LogProcess($"PatternAlign 2 Score {score:f2} Offset {ofst.ToStringForDisplay()} Angle {angle:f3}");
 
                     if (Math.Abs(angle) > maxAngle)
                     {
                         GControl.UI_Enable();
-
-                        switch (MsgBox.ShowDialog($"PA Vision Match Angle Error{angle:f3}" + desc, MsgBoxBtns.OkRetryAbort))
+                        var msg = MsgBox.ShowDialog($"PA Vision Match Angle Error{angle:f3}" + desc, MsgBoxBtns.OkRetryAbort);
+                        GControl.UI_Disable(GControl.ExceptionCtrl);
+                        switch (msg)
                         {
                             default:
                                 {
@@ -3680,12 +3693,10 @@ namespace NagaW
                             case DialogResult.OK: break;
                         }
                     }
-
                 }
                 #endregion
 
                 alignData.Status = EPatAlignStatus.OK;
-                //return true;
                 return EAction.Accept;
             }
             finally
@@ -3718,9 +3729,10 @@ namespace NagaW
             double angle = alignData.Angle_Rad;
 
             PointD ptRotate = new PointD(ptOri);
-            ptRotate.X = alignData.Datum.X + (ptRotate.X - alignData.Datum.X) * Math.Cos(angle) - (ptRotate.Y - alignData.Datum.Y) * Math.Sin(angle);
-            ptRotate.Y = alignData.Datum.Y + (ptRotate.X - alignData.Datum.X) * Math.Sin(angle) + (ptRotate.Y - alignData.Datum.Y) * Math.Cos(angle);
-
+            //ptRotate.X = alignData.Datum.X + (ptRotate.X - alignData.Datum.X) * Math.Cos(angle) - (ptRotate.Y - alignData.Datum.Y) * Math.Sin(angle);
+            //ptRotate.Y = alignData.Datum.Y + (ptRotate.X - alignData.Datum.X) * Math.Sin(angle) + (ptRotate.Y - alignData.Datum.Y) * Math.Cos(angle);
+            ptRotate.X = alignData.Datum.X + (ptOri.X - alignData.Datum.X) * Math.Cos(angle) - (ptOri.Y - alignData.Datum.Y) * Math.Sin(angle);
+            ptRotate.Y = alignData.Datum.Y + (ptOri.X - alignData.Datum.X) * Math.Sin(angle) + (ptOri.Y - alignData.Datum.Y) * Math.Cos(angle);
             PointD ptTranslate = new PointD(ptRotate) + alignData.Offset;
 
             return ptTranslate;

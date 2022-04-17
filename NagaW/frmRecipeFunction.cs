@@ -392,7 +392,7 @@ namespace NagaW
             formList.ForEach(f => f.Close());
         }
 
-        List<Form> formList = new List<Form>();
+        public List<Form> formList = new List<Form>();
         private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             void showForm(Form frm, bool enabled = false)

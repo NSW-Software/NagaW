@@ -82,9 +82,12 @@ namespace NagaW
             frm.ShowIcon = false;
             frm.FormBorderStyle = FormBorderStyle.FixedSingle;
         }
+        public static dynamic[] ExceptionCtrl = new dynamic[0];
 
         public static void UI_Disable(params dynamic[] except_ctrl)
         {
+            ExceptionCtrl = except_ctrl;
+
             Application.OpenForms.OfType<Form>().Where(x => !(x is frmPrompt)).Where(f => !except_ctrl.Contains(f)).ToList().ForEach(f =>
             {
                 GetChildItems(f).ToList().ForEach(c =>

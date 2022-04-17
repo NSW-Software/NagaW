@@ -403,11 +403,14 @@ namespace NagaW
             public void Stop()
             {
                 //GRecipes.Functions[gantryNo][Inst.Board[gantryNo].FunNo].Stop();
-                GRecipes.Functions[gantryNo][fun].Stop();
+                //GRecipes.Functions[gantryNo][fun].Stop();
+                foreach (var f in GRecipes.Functions[gantryNo]) f.Stop();
+
             }
             public void CancelBuffer()
             {
-                GRecipes.Functions[gantryNo][fun].Cancel();
+                //GRecipes.Functions[gantryNo][fun].Cancel();
+                foreach (var f in GRecipes.Functions[gantryNo]) f.Cancel();
             }
 
             public bool OneUnit(int funcNo)

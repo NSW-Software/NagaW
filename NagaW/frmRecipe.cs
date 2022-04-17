@@ -65,6 +65,8 @@ namespace NagaW
             cbxRunSelect.SelectedItem = TCDisp.RunSelect;
 
             GControl.LogForm(this);
+
+            tabControl1.SelectedIndexChanged += (a, b) => rcpFunc.formList.ForEach(x => x.Close());
         }
 
         public void UpdateDisplay()
@@ -108,9 +110,9 @@ namespace NagaW
 
         private void btnStop_Click(object sender, EventArgs e)
         {
-
             TCDisp.Run[gantry.Index].Stop();
             TCDisp.Run[gantry.Index].bRun = false;
+            rcpFunc.formList.ForEach(x => x.Close());
         }
         private void btnCancel_Click(object sender, EventArgs e)
         {
@@ -122,6 +124,7 @@ namespace NagaW
                 frm.RefreshUI();
                 frm.Refresh();
             }
+            rcpFunc.formList.ForEach(x => x.Close());
         }
 
         private void cbxRunMode_SelectionChangeCommitted(object sender, EventArgs e)
