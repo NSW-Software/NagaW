@@ -10,10 +10,6 @@ using System.Drawing;
 
 namespace NagaW
 {
-    class GVar
-    {
-    }
-
     public class GSystemCfg
     {
         public class Config
@@ -352,7 +348,7 @@ namespace NagaW
 
     public class GSetupPara
     {
-        public const int HeadCount = 4;
+        public const int HeadCount = 2;
         public class Calibration
         {
             public static PointXYZ[] LaserCamPos = Enumerable.Range(0, HeadCount).Select(x => new PointXYZ()).ToArray();

@@ -317,6 +317,7 @@ namespace NagaW
         {
             try
             {
+                GControl.ExceptionCtrl = new dynamic[0]; 
                 Inst.TBoard instBoard = Inst.Board[gantry.Index];
 
                 await Task.Run(() => GRecipes.Functions[gantry.Index][instBoard.FuncNo].PatAlignExecute(gantry, ptBase, Tcmd, ref alignData));
@@ -333,12 +334,23 @@ namespace NagaW
                         break;
                 }
                 rtbxResult.Text = res;
+                switch (Tcmd.Cmd)
+                {
+                    case ECmd.PAT_ALIGN_ROTARY:
+                        {
+                            if (!GMotDef.GRAxis.MoveRel(alignData.Angle_Deg)) return;
+
+                            break;
+                        }
+                }
                 UpdateDisplay();
             }
             catch (Exception ex) { MessageBox.Show(ex.Message.ToString()); }
             finally
             {
+                GControl.UI_Enable();
             }
+            GControl.UI_Enable();
         }
 
         private void cb2PointsWithPat1Img_Click(object sender, EventArgs e)

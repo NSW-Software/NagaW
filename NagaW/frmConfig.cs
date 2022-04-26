@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 
+using System.Diagnostics;
+using System.Reflection;
+
 namespace NagaW
 {
     public partial class frmConfig : Form
@@ -366,5 +369,252 @@ namespace NagaW
             UpdateDisplay();
         }
 
+        private void btnCEID_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.FileName = "CEID";
+            sfd.Filter = "Text files (*.txt)|*.txt";
+            if (sfd.ShowDialog() != DialogResult.OK) return;
+
+            var ceid = Enum.GetValues(typeof(EEvent)).OfType<EEvent>().Select(x => $"{(int)x},{x}");
+            var s = string.Join("\n", ceid);
+
+            File.WriteAllText(sfd.FileName, s);
+
+            Process.Start(sfd.FileName);
+        }
+
+        private void btnALID_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.FileName = "ALID";
+            sfd.Filter = "Text files (*.txt)|*.txt";
+            if (sfd.ShowDialog() != DialogResult.OK) return;
+
+            var ceid = Enum.GetValues(typeof(EAlarm)).OfType<EAlarm>().Select(x => $"{(int)x},{x}");
+            var s = string.Join("\n", ceid);
+
+            File.WriteAllText(sfd.FileName, s);
+
+            Process.Start(sfd.FileName);
+        }
+
+        private void btnSVID_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.FileName = "SVID";
+            sfd.Filter = "Text files (*.txt)|*.txt";
+            if (sfd.ShowDialog() != DialogResult.OK) return;
+
+            #region ExtractInfo
+            List<string> slist = new List<string>();
+            int index = 1;
+
+            var members = new List<MemberInfo>();
+            members = new Type[] { typeof(GProcessPara) }.SelectMany(x => x.GetAllMembers(BindingFlags.Static | BindingFlags.Public)).ToList();
+
+            foreach (var m in members)
+            {
+                object o = null;
+                #region GetObject
+                switch (m.MemberType)
+                {
+                    case MemberTypes.Field:
+                        {
+                            var f = m as FieldInfo;
+                            if (f.IsLiteral || f.IsInitOnly) break;
+                            o = f.GetValue(null);
+                            break;
+                        }
+                    case MemberTypes.Property:
+                        {
+                            var p = m as PropertyInfo;
+                            if (!p.CanWrite || !p.CanRead) break;
+                            o = p.GetValue(null);
+                            break;
+                        }
+                }
+                #endregion
+
+                string value = "";
+                switch (o)
+                {
+                    case IPara ipara:
+                        {
+                            value += ipara.Value.ToString();
+                            value += $",{ipara.Unit}";
+                            break;
+                        }
+                    case DPara dpara:
+                        {
+                            value += dpara.Value.ToString("f3");
+                            value += $",{dpara.Unit}";
+                            break;
+                        }
+                    case IPara[] iparas:
+                        {
+                            var ipara = iparas[0];
+                            value += ipara.Value.ToString();
+                            value += $",{ipara.Unit}";
+                            break;
+                        }
+                    case DPara[] dparas:
+                        {
+                            var dpara = dparas[0];
+                            value += dpara.Value.ToString("f3");
+                            value += $",{dpara.Unit}";
+                            break;
+                        }
+                    case Enum evalue:
+                        {
+                            value += o;
+                            value += "," + o.GetType().Name;
+
+                            var desc = string.Join("; ", Enum.GetNames(o.GetType()));
+                            value += $"({desc})";
+                            break;
+                        }
+                    case string svalue:
+                    case byte btvalue:
+                    case short shvalue:
+                    case int ivalue:
+                    case long lvalue:
+                    case sbyte sbtvalue:
+                    case ushort ushvalue:
+                    case uint uivalue:
+                    case ulong ulvalue:
+                    case double dvalue:
+                    case float fvalue:
+                    case bool bvalue:
+                    case char cvalue:
+                    case decimal dcvalue:
+                    case DateTime dtvalue:
+                        {
+                            value += o;
+                            value += "," + o.GetType().Name;
+                            break;
+                        }
+
+                    default: continue;
+                }
+                slist.Add($"{index++},{m.DeclaringType.Name + m.Name}," + value);
+            }
+            #endregion
+
+            var s = string.Join("\n", slist);
+            File.WriteAllText(sfd.FileName, s);
+            Process.Start(sfd.FileName);
+        }
+
+        private void btnEquipConst_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.FileName = "EQUIPCONST";
+            sfd.Filter = "Text files (*.txt)|*.txt";
+            if (sfd.ShowDialog() != DialogResult.OK) return;
+
+            #region ExtractInfo
+            List<string> slist = new List<string>();
+            int index = 1;
+
+            var members = new List<MemberInfo>();
+            members = new Type[] { typeof(GSystemCfg) }.SelectMany(x => x.GetAllMembers(BindingFlags.Static | BindingFlags.Public)).ToList();
+
+            foreach (var m in members)
+            {
+                object o = null;
+                #region GetObject
+                switch (m.MemberType)
+                {
+                    case MemberTypes.Field:
+                        {
+                            var f = m as FieldInfo;
+                            if (f.IsLiteral || f.IsInitOnly) break;
+                            o = f.GetValue(null);
+                            break;
+                        }
+                    case MemberTypes.Property:
+                        {
+                            var p = m as PropertyInfo;
+                            if (!p.CanWrite || !p.CanRead) break;
+                            o = p.GetValue(null);
+                            break;
+                        }
+                }
+                #endregion
+
+                Set(o);
+
+                void Set(object obj)
+                {
+                    string value = "";
+                    switch (obj)
+                    {
+                        default:
+                            {
+                                foreach (PropertyDescriptor p in TypeDescriptor.GetProperties(obj))
+                                {
+                                    Set(p.GetValue(null));
+                                }
+                                return;
+                            }
+                        case IPara ipara:
+                            {
+                                value += ipara.Value.ToString();
+                                value += $",{ipara.Unit}";
+                                break;
+                            }
+                        case DPara dpara:
+                            {
+                                value += dpara.Value.ToString("f3");
+                                value += $",{dpara.Unit}";
+                                break;
+                            }
+                        case Array arr:
+                            {
+                                Set(arr.GetValue(0));
+                                return;
+                            }
+                        case Enum evalue:
+                            {
+                                value += evalue;
+                                value += "," + o.GetType().Name;
+
+                                var desc = string.Join("; ", Enum.GetNames(obj.GetType()));
+                                value += $"({desc})";
+                                break;
+                            }
+                        case string svalue:
+                        case byte btvalue:
+                        case short shvalue:
+                        case int ivalue:
+                        case long lvalue:
+                        case sbyte sbtvalue:
+                        case ushort ushvalue:
+                        case uint uivalue:
+                        case ulong ulvalue:
+                        case double dvalue:
+                        case float fvalue:
+                        case bool bvalue:
+                        case char cvalue:
+                        case decimal dcvalue:
+                        case DateTime dtvalue:
+                            {
+                                value += obj;
+                                value += "," + obj.GetType().Name;
+                                break;
+                            }
+                    }
+                    slist.Add($"{index++},{m.DeclaringType.Name + m.Name}," + value);
+                }
+            }
+
+            #endregion
+
+
+            var s = string.Join("\n", slist);
+            File.WriteAllText(sfd.FileName, s);
+            Process.Start(sfd.FileName);
+        }
     }
 }

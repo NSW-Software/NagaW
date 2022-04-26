@@ -78,6 +78,8 @@
             this.lblLayoutRow = new System.Windows.Forms.Label();
             this.lblLayoutCol = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.groupBox4.SuspendLayout();
             this.gbxVirtual.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -89,6 +91,8 @@
             // 
             this.groupBox4.AutoSize = true;
             this.groupBox4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox4.Controls.Add(this.label10);
+            this.groupBox4.Controls.Add(this.label9);
             this.groupBox4.Controls.Add(this.btnViewVirtualMode);
             this.groupBox4.Controls.Add(this.gbxVirtual);
             this.groupBox4.Controls.Add(this.lblStartPosRow);
@@ -672,6 +676,24 @@
             this.label3.Text = "Pitch Row";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(476, 90);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(53, 18);
+            this.label9.TabIndex = 28;
+            this.label9.Text = "Ref1 Y";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(557, 90);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(52, 18);
+            this.label10.TabIndex = 29;
+            this.label10.Text = "Ref1 X";
+            // 
             // frmRecipeLayout
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 18F);
@@ -752,5 +774,7 @@
         private System.Windows.Forms.GroupBox gbxVirtual;
         private System.Windows.Forms.CheckBox chbxEnaDynJet;
         private System.Windows.Forms.Button btnViewVirtualMode;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label9;
     }
 }

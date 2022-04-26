@@ -550,7 +550,7 @@ namespace NagaW
                                     newobject = Enum.Parse(evalue.GetType(), reader.ReadElementContentAsString());
                                 }
                                 catch
-                                {
+                                {   
                                     newobject = Enum.ToObject(evalue.GetType(), 0);
                                 }
                                 break;

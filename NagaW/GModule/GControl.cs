@@ -608,6 +608,28 @@ namespace NagaW
 
             return array;
         }
+
+
+        public static List<PropertyInfo> GetAllProperties(this Type Class, BindingFlags flags = BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)
+        {
+            List<PropertyInfo> p = new List<PropertyInfo>();
+            Assembly.GetExecutingAssembly().GetTypes().Where(x => x.FullName.Contains(Class.Name) && x.IsClass && !x.IsEnum).ToList().ForEach(y => p.AddRange(y.GetProperties(flags)));
+            return p;
+        }
+        public static List<FieldInfo> GetAllFields(this Type Class, BindingFlags flags = BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)
+        {
+            List<FieldInfo> fields = new List<FieldInfo>();
+            Assembly.GetExecutingAssembly().GetTypes().Where(x => x.FullName.Contains(Class.Name) && x.IsClass && !x.IsEnum).ToList().ForEach(y => fields.AddRange(y.GetFields(flags)));
+            return fields;
+        }
+
+        public static List<MemberInfo> GetAllMembers(this Type Class, BindingFlags flags = BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)
+        {
+            List<MemberInfo> members = new List<MemberInfo>();
+            Assembly.GetExecutingAssembly().GetTypes().Where(x => x.FullName.Contains(Class.Name) && x.IsClass && !x.IsEnum).ToList().ForEach(y => members.AddRange(y.GetMembers(flags)));
+            return members;
+        }
+
     }
 
     public class TEDisplay

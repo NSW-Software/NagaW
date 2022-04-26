@@ -70,6 +70,11 @@
             this.btnReset = new System.Windows.Forms.Button();
             this.tpOption = new System.Windows.Forms.TabPage();
             this.cbxCentrePatAlign = new System.Windows.Forms.CheckBox();
+            this.tpGem = new System.Windows.Forms.TabPage();
+            this.btnSVID = new System.Windows.Forms.Button();
+            this.btnCEID = new System.Windows.Forms.Button();
+            this.btnALID = new System.Windows.Forms.Button();
+            this.btnEquipConst = new System.Windows.Forms.Button();
             this.tabcontrol1.SuspendLayout();
             this.tpConfig.SuspendLayout();
             this.tpGantry.SuspendLayout();
@@ -91,6 +96,7 @@
             this.tpMakerData.SuspendLayout();
             this.flowLayoutPanel10.SuspendLayout();
             this.tpOption.SuspendLayout();
+            this.tpGem.SuspendLayout();
             this.SuspendLayout();
             // 
             // timer1
@@ -114,6 +120,7 @@
             this.tabcontrol1.Controls.Add(this.tpAdvance);
             this.tabcontrol1.Controls.Add(this.tpMakerData);
             this.tabcontrol1.Controls.Add(this.tpOption);
+            this.tabcontrol1.Controls.Add(this.tpGem);
             this.tabcontrol1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabcontrol1.ItemSize = new System.Drawing.Size(100, 35);
             this.tabcontrol1.Location = new System.Drawing.Point(5, 5);
@@ -535,6 +542,60 @@
             this.cbxCentrePatAlign.UseVisualStyleBackColor = true;
             this.cbxCentrePatAlign.Click += new System.EventHandler(this.cbxCentrePatAlign_Click);
             // 
+            // tpGem
+            // 
+            this.tpGem.Controls.Add(this.btnEquipConst);
+            this.tpGem.Controls.Add(this.btnSVID);
+            this.tpGem.Controls.Add(this.btnCEID);
+            this.tpGem.Controls.Add(this.btnALID);
+            this.tpGem.Location = new System.Drawing.Point(4, 115);
+            this.tpGem.Name = "tpGem";
+            this.tpGem.Padding = new System.Windows.Forms.Padding(3);
+            this.tpGem.Size = new System.Drawing.Size(609, 319);
+            this.tpGem.TabIndex = 16;
+            this.tpGem.Text = "Gem";
+            this.tpGem.UseVisualStyleBackColor = true;
+            // 
+            // btnSVID
+            // 
+            this.btnSVID.Location = new System.Drawing.Point(198, 6);
+            this.btnSVID.Name = "btnSVID";
+            this.btnSVID.Size = new System.Drawing.Size(90, 51);
+            this.btnSVID.TabIndex = 13;
+            this.btnSVID.Text = "Export SVID";
+            this.btnSVID.UseVisualStyleBackColor = true;
+            this.btnSVID.Click += new System.EventHandler(this.btnSVID_Click);
+            // 
+            // btnCEID
+            // 
+            this.btnCEID.Location = new System.Drawing.Point(6, 6);
+            this.btnCEID.Name = "btnCEID";
+            this.btnCEID.Size = new System.Drawing.Size(90, 51);
+            this.btnCEID.TabIndex = 12;
+            this.btnCEID.Text = "Export CEID";
+            this.btnCEID.UseVisualStyleBackColor = true;
+            this.btnCEID.Click += new System.EventHandler(this.btnCEID_Click);
+            // 
+            // btnALID
+            // 
+            this.btnALID.Location = new System.Drawing.Point(102, 6);
+            this.btnALID.Name = "btnALID";
+            this.btnALID.Size = new System.Drawing.Size(90, 51);
+            this.btnALID.TabIndex = 11;
+            this.btnALID.Text = "Export ALID";
+            this.btnALID.UseVisualStyleBackColor = true;
+            this.btnALID.Click += new System.EventHandler(this.btnALID_Click);
+            // 
+            // btnEquipConst
+            // 
+            this.btnEquipConst.Location = new System.Drawing.Point(294, 6);
+            this.btnEquipConst.Name = "btnEquipConst";
+            this.btnEquipConst.Size = new System.Drawing.Size(90, 51);
+            this.btnEquipConst.TabIndex = 14;
+            this.btnEquipConst.Text = "Export EquipConst";
+            this.btnEquipConst.UseVisualStyleBackColor = true;
+            this.btnEquipConst.Click += new System.EventHandler(this.btnEquipConst_Click);
+            // 
             // frmConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 18F);
@@ -578,6 +639,7 @@
             this.flowLayoutPanel10.ResumeLayout(false);
             this.tpOption.ResumeLayout(false);
             this.tpOption.PerformLayout();
+            this.tpGem.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -624,5 +686,10 @@
         private System.Windows.Forms.Button btnTempCtrlPanel;
         private System.Windows.Forms.TabPage tpOption;
         private System.Windows.Forms.CheckBox cbxCentrePatAlign;
+        private System.Windows.Forms.TabPage tpGem;
+        private System.Windows.Forms.Button btnSVID;
+        private System.Windows.Forms.Button btnCEID;
+        private System.Windows.Forms.Button btnALID;
+        private System.Windows.Forms.Button btnEquipConst;
     }
 }

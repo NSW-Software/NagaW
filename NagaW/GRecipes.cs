@@ -723,7 +723,7 @@ namespace NagaW
                     case ECmd.DOT_SETUP: Info = $"DispTime:{Para[0]} Wait:{Para[1]}"; break;
                     case ECmd.LINE_SETUP: Info = $"LStartDelay:{Para[0]} LSpeed:{Para[1]} LEndDelay:{Para[2]} Wait:{Para[3]} TailLength:{Para[4]}"; break;
                     case ECmd.CUT_TAIL_SETUP: Info = $"Type:{(ECutTailType)(int)Para[0]} Length:{Para[1]} Height:{Para[2]} Speed{Para[3]}"; break;
-                    case ECmd.DYNAMIC_JET_SETUP: Info = $"{(Para[0] is 0 ? "" : "Pre-Disp;")}"; break;
+                    case ECmd.DYNAMIC_JET_SETUP: Info = $"{(Para[0] is 0 ? "" : "Pre; ")}{(Para[2] is 0 ? "" : "Post; ")}Dist:{Para[1]}"; break;
 
 
                     case ECmd.DOT:
@@ -2202,7 +2202,7 @@ namespace NagaW
                             dy_serp_unitRel = layoutdir == jetDir ? dy_unitRel : new PointD() - dy_unitRel;
 
                             double ratio = (double)Math.Sqrt((double)Math.Pow(dy_serp_unitRel.X, (double)2) + (double)Math.Pow(dy_serp_unitRel.Y, (double)2));
-                            double ratiocount = Math.Max(dynamic_accelDist / ratio, 1);
+                            double ratiocount = Math.Max(dynamic_accelDist / ratio, 1) + 1;
                             accel_relDist = new PointD(dy_serp_unitRel.X * ratiocount, dy_serp_unitRel.Y * ratiocount);
                             dyoffset = new PointD(GSetupPara.Calibration.DynamicOffsets[gantryIdx, isRow ? dy_serp_unitRel.X >= 0 ? 0 : 1 : (dy_serp_unitRel.Y >= 0) ? 2 : 3]);
 
@@ -2240,6 +2240,7 @@ namespace NagaW
 
                             abs_point += dyoffset + accel_relDist;
 
+                            ratiocount -= 1;
                             if (predisp == EDynamicDispMode.Everytime || firstjet && FunctionFirstExecution && predisp == EDynamicDispMode.FirstJet)
                             {
                                 var prevpoint = new PointD(abs_point);
@@ -3558,7 +3559,8 @@ namespace NagaW
                 {
                     PointD ptNew2 = originAbs + ptNew1 + (ptOri2 - ptOri1) + offset2;
 
-                    gantry.MoveOpZAbs(GSystemCfg.Camera.Cameras[gantry.Index].DefaultFocusZ + cmd.Para[5]);
+                    //gantry.MoveOpZAbs(GSystemCfg.Camera.Cameras[gantry.Index].DefaultFocusZ + cmd.Para[5]);
+                    gantryGroup.MoveOpZAbs(GRecipes.Board[gantry.Index].StartPos.Z);
                     gantryGroup.MoveOpXYAbs(ptNew2.ToArray);
                     Thread.Sleep(GProcessPara.Vision.SettleTime.Value);
 
