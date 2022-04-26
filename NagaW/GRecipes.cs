@@ -741,7 +741,7 @@ namespace NagaW
                     case ECmd.PAT_ALIGN_UNIT:
                     case ECmd.PAT_ALIGN_CLUSTER:
                     case ECmd.PAT_ALIGN_BOARD: Info = $"1Pt:{new PointD(Para[0], Para[1]).ToStringForDisplay()} {(Para[9] > 0 ? $"2Pt:{new PointD(Para[4], Para[5]).ToStringForDisplay()}" : "")} MinScore:{Para[6]} MinOffset:{Para[7]} MinAngle:{Para[7]}"; break;
-                    case ECmd.PAT_ALIGN_SETUP: Info = $"SettleT:{Para[0]}"; break;
+                    case ECmd.PAT_ALIGN_SETUP: Info = $"SettleT:{Para[0]} MultiSearch:{(Para[1] is 0 ? "No" : "Yes")}"; break;
 
                     case ECmd.HEIGHT_ALIGN_UNIT:
                     case ECmd.HEIGHT_ALIGN_CLUSTER:
@@ -1020,6 +1020,7 @@ namespace NagaW
 
             //pat align
             var settleTime = 0;
+            var multisearchEn = false;
 
             //***Height align variables
             int hsensorSettleTime = GProcessPara.HSensor.SettleTime.Value;
@@ -2383,6 +2384,7 @@ namespace NagaW
                         #region
                         {
                             settleTime = cmd.Para[0] > 0 ? (int)cmd.Para[0] : GProcessPara.Vision.SettleTime.Value;
+                            multisearchEn = cmd.Para[1] is 1 ? true : false;
                             break;
                         }
                     #endregion
@@ -2400,7 +2402,7 @@ namespace NagaW
                                 if (!running) return false;
                                 Thread.Sleep(0);
                             }
-                            switch (PatAlignExecute(gantry, unitOrigin, cmd, ref alignData, settleTime))
+                            switch (PatAlignExecute(gantry, unitOrigin, cmd, ref alignData, settleTime, false, multisearchEn))
                             {
                                 case EAction.Skip:
                                     {
@@ -2447,7 +2449,7 @@ namespace NagaW
                                 if (!running) return false;
                                 Thread.Sleep(0);
                             }
-                            switch (PatAlignExecute(gantry, originAbs, cmd, ref alignData, settleTime))
+                            switch (PatAlignExecute(gantry, originAbs, cmd, ref alignData, settleTime, false, multisearchEn))
                             {
                                 case EAction.Skip:
                                     {
@@ -2503,7 +2505,7 @@ namespace NagaW
                                 if (!running) return false;
                                 Thread.Sleep(0);
                             }
-                            switch (PatAlignExecute(gantry, originAbs, cmd, ref alignData, settleTime))
+                            switch (PatAlignExecute(gantry, originAbs, cmd, ref alignData, settleTime, false, multisearchEn))
                             {
                                 case EAction.Skip:
                                     {
@@ -3415,7 +3417,7 @@ namespace NagaW
             //H = new List<double>();
         }
 
-        public EAction PatAlignExecute(TEZMCAux.TGroup gantryGroup, PointD originAbs, TCmd cmd, ref TAlignData alignData, int settleTime = 0, bool SkipFail = false)
+        public EAction PatAlignExecute(TEZMCAux.TGroup gantryGroup, PointD originAbs, TCmd cmd, ref TAlignData alignData, int settleTime = 0, bool SkipFail = false, bool multisearch = false)
         {
             EAction skipaction = EAction.Fail;
 
@@ -3444,6 +3446,8 @@ namespace NagaW
 
                 PointD offset1 = new PointD();
                 PointD offset2 = new PointD();
+
+                int multisearchCount = 0;
 
             _Redo:
                 gantry.MoveOpZAbs(GRecipes.Board[gantry.Index].StartPos.Z);
@@ -3476,37 +3480,47 @@ namespace NagaW
 
                 if (score < minScore)
                 {
-                    GLog.LogProcess($"PatternAlign 1 Score {score:f2}");
-
-                    if (SkipFail) return skipaction;
-
-                    var xy = new PointD(gantryGroup.Axis[0].ActualPos, gantryGroup.Axis[1].ActualPos);
-
-                    GControl.UI_Enable();
-                    var msg = MsgBox.ShowDialog($"PA 1 Vision Match Low Score\r\nSetScore:{minScore}\r\nPA score:{score:f2}" + desc, MsgBoxBtns.OkAbortRetryIgnore);
-                    GControl.UI_Disable(GControl.ExceptionCtrl);
-                    TFCameras.Camera[gantry.Index].FlirCamera.Live();
-
-                    switch (msg)
+                    if (!multisearch)
                     {
-                        default:
-                            {
-                                alignData.Status = EPatAlignStatus.FailScore;
-                                GAlarm.Prompt(EAlarm.VISION_MATCH_LOW_SCORE_ERROR);
-                                return EAction.Fail;
-                            }
-                        case DialogResult.Retry:
-                            {
-                                offset1 = new PointD(gantryGroup.Axis[0].ActualPos, gantryGroup.Axis[1].ActualPos) - xy;
-                                goto _Redo;
-                            }
-                        case DialogResult.Ignore: return EAction.Skip;
-                        case DialogResult.OK:
-                            {
-                                offset1 = new PointD(gantryGroup.Axis[0].ActualPos, gantryGroup.Axis[1].ActualPos) - xy;
-                                ofst = new PointD();
-                                goto _End;
-                            }
+                        GLog.LogProcess($"PatternAlign 1 Score {score:f2}");
+
+                        if (SkipFail) return skipaction;
+
+                        var xy = new PointD(gantryGroup.Axis[0].ActualPos, gantryGroup.Axis[1].ActualPos);
+
+                        GControl.UI_Enable();
+                        var msg = MsgBox.ShowDialog($"PA 1 Vision Match Low Score\r\nSetScore:{minScore}\r\nPA score:{score:f2}" + desc, MsgBoxBtns.OkAbortRetryIgnore);
+                        GControl.UI_Disable(GControl.ExceptionCtrl);
+                        TFCameras.Camera[gantry.Index].FlirCamera.Live();
+
+                        switch (msg)
+                        {
+                            default:
+                                {
+                                    alignData.Status = EPatAlignStatus.FailScore;
+                                    GAlarm.Prompt(EAlarm.VISION_MATCH_LOW_SCORE_ERROR);
+                                    return EAction.Fail;
+                                }
+                            case DialogResult.Retry:
+                                {
+                                    offset1 = new PointD(gantryGroup.Axis[0].ActualPos, gantryGroup.Axis[1].ActualPos) - xy;
+                                    goto _Redo;
+                                }
+                            case DialogResult.Ignore: return EAction.Skip;
+                            case DialogResult.OK:
+                                {
+                                    offset1 = new PointD(gantryGroup.Axis[0].ActualPos, gantryGroup.Axis[1].ActualPos) - xy;
+                                    ofst = new PointD();
+                                    goto _End;
+                                }
+                        }
+                    }
+                    else
+                    {
+                        if (multisearchCount > 7) return EAction.Fail;
+                        offset1 = new PointD(PatMultiSearch(multisearchCount));
+                        multisearchCount++;
+                        goto _Redo;
                     }
                 }
 
@@ -3589,36 +3603,46 @@ namespace NagaW
 
                     if (score < minScore)
                     {
-                        GLog.LogProcess($"PatternAlign 2 Score {score:f2}");
-
-                        if (SkipFail) return skipaction;
-
-                        var xy = new PointD(gantryGroup.Axis[0].ActualPos, gantryGroup.Axis[1].ActualPos);
-                        GControl.UI_Enable();
-                        var msg = MsgBox.ShowDialog($"PA 2 vision match low score\r\nSetScore:{minScore}\r\nPA score:{score}" + desc, MsgBoxBtns.OkRetryAbort);
-                        GControl.UI_Disable(GControl.ExceptionCtrl);
-                        TFCameras.Camera[gantry.Index].FlirCamera.Live();
-
-                        switch (msg)
+                        if (!multisearch)
                         {
-                            default:
-                                {
-                                    alignData.Status = EPatAlignStatus.FailScore2;
-                                    GAlarm.Prompt(EAlarm.VISION_MATCH_LOW_SCORE_ERROR);
-                                    return EAction.Fail;
-                                }
-                            case DialogResult.Retry:
-                                {
-                                    offset2 = new PointD(gantryGroup.Axis[0].ActualPos, gantryGroup.Axis[1].ActualPos) - xy;
-                                    goto _Redo;
-                                }
-                            case DialogResult.Ignore: return EAction.Skip;
-                            case DialogResult.OK:
-                                {
-                                    offset2 = new PointD(gantryGroup.Axis[0].ActualPos, gantryGroup.Axis[1].ActualPos) - xy;
-                                    ofst = new PointD();
-                                    goto _End2;
-                                }
+                            GLog.LogProcess($"PatternAlign 2 Score {score:f2}");
+
+                            if (SkipFail) return skipaction;
+
+                            var xy = new PointD(gantryGroup.Axis[0].ActualPos, gantryGroup.Axis[1].ActualPos);
+                            GControl.UI_Enable();
+                            var msg = MsgBox.ShowDialog($"PA 2 vision match low score\r\nSetScore:{minScore}\r\nPA score:{score}" + desc, MsgBoxBtns.OkRetryAbort);
+                            GControl.UI_Disable(GControl.ExceptionCtrl);
+                            TFCameras.Camera[gantry.Index].FlirCamera.Live();
+
+                            switch (msg)
+                            {
+                                default:
+                                    {
+                                        alignData.Status = EPatAlignStatus.FailScore2;
+                                        GAlarm.Prompt(EAlarm.VISION_MATCH_LOW_SCORE_ERROR);
+                                        return EAction.Fail;
+                                    }
+                                case DialogResult.Retry:
+                                    {
+                                        offset2 = new PointD(gantryGroup.Axis[0].ActualPos, gantryGroup.Axis[1].ActualPos) - xy;
+                                        goto _Redo;
+                                    }
+                                case DialogResult.Ignore: return EAction.Skip;
+                                case DialogResult.OK:
+                                    {
+                                        offset2 = new PointD(gantryGroup.Axis[0].ActualPos, gantryGroup.Axis[1].ActualPos) - xy;
+                                        ofst = new PointD();
+                                        goto _End2;
+                                    }
+                            }
+                        }
+                        else
+                        {
+                            if (multisearchCount < 0) return EAction.Fail;
+                            offset2 = new PointD(PatMultiSearch(multisearchCount));
+                            multisearchCount--;
+                            goto _Redo;
                         }
                     }
 
@@ -3815,6 +3839,27 @@ namespace NagaW
             {
                 return EAction.Fail;
             }
+        }
+        public PointD PatMultiSearch(int i)
+        {
+            var camera = GSystemCfg.Camera.Cameras[0];
+            var distX = camera.DistPerPixelX;
+            var distY = camera.DistPerPixelY;
+            var scaleX = TFCameras.Camera[0].FlirCamera.emgucvCImage.Width;
+            var scaleY = TFCameras.Camera[0].FlirCamera.emgucvCImage.Height;
+            switch (i)
+            {
+                default: break;
+                case 0: return new PointD(scaleX * distX, scaleY * distY);
+                case 1: return new PointD(0, scaleY * distY);
+                case 2: return new PointD(-1 * (scaleX * distX), scaleY * distY);
+                case 3: return new PointD(-1 * (scaleX * distX), 0);
+                case 4: return new PointD(-1 * (scaleX * distX), -1 * (scaleY * distY));
+                case 5: return new PointD(0, -1 * (scaleY * distY));
+                case 6: return new PointD(scaleX * distX, -1 * (scaleY * distY));
+                case 7: return new PointD(scaleX * distX, 0);
+            }
+            return new PointD(0, 0);
         }
     }
 

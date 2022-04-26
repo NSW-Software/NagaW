@@ -145,6 +145,7 @@ namespace NagaW
                     break;
                 case ECmd.PAT_ALIGN_SETUP:
                     Para[0] = new DPara($"{index} SettleTime", cmd.Para[0], 0, 2000, EUnit.MILLISECOND, 0);
+                    Para[1] = new DPara($"{index} MultiSearch", cmd.Para[1], 0, 1, EUnit.NONE, 0, new string[] { "No", "Yes" });
                     break;
                 case ECmd.HEIGHT_SETUP:
                     Para[0] = new DPara($"{index} SettleTime", cmd.Para[0], 0, 2000, EUnit.MILLISECOND, 0);

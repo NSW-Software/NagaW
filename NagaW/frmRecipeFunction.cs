@@ -309,6 +309,7 @@ namespace NagaW
                         break;
                     case ECmd.PAT_ALIGN_SETUP:
                         tcmd.Para[0] = GProcessPara.Vision.SettleTime.Value;
+                        tcmd.Para[1] = 0;
                         break;
                     case ECmd.HEIGHT_SETUP:
                         tcmd.Para[0] = GProcessPara.HSensor.SettleTime.Value;
