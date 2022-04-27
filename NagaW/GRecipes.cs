@@ -624,7 +624,7 @@ namespace NagaW
 
         //REPEAT_SETUP,                   //  PitchX      PitchY                                                      CountX      CountY
 
-        PAT_ALIGN_SETUP = 150,//660,    //  SettleTime
+        PAT_ALIGN_SETUP = 150,//660,    //  SettleTime  multiSearch
         HEIGHT_SETUP = 160,//570,       //  SettleTime  RangeULmt
 
         //***Path Motions >= 200~499
@@ -2384,7 +2384,7 @@ namespace NagaW
                         #region
                         {
                             settleTime = cmd.Para[0] > 0 ? (int)cmd.Para[0] : GProcessPara.Vision.SettleTime.Value;
-                            multisearchEn = cmd.Para[1] is 1 ? true : false;
+                            multisearchEn = cmd.Para[1] > 0;
                             break;
                         }
                     #endregion
@@ -3448,6 +3448,7 @@ namespace NagaW
                 PointD offset2 = new PointD();
 
                 int multisearchCount = 0;
+                int multisearchCount2 = 0;
 
             _Redo:
                 gantry.MoveOpZAbs(GRecipes.Board[gantry.Index].StartPos.Z);
@@ -3480,10 +3481,20 @@ namespace NagaW
 
                 if (score < minScore)
                 {
-                    if (!multisearch)
-                    {
-                        GLog.LogProcess($"PatternAlign 1 Score {score:f2}");
+                    GLog.LogProcess($"PatternAlign 1 Score {score:f2}");
 
+                    if (multisearch)
+                    {
+                        if (multisearchCount > 7)
+                        {
+                            GAlarm.Prompt(EAlarm.VISION_MATCH_LOW_SCORE_ERROR);
+                            return EAction.Fail;
+                        }
+                        offset1 = new PointD(PatMultiSearch(multisearchCount++));
+                        goto _Redo;
+                    }
+                    else
+                    {
                         if (SkipFail) return skipaction;
 
                         var xy = new PointD(gantryGroup.Axis[0].ActualPos, gantryGroup.Axis[1].ActualPos);
@@ -3515,14 +3526,9 @@ namespace NagaW
                                 }
                         }
                     }
-                    else
-                    {
-                        if (multisearchCount > 7) return EAction.Fail;
-                        offset1 = new PointD(PatMultiSearch(multisearchCount));
-                        multisearchCount++;
-                        goto _Redo;
-                    }
+
                 }
+
 
                 GLog.LogProcess($"PatternAlign 1 Score {score:f2} Offset {ofst.ToStringForDisplay()}");
                 if (Math.Abs(ofst.X) > maxOfst || Math.Abs(ofst.Y) > maxOfst)
@@ -3571,6 +3577,7 @@ namespace NagaW
 
                 if (cmd.Para[9] > 0)
                 {
+                _Redo2:
                     PointD ptNew2 = originAbs + ptNew1 + (ptOri2 - ptOri1) + offset2;
 
                     //gantry.MoveOpZAbs(GSystemCfg.Camera.Cameras[gantry.Index].DefaultFocusZ + cmd.Para[5]);
@@ -3603,10 +3610,20 @@ namespace NagaW
 
                     if (score < minScore)
                     {
-                        if (!multisearch)
-                        {
-                            GLog.LogProcess($"PatternAlign 2 Score {score:f2}");
+                        GLog.LogProcess($"PatternAlign 2 Score {score:f2}");
 
+                        if (multisearch)
+                        {
+                            if (multisearchCount2 > 7)
+                            {
+                                GAlarm.Prompt(EAlarm.VISION_MATCH_LOW_SCORE_ERROR);
+                                return EAction.Fail;
+                            }
+                            offset2 = new PointD(PatMultiSearch(multisearchCount2++));
+                            goto _Redo2;
+                        }
+                        else
+                        {
                             if (SkipFail) return skipaction;
 
                             var xy = new PointD(gantryGroup.Axis[0].ActualPos, gantryGroup.Axis[1].ActualPos);
@@ -3637,13 +3654,7 @@ namespace NagaW
                                     }
                             }
                         }
-                        else
-                        {
-                            if (multisearchCount < 0) return EAction.Fail;
-                            offset2 = new PointD(PatMultiSearch(multisearchCount));
-                            multisearchCount--;
-                            goto _Redo;
-                        }
+
                     }
 
                     if (Math.Abs(ofst.X) > maxOfst || Math.Abs(ofst.Y) > maxOfst)
@@ -3784,7 +3795,7 @@ namespace NagaW
             }
 
             GLog.LogProcess("HeightAlignExecute" + hSensorValue.ToString());
-            
+
             if (hSensorValue <= -999 || hSensorValue >= 999)
             {
                 heightData.Status = EHeightAlignStatus.Error;
@@ -3842,22 +3853,26 @@ namespace NagaW
         }
         public PointD PatMultiSearch(int i)
         {
-            var camera = GSystemCfg.Camera.Cameras[0];
-            var distX = camera.DistPerPixelX;
-            var distY = camera.DistPerPixelY;
-            var scaleX = TFCameras.Camera[0].FlirCamera.emgucvCImage.Width;
-            var scaleY = TFCameras.Camera[0].FlirCamera.emgucvCImage.Height;
+            var camera = GSystemCfg.Camera.Cameras[gantry.Index];
+            //var distX = camera.DistPerPixelX;
+            //var distY = camera.DistPerPixelY;
+            //var scaleX = TFCameras.Camera[0].FlirCamera.emgucvCImage.Width;
+            //var scaleY = TFCameras.Camera[0].FlirCamera.emgucvCImage.Height;
+
+            var x = camera.DistPerPixelX * (double)(TFCameras.Camera[gantry.Index].FlirCamera.emgucvCImage.Width / (double)2);
+            var y = camera.DistPerPixelY * (double)(TFCameras.Camera[gantry.Index].FlirCamera.emgucvCImage.Height / (double)2);
+
             switch (i)
             {
                 default: break;
-                case 0: return new PointD(scaleX * distX, scaleY * distY);
-                case 1: return new PointD(0, scaleY * distY);
-                case 2: return new PointD(-1 * (scaleX * distX), scaleY * distY);
-                case 3: return new PointD(-1 * (scaleX * distX), 0);
-                case 4: return new PointD(-1 * (scaleX * distX), -1 * (scaleY * distY));
-                case 5: return new PointD(0, -1 * (scaleY * distY));
-                case 6: return new PointD(scaleX * distX, -1 * (scaleY * distY));
-                case 7: return new PointD(scaleX * distX, 0);
+                case 0: return new PointD(x, y);
+                case 1: return new PointD(0, y);
+                case 2: return new PointD(-1 * x, y);
+                case 3: return new PointD(-1 * x, 0);
+                case 4: return new PointD(-1 * x, -1 * y);
+                case 5: return new PointD(0, -1 * y);
+                case 6: return new PointD(x, -1 * y);
+                case 7: return new PointD(x, 0);
             }
             return new PointD(0, 0);
         }
