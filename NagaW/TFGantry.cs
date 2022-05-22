@@ -1701,6 +1701,8 @@ namespace NagaW
                 TFGantry.TouchAxis[gantrySelect.Index].ActualPos = 0;
                 Thread.Sleep(100);
 
+                double EnoderRes = GProcessPara.Calibration.ZTouchEncoderRes[gantry.Index].Value;
+
                 double[] speedProfileC = new double[] { 1, 5, 100, 100, 0 };
                 if (!gantry.ZAxis.MoveAbs(speedProfileC, zTouch - OverTravel, false)) return false;
 
@@ -1708,7 +1710,8 @@ namespace NagaW
                 while (true)
                 {
                     double mPos = TFGantry.TouchAxis[gantrySelect.Index].ActualPos;
-                    if (mPos > 0.002 || mPos < -0.002)
+                    if (Math.Abs(mPos) > EnoderRes)
+                    //if (mPos > 0.002 || mPos < -0.002)
                     {
                         gantry.ZAxis.StopEmg();
                         gantry.ZAxis.Wait();

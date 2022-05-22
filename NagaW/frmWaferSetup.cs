@@ -58,7 +58,8 @@ namespace NagaW
             cbxPreVac.Checked = GProcessPara.Wafer.PreVacuumEnable;
 
             lblNotchTeachCamPos.Text = GSetupPara.Wafer.TeachNotchCamPos.ToStringForDisplay();
-            lblWaferThickness.UpdatePara(GProcessPara.Wafer.WaferThickness);
+            //lblWaferThickness.UpdatePara(GProcessPara.Wafer.WaferThickness);
+            lblWaferThickness.UpdatePara(GRecipes.Board[gantry.Index].WaferHeight);
             lblNotchCheckInterval.UpdatePara(GProcessPara.Wafer.NotchAngleCheck);
             lblNotchAlignSpeed.UpdatePara(GProcessPara.Wafer.NotchAlignSpeed);
         }
@@ -376,7 +377,10 @@ namespace NagaW
 
         private void lblWaferThickness_Click(object sender, EventArgs e)
         {
-            GLog.SetPara(ref GProcessPara.Wafer.WaferThickness);
+            //GLog.SetPara(ref GProcessPara.Wafer.WaferThickness);
+            var para = GRecipes.Board[gantry.Index].WaferHeight;
+            GLog.SetPara(ref para);
+            GRecipes.Board[gantry.Index].WaferHeight.Value = para.Value;
             UpdateDisplay();
         }
 

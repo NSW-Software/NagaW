@@ -151,6 +151,8 @@ namespace NagaW
             lblHSensor.Text = GSetupPara.Calibration.HSensorValue[SelectedHead].ToString("f3");
             lblZTouch.Text = GSetupPara.Calibration.ZTouchValue[SelectedHead].ToString("f3");
             lblTouchDotDispGap.UpdatePara(GProcessPara.Calibration.TouchDotDispGap[SelectedHead]);
+            lblEncoderRes.UpdatePara(GProcessPara.Calibration.ZTouchEncoderRes[SelectedHead]);
+
 
             lasecalstate = TCCalibration.NeedleZTouches[SelectedHead].CalibrationState;
             lblZTouchCalState.Text = lasecalstate.ToString();
@@ -1089,5 +1091,10 @@ namespace NagaW
             GMotDef.GVAxis.MoveAbs(0);
         }
 
+        private void lblEncoderRes_Click(object sender, EventArgs e)
+        {
+            GLog.SetPara(ref GProcessPara.Calibration.ZTouchEncoderRes[gantry.Index]);
+            UpdateDisplay();
+        }
     }
 }

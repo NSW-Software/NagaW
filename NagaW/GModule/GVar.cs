@@ -467,7 +467,7 @@ namespace NagaW
             public static DPara GXYStartSpeed = new DPara(nameof(Operation) + nameof(GXYStartSpeed), 0, 0, 100, EUnit.MILLIMETER_PER_SECOND);
             public static DPara GXYFastSpeed = new DPara(nameof(Operation) + nameof(GXYFastSpeed), 250, 10, 1000, EUnit.MILLIMETER_PER_SECOND);
             public static DPara GXYAccel = new DPara(nameof(Operation) + nameof(GXYAccel), 1000, 10, 15000, EUnit.MILLIMETER_PER_SECOND_SQUARED);
-            public static DPara GXYDecel = new DPara(nameof(Operation) + nameof(GXYDecel), 0, 10, 15000, EUnit.MILLIMETER_PER_SECOND_SQUARED);
+            public static DPara GXYDecel = new DPara(nameof(Operation) + nameof(GXYDecel), 1000, 10, 15000, EUnit.MILLIMETER_PER_SECOND_SQUARED);
             public static DPara GXYJerk = new DPara(nameof(Operation) + nameof(GXYJerk), 0, 0, 1, EUnit.PERCENTAGE);
             public static double[] GXYSpeed
             {
@@ -577,6 +577,9 @@ namespace NagaW
         {
             public static DPara[] XYTouchMarkGap = Enumerable.Range(0, Headno).Select(x => new DPara(nameof(Calibration) + nameof(XYTouchMarkGap) + $"Head{(x == 0 ? "L" : "R")}", 0.5, 0, 5, EUnit.MILLIMETER)).ToArray();
             public static DPara[] TouchDotDispGap = Enumerable.Range(0, Headno).Select(x => new DPara(nameof(Calibration) + nameof(TouchDotDispGap) + $"Head{(x == 0 ? "L" : "R")}", 0.5, 0, 15, EUnit.MILLIMETER)).ToArray();
+
+            public static DPara[] ZTouchEncoderRes = Enumerable.Range(0, Headno).Select(x => new DPara(nameof(Calibration) + nameof(ZTouchEncoderRes) + $"Head{(x == 0 ? "L" : "R")}", 0.002, 0.001, 0.1, EUnit.MILLIMETER)).ToArray();
+
             public static DPara[] DynamicJetGap = Enumerable.Range(0, Headno).Select(x => new DPara(nameof(Calibration) + nameof(DynamicJetGap) + $"Head{(x == 0 ? "L" : "R")}", 1, 0, 10, EUnit.MILLIMETER)).ToArray();
             public static DPara[] DynamicTouchDotSpd = Enumerable.Range(0, Headno).Select(x => new DPara(nameof(Calibration) + nameof(DynamicTouchDotSpd) + $"Head{(x == 0 ? "L" : "R")}", 10, 10, 300, EUnit.MILLIMETER_PER_SECOND)).ToArray();
             public static DPara[] DynamicTouchDotAcc = Enumerable.Range(0, Headno).Select(x => new DPara(nameof(Calibration) + nameof(DynamicTouchDotAcc) + $"Head{(x == 0 ? "L" : "R")}", 50, 50, 1000, EUnit.MILLIMETER_PER_SECOND_SQUARED)).ToArray();

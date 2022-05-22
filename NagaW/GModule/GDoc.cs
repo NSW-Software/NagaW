@@ -71,6 +71,7 @@ namespace NagaW
                 using (XmlWriter writer = XmlWriter.Create(filename, new XmlWriterSettings() { Indent = true }))
                 {
                     writer.WriteStartDocument();
+                    writer.WriteComment(newVerFlag2);
                     writer.WriteComment(newVerFlag);
                     writer.WriteComment($"Writed {DateTime.Now}");
                     writer.WriteComment(filename);
@@ -304,6 +305,7 @@ namespace NagaW
         public static bool LoadXML(string filename, params Type[] types)
         {
             bool newVer = false;
+            bool newVer2 = false;
 
             try
             {
@@ -320,7 +322,7 @@ namespace NagaW
                             case XmlNodeType.Comment:
                                 {
                                     string svalue = reader.Value;
-                                    //newVer2 = newVer2 ? newVer2 : svalue is newVerFlag2;
+                                    newVer2 = newVer2 ? newVer2 : svalue is newVerFlag2;
                                     newVer = brk = svalue is newVerFlag;
 
                                     break;
@@ -403,7 +405,7 @@ namespace NagaW
 
                                         if (!p.IsReadOnly)
                                         {
-                                            if ((p.Description is newVerFlag && !newVer) /*|| (p.Description is newVerFlag2 && !newVer2)*/)
+                                            if ((p.Description is newVerFlag && !newVer) || (p.Description is newVerFlag2 && !newVer2))
                                             {
                                                 p.SetValue(obj, p.GetValue(obj));
                                             }
@@ -916,6 +918,7 @@ namespace NagaW
         }
 
         public const string newVerFlag = "newVer";
+        public const string newVerFlag2 = "newVer2";
     }
 
 

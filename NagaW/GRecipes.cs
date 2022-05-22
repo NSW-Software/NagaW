@@ -26,6 +26,8 @@ namespace NagaW
         public LightRGBA Light1 { get; set; } = new LightRGBA(0, 0, 0, 0);
         public LightRGBA Light2 { get; set; } = new LightRGBA(0, 0, 0, 0);
 
+        [Description(GDoc.newVerFlag2)]
+        public DPara WaferHeight { get; set; } = new DPara(nameof(WaferHeight), 0.3, 0.1, 1, EUnit.MILLIMETER);
         public void Reset()
         {
             StartPos = new PointXYZ();
@@ -3154,7 +3156,7 @@ namespace NagaW
                                 if (!running) return false;
                                 Thread.Sleep(0);
                             }
-                            switch (PatAlignExecute(gantry, originAbs, cmd, ref alignData, settleTime))
+                            switch (PatAlignExecute(gantry, originAbs, cmd, ref alignData, settleTime, multisearchEn))
                             {
                                 case EAction.Skip:
                                     {
@@ -3437,7 +3439,7 @@ namespace NagaW
             try
             {
                 //on light
-                TFLightCtrl.LightPair[gantryGroup.Index].Set(GRecipes.Lighting[gantryGroup.Index][cmd.ID]);
+                int id = cmd.ID;
 
                 alignData.Status = EPatAlignStatus.None;
 
@@ -3451,6 +3453,7 @@ namespace NagaW
                 int multisearchCount2 = 0;
 
             _Redo:
+                TFLightCtrl.LightPair[gantryGroup.Index].Set(GRecipes.Lighting[gantryGroup.Index][id]);
                 gantry.MoveOpZAbs(GRecipes.Board[gantry.Index].StartPos.Z);
                 gantryGroup.MoveOpXYAbs((originAbs + ptOri1 + offset1).ToArray);
                 Thread.Sleep(settleTime);
@@ -3459,7 +3462,7 @@ namespace NagaW
                 img = TFCameras.Camera[gantryGroup.Index].FlirCamera.emgucvImage.Clone();
                 TFCameras.Camera[gantryIdx].FlirCamera.Live();
 
-                int id = cmd.ID;
+                //int id = cmd.ID;
                 if (GRecipes.PatRecog[gantryGroup.Index][id].RegImage[0] == null)
                 {
                     alignData.Status = EPatAlignStatus.Error;
@@ -3487,6 +3490,12 @@ namespace NagaW
                     {
                         if (multisearchCount > 7)
                         {
+                            if (ChangeID())
+                            {
+                                multisearchCount = 0;
+                                goto _Redo;
+                            }
+
                             GAlarm.Prompt(EAlarm.VISION_MATCH_LOW_SCORE_ERROR);
                             return EAction.Fail;
                         }
@@ -3735,6 +3744,20 @@ namespace NagaW
 
                 alignData.Status = EPatAlignStatus.OK;
                 return EAction.Accept;
+
+                bool ChangeID()
+                {
+                    var msg = MsgBox.ShowDialog($"Multisearch fail with ID:{id}.\nchange ID?", MsgBoxBtns.YesNo);
+                    if (msg == DialogResult.Yes)
+                    {
+                        IPara para = new IPara($"Change Pattern ID:{id}", id, 0, GRecipes.PatRecog[gantry.Index].Count - 1, EUnit.NONE);
+                        Application.OpenForms[0].Invoke(new Action(() => GLog.SetPara(ref para)));
+                        //GLog.SetPara(ref para);
+                        id = para.Value;
+                        return true;
+                    }
+                    return false;
+                }
             }
             finally
             {

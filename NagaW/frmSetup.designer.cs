@@ -280,6 +280,8 @@
             this.lblSprayPos = new System.Windows.Forms.Label();
             this.btnSprayPosSet = new System.Windows.Forms.Button();
             this.btnSprayPosGoto = new System.Windows.Forms.Button();
+            this.label63 = new System.Windows.Forms.Label();
+            this.lblEncoderRes = new System.Windows.Forms.Label();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -764,6 +766,8 @@
             // gboxZTouch
             // 
             this.gboxZTouch.AutoSize = true;
+            this.gboxZTouch.Controls.Add(this.label63);
+            this.gboxZTouch.Controls.Add(this.lblEncoderRes);
             this.gboxZTouch.Controls.Add(this.lblZTouchCalState);
             this.gboxZTouch.Controls.Add(this.label62);
             this.gboxZTouch.Controls.Add(this.cbZTouchManual);
@@ -3336,6 +3340,31 @@
             this.btnSprayPosGoto.UseVisualStyleBackColor = true;
             this.btnSprayPosGoto.Click += new System.EventHandler(this.btnSprayPosGoto_Click);
             // 
+            // label63
+            // 
+            this.label63.Location = new System.Drawing.Point(311, 118);
+            this.label63.Margin = new System.Windows.Forms.Padding(3);
+            this.label63.Name = "label63";
+            this.label63.Size = new System.Drawing.Size(87, 25);
+            this.label63.TabIndex = 31;
+            this.label63.Text = "ZEncoderRes";
+            this.label63.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label63.Visible = false;
+            // 
+            // lblEncoderRes
+            // 
+            this.lblEncoderRes.BackColor = System.Drawing.Color.White;
+            this.lblEncoderRes.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblEncoderRes.Location = new System.Drawing.Point(412, 118);
+            this.lblEncoderRes.Margin = new System.Windows.Forms.Padding(3);
+            this.lblEncoderRes.Name = "lblEncoderRes";
+            this.lblEncoderRes.Size = new System.Drawing.Size(90, 25);
+            this.lblEncoderRes.TabIndex = 32;
+            this.lblEncoderRes.Text = "999.999";
+            this.lblEncoderRes.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblEncoderRes.Visible = false;
+            this.lblEncoderRes.Click += new System.EventHandler(this.lblEncoderRes_Click);
+            // 
             // frmSetup
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -3662,5 +3691,7 @@
         private System.Windows.Forms.Label lblSprayDnWait;
         private System.Windows.Forms.Label lblSprayTime;
         private System.Windows.Forms.Label label78;
+        private System.Windows.Forms.Label label63;
+        private System.Windows.Forms.Label lblEncoderRes;
     }
 }
