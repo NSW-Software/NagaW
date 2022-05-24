@@ -62,6 +62,8 @@ namespace NagaW
             lblWaferThickness.UpdatePara(GRecipes.Board[gantry.Index].WaferHeight);
             lblNotchCheckInterval.UpdatePara(GProcessPara.Wafer.NotchAngleCheck);
             lblNotchAlignSpeed.UpdatePara(GProcessPara.Wafer.NotchAlignSpeed);
+
+            GControl.UpdateFormControl(this);
         }
 
         private async void btnManualLoad_Click(object sender, EventArgs e)
@@ -255,17 +257,26 @@ namespace NagaW
 
         private void btnP1PosGoto_Click(object sender, EventArgs e)
         {
-            GMotDef.Preciser_0.MoveAbs(GSetupPara.Wafer.PrecisorPos_1.Value);
+            var target = GMotDef.Preciser_0;
+            Action act = () => target.MoveAbs(GSetupPara.Wafer.PrecisorPos_1.Value);
+            Action cancel = () => target.Stop();
+            MsgBox.Processing($"Moving {target.Name}", act, cancel);
         }
 
         private void btnP2PosGoto_Click(object sender, EventArgs e)
         {
-            GMotDef.Preciser_1.MoveAbs(GSetupPara.Wafer.PrecisorPos_2.Value);
+            var target = GMotDef.Preciser_1;
+            Action act = () => target.MoveAbs(GSetupPara.Wafer.PrecisorPos_2.Value);
+            Action cancel = () => target.Stop();
+            MsgBox.Processing($"Moving {target.Name}", act, cancel);
         }
 
         private void btnP3PosGoto_Click(object sender, EventArgs e)
         {
-            GMotDef.Preciser_2.MoveAbs(GSetupPara.Wafer.PrecisorPos_3.Value);
+            var target = GMotDef.Preciser_2;
+            Action act = () => target.MoveAbs(GSetupPara.Wafer.PrecisorPos_3.Value);
+            Action cancel = () => target.Stop();
+            MsgBox.Processing($"Moving {target.Name}", act, cancel);
         }
 
         private async void btnPrecisorON_Click(object sender, EventArgs e)

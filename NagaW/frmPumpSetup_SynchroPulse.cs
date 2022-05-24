@@ -52,6 +52,8 @@ namespace NagaW
 
         public void UpdateDisplay()
         {
+            GControl.UpdateFormControl(this);
+
             lblFPress.UpdatePara(SP_Setup.FPress);
             lblPPress.UpdatePara(SP_Setup.PPress);
             lblDispTime.UpdatePara(SP_Setup.DispTime);

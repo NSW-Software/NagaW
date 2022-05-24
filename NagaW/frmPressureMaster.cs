@@ -27,6 +27,8 @@ namespace NagaW
 
         private void UpdateDisplay()
         {
+            GControl.UpdateFormControl(this);
+
             PressureSetup = GRecipes.PressureSetups[idx];
 
             //btnGLeft.BackColor = idx is 0 ? Color.Lime : SystemColors.Control;

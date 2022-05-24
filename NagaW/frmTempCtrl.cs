@@ -159,6 +159,8 @@ namespace NagaW
 
         private void UpdateDisplay()
         {
+            GControl.UpdateFormControl(this);
+
             cbxTempPrompt.Checked = GProcessPara.Temp.CheckTempBeforeRun;
             lblAwaitErrorTime.UpdatePara(GProcessPara.Temp.AwaitErrorTime);
             lblAwaitTimeMin.Text = $"{GProcessPara.Temp.AwaitErrorTime.Value / 60}min {GProcessPara.Temp.AwaitErrorTime.Value % 60}sec";

@@ -47,6 +47,8 @@ namespace NagaW
         }
         public void UpdateDisplay()
         {
+            GControl.UpdateFormControl(this);
+
             lblSetupRT.UpdatePara(V_Setup.RisingTime);
             lblSetupOT.UpdatePara(V_Setup.OpenTime);
             lblSetupFT.UpdatePara(V_Setup.FallingTime);

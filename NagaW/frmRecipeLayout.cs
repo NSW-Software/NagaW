@@ -41,6 +41,8 @@ namespace NagaW
         }
         public void UpdateDisplay()
         {
+            GControl.UpdateFormControl(this);
+
             if (GRecipes.IsLoading) return;
 
             lblBoardStartPos.Text = GRecipes.Board[gantry.Index].StartPos.ToStringForDisplay();
@@ -75,6 +77,8 @@ namespace NagaW
             // Virtual
             lblVirtualStartPos.Text = VirtualStartPos.ToStringForDisplay();
             chbxEnaDynJet.Checked = EnableDynamicJetSWSetXY;
+
+            gbxVirtual.Visible = virtualEnable;
         }
 
         private void btnBoardOrgPosSet_Click(object sender, EventArgs e)
@@ -336,6 +340,8 @@ namespace NagaW
 
         private void btnImportMap_Click(object sender, EventArgs e)
         {
+            if (frmMap != null) frmMap.Close();
+
             OpenFileDialog openFile = new OpenFileDialog();
             if (openFile.ShowDialog() != DialogResult.OK) return;
 
@@ -410,10 +416,12 @@ namespace NagaW
             GLog.SetPara(ref StartPosRow);
             UpdateDisplay();
         }
-
+        bool virtualEnable = false;
         private void btnViewVirtualMode_Click(object sender, EventArgs e)
         {
-            gbxVirtual.Visible = !gbxVirtual.Visible;
+            virtualEnable = !virtualEnable;
+            UpdateDisplay();
+            //gbxVirtual.Visible = !gbxVirtual.Visible;
         }
 
         private void chbxEnaDynJet_Click(object sender, EventArgs e)

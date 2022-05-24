@@ -146,6 +146,7 @@ namespace NagaW
 
         private void UpdateDisplay()
         {
+            GControl.UpdateFormControl(this);
             lblWaferInput.UpdatePara(count);
             lblIntervalTimeout.UpdatePara(timeout);
             chbxEnaNotch.Checked = EnableNotchAlignment;

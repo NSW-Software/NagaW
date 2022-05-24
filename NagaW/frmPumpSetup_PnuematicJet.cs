@@ -51,6 +51,8 @@ namespace NagaW
         }
         public void UpdateDisplay()
         {
+            GControl.UpdateFormControl(this);
+
             lblFPress.UpdatePara(Jet_Param.FPress);
             lblVPress.UpdatePara(Jet_Param.VPress);
 

@@ -42,6 +42,8 @@ namespace NagaW
         }
         private void UpdateDisplay()
         {
+            GControl.UpdateFormControl(this);
+
             lblDispAmt.UpdatePara(HM_Setup.DispTime);
             lblBSuckAmt.UpdatePara(HM_Setup.BSuckTime);
             lblDispSpeed.UpdatePara(HM_Setup.DispRPM);

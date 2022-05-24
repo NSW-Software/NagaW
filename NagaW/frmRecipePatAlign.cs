@@ -86,6 +86,8 @@ namespace NagaW
             lblMaxAngle.UpdatePara(Para[8]);
 
             btnClear.BackColor = alignData.Status == EPatAlignStatus.None ? SystemColors.Control : Color.Orange;
+
+            GControl.UpdateFormControl(this);
         }
 
 
@@ -128,6 +130,7 @@ namespace NagaW
             pos.Z = gantry.Axis[2].ActualPos - GSystemCfg.Camera.Cameras[gantry.Index].DefaultFocusZ;
 
             var newPos = new PointXYZ(pos.X - ptBase.X, pos.Y - ptBase.Y, pos.Z);
+            if (MsgBox.ShowDialog($"Set Pat Align 1 Position?\n{oldPos} to \n{newPos}", MsgBoxBtns.OKCancel) == DialogResult.Cancel) return;
             Tcmd.Para[0] = newPos.X;
             Tcmd.Para[1] = newPos.Y;
             Tcmd.Para[2] = newPos.Z;
@@ -148,6 +151,8 @@ namespace NagaW
             pos.Z = gantry.Axis[2].ActualPos - GSystemCfg.Camera.Cameras[gantry.Index].DefaultFocusZ;
 
             var newPos = new PointXYZ(pos.X - ptBase.X, pos.Y - ptBase.Y, pos.Z);
+            if (MsgBox.ShowDialog($"Set Pat Align 2 Position?\n{oldPos} to \n{newPos}", MsgBoxBtns.OKCancel) == DialogResult.Cancel) return;
+
             Tcmd.Para[3] = newPos.X;
             Tcmd.Para[4] = newPos.Y;
             Tcmd.Para[5] = newPos.Z;

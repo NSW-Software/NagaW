@@ -231,6 +231,29 @@ namespace NagaW
 
         private void UpdateDisplay()
         {
+            //GControl.UpdateFormControl(this);
+
+            //lblPara0.Visible = Para[0].Name.Length > 0;
+            //lblParaDesc0.Visible = Para[0].Name.Length > 0;
+            //lblPara1.Visible = Para[1].Name.Length > 0;
+            //lblParaDesc1.Visible = Para[1].Name.Length > 0;
+            //lblPara2.Visible = Para[2].Name.Length > 0;
+            //lblParaDesc2.Visible = Para[2].Name.Length > 0;
+            //lblPara3.Visible = Para[3].Name.Length > 0;
+            //lblParaDesc3.Visible = Para[3].Name.Length > 0;
+            //lblPara4.Visible = Para[4].Name.Length > 0;
+            //lblParaDesc4.Visible = Para[4].Name.Length > 0;
+            //lblPara5.Visible = Para[5].Name.Length > 0;
+            //lblParaDesc5.Visible = Para[5].Name.Length > 0;
+            //lblPara6.Visible = Para[6].Name.Length > 0;
+            //lblParaDesc6.Visible = Para[6].Name.Length > 0;
+            //lblPara7.Visible = Para[7].Name.Length > 0;
+            //lblParaDesc7.Visible = Para[7].Name.Length > 0;
+            //lblPara8.Visible = Para[8].Name.Length > 0;
+            //lblParaDesc8.Visible = Para[8].Name.Length > 0;
+            //lblPara9.Visible = Para[9].Name.Length > 0;
+            //lblParaDesc9.Visible = Para[9].Name.Length > 0;
+
             lblPara0.UpdatePara(Para[0]);
             lblPara1.UpdatePara(Para[1]);
             lblPara2.UpdatePara(Para[2]);
