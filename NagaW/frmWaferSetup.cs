@@ -63,6 +63,8 @@ namespace NagaW
             lblNotchCheckInterval.UpdatePara(GProcessPara.Wafer.NotchAngleCheck);
             lblNotchAlignSpeed.UpdatePara(GProcessPara.Wafer.NotchAlignSpeed);
 
+            lblNotchEdgeRev.UpdatePara(GProcessPara.Wafer.NotchEdgeRev);
+
             GControl.UpdateFormControl(this);
         }
 
@@ -376,13 +378,13 @@ namespace NagaW
         {
             TFLightCtrl.LightPair[gantry.Index].Set(GRecipes.Board[gantry.Index].LightDefault);
             gantry.GotoXYZ(GSetupPara.Wafer.TeachNotchCamPos);
-
         }
 
-        private async void btnNotchAlign_Click(object sender, EventArgs e)
+        private void btnNotchAlign_Click(object sender, EventArgs e)
         {
             GControl.UI_Disable();
-            await Task.Run(() => TCWafer.NotchAlignment());
+            //await Task.Run(() => TCWafer.NotchAlignment());
+            MsgBox.Processing("Notch Alignment", () => TCWafer.NotchAlignment(), () => TCWafer.StopNotch = true);
             GControl.UI_Enable();
         }
 
@@ -422,6 +424,12 @@ namespace NagaW
         private void lblPreExhaustDelay_Click(object sender, EventArgs e)
         {
             GLog.SetPara(ref GProcessPara.Wafer.PreExhaustDelay);
+            UpdateDisplay();
+        }
+
+        private void lblNotchEdgeRev_Click(object sender, EventArgs e)
+        {
+            GLog.SetPara(ref GProcessPara.Wafer.NotchEdgeRev);
             UpdateDisplay();
         }
     }

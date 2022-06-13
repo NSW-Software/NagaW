@@ -347,6 +347,7 @@
             this.lboxFuncList.Size = new System.Drawing.Size(223, 81);
             this.lboxFuncList.TabIndex = 0;
             this.lboxFuncList.SelectedIndexChanged += new System.EventHandler(this.lboxFuncList_SelectedIndexChanged);
+            this.lboxFuncList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lboxFuncList_MouseDown);
             // 
             // flowLayoutPanel2
             // 

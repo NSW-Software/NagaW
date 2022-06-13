@@ -2734,8 +2734,11 @@ namespace NagaW
         }
 
         static TEZMCAux.TAxis RAxis = GMotDef.GRAxis;
+
+        public static bool StopNotch = false;
         public static bool NotchAlignment(double stepheight = 0, int angle = 0, double speed = 0)
         {
+
             try
             {
                 IsNotch = false;
@@ -2765,11 +2768,16 @@ namespace NagaW
                 //apply detection every 45 degree, 360/45 = 8 times shift checking
                 for (int i = 0; i < 361; i += angle)
                 {
+                    if (StopNotch)
+                    {
+                        StopNotch = false;
+                        return false;
+                    }
                     if (!findnotchedge()) return false;
 
                     while (gantry.Busy) Thread.Sleep(0);
                     while (RAxis.Busy) Thread.Sleep(0);
-                    Thread.Sleep(500);
+                    Thread.Sleep(50);
                     //couter-clockwise
 
                     GLog.LogProcess($"Notch alignment Start R Pos:{RAxis.ActualPos}, degree:{i}");
@@ -2854,8 +2862,13 @@ namespace NagaW
 
                     //*******\________
                     #region
-                    if (!gantry.GotoXYZ(new PointXYZ(xypos.X, xypos.Y + 2, 0))) return false;
-                    if (!gantry.MoveXYRel(new double[] { 0, 2, 1000, 1000, 0 }, new double[] { 0, -5 }, false)) return false;
+                    var edgeRev = GProcessPara.Wafer.NotchEdgeRev.Value;
+
+                    if (!gantry.GotoXYZ(new PointXYZ(xypos.X, xypos.Y + edgeRev, 0))) return false;
+
+                    var YAxis = gantry.YAxis;
+
+                    YAxis.MoveRel(new double[] { 0, 2, 1000, 1000, 0 }, -5, false);
                     while (TFHSensors.Sensor[gantry.Index].GetValue(ref hvalue))
                     {
                         hvaluelist.Add(hvalue);
@@ -2863,18 +2876,21 @@ namespace NagaW
                         {
                             if ((hvalue - hvaluelist.FirstOrDefault() > stepheight) || (hvalue <= -50))
                             {
-                                gantry.StopDecel();
+                                //get edge pos
+                                var edgepos = YAxis.ActualPos;
+                                //stop movement
+                                YAxis.StopEmg();
+                                while (YAxis.Busy) Thread.Sleep(0);
+                                Thread.Sleep(100);
+                                YAxis.MoveAbs(edgepos + 1, true);
                                 while (gantry.Busy) Thread.Sleep(0);
-                                Thread.Sleep(250);
-                                gantry.MoveOpXYRel(new double[] { 0, 0.75 });
-                                while (gantry.Busy) Thread.Sleep(0);
-                                Thread.Sleep(250);
+                                Thread.Sleep(100);
 
                                 findedge = true;
                                 return true;
                             }
                         }
-                        if (!gantry.Busy) break;
+                        if (!YAxis.Busy) break;
                     }
                     #endregion
 

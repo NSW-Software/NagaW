@@ -769,6 +769,8 @@ namespace NagaW
             public static IPara NotchAngleCheck = new IPara(nameof(Wafer) + nameof(NotchAngleCheck), 30, 10, 45, EUnit.ANGLE);
             public static DPara NotchAlignSpeed = new DPara(nameof(Wafer) + nameof(NotchAlignSpeed), 10, 5, 50, EUnit.MILLIMETER_PER_SECOND);
 
+            public static DPara NotchEdgeRev = new DPara(nameof(Wafer) + nameof(NotchEdgeRev), 1, 0.05, 2, EUnit.MILLIMETER);
+
         }
 
         public static bool SaveFile(string filepath)

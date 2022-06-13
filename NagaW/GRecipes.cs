@@ -847,6 +847,18 @@ namespace NagaW
         {
             gantryIdx = gantryIndex;
         }
+        public TFunction(TFunction function)
+        {
+            gantryIdx = function.gantryIdx;
+            Name = function.Name;
+            DispGap = function.DispGap;
+            RetGap = function.RetGap;
+            MoveSpeed = function.MoveSpeed;
+            MoveAccel = function.MoveAccel;
+            LayoutNo = function.LayoutNo;
+
+            Cmds = new BindingList<TCmd>(function.Cmds.Select(x => x = new TCmd(x)).ToList());
+        }
         public override string ToString()
         {
             return $"{Name}";
@@ -3156,7 +3168,7 @@ namespace NagaW
                                 if (!running) return false;
                                 Thread.Sleep(0);
                             }
-                            switch (PatAlignExecute(gantry, originAbs, cmd, ref alignData, settleTime, multisearchEn))
+                            switch (PatAlignExecute(gantry, originAbs, cmd, ref alignData, settleTime,false, multisearchEn))
                             {
                                 case EAction.Skip:
                                     {
@@ -3492,6 +3504,8 @@ namespace NagaW
                         {
                             if (ChangeID())
                             {
+                                offset1 = new PointD();
+                                offset2 = new PointD();
                                 multisearchCount = 0;
                                 goto _Redo;
                             }
@@ -3505,6 +3519,11 @@ namespace NagaW
                     else
                     {
                         if (SkipFail) return skipaction;
+
+                        if (ChangeID())
+                        {
+                            goto _Redo;
+                        }
 
                         var xy = new PointD(gantryGroup.Axis[0].ActualPos, gantryGroup.Axis[1].ActualPos);
 

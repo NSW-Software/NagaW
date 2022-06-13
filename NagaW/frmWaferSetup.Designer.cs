@@ -69,6 +69,8 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.lblPreExhaustDelay = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
             this.lblPostExhaustTime = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.cbxPreVac = new System.Windows.Forms.CheckBox();
@@ -115,8 +117,8 @@
             this.btnNotchTeachCamPosGoto = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.lblNotchTeachCamPos = new System.Windows.Forms.Label();
-            this.lblPreExhaustDelay = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.lblNotchEdgeRev = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.groupBox8.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -590,6 +592,29 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Ionizer Setting";
             // 
+            // lblPreExhaustDelay
+            // 
+            this.lblPreExhaustDelay.BackColor = System.Drawing.Color.White;
+            this.lblPreExhaustDelay.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblPreExhaustDelay.Location = new System.Drawing.Point(518, 56);
+            this.lblPreExhaustDelay.Margin = new System.Windows.Forms.Padding(3);
+            this.lblPreExhaustDelay.Name = "lblPreExhaustDelay";
+            this.lblPreExhaustDelay.Size = new System.Drawing.Size(140, 25);
+            this.lblPreExhaustDelay.TabIndex = 17;
+            this.lblPreExhaustDelay.Text = "label8";
+            this.lblPreExhaustDelay.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblPreExhaustDelay.Click += new System.EventHandler(this.lblPreExhaustDelay_Click);
+            // 
+            // label20
+            // 
+            this.label20.Location = new System.Drawing.Point(397, 56);
+            this.label20.Margin = new System.Windows.Forms.Padding(3);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(115, 25);
+            this.label20.TabIndex = 16;
+            this.label20.Text = "PreExhaust Delay";
+            this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // lblPostExhaustTime
             // 
             this.lblPostExhaustTime.BackColor = System.Drawing.Color.White;
@@ -996,6 +1021,8 @@
             // 
             // groupBox9
             // 
+            this.groupBox9.Controls.Add(this.label17);
+            this.groupBox9.Controls.Add(this.lblNotchEdgeRev);
             this.groupBox9.Controls.Add(this.label18);
             this.groupBox9.Controls.Add(this.lblNotchAlignSpeed);
             this.groupBox9.Controls.Add(this.label15);
@@ -1087,7 +1114,7 @@
             // 
             // btnNotchAlign
             // 
-            this.btnNotchAlign.Location = new System.Drawing.Point(444, 104);
+            this.btnNotchAlign.Location = new System.Drawing.Point(563, 111);
             this.btnNotchAlign.Name = "btnNotchAlign";
             this.btnNotchAlign.Size = new System.Drawing.Size(95, 40);
             this.btnNotchAlign.TabIndex = 27;
@@ -1136,28 +1163,28 @@
             this.lblNotchTeachCamPos.Text = "label2";
             this.lblNotchTeachCamPos.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // lblPreExhaustDelay
+            // label17
             // 
-            this.lblPreExhaustDelay.BackColor = System.Drawing.Color.White;
-            this.lblPreExhaustDelay.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblPreExhaustDelay.Location = new System.Drawing.Point(518, 56);
-            this.lblPreExhaustDelay.Margin = new System.Windows.Forms.Padding(3);
-            this.lblPreExhaustDelay.Name = "lblPreExhaustDelay";
-            this.lblPreExhaustDelay.Size = new System.Drawing.Size(140, 25);
-            this.lblPreExhaustDelay.TabIndex = 17;
-            this.lblPreExhaustDelay.Text = "label8";
-            this.lblPreExhaustDelay.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lblPreExhaustDelay.Click += new System.EventHandler(this.lblPreExhaustDelay_Click);
+            this.label17.Location = new System.Drawing.Point(244, 88);
+            this.label17.Margin = new System.Windows.Forms.Padding(3);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(65, 25);
+            this.label17.TabIndex = 34;
+            this.label17.Text = "EdgeRev";
+            this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // label20
+            // lblEdgeRev
             // 
-            this.label20.Location = new System.Drawing.Point(397, 56);
-            this.label20.Margin = new System.Windows.Forms.Padding(3);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(115, 25);
-            this.label20.TabIndex = 16;
-            this.label20.Text = "PreExhaust Delay";
-            this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblNotchEdgeRev.BackColor = System.Drawing.Color.White;
+            this.lblNotchEdgeRev.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblNotchEdgeRev.Location = new System.Drawing.Point(315, 88);
+            this.lblNotchEdgeRev.Margin = new System.Windows.Forms.Padding(3);
+            this.lblNotchEdgeRev.Name = "lblEdgeRev";
+            this.lblNotchEdgeRev.Size = new System.Drawing.Size(140, 25);
+            this.lblNotchEdgeRev.TabIndex = 35;
+            this.lblNotchEdgeRev.Text = "label6";
+            this.lblNotchEdgeRev.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblNotchEdgeRev.Click += new System.EventHandler(this.lblNotchEdgeRev_Click);
             // 
             // frmWaferSetup
             // 
@@ -1284,5 +1311,7 @@
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label lblPreExhaustDelay;
         private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label lblNotchEdgeRev;
     }
 }

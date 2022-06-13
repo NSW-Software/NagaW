@@ -639,5 +639,32 @@ namespace NagaW
             cbxCommand.DataSource = null;
             cbxCommand.DataSource = GRecipes.CmdsDictionary;
         }
+
+        private void lboxFuncList_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (lboxFuncList.Items.Count is 0) return;
+            switch (e.Button)
+            {
+                default: return;
+                case MouseButtons.Right:
+                    {
+                        ContextMenuStrip cms = new ContextMenuStrip();
+                        const string copy = "Copy, Append at Last Row";
+                        cms.Items.Add(copy);
+                        cms.Show(Cursor.Position);
+                        cms.ItemClicked += (a, b) =>
+                        {
+                            if (b.ClickedItem.Text is copy)
+                            {
+                                var selectedfunc = new TFunction(GRecipes.Functions[gantry.Index][lboxFuncList.SelectedIndex]);
+                                GRecipes.Functions[gantry.Index].Add(new TFunction(selectedfunc) { Name = selectedfunc.Name + " " + nameof(copy) });
+                            }
+                        };
+
+                        break;
+                    }
+
+            }
+        }
     }
 }

@@ -62,7 +62,7 @@ namespace NagaW
 
         public static bool SaveFile(string filepath)
         {
-            return GDoc.SaveINI(filepath, MethodBase.GetCurrentMethod().DeclaringType);
+            return GDoc.SaveXML(filepath, MethodBase.GetCurrentMethod().DeclaringType);
         }
         public static bool SaveFile()
         {
@@ -70,7 +70,7 @@ namespace NagaW
         }
         public static bool LoadFile(string filepath)
         {
-            return GDoc.LoadINI(filepath, MethodBase.GetCurrentMethod().DeclaringType);
+            return GDoc.LoadXML(filepath, MethodBase.GetCurrentMethod().DeclaringType);
         }
         public static bool LoadFile()
         {
