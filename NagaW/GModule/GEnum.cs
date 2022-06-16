@@ -11,6 +11,13 @@ namespace NagaW
     class GEnum
     {
     }
+
+    public enum ECamType
+    {
+        Spinnaker,
+        MVC_GenTL
+    }
+
     public enum EDynamicDispMode
     {
         False,

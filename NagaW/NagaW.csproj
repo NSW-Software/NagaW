@@ -76,6 +76,9 @@
     <Reference Include="MEDAQLib.NET">
       <HintPath>..\dll\MEDAQLib Release\MEDAQLib.NET.dll</HintPath>
     </Reference>
+    <Reference Include="MvCameraControl.Net">
+      <HintPath>..\dll\MvCameraControl.Net.dll</HintPath>
+    </Reference>
     <Reference Include="netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\dll\netstandard.dll</HintPath>
@@ -119,6 +122,18 @@
     </Compile>
     <Compile Include="frmConveyorcs.Designer.cs">
       <DependentUpon>frmConveyorcs.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmFileImport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmFileImport.designer.cs">
+      <DependentUpon>frmFileImport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmFileImportSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmFileImportSelect.designer.cs">
+      <DependentUpon>frmFileImportSelect.cs</DependentUpon>
     </Compile>
     <Compile Include="frmFlirCamera.cs">
       <SubType>Form</SubType>
@@ -364,6 +379,7 @@
     <Compile Include="TCSystem.cs" />
     <Compile Include="TEFlirCamera.cs" />
     <Compile Include="TEMEDAQ.cs" />
+    <Compile Include="TFFileImport.cs" />
     <Compile Include="TFMap.cs" />
     <Compile Include="TFWeigh.cs" />
     <Compile Include="TEZMCAux.cs" />
@@ -380,6 +396,7 @@
     <Compile Include="TFTempCtrl.cs" />
     <Compile Include="TFTools.cs" />
     <Compile Include="TFUser.cs" />
+    <Compile Include="MVC_GenTL.cs" />
     <EmbeddedResource Include="frmAdmin.resx">
       <DependentUpon>frmAdmin.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -392,6 +409,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmConveyorcs.resx">
       <DependentUpon>frmConveyorcs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmFileImport.resx">
+      <DependentUpon>frmFileImport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmFileImportSelect.resx">
+      <DependentUpon>frmFileImportSelect.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmFlirCamera.resx">
       <DependentUpon>frmFlirCamera.cs</DependentUpon>

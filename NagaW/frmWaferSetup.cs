@@ -65,6 +65,10 @@ namespace NagaW
 
             lblNotchEdgeRev.UpdatePara(GProcessPara.Wafer.NotchEdgeRev);
 
+            cbxLearnNotchVision.Checked = GProcessPara.Wafer.IsNotchVisionEnable;
+            lblNotchVisionScore.UpdatePara(GProcessPara.Wafer.NotchVisonScore);
+            lblCountVision.UpdatePara(GProcessPara.Wafer.NotchVisonRepeatCount);
+
             GControl.UpdateFormControl(this);
         }
 
@@ -430,6 +434,65 @@ namespace NagaW
         private void lblNotchEdgeRev_Click(object sender, EventArgs e)
         {
             GLog.SetPara(ref GProcessPara.Wafer.NotchEdgeRev);
+            UpdateDisplay();
+        }
+
+        private void lblNotchVisionScore_Click(object sender, EventArgs e)
+        {
+            GLog.SetPara(ref GProcessPara.Wafer.NotchVisonScore);
+            UpdateDisplay();
+        }
+
+        private void cbxLearnNotchVision_Click(object sender, EventArgs e)
+        {
+            GProcessPara.Wafer.IsNotchVisionEnable = !GProcessPara.Wafer.IsNotchVisionEnable;
+            UpdateDisplay();
+        }
+
+        private void btnLearnNotchVision_Click(object sender, EventArgs e)
+        {
+            int id = 10;
+
+            while (GRecipes.PatRecog[gantry.Index].Count <= id)
+            {
+                GRecipes.PatRecog[gantry.Index].Add(new TPatRect());
+            }
+
+            Emgu.CV.Image<Emgu.CV.Structure.Gray, byte> img = null;
+            var patRec = GRecipes.PatRecog[0][id];
+
+            try
+            {
+                TFCameras.Camera[gantry.Index].Snap();
+                img = TFCameras.Camera[gantry.Index].emgucvImage.Clone();
+                TFCameras.Camera[gantry.Index].Live();
+
+
+                Rectangle[] rects = new Rectangle[2] { patRec.SearchRect[0], patRec.PatRect[0] };
+                int thld = patRec.ImgThld[0];
+                TFVision.PatLearn(img, ref patRec.RegImage[0], ref thld, ref rects);
+
+                patRec.ImgThld[0] = thld;
+                patRec.SearchRect[0] = rects[0];
+                patRec.PatRect[0] = rects[1];
+
+                GSetupPara.Wafer.PatLightRGBA = new LightRGBA(TFLightCtrl.LightPair[gantry.Index].CurrentLight);
+
+                return;
+            }
+            catch (Exception ex)
+            {
+                GAlarm.Prompt(EAlarm.VISION_LEARN_PATTERN_ERROR, ex.Message.ToString());
+            }
+            finally
+            {
+                if (img != null) img.Dispose();
+            }
+        }
+
+        private void lblCountVision_Click(object sender, EventArgs e)
+        {
+            GLog.SetPara(ref GProcessPara.Wafer.NotchVisonRepeatCount);
             UpdateDisplay();
         }
     }

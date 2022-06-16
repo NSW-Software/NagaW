@@ -79,6 +79,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lblDnWait = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.btnImport = new System.Windows.Forms.Button();
             this.gbxFuncsCmds.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.panel1.SuspendLayout();
@@ -306,6 +307,7 @@
             // 
             this.groupBox2.AutoSize = true;
             this.groupBox2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox2.Controls.Add(this.btnImport);
             this.groupBox2.Controls.Add(this.btnOption);
             this.groupBox2.Controls.Add(this.btnCopy);
             this.groupBox2.Controls.Add(this.lboxFuncList);
@@ -691,6 +693,16 @@
             this.label3.Text = "Down Wait";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // btnImport
+            // 
+            this.btnImport.Location = new System.Drawing.Point(487, 50);
+            this.btnImport.Name = "btnImport";
+            this.btnImport.Size = new System.Drawing.Size(75, 25);
+            this.btnImport.TabIndex = 19;
+            this.btnImport.Text = "Import";
+            this.btnImport.UseVisualStyleBackColor = true;
+            this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
+            // 
             // frmRecipeFunction
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 18F);
@@ -776,5 +788,6 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Button btnCopy;
         private System.Windows.Forms.Button btnOption;
+        private System.Windows.Forms.Button btnImport;
     }
 }

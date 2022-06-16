@@ -227,5 +227,7 @@ namespace NagaW
         DOOR_LOCK_FAIL,
         JOG_EXCEED_SAFETY_ZONE,
         #endregion
+
+        DXF_FILE_ERROR
     }
 }

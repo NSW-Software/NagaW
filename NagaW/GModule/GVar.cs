@@ -63,7 +63,7 @@ namespace NagaW
             //public static uint ConvHomeTimeout { get; set; } = 15;//seconds
             [Category("Conveyor")]
             [DisplayName("Conveyor Type")]
-            public static EConvInterface Conv_Interface { get; set; } = EConvInterface.SMEMA_LR_SERIAL;
+            public static EConvInterface Conv_Interface { get; set; } = EConvInterface.CONV_BY_PASS;
             [DisplayName("PulsePerUnit")]
             public static double PPU { get; set; } = 28.29;
         }
@@ -71,6 +71,7 @@ namespace NagaW
         {
             public const int Count = 2;
             #region
+            public ECamType CamType { get; set; }
             [Category("Start Up")]
             [DisplayName("Active")]
             public bool StartUpEnable { get; set; }
@@ -432,6 +433,9 @@ namespace NagaW
             public static DPara PrecisorPos_3 = new DPara(nameof(Wafer) + nameof(PrecisorPos_3), 0, 0, 130, EUnit.ANGLE);
 
             public static PointXYZ TeachNotchCamPos = new PointXYZ();
+
+            //public static TPatRect PatRect = new TPatRect();
+            public static LightRGBA PatLightRGBA = new LightRGBA();
         }
         public class NeedleSprayClean
         {
@@ -771,6 +775,11 @@ namespace NagaW
 
             public static DPara NotchEdgeRev = new DPara(nameof(Wafer) + nameof(NotchEdgeRev), 1, 0.05, 2, EUnit.MILLIMETER);
 
+            public static bool IsNotchVisionEnable = false;
+            public static DPara NotchVisonScore = new DPara(nameof(Wafer) + nameof(NotchVisonScore), 0.7, 0, 1, EUnit.PERCENTAGE);
+            public static IPara NotchVisonRepeatCount = new IPara(nameof(Wafer) + nameof(NotchVisonRepeatCount), 1, 1, 10, EUnit.COUNT);
+
+            
         }
 
         public static bool SaveFile(string filepath)

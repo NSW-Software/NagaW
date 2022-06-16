@@ -36,18 +36,32 @@ namespace NagaW
         public void Link(int camNo)
         {
             selectedCam = camNo;
-            TFCameras.Camera[selectedCam].FlirCamera.imgBoxEmgu = imgBoxEmgu;
-            imgBoxEmgu.Image = TFCameras.Camera[selectedCam].FlirCamera.emgucvCImage;
+            switch (TFCameras.Camera[selectedCam].CamType)
+            {
+                case ECamType.Spinnaker:
+                    {
+                        TFCameras.Camera[selectedCam].FlirCamera.imgBoxEmgu = imgBoxEmgu;
+                        imgBoxEmgu.Image = TFCameras.Camera[selectedCam].emgucvImage;
+                    }
+                    break;
+                case ECamType.MVC_GenTL:
+                    {
+                        TFCameras.Camera[selectedCam].MVC_GenTL.RegisterPictureBox(imgBoxEmgu);
+                        imgBoxEmgu.Image = TFCameras.Camera[selectedCam].emgucvImage;
+                    }
+                    break;
+            }
+
 
             if (selectedCam == 0)
             {
-                TFCameras.Camera[1].FlirCamera.Stop();
-                TFCameras.Camera[0].FlirCamera.Live();
+                TFCameras.Camera[1].GrabStop();
+                TFCameras.Camera[0].Live();
             };
             if (selectedCam == 1)
             {
-                TFCameras.Camera[0].FlirCamera.Stop();
-                TFCameras.Camera[1].FlirCamera.Live();
+                TFCameras.Camera[0].GrabStop();
+                TFCameras.Camera[1].Live();
             };
 
 
@@ -60,9 +74,9 @@ namespace NagaW
         {
             try
             {
-                enableTrigModeToolStripMenuItem.Checked = TFCameras.Camera[selectedCam].FlirCamera.TrigMode;
-                sourceSwToolStripMenuItem.Checked = TFCameras.Camera[selectedCam].FlirCamera.TrigSourceSw;
-                sourceHwToolStripMenuItem.Checked = TFCameras.Camera[selectedCam].FlirCamera.TrigSourceHw;
+                enableTrigModeToolStripMenuItem.Checked = TFCameras.Camera[selectedCam].TrigMode;
+                sourceSwToolStripMenuItem.Checked = TFCameras.Camera[selectedCam].TrigSourceSw;
+                sourceHwToolStripMenuItem.Checked = TFCameras.Camera[selectedCam].TrigSourceHw;
             }
             catch { };
         }
@@ -70,29 +84,29 @@ namespace NagaW
 
         private void liveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TFCameras.Camera[selectedCam].FlirCamera.Live();
-            imgBoxEmgu.Image = TFCameras.Camera[selectedCam].FlirCamera.emgucvCImage;
+            TFCameras.Camera[selectedCam].Live();
+            imgBoxEmgu.Image = TFCameras.Camera[selectedCam].emgucvImage;
             UpdateControls();
         }
         private void stopToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TFCameras.Camera[selectedCam].FlirCamera.Stop();
-            imgBoxEmgu.Image = TFCameras.Camera[selectedCam].FlirCamera.emgucvCImage;
+            TFCameras.Camera[selectedCam].GrabStop();
+            imgBoxEmgu.Image = TFCameras.Camera[selectedCam].emgucvImage;
             UpdateControls();
         }
         private void trigToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TFCameras.Camera[selectedCam].FlirCamera.SwTrig(500);
-            imgBoxEmgu.Image = TFCameras.Camera[selectedCam].FlirCamera.emgucvCImage;
+            ////TFCameras.Camera[selectedCam].FlirCamera.SwTrig(500);
+            imgBoxEmgu.Image = TFCameras.Camera[selectedCam].emgucvImage;
             UpdateControls();
         }
 
         public void ZoomFit()
         {
-            if (TFCameras.Camera[selectedCam].FlirCamera == null) return;
+            if (!TFCameras.Camera[selectedCam].IsConnected) return;
 
-            double XScale = (double)pnlImage.Width / TFCameras.Camera[selectedCam].FlirCamera.emgucvImage.Width;
-            double YScale = (double)pnlImage.Height / TFCameras.Camera[selectedCam].FlirCamera.emgucvImage.Height;
+            double XScale = (double)pnlImage.Width / TFCameras.Camera[selectedCam].emgucvImage.Width;
+            double YScale = (double)pnlImage.Height / TFCameras.Camera[selectedCam].emgucvImage.Height;
             imgBoxEmgu.SetZoomScale(Math.Min(XScale, YScale), new Point(0, 0));
         }
         public void ZoomActual()
@@ -124,7 +138,7 @@ namespace NagaW
         {
             try
             {
-                TFCameras.Camera[selectedCam].FlirCamera.TrigMode = !TFCameras.Camera[selectedCam].FlirCamera.TrigMode;
+                TFCameras.Camera[selectedCam].TrigMode = !TFCameras.Camera[selectedCam].TrigMode;
                 //TFCameras.Camera[selectedCam].FlirCamera.Grab(500);
             }
             catch (Exception ex)
@@ -141,7 +155,7 @@ namespace NagaW
 
         private void imgBoxEmgu_Paint(object sender, PaintEventArgs e)
         {
-            Text = TFCameras.Camera[selectedCam].FlirCamera.dFPS.ToString("f1") + " Hz";
+            ////Text = TFCameras.Camera[selectedCam].FlirCamera.dFPS.ToString("f1") + " Hz";
 
             double w = imgBoxEmgu.Image.GetInputArray().GetSize().Width;
             double h = imgBoxEmgu.Image.GetInputArray().GetSize().Height;
@@ -201,7 +215,7 @@ namespace NagaW
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                TFCameras.Camera[selectedCam].FlirCamera.GrabStop();
+                TFCameras.Camera[selectedCam].GrabStop();
                 UpdateControls();
 
                 imgBoxEmgu.Image = new Image<Gray, byte>(openFileDialog1.FileName);
@@ -306,13 +320,13 @@ namespace NagaW
 
         private void sourceSwToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TFCameras.Camera[selectedCam].FlirCamera.TrigSourceSw = true;
+            TFCameras.Camera[selectedCam].TrigSourceSw = true;
             UpdateControls();
         }
 
         private void sourceHwToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TFCameras.Camera[selectedCam].FlirCamera.TrigSourceHw = true;
+            TFCameras.Camera[selectedCam].TrigSourceHw = true;
             UpdateControls();
         }
     }

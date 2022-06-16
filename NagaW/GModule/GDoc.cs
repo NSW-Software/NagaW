@@ -32,6 +32,7 @@ namespace NagaW
         public static DirectoryInfo MachineLogDir => Directory.CreateDirectory(rootLogDir.FullName + "MachineLog\\");
         public static DirectoryInfo WeighDataLogDir => Directory.CreateDirectory(rootLogDir.FullName + "WeighDataLog\\");
         public static DirectoryInfo MotionLogDir => Directory.CreateDirectory(rootLogDir.FullName + "MotionLog\\");
+        public static DirectoryInfo SMTRecipeDir => Directory.CreateDirectory(RecipeDir.FullName + "DataSets\\");
 
         //File
         public static FileInfo ToolFile => new FileInfo(SettingDir.FullName + "Tool.ini");
@@ -48,6 +49,7 @@ namespace NagaW
         public static FileInfo MachineLogFile => new FileInfo(MachineLogDir.FullName + DateTime.Now.ToString("yyyy-MM-dd") + ".mlog");
         public static FileInfo WeighDataFile => new FileInfo(WeighDataLogDir.FullName + DateTime.Now.ToString("yyyy-MM-dd") + ".txt");
         public static FileInfo MotionLogFile => new FileInfo(MotionLogDir.FullName + DateTime.Now.ToString("yyyy-MM-dd") + ".txt");
+
 
         public static string RecipeNameWithPath = string.Empty;
         public static string Extension_Converter(string filetype)
@@ -657,6 +659,19 @@ namespace NagaW
                                 break;
                             }
                         #endregion
+                        case Emgu.CV.Image<Emgu.CV.Structure.Gray, byte> img:
+                            #region
+                            {
+                                try
+                                {
+                                    byte[] bytes = (byte[])new ImageConverter().ConvertTo(img.ToBitmap(), typeof(byte[]));
+                                    string data = Convert.ToBase64String(bytes);
+                                    ini.Write(section, key, data);
+                                }
+                                catch { }
+                                break;
+                            }
+                        #endregion
                         case Array array:
                             #region
                             {
@@ -702,6 +717,13 @@ namespace NagaW
                             #region
                             {
                                 ini.Write(section, key, new ColorConverter().ConvertToString(color));
+                                break;
+                            }
+                        #endregion
+                        case Rectangle rec:
+                            #region
+                            {
+                                ini.Write(section, key, new RectangleConverter().ConvertToString(rec));
                                 break;
                             }
                         #endregion
@@ -811,6 +833,26 @@ namespace NagaW
                                 break;
                             }
                         #endregion
+                        case Emgu.CV.Image<Emgu.CV.Structure.Gray, byte> img:
+                            #region
+                            {
+                                if (!ini.ReadString(section, key, ref value)) break;
+                                var d = value.Length;
+                                byte[] bytes = Convert.FromBase64String(value);
+                                var bitmap = new Bitmap(new MemoryStream(bytes));
+                                try
+                                {
+                                    string mapfile = MiscDir.FullName + "tempImg.bmp";
+                                    bitmap.Save(mapfile);
+                                    newobject = new Image<Emgu.CV.Structure.Gray, byte>(mapfile);
+                                }
+                                finally
+                                {
+                                    bitmap.Dispose();
+                                }
+                                break;
+                            }
+                        #endregion
                         case Array array:
                             #region
                             {
@@ -863,6 +905,14 @@ namespace NagaW
                             {
                                 if (!ini.ReadString(section, key, ref value)) break;
                                 newobject = new ColorConverter().ConvertFromString(value);
+                                break;
+                            }
+                        #endregion
+                        case Rectangle rec:
+                            #region
+                            {
+                                if (!ini.ReadString(section, key, ref value)) break;
+                                newobject = new RectangleConverter().ConvertFromString(value);
                                 break;
                             }
                         #endregion
@@ -995,6 +1045,8 @@ namespace NagaW
         private char ArraySeperator = ',';
         private char StringArraySeperator = '@';
 
+        private int sbLength = 5000;
+
         public IniFile(string filepath)
         {
             try
@@ -1049,8 +1101,8 @@ namespace NagaW
 
         public bool ReadString(string section, string key, ref string value)
         {
-            StringBuilder sb = new StringBuilder(255);
-            int i = GetPrivateProfileString(section, key, "", sb, 255, Filepath);
+            StringBuilder sb = new StringBuilder(1500);
+            int i = GetPrivateProfileString(section, key, "", sb, 1500, Filepath);
 
             if (i == 0) return false;
             value = sb.ToString();
@@ -1059,8 +1111,8 @@ namespace NagaW
         }
         public bool ReadStringArray(string section, string key, ref string[] value)
         {
-            StringBuilder sb = new StringBuilder(255);
-            int i = GetPrivateProfileString(section, key, "", sb, 255, Filepath);
+            StringBuilder sb = new StringBuilder(1500);
+            int i = GetPrivateProfileString(section, key, "", sb, 1500, Filepath);
             if (i == 0) return false;
             try
             {
@@ -1072,8 +1124,8 @@ namespace NagaW
         }
         public bool ReadBool(string section, string key, ref bool value)
         {
-            StringBuilder sb = new StringBuilder(255);
-            int i = GetPrivateProfileString(section, key, "", sb, 255, Filepath);
+            StringBuilder sb = new StringBuilder(1500);
+            int i = GetPrivateProfileString(section, key, "", sb, 1500, Filepath);
 
             if (i == 0) return false;
             uint v;
@@ -1083,8 +1135,8 @@ namespace NagaW
         }
         public bool ReadBoolArray(string section, string key, ref bool[] value)
         {
-            StringBuilder sb = new StringBuilder(255);
-            int i = GetPrivateProfileString(section, key, "", sb, 255, Filepath);
+            StringBuilder sb = new StringBuilder(1500);
+            int i = GetPrivateProfileString(section, key, "", sb, 1500, Filepath);
             if (i == 0) return false;
             try
             {
@@ -1096,8 +1148,8 @@ namespace NagaW
         }
         public bool ReadInt(string section, string key, ref int value)
         {
-            StringBuilder sb = new StringBuilder(255);
-            int i = GetPrivateProfileString(section, key, "", sb, 255, Filepath);
+            StringBuilder sb = new StringBuilder(1500);
+            int i = GetPrivateProfileString(section, key, "", sb, 1500, Filepath);
 
             if (i == 0) return false;
             if (!int.TryParse(sb.ToString(), out value)) return false;
@@ -1106,8 +1158,8 @@ namespace NagaW
         }
         public bool ReadIntArray(string section, string key, ref int[] value)
         {
-            StringBuilder sb = new StringBuilder(255);
-            int i = GetPrivateProfileString(section, key, "", sb, 255, Filepath);
+            StringBuilder sb = new StringBuilder(1500);
+            int i = GetPrivateProfileString(section, key, "", sb, 1500, Filepath);
             if (i == 0) return false;
             try
             {
@@ -1119,8 +1171,8 @@ namespace NagaW
         }
         public bool ReadDouble(string section, string key, ref double value)
         {
-            StringBuilder sb = new StringBuilder(255);
-            int i = GetPrivateProfileString(section, key, "", sb, 255, Filepath);
+            StringBuilder sb = new StringBuilder(1500);
+            int i = GetPrivateProfileString(section, key, "", sb, 1500, Filepath);
 
             if (i == 0) return false;
             if (!double.TryParse(sb.ToString(), out value)) return false;
@@ -1129,8 +1181,8 @@ namespace NagaW
         }
         public bool ReadDoubleArray(string section, string key, ref double[] value)
         {
-            StringBuilder sb = new StringBuilder(255);
-            int i = GetPrivateProfileString(section, key, "", sb, 255, Filepath);
+            StringBuilder sb = new StringBuilder(1500);
+            int i = GetPrivateProfileString(section, key, "", sb, 1500, Filepath);
             if (i == 0) return false;
             try
             {

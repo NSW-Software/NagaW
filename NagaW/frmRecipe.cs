@@ -94,7 +94,7 @@ namespace NagaW
 
                 gantry.MoveOpZAbs(GRecipes.Board[gantry.Index].StartPos.Z);
                 TFLightCtrl.LightPair[gantry.Index].Set(GRecipes.Board[gantry.Index].LightDefault);
-                TFCameras.Camera[gantry.Index].FlirCamera.Live();
+                TFCameras.Camera[gantry.Index].Live();
             }
             catch (Exception ex)
             {

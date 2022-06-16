@@ -521,6 +521,7 @@ namespace NagaW
             showBox = true;
 
             imgboxEmgu.Invalidate();
+            tslblScore.Text = $"Score: {score}";
         }
         private void tsbtnLearnImage_Click(object sender, EventArgs e)
         {

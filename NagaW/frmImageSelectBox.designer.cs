@@ -55,7 +55,9 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.tbarThreshold = new System.Windows.Forms.TrackBar();
             this.pnlInstruction = new System.Windows.Forms.Panel();
+            this.tslblScore = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.imgboxEmgu)).BeginInit();
+            this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tbarThreshold)).BeginInit();
             this.pnlInstruction.SuspendLayout();
@@ -66,7 +68,7 @@
             this.lbl_Instruction.AutoSize = true;
             this.lbl_Instruction.Location = new System.Drawing.Point(3, 3);
             this.lbl_Instruction.Name = "lbl_Instruction";
-            this.lbl_Instruction.Size = new System.Drawing.Size(84, 14);
+            this.lbl_Instruction.Size = new System.Drawing.Size(97, 18);
             this.lbl_Instruction.TabIndex = 4;
             this.lbl_Instruction.Text = "lbl_Instruction";
             // 
@@ -84,6 +86,9 @@
             // 
             // statusStrip1
             // 
+            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tslblScore});
             this.statusStrip1.Location = new System.Drawing.Point(3, 519);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(801, 22);
@@ -92,6 +97,7 @@
             // 
             // toolStrip1
             // 
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel1,
             this.tscbxImage,
@@ -121,7 +127,7 @@
             // toolStripLabel1
             // 
             this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(40, 30);
+            this.toolStripLabel1.Size = new System.Drawing.Size(51, 30);
             this.toolStripLabel1.Text = "Image";
             // 
             // tscbxImage
@@ -137,7 +143,7 @@
             this.tsbtnUpdate.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnUpdate.Image")));
             this.tsbtnUpdate.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbtnUpdate.Name = "tsbtnUpdate";
-            this.tsbtnUpdate.Size = new System.Drawing.Size(49, 30);
+            this.tsbtnUpdate.Size = new System.Drawing.Size(62, 30);
             this.tsbtnUpdate.Text = "Update";
             this.tsbtnUpdate.Click += new System.EventHandler(this.tsbtnUpdate_Click);
             // 
@@ -152,7 +158,7 @@
             this.tsbtnThreshold.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnThreshold.Image")));
             this.tsbtnThreshold.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbtnThreshold.Name = "tsbtnThreshold";
-            this.tsbtnThreshold.Size = new System.Drawing.Size(63, 30);
+            this.tsbtnThreshold.Size = new System.Drawing.Size(78, 30);
             this.tsbtnThreshold.Text = "Threshold";
             this.tsbtnThreshold.Click += new System.EventHandler(this.tsbtnThreshold_Click);
             // 
@@ -205,7 +211,7 @@
             this.tsbResetROI.Image = ((System.Drawing.Image)(resources.GetObject("tsbResetROI.Image")));
             this.tsbResetROI.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbResetROI.Name = "tsbResetROI";
-            this.tsbResetROI.Size = new System.Drawing.Size(61, 30);
+            this.tsbResetROI.Size = new System.Drawing.Size(77, 30);
             this.tsbResetROI.Text = "Reset ROI";
             this.tsbResetROI.Click += new System.EventHandler(this.tsbResetROI_Click);
             // 
@@ -252,7 +258,7 @@
             this.tsbtnLoadImage.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnLoadImage.Image")));
             this.tsbtnLoadImage.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbtnLoadImage.Name = "tsbtnLoadImage";
-            this.tsbtnLoadImage.Size = new System.Drawing.Size(37, 30);
+            this.tsbtnLoadImage.Size = new System.Drawing.Size(46, 30);
             this.tsbtnLoadImage.Text = "Load";
             this.tsbtnLoadImage.Click += new System.EventHandler(this.tsbtnLoadImage_Click);
             // 
@@ -262,7 +268,7 @@
             this.tsbtnLearnImage.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnLearnImage.Image")));
             this.tsbtnLearnImage.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbtnLearnImage.Name = "tsbtnLearnImage";
-            this.tsbtnLearnImage.Size = new System.Drawing.Size(40, 30);
+            this.tsbtnLearnImage.Size = new System.Drawing.Size(49, 24);
             this.tsbtnLearnImage.Text = "Learn";
             this.tsbtnLearnImage.Click += new System.EventHandler(this.tsbtnLearnImage_Click);
             // 
@@ -272,7 +278,7 @@
             this.tsbtnMatchImage.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnMatchImage.Image")));
             this.tsbtnMatchImage.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbtnMatchImage.Name = "tsbtnMatchImage";
-            this.tsbtnMatchImage.Size = new System.Drawing.Size(45, 30);
+            this.tsbtnMatchImage.Size = new System.Drawing.Size(54, 24);
             this.tsbtnMatchImage.Text = "Match";
             this.tsbtnMatchImage.Click += new System.EventHandler(this.tsbtnMatchImage_Click);
             // 
@@ -307,6 +313,11 @@
             this.pnlInstruction.Size = new System.Drawing.Size(801, 25);
             this.pnlInstruction.TabIndex = 10;
             // 
+            // tslblScore
+            // 
+            this.tslblScore.Name = "tslblScore";
+            this.tslblScore.Size = new System.Drawing.Size(0, 16);
+            // 
             // frmImageSelectBox
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -325,6 +336,8 @@
             this.Text = "frmImageSelectBox";
             this.Load += new System.EventHandler(this.frmVisionSelectBox_Load);
             ((System.ComponentModel.ISupportInitialize)(this.imgboxEmgu)).EndInit();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tbarThreshold)).EndInit();
@@ -361,5 +374,6 @@
         private System.Windows.Forms.ToolStripComboBox tscbxROI;
         private System.Windows.Forms.ToolStripButton tsbtnUpdate;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripStatusLabel tslblScore;
     }
 }

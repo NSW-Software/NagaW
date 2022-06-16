@@ -7,9 +7,13 @@ using System.Reflection;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Threading;
+using System.Drawing;
 
 namespace NagaW
 {
+    using Emgu.CV;
+    using Emgu.CV.Structure;
+
     class TFCommon
     {
         public static bool SensMainAir { get => GMotDef.IN10.Status; }//Hi when air is present
@@ -284,7 +288,7 @@ namespace NagaW
                 TEZMCAux.Execute($"GZHOME_SPEEDPROF(0,{GProcessPara.Home.GZSpeedProfile[0]},{GProcessPara.Home.GZSpeedProfile[1]},{GProcessPara.Home.GZSpeedProfile[2]},{GProcessPara.Home.GXYSpeedProfile[3]})");
                 TEZMCAux.Execute($"PsicorHMSP(0,10,20,500,500)");
 
-                
+
                 TEZMCAux.Execute("RUN GRHOME");
 
                 var sw = Stopwatch.StartNew();
@@ -403,7 +407,7 @@ namespace NagaW
         {
             EZErrorCode ZmotionErrorCode;
             Enum.TryParse(TEZMCAux.QueryInt("ErrorCode").ToString(), out ZmotionErrorCode);
-            switch (ZmotionErrorCode)   
+            switch (ZmotionErrorCode)
             {
                 case EZErrorCode.SlotScanFailed:
                     GAlarm.Prompt(EAlarm.ETHERCAT_SCAN_FAILED);
@@ -856,7 +860,7 @@ namespace NagaW
 
                     var pos = dispPos + layout.RelPos(currentCR);
 
-                    string sBase = $"BASE({ gantry.Axis[0].AxisNo },{ gantry.Axis[1].AxisNo},{ gantry.Axis[2].AxisNo})";
+                    string sBase = $"BASE({gantry.Axis[0].AxisNo},{gantry.Axis[1].AxisNo},{gantry.Axis[2].AxisNo})";
                     string cmdBuffer = sBase;
                     cmdBuffer += $" FORCE_SPEED ={GProcessPara.Operation.GXYFastSpeed.Value}";
 
@@ -2375,7 +2379,7 @@ namespace NagaW
             while (GMotDef.Lifter.Busy) Thread.Sleep(0);
             return true;
         }
-        public static bool PreciserOn(bool airon=false)
+        public static bool PreciserOn(bool airon = false)
         {
             GMotDef.GRAxis.SetParam(0, 30, 500, 500);
 
@@ -2494,7 +2498,7 @@ namespace NagaW
                     Thread.Sleep(GProcessPara.Wafer.PreExhaustTime.Value);
                     WaferExh.Status = false;
                 });
-                
+
                 if (!PreciserOn()) return false;
 
                 if (!gantry.GotoXYZ(GSetupPara.Wafer.AirBlowPos)) return false;
@@ -2736,7 +2740,7 @@ namespace NagaW
         static TEZMCAux.TAxis RAxis = GMotDef.GRAxis;
 
         public static bool StopNotch = false;
-        public static bool NotchAlignment(double stepheight = 0, int angle = 0, double speed = 0)
+        public static bool NotchAlignmentLaser(double stepheight = 0, int angle = 0, double speed = 0)
         {
 
             try
@@ -2833,7 +2837,7 @@ namespace NagaW
                     if (notch_edge_1 is 0) continue;
                 }
 
-                GAlarm.Prompt(EAlarm.WAFER_NOTCH_ALIGNMENT_FAIL);
+                //GAlarm.Prompt(EAlarm.WAFER_NOTCH_ALIGNMENT_FAIL);
                 return false;
             }
 
@@ -2906,6 +2910,60 @@ namespace NagaW
                 }
                 #endregion
             }
+        }
+
+        public static bool NotchAlignmentVision()
+        {
+            try
+            {
+                if (GRecipes.PatRecog[0].Count < 10) throw new Exception("Learn Vision before execute");
+                TPatRect patRect = GRecipes.PatRecog[0][10];
+                double patScore = GProcessPara.Wafer.NotchVisonScore.Value;
+                Image<Gray, byte> refimg = patRect.RegImage[0];
+
+                gantry.MoveAbs(GSetupPara.Wafer.TeachNotchCamPos);
+                Thread.Sleep(GProcessPara.Vision.SettleTime.Value);
+                TFLightCtrl.LightPair[gantry.Index].Set(GSetupPara.Wafer.PatLightRGBA);
+
+                var fCam = TFCameras.Camera[gantry.Index];
+                fCam.Snap();
+                var img = fCam.emgucvImage.Clone();
+                fCam.Live();
+
+                PointD p1 = new PointD();
+                PointD p2 = new PointD();
+                double score = 0;
+                TFVision.PatMatch(img, refimg, patRect.ImgThld[0], new Rectangle[] { patRect.SearchRect[0], patRect.PatRect[0] }, ref p1, ref p2, ref score);
+
+                if (score > patScore) return true;
+
+
+            }
+            catch (Exception ex)
+            {
+                GAlarm.Prompt(EAlarm.WAFER_NOTCH_ALIGNMENT_FAIL, ex);
+                return false;
+            }
+
+            return false;
+        }
+
+        public static bool NotchAlignment()
+        {
+            if (!GProcessPara.Wafer.IsNotchVisionEnable) return NotchAlignmentLaser();
+
+            if (NotchAlignmentVision()) return true;
+
+            int count = GProcessPara.Wafer.NotchVisonRepeatCount.Value;
+
+            for (int i = 0; i < count; i++)
+            {
+                NotchAlignmentLaser();
+
+                if (NotchAlignmentVision()) break;
+            }
+
+            return true;
         }
     }
 

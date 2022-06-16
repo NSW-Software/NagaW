@@ -666,5 +666,194 @@ namespace NagaW
 
             }
         }
+
+        private void btnImport_Click(object sender, EventArgs e)
+        {
+            var func = GRecipes.Functions[gantry.Index];
+
+            frmFileImport frm = new frmFileImport();
+            if (frm.ShowDialog() != DialogResult.OK) return;
+
+            #region PreSaveData
+            int noOfFunc = func.Count;
+            if (noOfFunc < TFFileImport.Feature.Apertures.Count)
+            {
+                noOfFunc += TFFileImport.Feature.Apertures.Count;
+            }
+
+            //List<string>[] name = new List<string>[func.Count].Select(x => x = new List<string>()).ToArray();
+            string[] name = new string[noOfFunc];
+            List<TCmd> prevCmd = new List<TCmd>();
+            for (int i = 0; i < func.Count; i++)
+            {
+                for (int j = 0; j < func[i].Cmds.Count; j++)
+                {
+                    var tcmd = func[i].Cmds[j];
+                    if (((int)tcmd.Cmd < 200 || (int)tcmd.Cmd > 510) && (int)tcmd.Cmd > 0)
+                    {
+                        prevCmd.Add(tcmd);
+                    }
+                }
+                prevCmd.Add(new TCmd(ECmd.NONE));
+                name[i] = func[i].Name;
+            }
+            #endregion
+
+            func.Clear();
+
+            for (int i = 0; i < noOfFunc; i++)
+            {
+                func.Add(new TFunction());
+                func[i].Name = name[i];
+            }
+            //for (int i = 0; i < name.Length; i++) func[i].Name = name[i];
+
+            int numFunc = 0;
+            //func.Add(new TFunction());
+            foreach (var c in prevCmd)
+            {
+                if (c.Cmd == ECmd.NONE) numFunc++;
+                else func[numFunc].Cmds.Add(c);
+            }
+
+            List<TFFileImport.TFeatures>[] sorted = new List<TFFileImport.TFeatures>[TFFileImport.Feature.Apertures.Count].Select(x => x = new List<TFFileImport.TFeatures>()).ToArray();
+            int refIndex = -1;
+            foreach (TFFileImport.TFeatures tf in TFFileImport.Feature.Features)
+            {
+                sorted[tf.ApertureIndex].Add(tf);
+                if (tf.DispType == TFFileImport.EDispType.Ref1) refIndex = tf.ApertureIndex;
+            }
+
+            int funcIdx = 0;
+            funcIdx = noOfFunc - TFFileImport.Feature.Apertures.Count;
+            if (refIndex >= 0)
+            {
+                //func.Add(new TFunction());
+                TCmd cmd = new TCmd(ECmd.PAT_ALIGN_UNIT);
+                foreach (TFFileImport.TFeatures tf in sorted[refIndex])
+                {
+                    if (tf.DispType == TFFileImport.EDispType.Ref1)
+                    {
+                        //cmd = new TCmd(ECmd.PAT_ALIGN);
+                        cmd.Para[0] = tf.Point.X - TFFileImport.Feature.Origin.X;
+                        cmd.Para[1] = tf.Point.Y - TFFileImport.Feature.Origin.Y;
+                        //cmd.Para[1] = -cmd.Para[1];
+                        cmd.Para[1] = cmd.Para[1];
+                    }
+                    if (tf.DispType == TFFileImport.EDispType.Ref2)
+                    {
+                        //cmd = new TCmd(ECmd.PAT_ALIGN);
+                        cmd.Para[3] = tf.Point.X - TFFileImport.Feature.Origin.X;
+                        cmd.Para[4] = tf.Point.Y - TFFileImport.Feature.Origin.Y;
+                        cmd.Para[9] = 0x01;
+                        //cmd.Para[4] = -cmd.Para[4];
+                        cmd.Para[4] = cmd.Para[4];
+                    }
+                }
+                func[funcIdx].Cmds.Add(cmd);
+                func[funcIdx].Name = TFFileImport.Feature.Apertures[refIndex].Name;
+                funcIdx++;
+            }
+
+            int fskip = 0;
+            foreach (List<TFFileImport.TFeatures> list in sorted)
+            {
+                if (fskip == refIndex)
+                {
+                    fskip++;
+                    continue;
+                }
+
+                //func.Add(new TFunction());
+                foreach (TFFileImport.TFeatures tf in list)
+                {
+                    TCmd cmd = new TCmd(ECmd.NONE);
+                    if (tf.DispType == TFFileImport.EDispType.Dot)
+                    {
+                        cmd = new TCmd(ECmd.DOT);
+                        cmd.Para[0] = tf.Point.X - TFFileImport.Feature.Origin.X;
+                        cmd.Para[1] = tf.Point.Y - TFFileImport.Feature.Origin.Y;
+                        //cmd.Para[1] = -cmd.Para[1];
+                        //cmd.Para[1] = cmd.Para[1];
+                        func[funcIdx].Cmds.Add(cmd);
+                    }
+                    if (tf.DispType == TFFileImport.EDispType.Line)
+                    {
+                        PointD size = TFFileImport.Feature.Apertures[tf.ApertureIndex].Size;
+                        if (size.X == 0 || size.Y == 0)
+                        {
+                            if (tf.Point2.X != 0 && tf.Point2.Y != 0)
+                            {
+                                cmd = new TCmd(ECmd.LINE_START);
+                                cmd.Para[0] = tf.Point.X - TFFileImport.Feature.Origin.X;
+                                cmd.Para[1] = tf.Point.Y - TFFileImport.Feature.Origin.Y;
+                                func[funcIdx].Cmds.Add(cmd);
+
+                                cmd = new TCmd(ECmd.LINE_END);
+                                cmd.Para[0] = tf.Point2.X - TFFileImport.Feature.Origin.X;
+                                cmd.Para[1] = tf.Point2.Y - TFFileImport.Feature.Origin.Y;
+                                func[funcIdx].Cmds.Add(cmd);
+                            }
+                            else
+                            {
+                                cmd = new TCmd(ECmd.DOT);
+                                cmd.Para[0] = tf.Point.X - TFFileImport.Feature.Origin.X;
+                                cmd.Para[1] = tf.Point.Y - TFFileImport.Feature.Origin.Y;
+                                //cmd.Para[1] = -cmd.Para[1];
+                                //cmd.Para[1] = cmd.Para[1];
+                                func[funcIdx].Cmds.Add(cmd);
+                            }
+                        }
+                        else
+                        {
+                            PointD startOfset = new PointD(0, 0);
+                            PointD endOfset = new PointD(0, 0);
+                            if (size.X > size.Y)
+                            {
+                                startOfset = new PointD(-size.X / 2, 0);
+                                endOfset = new PointD(0, 0);
+                            }
+                            else//size.Y == size.X || size.Y > size.X
+                            {
+                                startOfset = new PointD(0, 0);
+                                endOfset = new PointD(0, size.Y / 2);
+                            }
+
+                            cmd = new TCmd(ECmd.LINE_START);
+                            cmd.Para[0] = tf.Point.X - TFFileImport.Feature.Origin.X + startOfset.X;
+                            cmd.Para[1] = (tf.Point.Y - TFFileImport.Feature.Origin.Y) + startOfset.Y;
+                            func[funcIdx].Cmds.Add(cmd);
+
+                            cmd = new TCmd(ECmd.LINE_END);
+                            cmd.Para[0] = tf.Point.X - TFFileImport.Feature.Origin.X + endOfset.X;
+                            cmd.Para[1] = (tf.Point.Y - TFFileImport.Feature.Origin.Y) + endOfset.Y;
+                            func[funcIdx].Cmds.Add(cmd);
+                        }
+                    }
+                    if (tf.DispType == TFFileImport.EDispType.Arc)
+                    {
+                        cmd = new TCmd(ECmd.ARC_PASS);
+                        cmd.Para[0] = tf.Point.X - TFFileImport.Feature.Origin.X;
+                        cmd.Para[1] = tf.Point.Y - TFFileImport.Feature.Origin.Y;
+                        cmd.Para[3] = tf.PointRef.X - TFFileImport.Feature.Origin.X;
+                        cmd.Para[4] = tf.PointRef.Y - TFFileImport.Feature.Origin.Y;
+                        cmd.Para[6] = tf.Point2.X - TFFileImport.Feature.Origin.X;
+                        cmd.Para[7] = tf.Point2.Y - TFFileImport.Feature.Origin.Y;
+                        func[funcIdx].Cmds.Add(cmd);
+                    }
+                    func[funcIdx].Name = TFFileImport.Feature.Apertures[tf.ApertureIndex].Name;
+                    if (cmd.Cmd == ECmd.NONE) continue;
+                }
+                funcIdx++;
+                fskip++;
+            }
+            //int i = 0;
+            //func.ToList().ForEach(f => f.Index = i++);
+            func.ResetBindings();
+            UpdateDisplay();
+
+            UpdateGrid();
+        }
+
     }
 }

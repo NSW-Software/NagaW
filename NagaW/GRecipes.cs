@@ -2420,18 +2420,18 @@ namespace NagaW
                             {
                                 case EAction.Skip:
                                     {
-                                        if (runMode == ERunMode.Camera) TFCameras.Camera[gantry.Index].FlirCamera.Live();
+                                        if (runMode == ERunMode.Camera) TFCameras.Camera[gantry.Index].Live();
                                         state = EDispState.NG;
                                         return true;
                                     }
                                 case EAction.Fail:
                                     {
-                                        if (runMode == ERunMode.Camera) TFCameras.Camera[gantry.Index].FlirCamera.Live();
+                                        if (runMode == ERunMode.Camera) TFCameras.Camera[gantry.Index].Live();
                                         return false;
                                     }
                                 case EAction.Accept:
                                     {
-                                        if (runMode == ERunMode.Camera) TFCameras.Camera[gantry.Index].FlirCamera.Live();
+                                        if (runMode == ERunMode.Camera) TFCameras.Camera[gantry.Index].Live();
                                         break;
                                     }
                             }
@@ -2467,18 +2467,18 @@ namespace NagaW
                             {
                                 case EAction.Skip:
                                     {
-                                        if (runMode == ERunMode.Camera) TFCameras.Camera[gantry.Index].FlirCamera.Live();
+                                        if (runMode == ERunMode.Camera) TFCameras.Camera[gantry.Index].Live();
                                         state = EDispState.NG;
                                         return true;
                                     }
                                 case EAction.Fail:
                                     {
-                                        if (runMode == ERunMode.Camera) TFCameras.Camera[gantry.Index].FlirCamera.Live();
+                                        if (runMode == ERunMode.Camera) TFCameras.Camera[gantry.Index].Live();
                                         return false;
                                     }
                                 case EAction.Accept:
                                     {
-                                        if (runMode == ERunMode.Camera) TFCameras.Camera[gantry.Index].FlirCamera.Live();
+                                        if (runMode == ERunMode.Camera) TFCameras.Camera[gantry.Index].Live();
                                         break;
                                     }
                             }
@@ -2523,18 +2523,18 @@ namespace NagaW
                             {
                                 case EAction.Skip:
                                     {
-                                        if (runMode == ERunMode.Camera) TFCameras.Camera[gantry.Index].FlirCamera.Live();
+                                        if (runMode == ERunMode.Camera) TFCameras.Camera[gantry.Index].Live();
                                         state = EDispState.NG;
                                         return true;
                                     }
                                 case EAction.Fail:
                                     {
-                                        if (runMode == ERunMode.Camera) TFCameras.Camera[gantry.Index].FlirCamera.Live();
+                                        if (runMode == ERunMode.Camera) TFCameras.Camera[gantry.Index].Live();
                                         return false;
                                     }
                                 case EAction.Accept:
                                     {
-                                        if (runMode == ERunMode.Camera) TFCameras.Camera[gantry.Index].FlirCamera.Live();
+                                        if (runMode == ERunMode.Camera) TFCameras.Camera[gantry.Index].Live();
                                         break;
                                     }
                             }
@@ -2591,15 +2591,15 @@ namespace NagaW
                             switch (GRecipes.MultiLayout[gantry.Index][layoutNo].Layouts[1].FirstLastCR(unitCR))
                             {
                                 case ELayoutFirstLast.First:
-                                    TFCameras.Camera[gantryIdx].FlirCamera.Stop();
+                                    //TFCameras.Camera[gantryIdx].FlirCamera.Stop();
 
-                                    TFCameras.Camera[gantryIdx].FlirCamera.Gain = GSystemCfg.Camera.Cameras[gantryIdx].DynamicGain;
-                                    TFCameras.Camera[gantryIdx].FlirCamera.Exposure = GSystemCfg.Camera.Cameras[gantryIdx].DynamicExposure;
+                                    //TFCameras.Camera[gantryIdx].FlirCamera.Gain = GSystemCfg.Camera.Cameras[gantryIdx].DynamicGain;
+                                    //TFCameras.Camera[gantryIdx].FlirCamera.Exposure = GSystemCfg.Camera.Cameras[gantryIdx].DynamicExposure;
 
-                                    TFCameras.Camera[gantryIdx].FlirCamera.TrigMode = true;
-                                    TFCameras.Camera[gantryIdx].FlirCamera.TrigSourceHw = true;
-                                    TFCameras.Camera[gantryIdx].FlirCamera.Grab(3000);
-                                    TFCameras.Camera[gantryIdx].FlirCamera.saveImage = 0;
+                                    //TFCameras.Camera[gantryIdx].FlirCamera.TrigMode = true;
+                                    //TFCameras.Camera[gantryIdx].FlirCamera.TrigSourceHw = true;
+                                    //TFCameras.Camera[gantryIdx].FlirCamera.Grab(3000);
+                                    //TFCameras.Camera[gantryIdx].FlirCamera.saveImage = 0;
 
                                     cmdBuffer += $"MERGE=1 ";
                                     cmdBuffer += $"ACCEL={GProcessPara.Operation.GXYSpeed[2]} ";
@@ -2700,9 +2700,9 @@ namespace NagaW
                                     if (!running) return false;
                                     Thread.Sleep(0);
                                 }
-                                TFCameras.Camera[gantryIdx].FlirCamera.TrigMode = false;
-                                TFCameras.Camera[gantryIdx].FlirCamera.Gain = GSystemCfg.Camera.Cameras[gantryIdx].Gain;
-                                TFCameras.Camera[gantryIdx].FlirCamera.Exposure = GSystemCfg.Camera.Cameras[gantryIdx].Exposure;
+                                //TFCameras.Camera[gantryIdx].FlirCamera.TrigMode = false;
+                                //TFCameras.Camera[gantryIdx].FlirCamera.Gain = GSystemCfg.Camera.Cameras[gantryIdx].Gain;
+                                //TFCameras.Camera[gantryIdx].FlirCamera.Exposure = GSystemCfg.Camera.Cameras[gantryIdx].Exposure;
                             }
 
                             break;
@@ -2937,7 +2937,9 @@ namespace NagaW
                             var n_count = Math.Max((int)cmd.Para[0], 1);
                             var n_perUnit = (int)cmd.Para[1];
 
-                            if (n_perUnit <= 0) break;
+                            //if (n_perUnit <= 0) break;
+                            var currentUnit = instBoard.CurrentMLayout.Unit.CR;
+                            if (n_perUnit is 0) n_perUnit = currentUnit.X * currentUnit.Y;
 
                             #region
                             var mode = cmd.Cmd == ECmd.NEEDLE_PURGE ? ENeedleCleanMode.Purge : cmd.Cmd == ECmd.NEEDLE_FLUSH ? ENeedleCleanMode.Flush : ENeedleCleanMode.VacClean;
@@ -3035,7 +3037,9 @@ namespace NagaW
                             var n_count = Math.Max((int)cmd.Para[0], 1);
                             var n_perUnit = (int)cmd.Para[1];
 
-                            if (n_perUnit <= 0) break;
+                            //if (n_perUnit <= 0) break;
+                            var currentUnit = instBoard.CurrentMLayout.Unit.CR;
+                            if (n_perUnit is 0) n_perUnit = currentUnit.X * currentUnit.Y;
 
                             bool run = false;
                             if (NeedleSprayCount++ % n_perUnit != 0) break;
@@ -3066,7 +3070,9 @@ namespace NagaW
                             if (n_count <= 0) break;
 
                             var n_perUnit = (int)cmd.Para[1];
-                            if (n_perUnit <= 0) break;
+                            //if (n_perUnit <= 0) break;
+                            var currentUnit = instBoard.CurrentMLayout.Unit.CR;
+                            if (n_perUnit is 0) n_perUnit = currentUnit.X * currentUnit.Y;
 
                             if (NeedlePurgeStageCount++ % n_perUnit != 0) break;
 
@@ -3090,7 +3096,9 @@ namespace NagaW
                             if (n_count <= 0) break;
 
                             var n_perUnit = (int)cmd.Para[1];
-                            if (n_perUnit <= 0) break;
+                            //if (n_perUnit <= 0) break;
+                            var currentUnit = instBoard.CurrentMLayout.Unit.CR;
+                            if (n_perUnit is 0) n_perUnit = currentUnit.X * currentUnit.Y;
 
                             if (NeedleABCleanCount++ % n_perUnit != 0) break;
 
@@ -3172,18 +3180,18 @@ namespace NagaW
                             {
                                 case EAction.Skip:
                                     {
-                                        if (runMode == ERunMode.Camera) TFCameras.Camera[gantry.Index].FlirCamera.Live();
+                                        if (runMode == ERunMode.Camera) TFCameras.Camera[gantry.Index].Live();
                                         state = EDispState.NG;
                                         return true;
                                     }
                                 case EAction.Fail:
                                     {
-                                        if (runMode == ERunMode.Camera) TFCameras.Camera[gantry.Index].FlirCamera.Live();
+                                        if (runMode == ERunMode.Camera) TFCameras.Camera[gantry.Index].Live();
                                         return false;
                                     }
                                 case EAction.Accept:
                                     {
-                                        if (runMode == ERunMode.Camera) TFCameras.Camera[gantry.Index].FlirCamera.Live();
+                                        if (runMode == ERunMode.Camera) TFCameras.Camera[gantry.Index].Live();
                                         break;
                                     }
                             }
@@ -3199,18 +3207,18 @@ namespace NagaW
                             {
                                 case EAction.Skip:
                                     {
-                                        if (runMode == ERunMode.Camera) TFCameras.Camera[gantry.Index].FlirCamera.Live();
+                                        if (runMode == ERunMode.Camera) TFCameras.Camera[gantry.Index].Live();
                                         state = EDispState.NG;
                                         return true;
                                     }
                                 case EAction.Fail:
                                     {
-                                        if (runMode == ERunMode.Camera) TFCameras.Camera[gantry.Index].FlirCamera.Live();
+                                        if (runMode == ERunMode.Camera) TFCameras.Camera[gantry.Index].Live();
                                         return false;
                                     }
                                 case EAction.Accept:
                                     {
-                                        if (runMode == ERunMode.Camera) TFCameras.Camera[gantry.Index].FlirCamera.Live();
+                                        if (runMode == ERunMode.Camera) TFCameras.Camera[gantry.Index].Live();
                                         break;
                                     }
                             }
@@ -3470,9 +3478,9 @@ namespace NagaW
                 gantryGroup.MoveOpXYAbs((originAbs + ptOri1 + offset1).ToArray);
                 Thread.Sleep(settleTime);
 
-                TFCameras.Camera[gantryGroup.Index].FlirCamera.Snap();
-                img = TFCameras.Camera[gantryGroup.Index].FlirCamera.emgucvImage.Clone();
-                TFCameras.Camera[gantryIdx].FlirCamera.Live();
+                TFCameras.Camera[gantryGroup.Index].Snap();
+                img = TFCameras.Camera[gantryGroup.Index].emgucvImage.Clone();
+                TFCameras.Camera[gantryIdx].Live();
 
                 //int id = cmd.ID;
                 if (GRecipes.PatRecog[gantryGroup.Index][id].RegImage[0] == null)
@@ -3530,7 +3538,7 @@ namespace NagaW
                         GControl.UI_Enable();
                         var msg = MsgBox.ShowDialog($"PA 1 Vision Match Low Score\r\nSetScore:{minScore}\r\nPA score:{score:f2}" + desc, MsgBoxBtns.OkAbortRetryIgnore);
                         GControl.UI_Disable(GControl.ExceptionCtrl);
-                        TFCameras.Camera[gantry.Index].FlirCamera.Live();
+                        TFCameras.Camera[gantry.Index].Live();
 
                         switch (msg)
                         {
@@ -3567,7 +3575,7 @@ namespace NagaW
                     GControl.UI_Enable();
                     var msg = MsgBox.ShowDialog($"PA 1 Offset Fail\r\nSetOffsetTol:{maxOfst}\r\nPA Offset:{Math.Abs(ofst.X)},{Math.Abs(ofst.Y)}\r\n" + desc, MsgBoxBtns.OkRetryAbort);
                     GControl.UI_Disable(GControl.ExceptionCtrl);
-                    TFCameras.Camera[gantry.Index].FlirCamera.Live();
+                    TFCameras.Camera[gantry.Index].Live();
 
                     switch (msg)
                     {
@@ -3613,9 +3621,9 @@ namespace NagaW
                     gantryGroup.MoveOpXYAbs(ptNew2.ToArray);
                     Thread.Sleep(GProcessPara.Vision.SettleTime.Value);
 
-                    TFCameras.Camera[gantryGroup.Index].FlirCamera.Snap();
-                    img = TFCameras.Camera[gantryGroup.Index].FlirCamera.emgucvImage.Clone();
-                    TFCameras.Camera[gantryGroup.Index].FlirCamera.Live();
+                    TFCameras.Camera[gantryGroup.Index].Snap();
+                    img = TFCameras.Camera[gantryGroup.Index].emgucvImage.Clone();
+                    TFCameras.Camera[gantryGroup.Index].Live();
 
                     id = cmd.ID;
                     if (GRecipes.PatRecog[gantryGroup.Index][id].RegImage[1] == null)
@@ -3632,7 +3640,7 @@ namespace NagaW
                     var secpointIdx = cmd.Para[9] is 10 ? 0 : 1;
                     if (!TFVision.PatMatch(img, GRecipes.PatRecog[gantryGroup.Index][id].RegImage[secpointIdx], GRecipes.PatRecog[gantryGroup.Index][id].ImgThld[secpointIdx], new Rectangle[] { GRecipes.PatRecog[gantryGroup.Index][id].SearchRect[secpointIdx], GRecipes.PatRecog[gantryGroup.Index][id].PatRect[secpointIdx] }, ref pLoc, ref pLOfst, ref score)) return EAction.Fail;
 
-                    TFCameras.Camera[gantryIdx].FlirCamera.Live();
+                    TFCameras.Camera[gantryIdx].Live();
 
                     ofst = new PointD(pLOfst.X * distPerPixelX, -pLOfst.Y * distPerPixelY);
 
@@ -3658,7 +3666,7 @@ namespace NagaW
                             GControl.UI_Enable();
                             var msg = MsgBox.ShowDialog($"PA 2 vision match low score\r\nSetScore:{minScore}\r\nPA score:{score}" + desc, MsgBoxBtns.OkRetryAbort);
                             GControl.UI_Disable(GControl.ExceptionCtrl);
-                            TFCameras.Camera[gantry.Index].FlirCamera.Live();
+                            TFCameras.Camera[gantry.Index].Live();
 
                             switch (msg)
                             {
@@ -3694,7 +3702,7 @@ namespace NagaW
                         GControl.UI_Enable();
                         var msg = MsgBox.ShowDialog($"PA 2 Offset Fail\r\nSetOffsetTol:{maxOfst}\r\nPA Offset:{Math.Abs(ofst.X)},{Math.Abs(ofst.Y)}\r\n" + desc, MsgBoxBtns.OkRetryAbort);
                         GControl.UI_Disable(GControl.ExceptionCtrl);
-                        TFCameras.Camera[gantry.Index].FlirCamera.Live();
+                        TFCameras.Camera[gantry.Index].Live();
 
                         switch (msg)
                         {
@@ -3837,7 +3845,7 @@ namespace NagaW
             }
 
             GLog.LogProcess("HeightAlignExecute" + hSensorValue.ToString());
-
+            File.AppendAllText(@"C:\Users\Administrator\Desktop\heightdata.txt", hSensorValue.ToString() + "\n");
             if (hSensorValue <= -999 || hSensorValue >= 999)
             {
                 heightData.Status = EHeightAlignStatus.Error;
@@ -3901,8 +3909,8 @@ namespace NagaW
             //var scaleX = TFCameras.Camera[0].FlirCamera.emgucvCImage.Width;
             //var scaleY = TFCameras.Camera[0].FlirCamera.emgucvCImage.Height;
 
-            var x = camera.DistPerPixelX * (double)(TFCameras.Camera[gantry.Index].FlirCamera.emgucvCImage.Width / (double)2);
-            var y = camera.DistPerPixelY * (double)(TFCameras.Camera[gantry.Index].FlirCamera.emgucvCImage.Height / (double)2);
+            var x = camera.DistPerPixelX * (double)(TFCameras.Camera[gantry.Index].emgucvImage.Width / (double)2);
+            var y = camera.DistPerPixelY * (double)(TFCameras.Camera[gantry.Index].emgucvImage.Height / (double)2);
 
             switch (i)
             {
@@ -4046,7 +4054,6 @@ namespace NagaW
         public static List<ECmd> CmdsDictionary = Enum.GetValues(typeof(ECmd)).OfType<ECmd>().ToList();
 
         public static List<PressureSetup> PressureSetups = Enumerable.Range(0, 2).Select(x => new PressureSetup()).ToList();
-
 
         public static bool Save(string filepath)
         {

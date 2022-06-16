@@ -97,8 +97,14 @@
             this.label2 = new System.Windows.Forms.Label();
             this.lblP1Pos = new System.Windows.Forms.Label();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.label23 = new System.Windows.Forms.Label();
+            this.lblCountVision = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.lblNotchVisionScore = new System.Windows.Forms.Label();
             this.lblLifterStroke = new System.Windows.Forms.Label();
+            this.cbxLearnNotchVision = new System.Windows.Forms.CheckBox();
+            this.btnLearnNotchVision = new System.Windows.Forms.Button();
             this.btnLifterHoming = new System.Windows.Forms.Button();
             this.btnLifterUp = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
@@ -106,6 +112,8 @@
             this.label13 = new System.Windows.Forms.Label();
             this.lblLifterSpeed = new System.Windows.Forms.Label();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.lblNotchEdgeRev = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.lblNotchAlignSpeed = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
@@ -117,8 +125,6 @@
             this.btnNotchTeachCamPosGoto = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.lblNotchTeachCamPos = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
-            this.lblNotchEdgeRev = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.groupBox8.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -343,7 +349,7 @@
             this.panel1.Controls.Add(this.groupBox2);
             this.panel1.Controls.Add(this.groupBox1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(716, 0);
+            this.panel1.Location = new System.Drawing.Point(731, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(131, 829);
             this.panel1.TabIndex = 2;
@@ -539,7 +545,7 @@
             this.groupBox3.Location = new System.Drawing.Point(0, 0);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(3, 3, 3, 0);
-            this.groupBox3.Size = new System.Drawing.Size(716, 95);
+            this.groupBox3.Size = new System.Drawing.Size(731, 95);
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Manual Seting";
@@ -558,7 +564,7 @@
             this.groupBox4.Location = new System.Drawing.Point(0, 95);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Padding = new System.Windows.Forms.Padding(3, 3, 3, 0);
-            this.groupBox4.Size = new System.Drawing.Size(716, 97);
+            this.groupBox4.Size = new System.Drawing.Size(731, 97);
             this.groupBox4.TabIndex = 4;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Auto Setting";
@@ -587,7 +593,7 @@
             this.groupBox5.Location = new System.Drawing.Point(0, 192);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Padding = new System.Windows.Forms.Padding(3, 3, 3, 0);
-            this.groupBox5.Size = new System.Drawing.Size(716, 163);
+            this.groupBox5.Size = new System.Drawing.Size(731, 163);
             this.groupBox5.TabIndex = 5;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Ionizer Setting";
@@ -709,7 +715,7 @@
             this.groupBox6.Location = new System.Drawing.Point(0, 355);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Padding = new System.Windows.Forms.Padding(3, 3, 3, 0);
-            this.groupBox6.Size = new System.Drawing.Size(716, 155);
+            this.groupBox6.Size = new System.Drawing.Size(731, 155);
             this.groupBox6.TabIndex = 6;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Precisor setting";
@@ -925,10 +931,43 @@
             this.groupBox7.Location = new System.Drawing.Point(0, 510);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Padding = new System.Windows.Forms.Padding(3, 3, 3, 0);
-            this.groupBox7.Size = new System.Drawing.Size(716, 134);
+            this.groupBox7.Size = new System.Drawing.Size(731, 134);
             this.groupBox7.TabIndex = 7;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Lifter Setting";
+            // 
+            // label23
+            // 
+            this.label23.Location = new System.Drawing.Point(486, 88);
+            this.label23.Margin = new System.Windows.Forms.Padding(3);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(65, 25);
+            this.label23.TabIndex = 41;
+            this.label23.Text = "Count";
+            this.label23.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblCountVision
+            // 
+            this.lblCountVision.BackColor = System.Drawing.Color.White;
+            this.lblCountVision.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblCountVision.Location = new System.Drawing.Point(557, 88);
+            this.lblCountVision.Margin = new System.Windows.Forms.Padding(3);
+            this.lblCountVision.Name = "lblCountVision";
+            this.lblCountVision.Size = new System.Drawing.Size(107, 25);
+            this.lblCountVision.TabIndex = 40;
+            this.lblCountVision.Text = "label6";
+            this.lblCountVision.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblCountVision.Click += new System.EventHandler(this.lblCountVision_Click);
+            // 
+            // label21
+            // 
+            this.label21.Location = new System.Drawing.Point(486, 57);
+            this.label21.Margin = new System.Windows.Forms.Padding(3);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(65, 25);
+            this.label21.TabIndex = 38;
+            this.label21.Text = "Score";
+            this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label5
             // 
@@ -939,6 +978,19 @@
             this.label5.TabIndex = 28;
             this.label5.Text = "Stroke";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblNotchVisionScore
+            // 
+            this.lblNotchVisionScore.BackColor = System.Drawing.Color.White;
+            this.lblNotchVisionScore.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblNotchVisionScore.Location = new System.Drawing.Point(557, 57);
+            this.lblNotchVisionScore.Margin = new System.Windows.Forms.Padding(3);
+            this.lblNotchVisionScore.Name = "lblNotchVisionScore";
+            this.lblNotchVisionScore.Size = new System.Drawing.Size(107, 25);
+            this.lblNotchVisionScore.TabIndex = 39;
+            this.lblNotchVisionScore.Text = "label6";
+            this.lblNotchVisionScore.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblNotchVisionScore.Click += new System.EventHandler(this.lblNotchVisionScore_Click);
             // 
             // lblLifterStroke
             // 
@@ -952,6 +1004,27 @@
             this.lblLifterStroke.Text = "label6";
             this.lblLifterStroke.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblLifterStroke.Click += new System.EventHandler(this.lblLifterStroke_Click);
+            // 
+            // cbxLearnNotchVision
+            // 
+            this.cbxLearnNotchVision.AutoSize = true;
+            this.cbxLearnNotchVision.Location = new System.Drawing.Point(489, 25);
+            this.cbxLearnNotchVision.Name = "cbxLearnNotchVision";
+            this.cbxLearnNotchVision.Size = new System.Drawing.Size(105, 22);
+            this.cbxLearnNotchVision.TabIndex = 37;
+            this.cbxLearnNotchVision.Text = "VisionCheck";
+            this.cbxLearnNotchVision.UseVisualStyleBackColor = true;
+            this.cbxLearnNotchVision.Click += new System.EventHandler(this.cbxLearnNotchVision_Click);
+            // 
+            // btnLearnNotchVision
+            // 
+            this.btnLearnNotchVision.Location = new System.Drawing.Point(600, 23);
+            this.btnLearnNotchVision.Name = "btnLearnNotchVision";
+            this.btnLearnNotchVision.Size = new System.Drawing.Size(77, 25);
+            this.btnLearnNotchVision.TabIndex = 36;
+            this.btnLearnNotchVision.Text = "Learn";
+            this.btnLearnNotchVision.UseVisualStyleBackColor = true;
+            this.btnLearnNotchVision.Click += new System.EventHandler(this.btnLearnNotchVision_Click);
             // 
             // btnLifterHoming
             // 
@@ -1021,27 +1094,56 @@
             // 
             // groupBox9
             // 
+            this.groupBox9.Controls.Add(this.label23);
             this.groupBox9.Controls.Add(this.label17);
             this.groupBox9.Controls.Add(this.lblNotchEdgeRev);
             this.groupBox9.Controls.Add(this.label18);
+            this.groupBox9.Controls.Add(this.lblCountVision);
             this.groupBox9.Controls.Add(this.lblNotchAlignSpeed);
             this.groupBox9.Controls.Add(this.label15);
             this.groupBox9.Controls.Add(this.lblNotchCheckInterval);
+            this.groupBox9.Controls.Add(this.label21);
             this.groupBox9.Controls.Add(this.label11);
             this.groupBox9.Controls.Add(this.lblWaferThickness);
-            this.groupBox9.Controls.Add(this.btnNotchAlign);
             this.groupBox9.Controls.Add(this.btnNotchTeachCamPosSet);
             this.groupBox9.Controls.Add(this.btnNotchTeachCamPosGoto);
+            this.groupBox9.Controls.Add(this.lblNotchVisionScore);
             this.groupBox9.Controls.Add(this.label3);
             this.groupBox9.Controls.Add(this.lblNotchTeachCamPos);
+            this.groupBox9.Controls.Add(this.cbxLearnNotchVision);
+            this.groupBox9.Controls.Add(this.btnLearnNotchVision);
+            this.groupBox9.Controls.Add(this.btnNotchAlign);
             this.groupBox9.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox9.Location = new System.Drawing.Point(0, 644);
             this.groupBox9.Name = "groupBox9";
             this.groupBox9.Padding = new System.Windows.Forms.Padding(3, 3, 3, 0);
-            this.groupBox9.Size = new System.Drawing.Size(716, 185);
+            this.groupBox9.Size = new System.Drawing.Size(731, 185);
             this.groupBox9.TabIndex = 8;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Notch Alignment";
+            // 
+            // label17
+            // 
+            this.label17.Location = new System.Drawing.Point(244, 88);
+            this.label17.Margin = new System.Windows.Forms.Padding(3);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(65, 25);
+            this.label17.TabIndex = 34;
+            this.label17.Text = "EdgeRev";
+            this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblNotchEdgeRev
+            // 
+            this.lblNotchEdgeRev.BackColor = System.Drawing.Color.White;
+            this.lblNotchEdgeRev.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblNotchEdgeRev.Location = new System.Drawing.Point(315, 88);
+            this.lblNotchEdgeRev.Margin = new System.Windows.Forms.Padding(3);
+            this.lblNotchEdgeRev.Name = "lblNotchEdgeRev";
+            this.lblNotchEdgeRev.Size = new System.Drawing.Size(140, 25);
+            this.lblNotchEdgeRev.TabIndex = 35;
+            this.lblNotchEdgeRev.Text = "label6";
+            this.lblNotchEdgeRev.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblNotchEdgeRev.Click += new System.EventHandler(this.lblNotchEdgeRev_Click);
             // 
             // label18
             // 
@@ -1114,7 +1216,7 @@
             // 
             // btnNotchAlign
             // 
-            this.btnNotchAlign.Location = new System.Drawing.Point(563, 111);
+            this.btnNotchAlign.Location = new System.Drawing.Point(563, 119);
             this.btnNotchAlign.Name = "btnNotchAlign";
             this.btnNotchAlign.Size = new System.Drawing.Size(95, 40);
             this.btnNotchAlign.TabIndex = 27;
@@ -1163,34 +1265,11 @@
             this.lblNotchTeachCamPos.Text = "label2";
             this.lblNotchTeachCamPos.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // label17
-            // 
-            this.label17.Location = new System.Drawing.Point(244, 88);
-            this.label17.Margin = new System.Windows.Forms.Padding(3);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(65, 25);
-            this.label17.TabIndex = 34;
-            this.label17.Text = "EdgeRev";
-            this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lblEdgeRev
-            // 
-            this.lblNotchEdgeRev.BackColor = System.Drawing.Color.White;
-            this.lblNotchEdgeRev.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblNotchEdgeRev.Location = new System.Drawing.Point(315, 88);
-            this.lblNotchEdgeRev.Margin = new System.Windows.Forms.Padding(3);
-            this.lblNotchEdgeRev.Name = "lblEdgeRev";
-            this.lblNotchEdgeRev.Size = new System.Drawing.Size(140, 25);
-            this.lblNotchEdgeRev.TabIndex = 35;
-            this.lblNotchEdgeRev.Text = "label6";
-            this.lblNotchEdgeRev.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lblNotchEdgeRev.Click += new System.EventHandler(this.lblNotchEdgeRev_Click);
-            // 
             // frmWaferSetup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(847, 829);
+            this.ClientSize = new System.Drawing.Size(862, 829);
             this.Controls.Add(this.groupBox9);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.groupBox6);
@@ -1216,6 +1295,7 @@
             this.groupBox6.ResumeLayout(false);
             this.groupBox7.ResumeLayout(false);
             this.groupBox9.ResumeLayout(false);
+            this.groupBox9.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1313,5 +1393,11 @@
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label lblNotchEdgeRev;
+        private System.Windows.Forms.CheckBox cbxLearnNotchVision;
+        private System.Windows.Forms.Button btnLearnNotchVision;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label lblNotchVisionScore;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label lblCountVision;
     }
 }

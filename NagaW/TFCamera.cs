@@ -21,36 +21,105 @@ namespace NagaW
         }
 
         public TEFlirCamera FlirCamera = new TEFlirCamera();
+        public MVC_GenTL MVC_GenTL = new MVC_GenTL();
 
-        public bool Connect(string IPAddress)
+        public ECamType CamType;
+
+        public Image<Gray, byte> emgucvImage
         {
-            try
+            get
             {
-                if (!FlirCamera.IsConnected)
+                switch (CamType)
                 {
-                    FlirCamera.Connect(IPAddress);
+                    default:
+                    case ECamType.Spinnaker: return FlirCamera.emgucvImage;
+                    case ECamType.MVC_GenTL: return MVC_GenTL.mImage;
                 }
-
-                if (!FlirCamera.IsConnected)
-                {
-                    GAlarm.Prompt(EAlarm.CAMERA_CONNECT_NOT_FOUND);
-                    return false;
-                }
-
-                FlirCamera.Exposure = 8000;
-                FlirCamera.Gain = 1;
-
-                return true;
             }
-            catch (Exception)
+        }
+
+        public bool Connect(string IPAddress, ECamType eCamType = ECamType.Spinnaker)
+        {
+            CamType = eCamType;
+            switch (eCamType)
             {
-                GAlarm.Prompt(EAlarm.CAMERA_UNRECOVERABLE_ERROR_RESTART);
-                return false;
+                default:
+                case ECamType.Spinnaker:
+                    {
+                        try
+                        {
+                            if (!FlirCamera.IsConnected)
+                            {
+                                FlirCamera.Connect(IPAddress);
+                            }
+
+                            if (!FlirCamera.IsConnected)
+                            {
+                                GAlarm.Prompt(EAlarm.CAMERA_CONNECT_NOT_FOUND);
+                                return false;
+                            }
+
+                            FlirCamera.Exposure = 8000;
+                            FlirCamera.Gain = 1;
+
+                            return true;
+                        }
+                        catch (Exception)
+                        {
+                            GAlarm.Prompt(EAlarm.CAMERA_UNRECOVERABLE_ERROR_RESTART);
+                            return false;
+                        }
+
+                    }
+                    break;
+                case ECamType.MVC_GenTL:
+                    {
+                        #region
+                        try
+                        {
+                            if (!MVC_GenTL.IsConnected)
+                            {
+                                string ctifile = @"C:\Program Files (x86)\Common Files\MVS\Runtime\Win32_i86\MvProducerGEV.cti";
+
+                                MVC_GenTL.OpenDevice($"Cam{Index + 1}", IPAddress);
+
+                                if (!MVC_GenTL.IsConnected)
+                                {
+                                    GAlarm.Prompt(EAlarm.CAMERA1_CONNECT_NOT_FOUND);
+                                    MVC_GenTL.CloseDevice();
+                                    return false;
+                                }
+
+                                MVC_GenTL.Exposure = 8000;
+                                MVC_GenTL.Gain = 1;
+
+                                MVC_GenTL.GrabOneImage();
+                                //ImgHN[CamNo] = (int)MVC_GenTL.ImageHeight;
+                                //ImgWN[CamNo] = (int)MVC_GenTL.ImageWidth;
+                                //genTLCamera[0].StartGrab();
+
+                                return true;
+                            }
+                        }
+                        catch (Exception Ex)
+                        {
+                            try
+                            {
+                                MVC_GenTL.CloseDevice();
+                            }
+                            catch { }
+
+                            return false;
+                        }
+                        #endregion
+                    }
+                    break;
             }
+            return false;
         }
         public bool Connect()
         {
-            if (!Connect(GSystemCfg.Camera.Cameras[Index].IPAddress)) return false;
+            if (!Connect(GSystemCfg.Camera.Cameras[Index].IPAddress, GSystemCfg.Camera.Cameras[Index].CamType)) return false;
 
             Gain = GSystemCfg.Camera.Cameras[Index].Gain;
             Exposure = GSystemCfg.Camera.Cameras[Index].Exposure;
@@ -59,15 +128,36 @@ namespace NagaW
         }
         public void Disconnect()
         {
-            if (!FlirCamera.IsConnected) return;
+            switch (CamType)
+            {
+                case ECamType.Spinnaker:
+                    {
+                        if (!FlirCamera.IsConnected) return;
 
-            try
-            {
-                FlirCamera.DisConnect();
+                        try
+                        {
+                            FlirCamera.DisConnect();
+                        }
+                        catch (Exception)
+                        {
+                        }
+                    }
+                    break;
+                case ECamType.MVC_GenTL:
+                    {
+                        if (!MVC_GenTL.IsConnected) return;
+
+                        try
+                        {
+                            MVC_GenTL.CloseDevice();
+                        }
+                        catch (Exception)
+                        {
+                        }
+                    }
+                    break;
             }
-            catch (Exception)
-            {
-            }
+
         }
         public bool IsConnected
         {
@@ -75,7 +165,12 @@ namespace NagaW
             {
                 try
                 {
-                    return FlirCamera.IsConnected;
+                    switch (CamType)
+                    {
+                        case ECamType.Spinnaker: return FlirCamera.IsConnected;
+                        case ECamType.MVC_GenTL: return MVC_GenTL.IsConnected;
+                    }
+
                 }
                 catch (Exception)
                 {
@@ -87,20 +182,54 @@ namespace NagaW
 
         public double Gain
         {
-            set { FlirCamera.Gain = value; }
-            get { return FlirCamera.Gain; }
+            set
+            {
+                switch (CamType)
+                {
+                    case ECamType.Spinnaker: FlirCamera.Gain = value; break;
+                    case ECamType.MVC_GenTL: MVC_GenTL.Gain = value; break;
+                }
+            }
+            get
+            {
+                switch (CamType)
+                {
+                    default: return 0;
+                    case ECamType.Spinnaker: return FlirCamera.Gain;
+                    case ECamType.MVC_GenTL: return MVC_GenTL.Gain;
+                }
+            }
         }
         public double Exposure
         {
-            set { FlirCamera.Exposure = value; }
-            get { return FlirCamera.Exposure; }
+            set
+            {
+                switch (CamType)
+                {
+                    case ECamType.Spinnaker: FlirCamera.Exposure = value; break;
+                    case ECamType.MVC_GenTL: MVC_GenTL.Exposure = value; break;
+                }
+            }
+            get
+            {
+                switch (CamType)
+                {
+                    default: return 0;
+                    case ECamType.Spinnaker: return FlirCamera.Exposure;
+                    case ECamType.MVC_GenTL: return MVC_GenTL.Exposure;
+                }
+            }
         }
 
         public bool Live()
         {
             try
             {
-                FlirCamera.Live();
+                switch (CamType)
+                {
+                    case ECamType.Spinnaker: FlirCamera.Live(); break;
+                    case ECamType.MVC_GenTL: MVC_GenTL.StartGrab(); break;
+                }
             }
             catch
             {
@@ -110,6 +239,104 @@ namespace NagaW
 
             return true;
         }
+        public bool GrabStop()
+        {
+            try
+            {
+                switch (CamType)
+                {
+                    case ECamType.Spinnaker: FlirCamera.GrabStop(); break;
+                    case ECamType.MVC_GenTL: MVC_GenTL.StopGrab(); break;
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                GAlarm.Prompt(EAlarm.CAMERA_UNRECOVERABLE_ERROR_RESTART, ex.Message);
+                return false;
+            }
+        }
+        public bool Snap()
+        {
+            try
+            {
+                switch (CamType)
+                {
+                    case ECamType.Spinnaker: return FlirCamera.Snap();
+                    case ECamType.MVC_GenTL: MVC_GenTL.GrabOneImage(); break;
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool TrigMode
+        {
+            get
+            {
+                switch (CamType)
+                {
+                    default:
+                    case ECamType.Spinnaker: return FlirCamera.TrigMode;
+                    case ECamType.MVC_GenTL: return MVC_GenTL.TriggerMode;
+                }
+            }
+            set
+            {
+                switch (CamType)
+                {
+                    default:
+                    case ECamType.Spinnaker: FlirCamera.TrigMode = value; break;
+                    case ECamType.MVC_GenTL: MVC_GenTL.TriggerMode = value; break;
+                }
+            }
+        }
+
+        public bool TrigSourceSw
+        {
+            get
+            {
+                switch (CamType)
+                {
+                    default:
+                    case ECamType.Spinnaker: return FlirCamera.TrigSourceSw;
+                    case ECamType.MVC_GenTL: return false;
+                }
+            }
+            set
+            {
+                switch (CamType)
+                {
+                    default:
+                    case ECamType.Spinnaker: FlirCamera.TrigSourceSw = value; break;
+                    case ECamType.MVC_GenTL: MVC_GenTL.SoftwareTrigger(); break;
+                }
+            }
+        }
+        public bool TrigSourceHw
+        {
+            get
+            {
+                switch (CamType)
+                {
+                    default:
+                    case ECamType.Spinnaker: return FlirCamera.TrigSourceHw;
+                    case ECamType.MVC_GenTL: return MVC_GenTL.TriggerSourceHw;
+                }
+            }
+            set
+            {
+                switch (CamType)
+                {
+                    default:
+                    case ECamType.Spinnaker: FlirCamera.TrigSourceSw = value; break;
+                    case ECamType.MVC_GenTL: MVC_GenTL.TriggerSourceHw = value; break;
+                }
+            }
+        }
 
         public bool GrabGetFocusValue(ref uint FV)
         {
@@ -117,8 +344,23 @@ namespace NagaW
 
             try
             {
-                FlirCamera.Snap();
-                img = FlirCamera.emgucvImage.Clone();
+                switch (CamType)
+                {
+                    default:
+                    case ECamType.Spinnaker:
+                        {
+                            FlirCamera.Snap();
+                            img = FlirCamera.emgucvImage.Clone();
+                        }
+                        break;
+                    case ECamType.MVC_GenTL:
+                        {
+                            MVC_GenTL.GrabOneImage();
+                            img = MVC_GenTL.mImage.Clone();
+                        }
+                        break;
+                }
+
 
                 int W = 200;
                 int H = 200;
@@ -279,7 +521,7 @@ namespace NagaW
                 }
                 #endregion
 
-                TFCameras.Camera[gantrySelect.Index].FlirCamera.Live();
+                TFCameras.Camera[gantrySelect.Index].Live();
 
                 return true;
             }

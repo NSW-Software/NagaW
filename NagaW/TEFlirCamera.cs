@@ -512,6 +512,7 @@ namespace NagaW
                 GrabStop();
                 TrigMode = false;
                 Grab(500);
+                imgBoxEmgu.Image = emgucvCImage;
             }
             catch (Exception ex)
             {

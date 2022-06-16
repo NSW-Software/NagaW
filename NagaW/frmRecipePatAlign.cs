@@ -244,9 +244,9 @@ namespace NagaW
 
             try
             {
-                TFCameras.Camera[gantry.Index].FlirCamera.Snap();
-                img = TFCameras.Camera[gantry.Index].FlirCamera.emgucvImage.Clone();
-                TFCameras.Camera[gantry.Index].FlirCamera.Live();
+                TFCameras.Camera[gantry.Index].Snap();
+                img = TFCameras.Camera[gantry.Index].emgucvImage.Clone();
+                TFCameras.Camera[gantry.Index].Live();
 
                 int id = Tcmd.ID;
 
@@ -282,9 +282,9 @@ namespace NagaW
 
             try
             {
-                TFCameras.Camera[gantry.Index].FlirCamera.Snap();
-                img = TFCameras.Camera[gantry.Index].FlirCamera.emgucvImage.Clone();
-                TFCameras.Camera[gantry.Index].FlirCamera.Live();
+                TFCameras.Camera[gantry.Index].Snap();
+                img = TFCameras.Camera[gantry.Index].emgucvImage.Clone();
+                TFCameras.Camera[gantry.Index].Live();
 
                 int id = Tcmd.ID;
 
