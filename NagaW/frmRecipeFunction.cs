@@ -561,6 +561,63 @@ namespace NagaW
                 }
             }
         }
+        private void dgv_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            var colIdx = e.ColumnIndex;
+            if (colIdx != 3) return;
+
+            int funcNo = lboxFuncList.SelectedIndex;
+
+            foreach (var c in GRecipes.Functions[gantry.Index][funcNo].Cmds) c.Enable = !c.Enable;
+
+            UpdateGrid();
+        }
+
+        BindingList<TCmd> cmd = new BindingList<TCmd>();
+        private void dgv_MouseDown(object sender, MouseEventArgs e)
+        {
+            var funcNo = lboxFuncList.SelectedIndex;
+            if (GRecipes.Functions[gantry.Index][lboxFuncList.SelectedIndex].Cmds.Count is 0) return;
+            switch (e.Button)
+            {
+                default: return;
+                case MouseButtons.Right:
+                    {
+                        const string copy = "Copy";
+                        const string copy_Row = "Copy From This Row";
+                        const string paste = "Paste";
+                        const string paste_Insert = "Paste (Insert)";
+                        ContextMenuStrip d = new ContextMenuStrip();
+                        d.Items.Add(copy);
+                        d.Items.Add(copy_Row);
+                        d.Items.Add(paste);
+                        d.Items.Add(paste_Insert);
+                        d.Show(Cursor.Position);
+                        d.ItemClicked += (a, b) =>
+                        {
+                            if (b.ClickedItem.Text is copy)
+                            {
+                                cmd.Clear();
+                                cmd.Add(GRecipes.Functions[gantry.Index][funcNo].Cmds[dgv.CurrentRow.Index]);
+                            }
+                            if (b.ClickedItem.Text is copy_Row)
+                            {
+                                cmd.Clear();
+                                for (int i = dgv.CurrentRow.Index; i < GRecipes.Functions[gantry.Index][funcNo].Cmds.Count; i++) cmd.Add(GRecipes.Functions[gantry.Index][funcNo].Cmds[i]);
+                            }
+                            if (b.ClickedItem.Text is paste)
+                            {
+                                foreach (var c in cmd) GRecipes.Functions[gantry.Index][funcNo].Cmds.Add(new TCmd(c));
+                            }
+                            if (b.ClickedItem.Text is paste_Insert)
+                            {
+                                foreach (var c in cmd) GRecipes.Functions[gantry.Index][funcNo].Cmds.Insert(dgv.CurrentRow.Index, new TCmd(c));
+                            }
+                        };
+                        break;
+                    }
+            }
+        }
 
         private void RefreshGrid()
         {

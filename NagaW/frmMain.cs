@@ -310,6 +310,11 @@ namespace NagaW
             else MsgBox.ShowDialog("Fail to save");
         }
 
+        private void btnWeigh_Click(object sender, EventArgs e)
+        {
+            PublishForm(new frmWeighFunction(), pnlRecipe);
+        }
+
         private void tsslblUser_Click(object sender, EventArgs e)
         {
             LoginTillDie();
@@ -363,5 +368,6 @@ namespace NagaW
             int index = TFGantry.GantrySelect.Index;
             PublishForm(new frmPumpCtrl(index), null);
         }
+
     }
 }
