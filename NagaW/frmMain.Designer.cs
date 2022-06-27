@@ -67,6 +67,7 @@
             this.btn = new System.Windows.Forms.Button();
             this.pnlAuto = new System.Windows.Forms.Panel();
             this.btnAutoPump = new System.Windows.Forms.Button();
+            this.btnWeigh = new System.Windows.Forms.Button();
             this.pnlTop.SuspendLayout();
             this.pnlSubSetup.SuspendLayout();
             this.ssBottom.SuspendLayout();
@@ -83,7 +84,7 @@
             // btnHomeAll
             // 
             this.btnHomeAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnHomeAll.Location = new System.Drawing.Point(897, 6);
+            this.btnHomeAll.Location = new System.Drawing.Point(1148, 6);
             this.btnHomeAll.Name = "btnHomeAll";
             this.btnHomeAll.Size = new System.Drawing.Size(100, 35);
             this.btnHomeAll.TabIndex = 5;
@@ -164,6 +165,7 @@
             // pnlTop
             // 
             this.pnlTop.AutoSize = true;
+            this.pnlTop.Controls.Add(this.btnWeigh);
             this.pnlTop.Controls.Add(this.btnWafer);
             this.pnlTop.Controls.Add(this.btnConv);
             this.pnlTop.Controls.Add(this.btnSettings);
@@ -178,12 +180,12 @@
             this.pnlTop.Location = new System.Drawing.Point(0, 0);
             this.pnlTop.Name = "pnlTop";
             this.pnlTop.Padding = new System.Windows.Forms.Padding(3);
-            this.pnlTop.Size = new System.Drawing.Size(1003, 47);
+            this.pnlTop.Size = new System.Drawing.Size(1254, 47);
             this.pnlTop.TabIndex = 16;
             // 
             // btnWafer
             // 
-            this.btnWafer.Location = new System.Drawing.Point(748, 6);
+            this.btnWafer.Location = new System.Drawing.Point(854, 6);
             this.btnWafer.Name = "btnWafer";
             this.btnWafer.Size = new System.Drawing.Size(100, 35);
             this.btnWafer.TabIndex = 23;
@@ -193,7 +195,7 @@
             // 
             // btnConv
             // 
-            this.btnConv.Location = new System.Drawing.Point(536, 6);
+            this.btnConv.Location = new System.Drawing.Point(642, 6);
             this.btnConv.Name = "btnConv";
             this.btnConv.Size = new System.Drawing.Size(100, 35);
             this.btnConv.TabIndex = 22;
@@ -203,7 +205,7 @@
             // 
             // btnSettings
             // 
-            this.btnSettings.Location = new System.Drawing.Point(642, 6);
+            this.btnSettings.Location = new System.Drawing.Point(748, 6);
             this.btnSettings.Name = "btnSettings";
             this.btnSettings.Size = new System.Drawing.Size(100, 35);
             this.btnSettings.TabIndex = 21;
@@ -214,7 +216,7 @@
             // btnSaveAll
             // 
             this.btnSaveAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSaveAll.Location = new System.Drawing.Point(791, 6);
+            this.btnSaveAll.Location = new System.Drawing.Point(1042, 6);
             this.btnSaveAll.Name = "btnSaveAll";
             this.btnSaveAll.Size = new System.Drawing.Size(100, 35);
             this.btnSaveAll.TabIndex = 12;
@@ -245,7 +247,7 @@
             // btnSaveRecipe
             // 
             this.btnSaveRecipe.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSaveRecipe.Location = new System.Drawing.Point(897, 6);
+            this.btnSaveRecipe.Location = new System.Drawing.Point(1148, 6);
             this.btnSaveRecipe.Name = "btnSaveRecipe";
             this.btnSaveRecipe.Size = new System.Drawing.Size(100, 35);
             this.btnSaveRecipe.TabIndex = 17;
@@ -265,7 +267,7 @@
             this.pnlSubSetup.Location = new System.Drawing.Point(0, 94);
             this.pnlSubSetup.Name = "pnlSubSetup";
             this.pnlSubSetup.Padding = new System.Windows.Forms.Padding(3);
-            this.pnlSubSetup.Size = new System.Drawing.Size(1003, 47);
+            this.pnlSubSetup.Size = new System.Drawing.Size(1254, 47);
             this.pnlSubSetup.TabIndex = 17;
             this.pnlSubSetup.Visible = false;
             // 
@@ -290,7 +292,7 @@
             this.tsslblUser});
             this.ssBottom.Location = new System.Drawing.Point(0, 598);
             this.ssBottom.Name = "ssBottom";
-            this.ssBottom.Size = new System.Drawing.Size(1003, 35);
+            this.ssBottom.Size = new System.Drawing.Size(1254, 35);
             this.ssBottom.SizingGrip = false;
             this.ssBottom.TabIndex = 18;
             this.ssBottom.Text = "statusStrip1";
@@ -299,7 +301,7 @@
             // 
             this.tsslblEvent.Font = new System.Drawing.Font("Tahoma", 9F);
             this.tsslblEvent.Name = "tsslblEvent";
-            this.tsslblEvent.Size = new System.Drawing.Size(758, 29);
+            this.tsslblEvent.Size = new System.Drawing.Size(1054, 30);
             this.tsslblEvent.Spring = true;
             this.tsslblEvent.Text = "Event";
             this.tsslblEvent.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -308,13 +310,13 @@
             // tsslblConnection
             // 
             this.tsslblConnection.Name = "tsslblConnection";
-            this.tsslblConnection.Size = new System.Drawing.Size(84, 29);
+            this.tsslblConnection.Size = new System.Drawing.Size(69, 30);
             this.tsslblConnection.Text = "Connection";
             // 
             // tsslblSystemState
             // 
             this.tsslblSystemState.Name = "tsslblSystemState";
-            this.tsslblSystemState.Size = new System.Drawing.Size(101, 29);
+            this.tsslblSystemState.Size = new System.Drawing.Size(80, 30);
             this.tsslblSystemState.Text = "System State: ";
             this.tsslblSystemState.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.tsslblSystemState.Click += new System.EventHandler(this.tsslblSystemState_Click);
@@ -322,7 +324,7 @@
             // tsslblUser
             // 
             this.tsslblUser.Name = "tsslblUser";
-            this.tsslblUser.Size = new System.Drawing.Size(45, 29);
+            this.tsslblUser.Size = new System.Drawing.Size(36, 30);
             this.tsslblUser.Text = "User: ";
             this.tsslblUser.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.tsslblUser.Click += new System.EventHandler(this.tsslblUser_Click);
@@ -335,7 +337,7 @@
             this.pnlNone.Location = new System.Drawing.Point(0, 47);
             this.pnlNone.Name = "pnlNone";
             this.pnlNone.Padding = new System.Windows.Forms.Padding(3);
-            this.pnlNone.Size = new System.Drawing.Size(1003, 47);
+            this.pnlNone.Size = new System.Drawing.Size(1254, 47);
             this.pnlNone.TabIndex = 19;
             // 
             // btnNone
@@ -355,7 +357,7 @@
             this.tsTools.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.tsTools.Location = new System.Drawing.Point(0, 563);
             this.tsTools.Name = "tsTools";
-            this.tsTools.Size = new System.Drawing.Size(1003, 35);
+            this.tsTools.Size = new System.Drawing.Size(1254, 35);
             this.tsTools.TabIndex = 21;
             this.tsTools.Text = "toolStrip2";
             // 
@@ -364,7 +366,7 @@
             this.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlMain.Location = new System.Drawing.Point(0, 282);
             this.pnlMain.Name = "pnlMain";
-            this.pnlMain.Size = new System.Drawing.Size(1003, 281);
+            this.pnlMain.Size = new System.Drawing.Size(1254, 281);
             this.pnlMain.TabIndex = 22;
             this.pnlMain.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlMain_Paint);
             // 
@@ -380,7 +382,7 @@
             this.pnlRecipe.Location = new System.Drawing.Point(0, 141);
             this.pnlRecipe.Name = "pnlRecipe";
             this.pnlRecipe.Padding = new System.Windows.Forms.Padding(3);
-            this.pnlRecipe.Size = new System.Drawing.Size(1003, 47);
+            this.pnlRecipe.Size = new System.Drawing.Size(1254, 47);
             this.pnlRecipe.TabIndex = 23;
             this.pnlRecipe.Visible = false;
             // 
@@ -420,7 +422,7 @@
             // btnLoadRecipe
             // 
             this.btnLoadRecipe.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnLoadRecipe.Location = new System.Drawing.Point(791, 6);
+            this.btnLoadRecipe.Location = new System.Drawing.Point(1042, 6);
             this.btnLoadRecipe.Name = "btnLoadRecipe";
             this.btnLoadRecipe.Size = new System.Drawing.Size(100, 35);
             this.btnLoadRecipe.TabIndex = 8;
@@ -436,7 +438,7 @@
             this.pnlConv.Location = new System.Drawing.Point(0, 188);
             this.pnlConv.Name = "pnlConv";
             this.pnlConv.Padding = new System.Windows.Forms.Padding(3);
-            this.pnlConv.Size = new System.Drawing.Size(1003, 47);
+            this.pnlConv.Size = new System.Drawing.Size(1254, 47);
             this.pnlConv.TabIndex = 24;
             this.pnlConv.Visible = false;
             // 
@@ -458,7 +460,7 @@
             this.pnlAuto.Location = new System.Drawing.Point(0, 235);
             this.pnlAuto.Name = "pnlAuto";
             this.pnlAuto.Padding = new System.Windows.Forms.Padding(3);
-            this.pnlAuto.Size = new System.Drawing.Size(1003, 47);
+            this.pnlAuto.Size = new System.Drawing.Size(1254, 47);
             this.pnlAuto.TabIndex = 25;
             this.pnlAuto.Visible = false;
             // 
@@ -473,10 +475,20 @@
             this.btnAutoPump.Visible = false;
             this.btnAutoPump.Click += new System.EventHandler(this.btnAutoPump_Click_1);
             // 
+            // btnWeigh
+            // 
+            this.btnWeigh.Location = new System.Drawing.Point(536, 6);
+            this.btnWeigh.Name = "btnWeigh";
+            this.btnWeigh.Size = new System.Drawing.Size(100, 35);
+            this.btnWeigh.TabIndex = 24;
+            this.btnWeigh.Text = "Weigh";
+            this.btnWeigh.UseVisualStyleBackColor = true;
+            this.btnWeigh.Click += new System.EventHandler(this.btnWeigh_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1003, 633);
+            this.ClientSize = new System.Drawing.Size(1254, 633);
             this.Controls.Add(this.pnlMain);
             this.Controls.Add(this.pnlAuto);
             this.Controls.Add(this.pnlConv);
@@ -548,6 +560,7 @@
         private System.Windows.Forms.Button btnRecipeTempCtrl;
         private System.Windows.Forms.Button btnPressureMaster;
         private System.Windows.Forms.Button btnWafer;
+        private System.Windows.Forms.Button btnWeigh;
     }
 }
 
