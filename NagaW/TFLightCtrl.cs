@@ -163,16 +163,18 @@ namespace NagaW
         }
         public static bool SetIntensity(int boardAdd, int channel, int value)
         {
-            mutex.WaitOne();
             try
             {
+                mutex.WaitOne();
+
                 Port.WriteTimeout = 100;
-                //Port.DiscardInBuffer();
+                Port.DiscardInBuffer();
                 int input = value > byte.MaxValue ? byte.MaxValue : value < 0 ? input = 0 : value;
                 Port.Write($"@{boardAdd}{channel}SI" + "{" + $"{input}" + "}");
                 Thread.Sleep(1);
-                string rx = Port.ReadExisting();
-                //Port.DiscardInBuffer();
+                //string rx = Port.ReadExisting();
+                Port.DiscardOutBuffer();
+                Port.DiscardInBuffer();
 
                 return true;
             }
@@ -210,7 +212,7 @@ namespace NagaW
                 for (int i = 0; i < ChannelCount; i++)
                 {
                     if (!SetIntensity(BoardID, StartChannel + i, (int)para.ToArray[i])) return false;
-                    Thread.Sleep(10);
+                    Thread.Sleep(1);
                 }
                 return true;
             }

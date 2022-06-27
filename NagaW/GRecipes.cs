@@ -20,7 +20,7 @@ namespace NagaW
     public enum EAction { Skip, Fail, Accept, Retry }
     public class TBoard
     {
-        public PointXYZ StartPos { get; set; } = new PointXYZ();  // Abs
+        public PointXYZ StartPos { get; set; } = new PointXYZ();    // Abs
         public double Height { get; set; } = new double();  // Abs
         public LightRGBA LightDefault { get; set; } = new LightRGBA(25, 25, 25, 25);
         public LightRGBA Light1 { get; set; } = new LightRGBA(0, 0, 0, 0);
@@ -800,7 +800,7 @@ namespace NagaW
         {
             get
             {
-                return $"BASE({ gantry.Axis[0].AxisNo },{ gantry.Axis[1].AxisNo},{ gantry.Axis[2].AxisNo}) ";
+                return $"BASE({gantry.Axis[0].AxisNo},{gantry.Axis[1].AxisNo},{gantry.Axis[2].AxisNo}) ";
             }
         }
 
@@ -3176,7 +3176,7 @@ namespace NagaW
                                 if (!running) return false;
                                 Thread.Sleep(0);
                             }
-                            switch (PatAlignExecute(gantry, originAbs, cmd, ref alignData, settleTime,false, multisearchEn))
+                            switch (PatAlignExecute(gantry, originAbs, cmd, ref alignData, settleTime, false, multisearchEn))
                             {
                                 case EAction.Skip:
                                     {
@@ -4118,7 +4118,7 @@ namespace NagaW
                     case EPumpType.TP:
                     case EPumpType.SPLite:
                         {
-                            TFPressCtrl.FPress[k].Set(SP_Setups[k].FPress.Value);
+                            //TFPressCtrl.FPress[k].Set(SP_Setups[k].FPress.Value);
                             break;
                         }
                 }

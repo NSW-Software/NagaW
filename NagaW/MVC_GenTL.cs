@@ -128,6 +128,7 @@ namespace NagaW
             {
                 throw new Exception($"Create device failed {nRet:x8}");
             }
+            //NDispWin.Event.CAMERA_INFO.Set($"Camera Connected", $"{m_CamName} {m_stDevice.chVendorName},{m_stDevice.chModelName},{m_stDevice.chSerialNumber},{m_stDevice.chDeviceVersion}");
 
             //Open device
             nRet = m_MyCamera.MV_CC_OpenDevice_NET();
@@ -211,6 +212,7 @@ namespace NagaW
             {
                 throw new Exception($"Create device failed {nRet:x8}");
             }
+            //NDispWin.Event.CAMERA_INFO.Set($"Camera Connected", $"{m_CamName} {stGigEDev.chManufacturerName},{stGigEDev.chModelName},{stGigEDev.chSerialNumber},{stGigEDev.chDeviceVersion},NicIP {stGigEDev.nNetExport}, CamIP {stGigEDev.nCurrentIp}");
 
             //Open device
             nRet = m_MyCamera.MV_CC_OpenDevice_NET();
@@ -255,6 +257,7 @@ namespace NagaW
             m_MyCamera.MV_CC_CloseDevice_NET();
             m_MyCamera.MV_CC_DestroyDevice_NET();
             m_bConnected = false;
+            //NDispWin.Event.CAMERA_INFO.Set($"Camera Disconnected", $"{m_CamName} {m_Brand},{m_SerialNo}");
         }
         public bool IsConnected => m_bConnected;
 
@@ -316,21 +319,26 @@ namespace NagaW
                         if (stDisplayInfo.hWnd != IntPtr.Zero)
                         {
                             m_MyCamera.MV_CC_DisplayOneFrame_NET(ref stDisplayInfo);
-                            //Thread.Sleep(sleep);
                         }
                         else
                         {
+                            int i = 0;
                             try
                             {
                                 int stride = stDisplayInfo.nWidth + (stDisplayInfo.nWidth % 4);
+                                i++;
                                 mImage = new Image<Gray, byte>(stDisplayInfo.nWidth, stDisplayInfo.nHeight, stride, stDisplayInfo.pData);
+                                i++;
                                 m_picBox.Image = (System.Drawing.Image)mImage.ToBitmap().Clone();
+                                i++;
                                 m_picBox.Invalidate();
+                                i++;
                             }
                             catch (Exception ex)
                             {
-                                //m_bGrabbing = false;
                                 //NDispWin.Event.CAMERA_INFO.Set(MethodBase.GetCurrentMethod().Name.ToString(), m_CamName + " " + ex.Message.ToString());
+                                //NDispWin.Event.CAMERA_INFO.Set($"Data", $"{i},{stDisplayInfo.nWidth},{stDisplayInfo.nHeight},{stDisplayInfo.pData}");
+                                m_MyCamera.MV_CC_FreeImageBuffer_NET(ref stFrameInfo);
                                 System.Threading.Thread.Sleep(10);
                             }
                         }
@@ -363,20 +371,28 @@ namespace NagaW
                     stDisplayInfo.enPixelType = stFrameInfo.stFrameInfo.enPixelType;
 
                     if (stDisplayInfo.hWnd != IntPtr.Zero)
+                    {
                         m_MyCamera.MV_CC_DisplayOneFrame_NET(ref stDisplayInfo);
+                    }
                     else
                     {
+                        int i = 0;
                         try
                         {
                             int stride = stDisplayInfo.nWidth + (stDisplayInfo.nWidth % 4);
+                            i++;
                             mImage = new Image<Gray, byte>(stDisplayInfo.nWidth, stDisplayInfo.nHeight, stride, stDisplayInfo.pData);
+                            i++;
                             m_picBox.Image = (System.Drawing.Image)mImage.ToBitmap().Clone();
+                            i++;
                             m_picBox.Invalidate();
+                            i++;
                         }
                         catch (Exception ex)
                         {
-                            //m_bGrabbing = false;
                             //NDispWin.Event.CAMERA_INFO.Set(MethodBase.GetCurrentMethod().Name.ToString(), m_CamName + " " + ex.Message.ToString());
+                            //NDispWin.Event.CAMERA_INFO.Set($"Data", $"{i},{stDisplayInfo.nWidth},{stDisplayInfo.nHeight},{stDisplayInfo.pData}");
+                            m_MyCamera.MV_CC_FreeImageBuffer_NET(ref stFrameInfo);
                             System.Threading.Thread.Sleep(10);
                         }
                     }
@@ -435,7 +451,7 @@ namespace NagaW
             return true;
         }
         public bool IsGrabbing => m_bGrabbing;
-        public Image<Gray, Byte> mImage = new Image<Gray, byte>(808, 606);
+        public Image<Gray, byte> mImage = new Image<Gray, byte>(808, 606);
         public void GrabOneImage()
         {
             bool grabbing = m_bGrabbing;

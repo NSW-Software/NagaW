@@ -179,6 +179,7 @@
             // 
             // toolStripComboBox1
             // 
+            this.toolStripComboBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStripComboBox1.Items.AddRange(new object[] {
             "Source Sw",
             "Source Hw"});
@@ -234,13 +235,13 @@
             this.pnlImage.Controls.Add(this.imgBoxEmgu);
             this.pnlImage.Location = new System.Drawing.Point(12, 42);
             this.pnlImage.Name = "pnlImage";
-            this.pnlImage.Size = new System.Drawing.Size(239, 207);
+            this.pnlImage.Size = new System.Drawing.Size(374, 300);
             this.pnlImage.TabIndex = 2;
             // 
             // imgBoxEmgu
             // 
             this.imgBoxEmgu.FunctionalMode = Emgu.CV.UI.ImageBox.FunctionalModeOption.Minimum;
-            this.imgBoxEmgu.Location = new System.Drawing.Point(31, 41);
+            this.imgBoxEmgu.Location = new System.Drawing.Point(171, 184);
             this.imgBoxEmgu.Name = "imgBoxEmgu";
             this.imgBoxEmgu.Size = new System.Drawing.Size(117, 99);
             this.imgBoxEmgu.TabIndex = 3;

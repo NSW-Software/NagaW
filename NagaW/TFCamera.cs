@@ -93,7 +93,7 @@ namespace NagaW
                                 MVC_GenTL.Exposure = 8000;
                                 MVC_GenTL.Gain = 1;
 
-                                MVC_GenTL.GrabOneImage();
+                                MVC_GenTL.StartGrab();
                                 //ImgHN[CamNo] = (int)MVC_GenTL.ImageHeight;
                                 //ImgWN[CamNo] = (int)MVC_GenTL.ImageWidth;
                                 //genTLCamera[0].StartGrab();

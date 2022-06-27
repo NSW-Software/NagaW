@@ -85,7 +85,7 @@ namespace NagaW
         private void liveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TFCameras.Camera[selectedCam].Live();
-            imgBoxEmgu.Image = TFCameras.Camera[selectedCam].emgucvImage;
+            ////imgBoxEmgu.Image = TFCameras.Camera[selectedCam].emgucvImage;
             UpdateControls();
         }
         private void stopToolStripMenuItem_Click(object sender, EventArgs e)
