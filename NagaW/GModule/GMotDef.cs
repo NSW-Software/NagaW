@@ -77,6 +77,22 @@ namespace NagaW
         public static TEZMCAux.TInput IN45 = new TEZMCAux.TInput(45, "RightConv-Up");
         public static TEZMCAux.TInput IN46 = new TEZMCAux.TInput(46, "RightConv-Down");
         public static TEZMCAux.TInput IN47 = new TEZMCAux.TInput(47, "RightConv-SensChuckVacuum");
+        public static TEZMCAux.TInput IN48 = new TEZMCAux.TInput(48, "(not used)");
+        public static TEZMCAux.TInput IN49 = new TEZMCAux.TInput(49, "(not used)");
+        public static TEZMCAux.TInput IN50 = new TEZMCAux.TInput(50, "(not used)");
+        public static TEZMCAux.TInput IN51 = new TEZMCAux.TInput(51, "(not used)");
+        public static TEZMCAux.TInput IN52 = new TEZMCAux.TInput(52, "(not used)");
+        public static TEZMCAux.TInput IN53 = new TEZMCAux.TInput(53, "(not used)");
+        public static TEZMCAux.TInput IN54 = new TEZMCAux.TInput(54, "(not used)");
+        public static TEZMCAux.TInput IN55 = new TEZMCAux.TInput(55, "(not used)");
+        public static TEZMCAux.TInput IN56 = new TEZMCAux.TInput(56, "(not used)");
+        public static TEZMCAux.TInput IN57 = new TEZMCAux.TInput(57, "(not used)");
+        public static TEZMCAux.TInput IN58 = new TEZMCAux.TInput(58, "(not used)");
+        public static TEZMCAux.TInput IN59 = new TEZMCAux.TInput(59, "(not used)");
+        public static TEZMCAux.TInput IN60 = new TEZMCAux.TInput(60, "(not used)");
+        public static TEZMCAux.TInput IN61 = new TEZMCAux.TInput(61, "(not used)");
+        public static TEZMCAux.TInput IN62 = new TEZMCAux.TInput(62, "(not used)");
+        public static TEZMCAux.TInput IN63 = new TEZMCAux.TInput(63, "(not used)");
 
         public static TEZMCAux.TOutput Out0 = new TEZMCAux.TOutput(0, "LeftPump-FPressure");
         public static TEZMCAux.TOutput Out1 = new TEZMCAux.TOutput(1, "LeftPump-Vacuum");

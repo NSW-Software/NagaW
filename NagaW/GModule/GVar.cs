@@ -415,7 +415,8 @@ namespace NagaW
         }
         public class Weighing
         {
-            public static PointXYZ[,] Pos = (PointXYZ[,])GControl.Create2DArray(typeof(PointXYZ), HeadCount, Enum.GetValues(typeof(EPumpType)).Length);/*Enumerable.Range(0, HeadCount).Select(x => new PointXYZ()).ToArray();*/
+            public static PointXYZ[,] Pos = (PointXYZ[,])GControl.Create2DArray(typeof(PointXYZ), HeadCount, 103/*Enum.GetValues(typeof(EPumpType)).Length*/);
+            //public static PointXYZ[,] Pos = (PointXYZ[,])GControl.Create2DArray(typeof(PointXYZ), HeadCount, Enum.GetValues(typeof(EPumpType)).Length);/*Enumerable.Range(0, HeadCount).Select(x => new PointXYZ()).ToArray();*/
         }
 
         public class NozzleInsp

@@ -47,6 +47,7 @@ namespace NagaW
             btnInput1.BackColor = startInput == 0 ? Color.Lime : Color.LightGray;
             btnInput2.BackColor = startInput == 16 ? Color.Lime : Color.LightGray;
             btnInput3.BackColor = startInput == 32 ? Color.Lime : Color.LightGray;
+            btnInput4.BackColor = startInput == 48 ? Color.Lime : Color.LightGray;
             btnOutput1.BackColor = startOutput == 0 ? Color.Lime : Color.LightGray;
             btnOutput2.BackColor = startOutput == 32 ? Color.Lime : Color.LightGray;
             btnOutput3.BackColor = startOutput == 48 ? Color.Lime : Color.LightGray;
@@ -99,6 +100,11 @@ namespace NagaW
         private void btn_Input3_Click(object sender, EventArgs e)
         {
             startInput = 32;
+            UpdateList(true);
+        }
+        private void btnInput4_Click(object sender, EventArgs e)
+        {
+            startInput = 48;
             UpdateList(true);
         }
 
@@ -170,5 +176,6 @@ namespace NagaW
             frm.Text = $"Edit {title} ";
             frm.ShowDialog();
         }
+
     }
 }

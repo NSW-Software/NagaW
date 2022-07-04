@@ -106,7 +106,7 @@ namespace NagaW
             btnPump2.BackColor = gantryIdx is 1 ? Color.Lime : SystemColors.Control;
             btnPump1.Text = $"Head 1 ({GSystemCfg.Pump.Pumps[0].PumpType})";
             btnPump2.Text = $"Head 2 ({GSystemCfg.Pump.Pumps[1].PumpType})";
-            Gantry = gantryIdx is 0 ? TFGantry.GantryLeft : TFGantry.GantryRight;
+            Gantry = gantryIdx is 0 ? TFGantry.GantrySetup : TFGantry.GantryRight;
 
             //Meas
             lblDotPerSampleMeas.UpdatePara(GProcessPara.Weighing.DotPerSample[gantryIdx]);

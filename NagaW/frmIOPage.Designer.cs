@@ -48,6 +48,7 @@
             this.In14 = new System.Windows.Forms.Label();
             this.In15 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnInput4 = new System.Windows.Forms.Button();
             this.btnInput3 = new System.Windows.Forms.Button();
             this.btnInput2 = new System.Windows.Forms.Button();
             this.btnInput1 = new System.Windows.Forms.Button();
@@ -258,20 +259,31 @@
             // 
             this.panel1.AutoSize = true;
             this.panel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panel1.Controls.Add(this.btnInput4);
             this.panel1.Controls.Add(this.btnInput3);
             this.panel1.Controls.Add(this.btnInput2);
             this.panel1.Controls.Add(this.btnInput1);
             this.panel1.Location = new System.Drawing.Point(6, 6);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(3);
-            this.panel1.Size = new System.Drawing.Size(324, 42);
+            this.panel1.Size = new System.Drawing.Size(330, 42);
             this.panel1.TabIndex = 16;
+            // 
+            // btnInput4
+            // 
+            this.btnInput4.Location = new System.Drawing.Point(249, 6);
+            this.btnInput4.Name = "btnInput4";
+            this.btnInput4.Size = new System.Drawing.Size(75, 30);
+            this.btnInput4.TabIndex = 36;
+            this.btnInput4.Text = "IN48-IN63";
+            this.btnInput4.UseVisualStyleBackColor = true;
+            this.btnInput4.Click += new System.EventHandler(this.btnInput4_Click);
             // 
             // btnInput3
             // 
-            this.btnInput3.Location = new System.Drawing.Point(218, 6);
+            this.btnInput3.Location = new System.Drawing.Point(168, 6);
             this.btnInput3.Name = "btnInput3";
-            this.btnInput3.Size = new System.Drawing.Size(100, 30);
+            this.btnInput3.Size = new System.Drawing.Size(75, 30);
             this.btnInput3.TabIndex = 35;
             this.btnInput3.Text = "IN32-IN47";
             this.btnInput3.UseVisualStyleBackColor = true;
@@ -279,9 +291,9 @@
             // 
             // btnInput2
             // 
-            this.btnInput2.Location = new System.Drawing.Point(112, 6);
+            this.btnInput2.Location = new System.Drawing.Point(87, 6);
             this.btnInput2.Name = "btnInput2";
-            this.btnInput2.Size = new System.Drawing.Size(100, 30);
+            this.btnInput2.Size = new System.Drawing.Size(75, 30);
             this.btnInput2.TabIndex = 34;
             this.btnInput2.Text = "IN16-IN31";
             this.btnInput2.UseVisualStyleBackColor = true;
@@ -291,7 +303,7 @@
             // 
             this.btnInput1.Location = new System.Drawing.Point(6, 6);
             this.btnInput1.Name = "btnInput1";
-            this.btnInput1.Size = new System.Drawing.Size(100, 30);
+            this.btnInput1.Size = new System.Drawing.Size(75, 30);
             this.btnInput1.TabIndex = 33;
             this.btnInput1.Text = "IN0-IN15";
             this.btnInput1.UseVisualStyleBackColor = true;
@@ -444,14 +456,14 @@
             this.panel2.Location = new System.Drawing.Point(336, 6);
             this.panel2.Name = "panel2";
             this.panel2.Padding = new System.Windows.Forms.Padding(3);
-            this.panel2.Size = new System.Drawing.Size(324, 42);
+            this.panel2.Size = new System.Drawing.Size(254, 42);
             this.panel2.TabIndex = 17;
             // 
             // btnOutput3
             // 
-            this.btnOutput3.Location = new System.Drawing.Point(218, 6);
+            this.btnOutput3.Location = new System.Drawing.Point(168, 6);
             this.btnOutput3.Name = "btnOutput3";
-            this.btnOutput3.Size = new System.Drawing.Size(100, 30);
+            this.btnOutput3.Size = new System.Drawing.Size(80, 30);
             this.btnOutput3.TabIndex = 36;
             this.btnOutput3.Text = "OP48-OP63";
             this.btnOutput3.UseVisualStyleBackColor = true;
@@ -459,9 +471,9 @@
             // 
             // btnOutput2
             // 
-            this.btnOutput2.Location = new System.Drawing.Point(112, 6);
+            this.btnOutput2.Location = new System.Drawing.Point(87, 6);
             this.btnOutput2.Name = "btnOutput2";
-            this.btnOutput2.Size = new System.Drawing.Size(100, 30);
+            this.btnOutput2.Size = new System.Drawing.Size(80, 30);
             this.btnOutput2.TabIndex = 35;
             this.btnOutput2.Text = "OP32-OP47";
             this.btnOutput2.UseVisualStyleBackColor = true;
@@ -471,7 +483,7 @@
             // 
             this.btnOutput1.Location = new System.Drawing.Point(6, 6);
             this.btnOutput1.Name = "btnOutput1";
-            this.btnOutput1.Size = new System.Drawing.Size(100, 30);
+            this.btnOutput1.Size = new System.Drawing.Size(80, 30);
             this.btnOutput1.TabIndex = 34;
             this.btnOutput1.Text = "OP0-OP16";
             this.btnOutput1.UseVisualStyleBackColor = true;
@@ -615,5 +627,6 @@
         private System.Windows.Forms.GroupBox groupboxOutput;
         private System.Windows.Forms.Button Out12;
         private System.Windows.Forms.Button btnEdit;
+        private System.Windows.Forms.Button btnInput4;
     }
 }

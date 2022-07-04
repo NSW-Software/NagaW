@@ -42,7 +42,7 @@ namespace NagaW
             Set(tpCamera, GSystemCfg.Camera.Cameras);
 
             Set(tpLightingCtrl, GSystemCfg.Light.Lights);
-            //Set(tpWeighing, GSystemCfg.Weigh.Weighs);
+            Set(tpWeighing, GSystemCfg.Weight.Weights);
             Set(tpPressureCtrl, GSystemCfg.FPress.FPresses);
             Set(tpTempCtrl, GSystemCfg.Temperature.Temp);
             Set(tpDisplay, new CustomObjectWrapper(Activator.CreateInstance(typeof(GSystemCfg.Display))));
@@ -53,7 +53,7 @@ namespace NagaW
 
             Set(tpMakerData, new CustomObjectWrapper(Activator.CreateInstance(typeof(GSystemCfg.MakerData))));
 
-            tabcontrol1.TabPages.Remove(tpWeighing);
+            //tabcontrol1.TabPages.Remove(tpWeighing);
 
             Size = new Size(800, 600);
 
@@ -253,8 +253,8 @@ namespace NagaW
 
         private void btnWeighOpen_Click(object sender, EventArgs e)
         {
-            //if (TFWeightScale.IsOpen) TFWeightScale.Close();
-            //else TFWeightScale.Open();
+            if (TFWeightScale.IsOpen) TFWeightScale.Close();
+            else TFWeightScale.Open();
         }
         private void btnWeighTest_Click(object sender, EventArgs e)
         {

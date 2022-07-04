@@ -320,7 +320,7 @@ namespace NagaW
         public static Mutex Mutex = new Mutex();
         public static bool Execute(int gantryIdx, int dotsPerSample = 0, int SampleCount = 0)
         {
-            var gantry = gantryIdx is 0 ? TFGantry.GantryLeft : TFGantry.GantryRight;
+            var gantry = gantryIdx is 0 ? TFGantry.GantrySetup : TFGantry.GantryRight;
             Stop = false;
             Result.Clear();
 
