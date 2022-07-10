@@ -133,7 +133,7 @@ namespace NagaW
         public static TEZMCAux.TOutput Out34 = new TEZMCAux.TOutput(34, "TwLight-Green");
         public static TEZMCAux.TOutput Out35 = new TEZMCAux.TOutput(35, "Buzzer");
         public static TEZMCAux.TOutput Out36= new TEZMCAux.TOutput(36, "SmemaUpline-McReady");
-        public static TEZMCAux.TOutput Out37= new TEZMCAux.TOutput(37, "SmemaDwline-BdReady");
+        public static TEZMCAux.TOutput Out37= new TEZMCAux.TOutput(37, "SmemaDnline-BdReady");
         public static TEZMCAux.TOutput Out38 = new TEZMCAux.TOutput(38, "(Spare)");
         public static TEZMCAux.TOutput Out39 = new TEZMCAux.TOutput(39, "LeftConv-Stopper");
         public static TEZMCAux.TOutput Out40 = new TEZMCAux.TOutput(40, "LeftConv-Up");
@@ -148,7 +148,7 @@ namespace NagaW
         public static TEZMCAux.TOutput Out49 = new TEZMCAux.TOutput(49, "Right-CleanPressure");
         public static TEZMCAux.TOutput Out50 = new TEZMCAux.TOutput(50, "Right-CleanVacuum");
         public static TEZMCAux.TOutput Out51 = new TEZMCAux.TOutput(51, "SmemaUpline2-BdReady");
-        public static TEZMCAux.TOutput Out52 = new TEZMCAux.TOutput(52, "SmemaDwline2-McReady");
+        public static TEZMCAux.TOutput Out52 = new TEZMCAux.TOutput(52, "SmemaDnline2-McReady");
         public static TEZMCAux.TOutput Out53 = new TEZMCAux.TOutput(53, "(Spare)");
         public static TEZMCAux.TOutput Out54 = new TEZMCAux.TOutput(54, "(Spare)");
         public static TEZMCAux.TOutput Out55 = new TEZMCAux.TOutput(55, "(Spare)");

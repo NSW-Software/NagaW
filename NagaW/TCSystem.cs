@@ -204,6 +204,7 @@ namespace NagaW
             GProcessPara.SaveFile();
             TFUser.SaveFile();
             TFTool.Save();
+            TFSecsEvent.SaveFile();
 
             MsgBox.Processing("Shut Down, Pls Wait...", () =>
             {
@@ -221,6 +222,7 @@ namespace NagaW
             });
             TFTower.Close();
             TFGantry.Close();
+            TFSecsGems.Close();
 
             return true;
         }

@@ -71,10 +71,12 @@
             this.tpOption = new System.Windows.Forms.TabPage();
             this.cbxCentrePatAlign = new System.Windows.Forms.CheckBox();
             this.tpGem = new System.Windows.Forms.TabPage();
+            this.btnEquipConst = new System.Windows.Forms.Button();
             this.btnSVID = new System.Windows.Forms.Button();
             this.btnCEID = new System.Windows.Forms.Button();
             this.btnALID = new System.Windows.Forms.Button();
-            this.btnEquipConst = new System.Windows.Forms.Button();
+            this.flowLayoutPanel11 = new System.Windows.Forms.FlowLayoutPanel();
+            this.btnSecsGemOpen = new System.Windows.Forms.Button();
             this.tabcontrol1.SuspendLayout();
             this.tpConfig.SuspendLayout();
             this.tpGantry.SuspendLayout();
@@ -97,6 +99,7 @@
             this.flowLayoutPanel10.SuspendLayout();
             this.tpOption.SuspendLayout();
             this.tpGem.SuspendLayout();
+            this.flowLayoutPanel11.SuspendLayout();
             this.SuspendLayout();
             // 
             // timer1
@@ -536,7 +539,7 @@
             this.cbxCentrePatAlign.AutoSize = true;
             this.cbxCentrePatAlign.Location = new System.Drawing.Point(6, 6);
             this.cbxCentrePatAlign.Name = "cbxCentrePatAlign";
-            this.cbxCentrePatAlign.Size = new System.Drawing.Size(193, 22);
+            this.cbxCentrePatAlign.Size = new System.Drawing.Size(166, 18);
             this.cbxCentrePatAlign.TabIndex = 9;
             this.cbxCentrePatAlign.Text = "Prompt Centre Alignment";
             this.cbxCentrePatAlign.UseVisualStyleBackColor = true;
@@ -544,10 +547,7 @@
             // 
             // tpGem
             // 
-            this.tpGem.Controls.Add(this.btnEquipConst);
-            this.tpGem.Controls.Add(this.btnSVID);
-            this.tpGem.Controls.Add(this.btnCEID);
-            this.tpGem.Controls.Add(this.btnALID);
+            this.tpGem.Controls.Add(this.flowLayoutPanel11);
             this.tpGem.Location = new System.Drawing.Point(4, 115);
             this.tpGem.Name = "tpGem";
             this.tpGem.Padding = new System.Windows.Forms.Padding(3);
@@ -556,11 +556,21 @@
             this.tpGem.Text = "Gem";
             this.tpGem.UseVisualStyleBackColor = true;
             // 
+            // btnEquipConst
+            // 
+            this.btnEquipConst.Location = new System.Drawing.Point(394, 3);
+            this.btnEquipConst.Name = "btnEquipConst";
+            this.btnEquipConst.Size = new System.Drawing.Size(100, 40);
+            this.btnEquipConst.TabIndex = 14;
+            this.btnEquipConst.Text = "Export EquipConst";
+            this.btnEquipConst.UseVisualStyleBackColor = true;
+            this.btnEquipConst.Click += new System.EventHandler(this.btnEquipConst_Click);
+            // 
             // btnSVID
             // 
-            this.btnSVID.Location = new System.Drawing.Point(198, 6);
+            this.btnSVID.Location = new System.Drawing.Point(76, 3);
             this.btnSVID.Name = "btnSVID";
-            this.btnSVID.Size = new System.Drawing.Size(90, 51);
+            this.btnSVID.Size = new System.Drawing.Size(100, 40);
             this.btnSVID.TabIndex = 13;
             this.btnSVID.Text = "Export SVID";
             this.btnSVID.UseVisualStyleBackColor = true;
@@ -568,9 +578,9 @@
             // 
             // btnCEID
             // 
-            this.btnCEID.Location = new System.Drawing.Point(6, 6);
+            this.btnCEID.Location = new System.Drawing.Point(182, 3);
             this.btnCEID.Name = "btnCEID";
-            this.btnCEID.Size = new System.Drawing.Size(90, 51);
+            this.btnCEID.Size = new System.Drawing.Size(100, 40);
             this.btnCEID.TabIndex = 12;
             this.btnCEID.Text = "Export CEID";
             this.btnCEID.UseVisualStyleBackColor = true;
@@ -578,27 +588,42 @@
             // 
             // btnALID
             // 
-            this.btnALID.Location = new System.Drawing.Point(102, 6);
+            this.btnALID.Location = new System.Drawing.Point(288, 3);
             this.btnALID.Name = "btnALID";
-            this.btnALID.Size = new System.Drawing.Size(90, 51);
+            this.btnALID.Size = new System.Drawing.Size(100, 40);
             this.btnALID.TabIndex = 11;
             this.btnALID.Text = "Export ALID";
             this.btnALID.UseVisualStyleBackColor = true;
             this.btnALID.Click += new System.EventHandler(this.btnALID_Click);
             // 
-            // btnEquipConst
+            // flowLayoutPanel11
             // 
-            this.btnEquipConst.Location = new System.Drawing.Point(294, 6);
-            this.btnEquipConst.Name = "btnEquipConst";
-            this.btnEquipConst.Size = new System.Drawing.Size(90, 51);
-            this.btnEquipConst.TabIndex = 14;
-            this.btnEquipConst.Text = "Export EquipConst";
-            this.btnEquipConst.UseVisualStyleBackColor = true;
-            this.btnEquipConst.Click += new System.EventHandler(this.btnEquipConst_Click);
+            this.flowLayoutPanel11.AutoSize = true;
+            this.flowLayoutPanel11.Controls.Add(this.btnSecsGemOpen);
+            this.flowLayoutPanel11.Controls.Add(this.btnEquipConst);
+            this.flowLayoutPanel11.Controls.Add(this.btnALID);
+            this.flowLayoutPanel11.Controls.Add(this.btnCEID);
+            this.flowLayoutPanel11.Controls.Add(this.btnSVID);
+            this.flowLayoutPanel11.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.flowLayoutPanel11.Location = new System.Drawing.Point(3, 270);
+            this.flowLayoutPanel11.Name = "flowLayoutPanel11";
+            this.flowLayoutPanel11.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.flowLayoutPanel11.Size = new System.Drawing.Size(603, 46);
+            this.flowLayoutPanel11.TabIndex = 15;
+            // 
+            // btnSecsGemOpen
+            // 
+            this.btnSecsGemOpen.Location = new System.Drawing.Point(500, 3);
+            this.btnSecsGemOpen.Name = "btnSecsGemOpen";
+            this.btnSecsGemOpen.Size = new System.Drawing.Size(100, 40);
+            this.btnSecsGemOpen.TabIndex = 2;
+            this.btnSecsGemOpen.Text = "Open";
+            this.btnSecsGemOpen.UseVisualStyleBackColor = true;
+            this.btnSecsGemOpen.Click += new System.EventHandler(this.btnSecsGemOpen_Click);
             // 
             // frmConfig
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 18F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(627, 448);
             this.Controls.Add(this.tabcontrol1);
@@ -640,6 +665,8 @@
             this.tpOption.ResumeLayout(false);
             this.tpOption.PerformLayout();
             this.tpGem.ResumeLayout(false);
+            this.tpGem.PerformLayout();
+            this.flowLayoutPanel11.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -691,5 +718,7 @@
         private System.Windows.Forms.Button btnCEID;
         private System.Windows.Forms.Button btnALID;
         private System.Windows.Forms.Button btnEquipConst;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel11;
+        private System.Windows.Forms.Button btnSecsGemOpen;
     }
 }

@@ -53,6 +53,8 @@ namespace NagaW
 
             Set(tpMakerData, new CustomObjectWrapper(Activator.CreateInstance(typeof(GSystemCfg.MakerData))));
 
+            Set(tpGem, new CustomObjectWrapper(Activator.CreateInstance(typeof(GSystemCfg.SecsGem))));
+
             //tabcontrol1.TabPages.Remove(tpWeighing);
 
             Size = new Size(800, 600);
@@ -226,7 +228,8 @@ namespace NagaW
             btnDispCtrlOpen.Visible = dispctrl.PumpType >= EPumpType.VERMES_3280;
             //btnDispExTempCtrlOpen.Visible = btnDispCtrlOpen.Visible && dispctrl.ExTempCtrl;
 
-
+            btnSecsGemOpen.BackColor = TFSecsGems.Connected ? open : close;
+            btnSecsGemOpen.Text = TFSecsGems.Connected ? connected : disconnect;
         }
 
         private void btnHsensorOpen_Click(object sender, EventArgs e)
@@ -383,7 +386,6 @@ namespace NagaW
 
             Process.Start(sfd.FileName);
         }
-
         private void btnALID_Click(object sender, EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog();
@@ -398,7 +400,6 @@ namespace NagaW
 
             Process.Start(sfd.FileName);
         }
-
         private void btnSVID_Click(object sender, EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog();
@@ -505,7 +506,6 @@ namespace NagaW
             File.WriteAllText(sfd.FileName, s);
             Process.Start(sfd.FileName);
         }
-
         private void btnEquipConst_Click(object sender, EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog();
@@ -615,6 +615,11 @@ namespace NagaW
             var s = string.Join("\n", slist);
             File.WriteAllText(sfd.FileName, s);
             Process.Start(sfd.FileName);
+        }
+        private void btnSecsGemOpen_Click(object sender, EventArgs e)
+        {
+            if (TFSecsGems.Connected) TFSecsGems.Close();
+            else TFSecsGems.Open();
         }
     }
 }

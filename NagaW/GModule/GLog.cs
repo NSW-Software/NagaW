@@ -135,6 +135,11 @@ namespace NagaW
             return WriteLog(ELogType.PROCESS, data);
         }
 
+        public static bool LogSecsGems(ESecsGemsDir dir, string data, string structure = "")
+        {
+            return WriteLog(ELogType.SECSGEMS, dir.ToString() + "\t" + data + " " + structure);
+        }
+
         static ReaderWriterLockSlim Slim2 = new ReaderWriterLockSlim();
         public static bool WriteLog(string content, string filepath)
         {

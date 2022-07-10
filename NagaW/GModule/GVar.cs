@@ -327,6 +327,14 @@ namespace NagaW
             public static bool PromptTempBeforeRun { get; set; } = false;
 
         }
+        public class SecsGem
+        {
+            public static GemTaro.TCPIP.EEntityMode EntityMode { get; set; } = GemTaro.TCPIP.EEntityMode.Passive;
+            public static string IPAddress { get; set; } = "192.168.0.1";
+            public static int Port { get; set; } = 5000;
+            public static int DeviceID { get; set; } = 0;
+        }
+
         public static bool SaveFile(string filepath)
         {
             //return GDoc.SaveXML(filepath, MethodBase.GetCurrentMethod().DeclaringType);

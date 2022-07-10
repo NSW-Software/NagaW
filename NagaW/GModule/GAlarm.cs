@@ -25,6 +25,9 @@ namespace NagaW
                 new frmPrompt(SystemIcons.Error, Color.Red, $"{(int)alarm:d4}", alarm.ToString() + "\r\n\n" + msg).ShowDialog();
                 TFTower.Error(false);
 
+                string data = $"10100000,{alarm},{msg}";
+                TFSecsGems.SendMsg(GemTaro.SECSII.SFCode.S5F1, data);
+
                 Mtx.ReleaseMutex();
             });
         }

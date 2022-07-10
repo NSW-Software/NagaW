@@ -11,6 +11,9 @@ namespace NagaW
         public static void Start(EEvent @event, string msg = "")
         {
             GLog.WriteLog(ELogType.EVENT, @event.ToString() + " " + msg);
+
+            string data = $"0,{@event},{msg}";
+            TFSecsGems.SendMsg(GemTaro.SECSII.SFCode.S6F11, data);
         }
     }
     public enum EEvent : ushort

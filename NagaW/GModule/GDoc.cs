@@ -27,6 +27,7 @@ namespace NagaW
         public static DirectoryInfo AlarmHelpDir => Directory.CreateDirectory(RootDir.FullName + "AlarmHelp\\");
         public static DirectoryInfo UserDir => Directory.CreateDirectory(RootDir.FullName + "User\\");
         public static DirectoryInfo DisplayCtrlDir => Directory.CreateDirectory(RootDir.FullName + "Display\\");
+        public static DirectoryInfo SecsGemDir => Directory.CreateDirectory(RootDir.FullName + "SecsGem\\");
 
         static DirectoryInfo rootLogDir => Directory.CreateDirectory(RootDir.FullName + "Log\\");
         public static DirectoryInfo MachineLogDir => Directory.CreateDirectory(rootLogDir.FullName + "MachineLog\\");
@@ -50,6 +51,7 @@ namespace NagaW
         public static FileInfo WeighDataFile => new FileInfo(WeighDataLogDir.FullName + DateTime.Now.ToString("yyyy-MM-dd") + ".txt");
         public static FileInfo MotionLogFile => new FileInfo(MotionLogDir.FullName + DateTime.Now.ToString("yyyy-MM-dd") + ".txt");
 
+        public static FileInfo SecsGemEventFile => new FileInfo(SecsGemDir.FullName + "Event.ini");
 
         public static string RecipeNameWithPath = string.Empty;
         public static string Extension_Converter(string filetype)

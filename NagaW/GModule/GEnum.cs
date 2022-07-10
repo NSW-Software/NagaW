@@ -80,7 +80,9 @@ namespace NagaW
         CTRL = 41,
         EXCEP = 51,
         PROCESS = 61,
-        SYSTEM = 71
+        SYSTEM = 71,
+
+        SECSGEMS = 101,
     }
 
     public enum EUnit : byte
@@ -196,8 +198,16 @@ namespace NagaW
         FrontToBack,
     }
 
+    public enum ESecsGemsDir
+    { 
+        HostToLocal,
+        LocalToHost,
+        NSWToLocal,
+        LocalToNSW,
+    }
+
     #region
-        [TypeConverter(typeof(ExpandableObjectConverter))]
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     [Serializable]
     public class StaticPropertyDescriptor : PropertyDescriptor
     {

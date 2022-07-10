@@ -63,6 +63,9 @@ namespace NagaW
                         tsbtn.ForeColor = ProcessClr;
                         //tsbtn.Checked = true;
                         break;
+                    case ELogType.SECSGEMS:
+                        tsbtn.ForeColor = EventClr;
+                        break;
                     default:
                         tsbtn.ForeColor = DefaultClr;
                         tsbtn.Checked = false;

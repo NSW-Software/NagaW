@@ -385,6 +385,7 @@
     <Compile Include="TEMEDAQ.cs" />
     <Compile Include="TFFileImport.cs" />
     <Compile Include="TFMap.cs" />
+    <Compile Include="TFSecsGems.cs" />
     <Compile Include="TFWeigh.cs" />
     <Compile Include="TEZMCAux.cs" />
     <Compile Include="TFCamera.cs" />
