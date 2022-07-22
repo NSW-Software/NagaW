@@ -880,9 +880,9 @@ namespace NagaW
                             default: return false;
                             case EPumpType.VERMES_3280:
                                 {
-                                    cmdBuffer += $" MOVE_OP({dispIO}, 1)";
+                                    cmdBuffer += $" MOVE_OP({dispIO.OutputNo}, 1)";
                                     cmdBuffer += $" MOVE_DELAY({dotTime})";
-                                    cmdBuffer += $" MOVE_OP({dispIO}, 0)";
+                                    cmdBuffer += $" MOVE_OP({dispIO.OutputNo}, 0)";
                                     break;
                                 }
                             case EPumpType.SP:

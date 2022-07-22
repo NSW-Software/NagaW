@@ -440,6 +440,7 @@ namespace NagaW
                     case EPumpType.VERMES_3280:
                         {
                             TFPump.Vermes_Pump[gantryIdx].TriggerAset(GRecipes.Vermes_Setups[gantryIdx]);
+                            GMotDef.Outputs[(int)dispCtrl.VacDO].Status = false;
                             break;
                         }
                 }
