@@ -229,6 +229,7 @@ namespace NagaW
         #region Safety
         DOOR_LOCK_FAIL,
         JOG_EXCEED_SAFETY_ZONE,
+        SIDE_DOOR_PSNT,
         #endregion
 
         DXF_FILE_ERROR

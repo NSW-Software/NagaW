@@ -579,6 +579,16 @@ namespace NagaW
 
             public bool Disp()
             {
+                if (GSystemCfg.Safety.SideDoorCheck)
+                {
+                    var input = GMotDef.Inputs[(int)GSystemCfg.Safety.SideDoorSens];
+                    if (input.Status)
+                    {
+                        bRun = false;
+                        GAlarm.Prompt(EAlarm.SIDE_DOOR_PSNT, "Side Door Sensor Triggered. Please Check.");
+                        return false;
+                    }
+                }
                 switch (RunSelect)
                 {
                     case ERunSelect.All:

@@ -334,6 +334,14 @@ namespace NagaW
             public static int Port { get; set; } = 5000;
             public static int DeviceID { get; set; } = 0;
         }
+        public class Safety
+        {
+            [DisplayName("Side Door Sensor Checking")]
+            public static bool SideDoorCheck { get; set; } = false;
+            [Category("DI")]
+            [DisplayName("SideDoorDI")]
+            public static EDInput SideDoorSens { get; set; }
+        }
 
         public static bool SaveFile(string filepath)
         {

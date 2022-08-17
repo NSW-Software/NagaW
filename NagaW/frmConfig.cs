@@ -55,6 +55,8 @@ namespace NagaW
 
             Set(tpGem, new CustomObjectWrapper(Activator.CreateInstance(typeof(GSystemCfg.SecsGem))));
 
+            Set(tpSafety, new CustomObjectWrapper(Activator.CreateInstance(typeof(GSystemCfg.Safety))));
+
             //tabcontrol1.TabPages.Remove(tpWeighing);
 
             Size = new Size(800, 600);

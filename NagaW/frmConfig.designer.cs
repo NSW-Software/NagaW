@@ -71,12 +71,13 @@
             this.tpOption = new System.Windows.Forms.TabPage();
             this.cbxCentrePatAlign = new System.Windows.Forms.CheckBox();
             this.tpGem = new System.Windows.Forms.TabPage();
-            this.btnEquipConst = new System.Windows.Forms.Button();
-            this.btnSVID = new System.Windows.Forms.Button();
-            this.btnCEID = new System.Windows.Forms.Button();
-            this.btnALID = new System.Windows.Forms.Button();
             this.flowLayoutPanel11 = new System.Windows.Forms.FlowLayoutPanel();
             this.btnSecsGemOpen = new System.Windows.Forms.Button();
+            this.btnEquipConst = new System.Windows.Forms.Button();
+            this.btnALID = new System.Windows.Forms.Button();
+            this.btnCEID = new System.Windows.Forms.Button();
+            this.btnSVID = new System.Windows.Forms.Button();
+            this.tpSafety = new System.Windows.Forms.TabPage();
             this.tabcontrol1.SuspendLayout();
             this.tpConfig.SuspendLayout();
             this.tpGantry.SuspendLayout();
@@ -123,6 +124,7 @@
             this.tabcontrol1.Controls.Add(this.tpAdvance);
             this.tabcontrol1.Controls.Add(this.tpMakerData);
             this.tabcontrol1.Controls.Add(this.tpOption);
+            this.tabcontrol1.Controls.Add(this.tpSafety);
             this.tabcontrol1.Controls.Add(this.tpGem);
             this.tabcontrol1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabcontrol1.ItemSize = new System.Drawing.Size(100, 35);
@@ -137,10 +139,10 @@
             // tpConfig
             // 
             this.tpConfig.Controls.Add(this.flowLayoutPanel5);
-            this.tpConfig.Location = new System.Drawing.Point(4, 115);
+            this.tpConfig.Location = new System.Drawing.Point(4, 153);
             this.tpConfig.Name = "tpConfig";
             this.tpConfig.Padding = new System.Windows.Forms.Padding(3);
-            this.tpConfig.Size = new System.Drawing.Size(609, 319);
+            this.tpConfig.Size = new System.Drawing.Size(609, 281);
             this.tpConfig.TabIndex = 0;
             this.tpConfig.Text = "Config";
             this.tpConfig.UseVisualStyleBackColor = true;
@@ -148,7 +150,7 @@
             // flowLayoutPanel5
             // 
             this.flowLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.flowLayoutPanel5.Location = new System.Drawing.Point(3, 266);
+            this.flowLayoutPanel5.Location = new System.Drawing.Point(3, 228);
             this.flowLayoutPanel5.Name = "flowLayoutPanel5";
             this.flowLayoutPanel5.Size = new System.Drawing.Size(603, 50);
             this.flowLayoutPanel5.TabIndex = 7;
@@ -156,10 +158,10 @@
             // tpGantry
             // 
             this.tpGantry.Controls.Add(this.flowLayoutPanel4);
-            this.tpGantry.Location = new System.Drawing.Point(4, 115);
+            this.tpGantry.Location = new System.Drawing.Point(4, 39);
             this.tpGantry.Name = "tpGantry";
             this.tpGantry.Padding = new System.Windows.Forms.Padding(3);
-            this.tpGantry.Size = new System.Drawing.Size(609, 319);
+            this.tpGantry.Size = new System.Drawing.Size(609, 395);
             this.tpGantry.TabIndex = 1;
             this.tpGantry.Text = "Gantry";
             this.tpGantry.UseVisualStyleBackColor = true;
@@ -167,17 +169,17 @@
             // flowLayoutPanel4
             // 
             this.flowLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.flowLayoutPanel4.Location = new System.Drawing.Point(3, 266);
+            this.flowLayoutPanel4.Location = new System.Drawing.Point(3, 342);
             this.flowLayoutPanel4.Name = "flowLayoutPanel4";
             this.flowLayoutPanel4.Size = new System.Drawing.Size(603, 50);
             this.flowLayoutPanel4.TabIndex = 7;
             // 
             // tpConveyor
             // 
-            this.tpConveyor.Location = new System.Drawing.Point(4, 115);
+            this.tpConveyor.Location = new System.Drawing.Point(4, 39);
             this.tpConveyor.Name = "tpConveyor";
             this.tpConveyor.Padding = new System.Windows.Forms.Padding(3);
-            this.tpConveyor.Size = new System.Drawing.Size(609, 319);
+            this.tpConveyor.Size = new System.Drawing.Size(609, 395);
             this.tpConveyor.TabIndex = 12;
             this.tpConveyor.Text = "Conveyor";
             this.tpConveyor.UseVisualStyleBackColor = true;
@@ -185,10 +187,10 @@
             // tpHSensor
             // 
             this.tpHSensor.Controls.Add(this.flowLayoutPanel2);
-            this.tpHSensor.Location = new System.Drawing.Point(4, 115);
+            this.tpHSensor.Location = new System.Drawing.Point(4, 39);
             this.tpHSensor.Name = "tpHSensor";
             this.tpHSensor.Padding = new System.Windows.Forms.Padding(3);
-            this.tpHSensor.Size = new System.Drawing.Size(609, 319);
+            this.tpHSensor.Size = new System.Drawing.Size(609, 395);
             this.tpHSensor.TabIndex = 2;
             this.tpHSensor.Text = "HSensor";
             this.tpHSensor.UseVisualStyleBackColor = true;
@@ -199,7 +201,7 @@
             this.flowLayoutPanel2.Controls.Add(this.btnHsensorOpen);
             this.flowLayoutPanel2.Controls.Add(this.btnHSensorTest);
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 270);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 346);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
             this.flowLayoutPanel2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.flowLayoutPanel2.Size = new System.Drawing.Size(603, 46);
@@ -229,10 +231,10 @@
             // tpCamera
             // 
             this.tpCamera.Controls.Add(this.flowLayoutPanel3);
-            this.tpCamera.Location = new System.Drawing.Point(4, 115);
+            this.tpCamera.Location = new System.Drawing.Point(4, 39);
             this.tpCamera.Name = "tpCamera";
             this.tpCamera.Padding = new System.Windows.Forms.Padding(3);
-            this.tpCamera.Size = new System.Drawing.Size(609, 319);
+            this.tpCamera.Size = new System.Drawing.Size(609, 395);
             this.tpCamera.TabIndex = 3;
             this.tpCamera.Text = "Camera";
             this.tpCamera.UseVisualStyleBackColor = true;
@@ -241,7 +243,7 @@
             // 
             this.flowLayoutPanel3.Controls.Add(this.btnCamOpen);
             this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 266);
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 342);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
             this.flowLayoutPanel3.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.flowLayoutPanel3.Size = new System.Drawing.Size(603, 50);
@@ -260,10 +262,10 @@
             // tpLightingCtrl
             // 
             this.tpLightingCtrl.Controls.Add(this.flowLayoutPanel1);
-            this.tpLightingCtrl.Location = new System.Drawing.Point(4, 115);
+            this.tpLightingCtrl.Location = new System.Drawing.Point(4, 77);
             this.tpLightingCtrl.Name = "tpLightingCtrl";
             this.tpLightingCtrl.Padding = new System.Windows.Forms.Padding(3);
-            this.tpLightingCtrl.Size = new System.Drawing.Size(609, 319);
+            this.tpLightingCtrl.Size = new System.Drawing.Size(609, 357);
             this.tpLightingCtrl.TabIndex = 4;
             this.tpLightingCtrl.Text = "LightingCtrl";
             this.tpLightingCtrl.UseVisualStyleBackColor = true;
@@ -274,7 +276,7 @@
             this.flowLayoutPanel1.Controls.Add(this.btnLightOpen);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 270);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 308);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(603, 46);
             this.flowLayoutPanel1.TabIndex = 3;
@@ -292,10 +294,10 @@
             // tpWeighing
             // 
             this.tpWeighing.Controls.Add(this.flowLayoutPanel7);
-            this.tpWeighing.Location = new System.Drawing.Point(4, 115);
+            this.tpWeighing.Location = new System.Drawing.Point(4, 77);
             this.tpWeighing.Name = "tpWeighing";
             this.tpWeighing.Padding = new System.Windows.Forms.Padding(3);
-            this.tpWeighing.Size = new System.Drawing.Size(609, 319);
+            this.tpWeighing.Size = new System.Drawing.Size(609, 357);
             this.tpWeighing.TabIndex = 5;
             this.tpWeighing.Text = "Weighing";
             this.tpWeighing.UseVisualStyleBackColor = true;
@@ -306,7 +308,7 @@
             this.flowLayoutPanel7.Controls.Add(this.btnWeighOpen);
             this.flowLayoutPanel7.Controls.Add(this.btnWeighTest);
             this.flowLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.flowLayoutPanel7.Location = new System.Drawing.Point(3, 270);
+            this.flowLayoutPanel7.Location = new System.Drawing.Point(3, 308);
             this.flowLayoutPanel7.Name = "flowLayoutPanel7";
             this.flowLayoutPanel7.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.flowLayoutPanel7.Size = new System.Drawing.Size(603, 46);
@@ -335,10 +337,10 @@
             // tpPressureCtrl
             // 
             this.tpPressureCtrl.Controls.Add(this.panel2);
-            this.tpPressureCtrl.Location = new System.Drawing.Point(4, 115);
+            this.tpPressureCtrl.Location = new System.Drawing.Point(4, 77);
             this.tpPressureCtrl.Name = "tpPressureCtrl";
             this.tpPressureCtrl.Padding = new System.Windows.Forms.Padding(3);
-            this.tpPressureCtrl.Size = new System.Drawing.Size(609, 319);
+            this.tpPressureCtrl.Size = new System.Drawing.Size(609, 357);
             this.tpPressureCtrl.TabIndex = 6;
             this.tpPressureCtrl.Text = "PressureCtrl";
             this.tpPressureCtrl.UseVisualStyleBackColor = true;
@@ -347,7 +349,7 @@
             // 
             this.panel2.Controls.Add(this.flowLayoutPanel8);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(3, 267);
+            this.panel2.Location = new System.Drawing.Point(3, 305);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(603, 49);
             this.panel2.TabIndex = 10;
@@ -388,10 +390,10 @@
             // tpTempCtrl
             // 
             this.tpTempCtrl.Controls.Add(this.flowLayoutPanel9);
-            this.tpTempCtrl.Location = new System.Drawing.Point(4, 115);
+            this.tpTempCtrl.Location = new System.Drawing.Point(4, 77);
             this.tpTempCtrl.Name = "tpTempCtrl";
             this.tpTempCtrl.Padding = new System.Windows.Forms.Padding(3);
-            this.tpTempCtrl.Size = new System.Drawing.Size(609, 319);
+            this.tpTempCtrl.Size = new System.Drawing.Size(609, 357);
             this.tpTempCtrl.TabIndex = 7;
             this.tpTempCtrl.Text = "TempCtrl";
             this.tpTempCtrl.UseVisualStyleBackColor = true;
@@ -402,7 +404,7 @@
             this.flowLayoutPanel9.Controls.Add(this.btnTempOpen);
             this.flowLayoutPanel9.Controls.Add(this.btnTempCtrlPanel);
             this.flowLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.flowLayoutPanel9.Location = new System.Drawing.Point(3, 270);
+            this.flowLayoutPanel9.Location = new System.Drawing.Point(3, 308);
             this.flowLayoutPanel9.Name = "flowLayoutPanel9";
             this.flowLayoutPanel9.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.flowLayoutPanel9.Size = new System.Drawing.Size(603, 46);
@@ -432,10 +434,10 @@
             // tpDispCtrl
             // 
             this.tpDispCtrl.Controls.Add(this.flowLayoutPanel6);
-            this.tpDispCtrl.Location = new System.Drawing.Point(4, 115);
+            this.tpDispCtrl.Location = new System.Drawing.Point(4, 77);
             this.tpDispCtrl.Name = "tpDispCtrl";
             this.tpDispCtrl.Padding = new System.Windows.Forms.Padding(3);
-            this.tpDispCtrl.Size = new System.Drawing.Size(609, 319);
+            this.tpDispCtrl.Size = new System.Drawing.Size(609, 357);
             this.tpDispCtrl.TabIndex = 11;
             this.tpDispCtrl.Text = "Pump";
             this.tpDispCtrl.UseVisualStyleBackColor = true;
@@ -446,7 +448,7 @@
             this.flowLayoutPanel6.Controls.Add(this.btnDispExTempCtrlOpen);
             this.flowLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.flowLayoutPanel6.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flowLayoutPanel6.Location = new System.Drawing.Point(3, 267);
+            this.flowLayoutPanel6.Location = new System.Drawing.Point(3, 305);
             this.flowLayoutPanel6.Name = "flowLayoutPanel6";
             this.flowLayoutPanel6.Size = new System.Drawing.Size(603, 49);
             this.flowLayoutPanel6.TabIndex = 4;
@@ -539,7 +541,7 @@
             this.cbxCentrePatAlign.AutoSize = true;
             this.cbxCentrePatAlign.Location = new System.Drawing.Point(6, 6);
             this.cbxCentrePatAlign.Name = "cbxCentrePatAlign";
-            this.cbxCentrePatAlign.Size = new System.Drawing.Size(166, 18);
+            this.cbxCentrePatAlign.Size = new System.Drawing.Size(193, 22);
             this.cbxCentrePatAlign.TabIndex = 9;
             this.cbxCentrePatAlign.Text = "Prompt Centre Alignment";
             this.cbxCentrePatAlign.UseVisualStyleBackColor = true;
@@ -548,53 +550,13 @@
             // tpGem
             // 
             this.tpGem.Controls.Add(this.flowLayoutPanel11);
-            this.tpGem.Location = new System.Drawing.Point(4, 115);
+            this.tpGem.Location = new System.Drawing.Point(4, 153);
             this.tpGem.Name = "tpGem";
             this.tpGem.Padding = new System.Windows.Forms.Padding(3);
-            this.tpGem.Size = new System.Drawing.Size(609, 319);
+            this.tpGem.Size = new System.Drawing.Size(609, 281);
             this.tpGem.TabIndex = 16;
             this.tpGem.Text = "Gem";
             this.tpGem.UseVisualStyleBackColor = true;
-            // 
-            // btnEquipConst
-            // 
-            this.btnEquipConst.Location = new System.Drawing.Point(394, 3);
-            this.btnEquipConst.Name = "btnEquipConst";
-            this.btnEquipConst.Size = new System.Drawing.Size(100, 40);
-            this.btnEquipConst.TabIndex = 14;
-            this.btnEquipConst.Text = "Export EquipConst";
-            this.btnEquipConst.UseVisualStyleBackColor = true;
-            this.btnEquipConst.Click += new System.EventHandler(this.btnEquipConst_Click);
-            // 
-            // btnSVID
-            // 
-            this.btnSVID.Location = new System.Drawing.Point(76, 3);
-            this.btnSVID.Name = "btnSVID";
-            this.btnSVID.Size = new System.Drawing.Size(100, 40);
-            this.btnSVID.TabIndex = 13;
-            this.btnSVID.Text = "Export SVID";
-            this.btnSVID.UseVisualStyleBackColor = true;
-            this.btnSVID.Click += new System.EventHandler(this.btnSVID_Click);
-            // 
-            // btnCEID
-            // 
-            this.btnCEID.Location = new System.Drawing.Point(182, 3);
-            this.btnCEID.Name = "btnCEID";
-            this.btnCEID.Size = new System.Drawing.Size(100, 40);
-            this.btnCEID.TabIndex = 12;
-            this.btnCEID.Text = "Export CEID";
-            this.btnCEID.UseVisualStyleBackColor = true;
-            this.btnCEID.Click += new System.EventHandler(this.btnCEID_Click);
-            // 
-            // btnALID
-            // 
-            this.btnALID.Location = new System.Drawing.Point(288, 3);
-            this.btnALID.Name = "btnALID";
-            this.btnALID.Size = new System.Drawing.Size(100, 40);
-            this.btnALID.TabIndex = 11;
-            this.btnALID.Text = "Export ALID";
-            this.btnALID.UseVisualStyleBackColor = true;
-            this.btnALID.Click += new System.EventHandler(this.btnALID_Click);
             // 
             // flowLayoutPanel11
             // 
@@ -605,7 +567,7 @@
             this.flowLayoutPanel11.Controls.Add(this.btnCEID);
             this.flowLayoutPanel11.Controls.Add(this.btnSVID);
             this.flowLayoutPanel11.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.flowLayoutPanel11.Location = new System.Drawing.Point(3, 270);
+            this.flowLayoutPanel11.Location = new System.Drawing.Point(3, 232);
             this.flowLayoutPanel11.Name = "flowLayoutPanel11";
             this.flowLayoutPanel11.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.flowLayoutPanel11.Size = new System.Drawing.Size(603, 46);
@@ -621,9 +583,59 @@
             this.btnSecsGemOpen.UseVisualStyleBackColor = true;
             this.btnSecsGemOpen.Click += new System.EventHandler(this.btnSecsGemOpen_Click);
             // 
+            // btnEquipConst
+            // 
+            this.btnEquipConst.Location = new System.Drawing.Point(394, 3);
+            this.btnEquipConst.Name = "btnEquipConst";
+            this.btnEquipConst.Size = new System.Drawing.Size(100, 40);
+            this.btnEquipConst.TabIndex = 14;
+            this.btnEquipConst.Text = "Export EquipConst";
+            this.btnEquipConst.UseVisualStyleBackColor = true;
+            this.btnEquipConst.Click += new System.EventHandler(this.btnEquipConst_Click);
+            // 
+            // btnALID
+            // 
+            this.btnALID.Location = new System.Drawing.Point(288, 3);
+            this.btnALID.Name = "btnALID";
+            this.btnALID.Size = new System.Drawing.Size(100, 40);
+            this.btnALID.TabIndex = 11;
+            this.btnALID.Text = "Export ALID";
+            this.btnALID.UseVisualStyleBackColor = true;
+            this.btnALID.Click += new System.EventHandler(this.btnALID_Click);
+            // 
+            // btnCEID
+            // 
+            this.btnCEID.Location = new System.Drawing.Point(182, 3);
+            this.btnCEID.Name = "btnCEID";
+            this.btnCEID.Size = new System.Drawing.Size(100, 40);
+            this.btnCEID.TabIndex = 12;
+            this.btnCEID.Text = "Export CEID";
+            this.btnCEID.UseVisualStyleBackColor = true;
+            this.btnCEID.Click += new System.EventHandler(this.btnCEID_Click);
+            // 
+            // btnSVID
+            // 
+            this.btnSVID.Location = new System.Drawing.Point(76, 3);
+            this.btnSVID.Name = "btnSVID";
+            this.btnSVID.Size = new System.Drawing.Size(100, 40);
+            this.btnSVID.TabIndex = 13;
+            this.btnSVID.Text = "Export SVID";
+            this.btnSVID.UseVisualStyleBackColor = true;
+            this.btnSVID.Click += new System.EventHandler(this.btnSVID_Click);
+            // 
+            // tpSafety
+            // 
+            this.tpSafety.Location = new System.Drawing.Point(4, 115);
+            this.tpSafety.Name = "tpSafety";
+            this.tpSafety.Padding = new System.Windows.Forms.Padding(3);
+            this.tpSafety.Size = new System.Drawing.Size(609, 319);
+            this.tpSafety.TabIndex = 17;
+            this.tpSafety.Text = "Safety";
+            this.tpSafety.UseVisualStyleBackColor = true;
+            // 
             // frmConfig
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(627, 448);
             this.Controls.Add(this.tabcontrol1);
@@ -720,5 +732,6 @@
         private System.Windows.Forms.Button btnEquipConst;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel11;
         private System.Windows.Forms.Button btnSecsGemOpen;
+        private System.Windows.Forms.TabPage tpSafety;
     }
 }
