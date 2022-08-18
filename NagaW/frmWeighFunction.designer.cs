@@ -29,23 +29,20 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.btnExec = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.lblDotPerSampleMeas = new System.Windows.Forms.Label();
-            this.lblSampleCountMeas = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.tabControl2 = new System.Windows.Forms.TabControl();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.chkbxUpdataParaAfterCal = new System.Windows.Forms.CheckBox();
-            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.label30 = new System.Windows.Forms.Label();
+            this.lblSV = new System.Windows.Forms.Label();
+            this.cbxTuneVar = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.lblTunePercentageMin = new System.Windows.Forms.Label();
             this.lblSVRange = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -53,8 +50,6 @@
             this.gbxMassFlowRate = new System.Windows.Forms.GroupBox();
             this.label9 = new System.Windows.Forms.Label();
             this.lblActualFR = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
-            this.lblMdotDispTime = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.lblTargetFRRange = new System.Windows.Forms.Label();
             this.lblTargetFR = new System.Windows.Forms.Label();
@@ -70,9 +65,13 @@
             this.lblTargetMass = new System.Windows.Forms.Label();
             this.lblTargetMassPercentage = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label8 = new System.Windows.Forms.Label();
+            this.cbxWeighMode = new System.Windows.Forms.ComboBox();
+            this.label19 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
+            this.lblMdotDispTime = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.cbxWeighCalMode = new System.Windows.Forms.ComboBox();
+            this.cbxWeighType = new System.Windows.Forms.ComboBox();
             this.lblDotPerSampleCal = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.cbxCalProfile = new System.Windows.Forms.ComboBox();
@@ -80,6 +79,9 @@
             this.btnExecCal = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.btnBoardCountReset = new System.Windows.Forms.Button();
+            this.label23 = new System.Windows.Forms.Label();
+            this.lblBoardCount = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.label20 = new System.Windows.Forms.Label();
@@ -112,17 +114,33 @@
             this.btnGoto1 = new System.Windows.Forms.Button();
             this.btnSet1 = new System.Windows.Forms.Button();
             this.lblPos = new System.Windows.Forms.Label();
-            this.btnPump2 = new System.Windows.Forms.Button();
-            this.btnPump1 = new System.Windows.Forms.Button();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.tpResult = new System.Windows.Forms.TabPage();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.btnAdaptiveFRExplain = new System.Windows.Forms.Button();
+            this.label39 = new System.Windows.Forms.Label();
+            this.lblCalFlowRate = new System.Windows.Forms.Label();
+            this.label43 = new System.Windows.Forms.Label();
+            this.lblCalSpeedInput = new System.Windows.Forms.Label();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.btnStaticFRExplain = new System.Windows.Forms.Button();
+            this.label37 = new System.Windows.Forms.Label();
+            this.lblCalSpeed = new System.Windows.Forms.Label();
+            this.label33 = new System.Windows.Forms.Label();
+            this.lblCalFlowRateInput = new System.Windows.Forms.Label();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.label31 = new System.Windows.Forms.Label();
+            this.lblCalTargetMassInput = new System.Windows.Forms.Label();
+            this.lblCalLineDistInput = new System.Windows.Forms.Label();
+            this.label35 = new System.Windows.Forms.Label();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.btnPump1 = new System.Windows.Forms.Button();
+            this.btnPump2 = new System.Windows.Forms.Button();
+            this.chartWeigh = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            this.panel2.SuspendLayout();
             this.tabPage3.SuspendLayout();
-            this.tabControl2.SuspendLayout();
-            this.tabPage4.SuspendLayout();
-            this.tabPage5.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.groupBox8.SuspendLayout();
             this.gbxMassFlowRate.SuspendLayout();
             this.gbxMass.SuspendLayout();
@@ -133,156 +151,55 @@
             this.groupBox9.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.tpResult.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chartWeigh)).BeginInit();
             this.SuspendLayout();
             // 
             // timer1
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // btnExec
-            // 
-            this.btnExec.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExec.Location = new System.Drawing.Point(372, 3);
-            this.btnExec.Name = "btnExec";
-            this.btnExec.Size = new System.Drawing.Size(90, 35);
-            this.btnExec.TabIndex = 0;
-            this.btnExec.Text = "Execute";
-            this.btnExec.UseVisualStyleBackColor = true;
-            this.btnExec.Click += new System.EventHandler(this.btnbtnExec_Click);
-            // 
             // tabControl1
             // 
             this.tabControl1.Appearance = System.Windows.Forms.TabAppearance.Buttons;
-            this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tpResult);
+            this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.ItemSize = new System.Drawing.Size(100, 35);
             this.tabControl1.Location = new System.Drawing.Point(0, 40);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(493, 537);
+            this.tabControl1.Size = new System.Drawing.Size(618, 663);
             this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
-            this.tabControl1.TabIndex = 5;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.panel2);
-            this.tabPage1.Location = new System.Drawing.Point(4, 39);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(485, 494);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Measure";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // panel2
-            // 
-            this.panel2.AutoSize = true;
-            this.panel2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.panel2.Controls.Add(this.label10);
-            this.panel2.Controls.Add(this.btnExec);
-            this.panel2.Controls.Add(this.label8);
-            this.panel2.Controls.Add(this.lblDotPerSampleMeas);
-            this.panel2.Controls.Add(this.lblSampleCountMeas);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(3, 3);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(479, 58);
-            this.panel2.TabIndex = 74;
-            // 
-            // label10
-            // 
-            this.label10.Location = new System.Drawing.Point(3, 3);
-            this.label10.Margin = new System.Windows.Forms.Padding(3);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(110, 23);
-            this.label10.TabIndex = 70;
-            this.label10.Text = "Dot Per Sample";
-            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label8
-            // 
-            this.label8.Location = new System.Drawing.Point(3, 32);
-            this.label8.Margin = new System.Windows.Forms.Padding(3);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(110, 23);
-            this.label8.TabIndex = 72;
-            this.label8.Text = "Sample Count";
-            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lblDotPerSampleMeas
-            // 
-            this.lblDotPerSampleMeas.BackColor = System.Drawing.Color.White;
-            this.lblDotPerSampleMeas.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblDotPerSampleMeas.Location = new System.Drawing.Point(119, 3);
-            this.lblDotPerSampleMeas.Margin = new System.Windows.Forms.Padding(3);
-            this.lblDotPerSampleMeas.Name = "lblDotPerSampleMeas";
-            this.lblDotPerSampleMeas.Size = new System.Drawing.Size(100, 23);
-            this.lblDotPerSampleMeas.TabIndex = 71;
-            this.lblDotPerSampleMeas.Text = "99.99";
-            this.lblDotPerSampleMeas.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblDotPerSampleMeas.Click += new System.EventHandler(this.lblDotPerSampleMeas_Click);
-            // 
-            // lblSampleCountMeas
-            // 
-            this.lblSampleCountMeas.BackColor = System.Drawing.Color.White;
-            this.lblSampleCountMeas.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblSampleCountMeas.Location = new System.Drawing.Point(119, 32);
-            this.lblSampleCountMeas.Margin = new System.Windows.Forms.Padding(3);
-            this.lblSampleCountMeas.Name = "lblSampleCountMeas";
-            this.lblSampleCountMeas.Size = new System.Drawing.Size(100, 23);
-            this.lblSampleCountMeas.TabIndex = 73;
-            this.lblSampleCountMeas.Text = "99.99";
-            this.lblSampleCountMeas.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblSampleCountMeas.Click += new System.EventHandler(this.lblSampleCountMeas_Click);
+            this.tabControl1.TabIndex = 78;
             // 
             // tabPage3
             // 
-            this.tabPage3.Controls.Add(this.tabControl2);
+            this.tabPage3.Controls.Add(this.groupBox11);
+            this.tabPage3.Controls.Add(this.chkbxUpdataParaAfterCal);
+            this.tabPage3.Controls.Add(this.panel2);
             this.tabPage3.Controls.Add(this.panel1);
             this.tabPage3.Location = new System.Drawing.Point(4, 39);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(485, 494);
+            this.tabPage3.Size = new System.Drawing.Size(610, 620);
             this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Calibration";
+            this.tabPage3.Text = "Function";
             this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // tabControl2
-            // 
-            this.tabControl2.Appearance = System.Windows.Forms.TabAppearance.Buttons;
-            this.tabControl2.Controls.Add(this.tabPage4);
-            this.tabControl2.Controls.Add(this.tabPage5);
-            this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl2.Location = new System.Drawing.Point(3, 136);
-            this.tabControl2.Margin = new System.Windows.Forms.Padding(5);
-            this.tabControl2.Name = "tabControl2";
-            this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(479, 355);
-            this.tabControl2.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
-            this.tabControl2.TabIndex = 77;
-            // 
-            // tabPage4
-            // 
-            this.tabPage4.Controls.Add(this.groupBox11);
-            this.tabPage4.Controls.Add(this.chkbxUpdataParaAfterCal);
-            this.tabPage4.Location = new System.Drawing.Point(4, 26);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(471, 325);
-            this.tabPage4.TabIndex = 0;
-            this.tabPage4.Text = "Profile";
-            this.tabPage4.UseVisualStyleBackColor = true;
             // 
             // groupBox11
             // 
-            this.groupBox11.AutoSize = true;
             this.groupBox11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox11.Location = new System.Drawing.Point(3, 21);
+            this.groupBox11.Location = new System.Drawing.Point(3, 146);
             this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(465, 301);
+            this.groupBox11.Size = new System.Drawing.Size(321, 471);
             this.groupBox11.TabIndex = 78;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Parameter";
@@ -291,47 +208,80 @@
             // 
             this.chkbxUpdataParaAfterCal.AutoSize = true;
             this.chkbxUpdataParaAfterCal.Dock = System.Windows.Forms.DockStyle.Top;
-            this.chkbxUpdataParaAfterCal.Location = new System.Drawing.Point(3, 3);
+            this.chkbxUpdataParaAfterCal.Location = new System.Drawing.Point(3, 128);
             this.chkbxUpdataParaAfterCal.Name = "chkbxUpdataParaAfterCal";
-            this.chkbxUpdataParaAfterCal.Size = new System.Drawing.Size(465, 18);
+            this.chkbxUpdataParaAfterCal.Size = new System.Drawing.Size(321, 18);
             this.chkbxUpdataParaAfterCal.TabIndex = 65;
             this.chkbxUpdataParaAfterCal.Text = "Update Param After Calibration";
             this.chkbxUpdataParaAfterCal.UseVisualStyleBackColor = true;
             this.chkbxUpdataParaAfterCal.Click += new System.EventHandler(this.chkbxUpdataParaAfterCal_Click);
             // 
-            // tabPage5
+            // panel2
             // 
-            this.tabPage5.Controls.Add(this.groupBox8);
-            this.tabPage5.Controls.Add(this.gbxMassFlowRate);
-            this.tabPage5.Controls.Add(this.gbxMass);
-            this.tabPage5.Location = new System.Drawing.Point(4, 26);
-            this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(471, 325);
-            this.tabPage5.TabIndex = 1;
-            this.tabPage5.Text = "Tuning";
-            this.tabPage5.UseVisualStyleBackColor = true;
+            this.panel2.Controls.Add(this.groupBox8);
+            this.panel2.Controls.Add(this.gbxMassFlowRate);
+            this.panel2.Controls.Add(this.gbxMass);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel2.Location = new System.Drawing.Point(324, 128);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(283, 489);
+            this.panel2.TabIndex = 89;
             // 
             // groupBox8
             // 
             this.groupBox8.AutoSize = true;
             this.groupBox8.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox8.Controls.Add(this.label30);
+            this.groupBox8.Controls.Add(this.lblSV);
+            this.groupBox8.Controls.Add(this.cbxTuneVar);
             this.groupBox8.Controls.Add(this.label7);
+            this.groupBox8.Controls.Add(this.label10);
             this.groupBox8.Controls.Add(this.lblTunePercentageMin);
             this.groupBox8.Controls.Add(this.lblSVRange);
             this.groupBox8.Controls.Add(this.label5);
             this.groupBox8.Controls.Add(this.lblTunePercentageMax);
             this.groupBox8.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox8.Location = new System.Drawing.Point(3, 310);
+            this.groupBox8.Location = new System.Drawing.Point(0, 310);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(465, 98);
+            this.groupBox8.Size = new System.Drawing.Size(283, 176);
             this.groupBox8.TabIndex = 88;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Tune Variable";
             // 
+            // label30
+            // 
+            this.label30.Location = new System.Drawing.Point(6, 112);
+            this.label30.Margin = new System.Windows.Forms.Padding(3);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(110, 23);
+            this.label30.TabIndex = 83;
+            this.label30.Text = "Step";
+            this.label30.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblSV
+            // 
+            this.lblSV.BackColor = System.Drawing.Color.White;
+            this.lblSV.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblSV.Location = new System.Drawing.Point(127, 112);
+            this.lblSV.Margin = new System.Windows.Forms.Padding(3);
+            this.lblSV.Name = "lblSV";
+            this.lblSV.Size = new System.Drawing.Size(100, 23);
+            this.lblSV.TabIndex = 84;
+            this.lblSV.Text = "99.99";
+            this.lblSV.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // cbxTuneVar
+            // 
+            this.cbxTuneVar.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxTuneVar.FormattingEnabled = true;
+            this.cbxTuneVar.Location = new System.Drawing.Point(127, 22);
+            this.cbxTuneVar.Name = "cbxTuneVar";
+            this.cbxTuneVar.Size = new System.Drawing.Size(100, 22);
+            this.cbxTuneVar.TabIndex = 82;
+            // 
             // label7
             // 
-            this.label7.Location = new System.Drawing.Point(6, 25);
+            this.label7.Location = new System.Drawing.Point(6, 54);
             this.label7.Margin = new System.Windows.Forms.Padding(3);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(110, 23);
@@ -339,11 +289,21 @@
             this.label7.Text = "Min Limit";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // label10
+            // 
+            this.label10.Location = new System.Drawing.Point(6, 25);
+            this.label10.Margin = new System.Windows.Forms.Padding(3);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(110, 23);
+            this.label10.TabIndex = 81;
+            this.label10.Text = "Variable";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // lblTunePercentageMin
             // 
             this.lblTunePercentageMin.BackColor = System.Drawing.Color.White;
             this.lblTunePercentageMin.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblTunePercentageMin.Location = new System.Drawing.Point(127, 25);
+            this.lblTunePercentageMin.Location = new System.Drawing.Point(127, 54);
             this.lblTunePercentageMin.Margin = new System.Windows.Forms.Padding(3);
             this.lblTunePercentageMin.Name = "lblTunePercentageMin";
             this.lblTunePercentageMin.Size = new System.Drawing.Size(100, 23);
@@ -355,7 +315,7 @@
             // lblSVRange
             // 
             this.lblSVRange.AutoSize = true;
-            this.lblSVRange.Location = new System.Drawing.Point(233, 27);
+            this.lblSVRange.Location = new System.Drawing.Point(6, 141);
             this.lblSVRange.Margin = new System.Windows.Forms.Padding(3);
             this.lblSVRange.Name = "lblSVRange";
             this.lblSVRange.Size = new System.Drawing.Size(60, 14);
@@ -365,7 +325,7 @@
             // 
             // label5
             // 
-            this.label5.Location = new System.Drawing.Point(6, 54);
+            this.label5.Location = new System.Drawing.Point(6, 83);
             this.label5.Margin = new System.Windows.Forms.Padding(3);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(110, 23);
@@ -377,7 +337,7 @@
             // 
             this.lblTunePercentageMax.BackColor = System.Drawing.Color.White;
             this.lblTunePercentageMax.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblTunePercentageMax.Location = new System.Drawing.Point(127, 54);
+            this.lblTunePercentageMax.Location = new System.Drawing.Point(127, 83);
             this.lblTunePercentageMax.Margin = new System.Windows.Forms.Padding(3);
             this.lblTunePercentageMax.Name = "lblTunePercentageMax";
             this.lblTunePercentageMax.Size = new System.Drawing.Size(100, 23);
@@ -392,8 +352,6 @@
             this.gbxMassFlowRate.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.gbxMassFlowRate.Controls.Add(this.label9);
             this.gbxMassFlowRate.Controls.Add(this.lblActualFR);
-            this.gbxMassFlowRate.Controls.Add(this.label19);
-            this.gbxMassFlowRate.Controls.Add(this.lblMdotDispTime);
             this.gbxMassFlowRate.Controls.Add(this.label22);
             this.gbxMassFlowRate.Controls.Add(this.lblTargetFRRange);
             this.gbxMassFlowRate.Controls.Add(this.lblTargetFR);
@@ -401,28 +359,28 @@
             this.gbxMassFlowRate.Controls.Add(this.lblTargetFRPercentage);
             this.gbxMassFlowRate.Controls.Add(this.label25);
             this.gbxMassFlowRate.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbxMassFlowRate.Location = new System.Drawing.Point(3, 154);
+            this.gbxMassFlowRate.Location = new System.Drawing.Point(0, 151);
             this.gbxMassFlowRate.Name = "gbxMassFlowRate";
-            this.gbxMassFlowRate.Size = new System.Drawing.Size(465, 156);
+            this.gbxMassFlowRate.Size = new System.Drawing.Size(283, 159);
             this.gbxMassFlowRate.TabIndex = 83;
             this.gbxMassFlowRate.TabStop = false;
             this.gbxMassFlowRate.Text = "Mass Flow Rate (m_dot)";
             // 
             // label9
             // 
-            this.label9.Location = new System.Drawing.Point(233, 25);
+            this.label9.Location = new System.Drawing.Point(6, 28);
             this.label9.Margin = new System.Windows.Forms.Padding(3);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(115, 23);
+            this.label9.Size = new System.Drawing.Size(100, 23);
             this.label9.TabIndex = 85;
-            this.label9.Text = "Actual FlowRate";
+            this.label9.Text = "Meas FlowRate";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblActualFR
             // 
             this.lblActualFR.BackColor = System.Drawing.Color.White;
             this.lblActualFR.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblActualFR.Location = new System.Drawing.Point(354, 25);
+            this.lblActualFR.Location = new System.Drawing.Point(127, 28);
             this.lblActualFR.Margin = new System.Windows.Forms.Padding(3);
             this.lblActualFR.Name = "lblActualFR";
             this.lblActualFR.Size = new System.Drawing.Size(100, 23);
@@ -431,32 +389,9 @@
             this.lblActualFR.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lblActualFR.Click += new System.EventHandler(this.lblActualFR_Click);
             // 
-            // label19
-            // 
-            this.label19.Location = new System.Drawing.Point(6, 112);
-            this.label19.Margin = new System.Windows.Forms.Padding(3);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(115, 23);
-            this.label19.TabIndex = 83;
-            this.label19.Text = "Disp Time";
-            this.label19.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lblMdotDispTime
-            // 
-            this.lblMdotDispTime.BackColor = System.Drawing.Color.White;
-            this.lblMdotDispTime.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblMdotDispTime.Location = new System.Drawing.Point(127, 112);
-            this.lblMdotDispTime.Margin = new System.Windows.Forms.Padding(3);
-            this.lblMdotDispTime.Name = "lblMdotDispTime";
-            this.lblMdotDispTime.Size = new System.Drawing.Size(100, 23);
-            this.lblMdotDispTime.TabIndex = 84;
-            this.lblMdotDispTime.Text = "99.99";
-            this.lblMdotDispTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblMdotDispTime.Click += new System.EventHandler(this.lblMdotDispTime_Click);
-            // 
             // label22
             // 
-            this.label22.Location = new System.Drawing.Point(6, 25);
+            this.label22.Location = new System.Drawing.Point(6, 57);
             this.label22.Margin = new System.Windows.Forms.Padding(3);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(115, 23);
@@ -468,7 +403,7 @@
             // 
             this.lblTargetFRRange.BackColor = System.Drawing.Color.White;
             this.lblTargetFRRange.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblTargetFRRange.Location = new System.Drawing.Point(127, 83);
+            this.lblTargetFRRange.Location = new System.Drawing.Point(127, 115);
             this.lblTargetFRRange.Margin = new System.Windows.Forms.Padding(3);
             this.lblTargetFRRange.Name = "lblTargetFRRange";
             this.lblTargetFRRange.Size = new System.Drawing.Size(100, 23);
@@ -481,7 +416,7 @@
             // 
             this.lblTargetFR.BackColor = System.Drawing.Color.White;
             this.lblTargetFR.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblTargetFR.Location = new System.Drawing.Point(127, 25);
+            this.lblTargetFR.Location = new System.Drawing.Point(127, 57);
             this.lblTargetFR.Margin = new System.Windows.Forms.Padding(3);
             this.lblTargetFR.Name = "lblTargetFR";
             this.lblTargetFR.Size = new System.Drawing.Size(100, 23);
@@ -492,7 +427,7 @@
             // 
             // label26
             // 
-            this.label26.Location = new System.Drawing.Point(6, 54);
+            this.label26.Location = new System.Drawing.Point(6, 86);
             this.label26.Margin = new System.Windows.Forms.Padding(3);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(115, 23);
@@ -504,7 +439,7 @@
             // 
             this.lblTargetFRPercentage.BackColor = System.Drawing.Color.White;
             this.lblTargetFRPercentage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblTargetFRPercentage.Location = new System.Drawing.Point(127, 54);
+            this.lblTargetFRPercentage.Location = new System.Drawing.Point(127, 86);
             this.lblTargetFRPercentage.Margin = new System.Windows.Forms.Padding(3);
             this.lblTargetFRPercentage.Name = "lblTargetFRPercentage";
             this.lblTargetFRPercentage.Size = new System.Drawing.Size(100, 23);
@@ -515,7 +450,7 @@
             // 
             // label25
             // 
-            this.label25.Location = new System.Drawing.Point(6, 83);
+            this.label25.Location = new System.Drawing.Point(6, 115);
             this.label25.Margin = new System.Windows.Forms.Padding(3);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(115, 23);
@@ -535,9 +470,9 @@
             this.gbxMass.Controls.Add(this.lblTargetMass);
             this.gbxMass.Controls.Add(this.lblTargetMassPercentage);
             this.gbxMass.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbxMass.Location = new System.Drawing.Point(3, 3);
+            this.gbxMass.Location = new System.Drawing.Point(0, 0);
             this.gbxMass.Name = "gbxMass";
-            this.gbxMass.Size = new System.Drawing.Size(465, 151);
+            this.gbxMass.Size = new System.Drawing.Size(283, 151);
             this.gbxMass.TabIndex = 84;
             this.gbxMass.TabStop = false;
             this.gbxMass.Text = "Mass";
@@ -624,9 +559,13 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.label8);
+            this.panel1.Controls.Add(this.cbxWeighMode);
+            this.panel1.Controls.Add(this.label19);
             this.panel1.Controls.Add(this.label24);
+            this.panel1.Controls.Add(this.lblMdotDispTime);
             this.panel1.Controls.Add(this.label4);
-            this.panel1.Controls.Add(this.cbxWeighCalMode);
+            this.panel1.Controls.Add(this.cbxWeighType);
             this.panel1.Controls.Add(this.lblDotPerSampleCal);
             this.panel1.Controls.Add(this.label21);
             this.panel1.Controls.Add(this.cbxCalProfile);
@@ -636,22 +575,65 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(479, 133);
+            this.panel1.Size = new System.Drawing.Size(604, 125);
             this.panel1.TabIndex = 78;
+            // 
+            // label8
+            // 
+            this.label8.Location = new System.Drawing.Point(5, 31);
+            this.label8.Margin = new System.Windows.Forms.Padding(3);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(47, 23);
+            this.label8.TabIndex = 81;
+            this.label8.Text = "Type";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // cbxWeighMode
+            // 
+            this.cbxWeighMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxWeighMode.FormattingEnabled = true;
+            this.cbxWeighMode.Location = new System.Drawing.Point(58, 2);
+            this.cbxWeighMode.Name = "cbxWeighMode";
+            this.cbxWeighMode.Size = new System.Drawing.Size(137, 22);
+            this.cbxWeighMode.TabIndex = 80;
+            this.cbxWeighMode.SelectionChangeCommitted += new System.EventHandler(this.cbxWeighMode_SelectionChangeCommitted);
+            // 
+            // label19
+            // 
+            this.label19.Location = new System.Drawing.Point(234, 62);
+            this.label19.Margin = new System.Windows.Forms.Padding(3);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(110, 23);
+            this.label19.TabIndex = 83;
+            this.label19.Text = "Disp Time";
+            this.label19.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label24
             // 
-            this.label24.Location = new System.Drawing.Point(5, 93);
+            this.label24.Location = new System.Drawing.Point(5, 3);
             this.label24.Margin = new System.Windows.Forms.Padding(3);
             this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(72, 23);
+            this.label24.Size = new System.Drawing.Size(47, 23);
             this.label24.TabIndex = 79;
             this.label24.Text = "Mode";
             this.label24.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // lblMdotDispTime
+            // 
+            this.lblMdotDispTime.BackColor = System.Drawing.Color.White;
+            this.lblMdotDispTime.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblMdotDispTime.Location = new System.Drawing.Point(350, 62);
+            this.lblMdotDispTime.Margin = new System.Windows.Forms.Padding(3);
+            this.lblMdotDispTime.Name = "lblMdotDispTime";
+            this.lblMdotDispTime.Size = new System.Drawing.Size(100, 23);
+            this.lblMdotDispTime.TabIndex = 84;
+            this.lblMdotDispTime.Text = "99.99";
+            this.lblMdotDispTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblMdotDispTime.Click += new System.EventHandler(this.lblMdotDispTime_Click);
+            // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(3, 3);
+            this.label4.Location = new System.Drawing.Point(234, 4);
             this.label4.Margin = new System.Windows.Forms.Padding(3);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(110, 23);
@@ -659,21 +641,21 @@
             this.label4.Text = "Dot Per Sample";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // cbxWeighCalMode
+            // cbxWeighType
             // 
-            this.cbxWeighCalMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbxWeighCalMode.FormattingEnabled = true;
-            this.cbxWeighCalMode.Location = new System.Drawing.Point(119, 93);
-            this.cbxWeighCalMode.Name = "cbxWeighCalMode";
-            this.cbxWeighCalMode.Size = new System.Drawing.Size(137, 22);
-            this.cbxWeighCalMode.TabIndex = 78;
-            this.cbxWeighCalMode.SelectionChangeCommitted += new System.EventHandler(this.cbxWeighCalMode_SelectionChangeCommitted);
+            this.cbxWeighType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxWeighType.FormattingEnabled = true;
+            this.cbxWeighType.Location = new System.Drawing.Point(58, 34);
+            this.cbxWeighType.Name = "cbxWeighType";
+            this.cbxWeighType.Size = new System.Drawing.Size(137, 22);
+            this.cbxWeighType.TabIndex = 78;
+            this.cbxWeighType.SelectionChangeCommitted += new System.EventHandler(this.cbxWeighType_SelectionChangeCommitted);
             // 
             // lblDotPerSampleCal
             // 
             this.lblDotPerSampleCal.BackColor = System.Drawing.Color.White;
             this.lblDotPerSampleCal.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblDotPerSampleCal.Location = new System.Drawing.Point(119, 3);
+            this.lblDotPerSampleCal.Location = new System.Drawing.Point(350, 4);
             this.lblDotPerSampleCal.Margin = new System.Windows.Forms.Padding(3);
             this.lblDotPerSampleCal.Name = "lblDotPerSampleCal";
             this.lblDotPerSampleCal.Size = new System.Drawing.Size(100, 23);
@@ -684,10 +666,10 @@
             // 
             // label21
             // 
-            this.label21.Location = new System.Drawing.Point(5, 61);
+            this.label21.Location = new System.Drawing.Point(5, 90);
             this.label21.Margin = new System.Windows.Forms.Padding(3);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(72, 23);
+            this.label21.Size = new System.Drawing.Size(47, 23);
             this.label21.TabIndex = 73;
             this.label21.Text = "Profile";
             this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -696,9 +678,9 @@
             // 
             this.cbxCalProfile.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxCalProfile.FormattingEnabled = true;
-            this.cbxCalProfile.Location = new System.Drawing.Point(119, 61);
+            this.cbxCalProfile.Location = new System.Drawing.Point(58, 91);
             this.cbxCalProfile.Name = "cbxCalProfile";
-            this.cbxCalProfile.Size = new System.Drawing.Size(291, 22);
+            this.cbxCalProfile.Size = new System.Drawing.Size(392, 22);
             this.cbxCalProfile.TabIndex = 70;
             this.cbxCalProfile.SelectionChangeCommitted += new System.EventHandler(this.cbxCalProfile_SelectionChangeCommitted);
             // 
@@ -706,7 +688,7 @@
             // 
             this.lblSampleCountCal.BackColor = System.Drawing.Color.White;
             this.lblSampleCountCal.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblSampleCountCal.Location = new System.Drawing.Point(119, 32);
+            this.lblSampleCountCal.Location = new System.Drawing.Point(350, 33);
             this.lblSampleCountCal.Margin = new System.Windows.Forms.Padding(3);
             this.lblSampleCountCal.Name = "lblSampleCountCal";
             this.lblSampleCountCal.Size = new System.Drawing.Size(100, 23);
@@ -718,7 +700,7 @@
             // btnExecCal
             // 
             this.btnExecCal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExecCal.Location = new System.Drawing.Point(386, 3);
+            this.btnExecCal.Location = new System.Drawing.Point(507, 4);
             this.btnExecCal.Name = "btnExecCal";
             this.btnExecCal.Size = new System.Drawing.Size(90, 35);
             this.btnExecCal.TabIndex = 1;
@@ -728,7 +710,7 @@
             // 
             // label6
             // 
-            this.label6.Location = new System.Drawing.Point(3, 32);
+            this.label6.Location = new System.Drawing.Point(234, 33);
             this.label6.Margin = new System.Windows.Forms.Padding(3);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(110, 23);
@@ -738,16 +720,51 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.btnBoardCountReset);
+            this.tabPage2.Controls.Add(this.label23);
+            this.tabPage2.Controls.Add(this.lblBoardCount);
             this.tabPage2.Controls.Add(this.groupBox3);
             this.tabPage2.Controls.Add(this.groupBox1);
             this.tabPage2.Controls.Add(this.groupBox2);
             this.tabPage2.Location = new System.Drawing.Point(4, 39);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(485, 494);
+            this.tabPage2.Size = new System.Drawing.Size(610, 620);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Setting";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // btnBoardCountReset
+            // 
+            this.btnBoardCountReset.Location = new System.Drawing.Point(239, 481);
+            this.btnBoardCountReset.Name = "btnBoardCountReset";
+            this.btnBoardCountReset.Size = new System.Drawing.Size(85, 25);
+            this.btnBoardCountReset.TabIndex = 6;
+            this.btnBoardCountReset.Text = "Reset";
+            this.btnBoardCountReset.UseVisualStyleBackColor = true;
+            this.btnBoardCountReset.Click += new System.EventHandler(this.btnBoardCountReset_Click);
+            // 
+            // label23
+            // 
+            this.label23.Location = new System.Drawing.Point(12, 481);
+            this.label23.Margin = new System.Windows.Forms.Padding(3);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(110, 23);
+            this.label23.TabIndex = 82;
+            this.label23.Text = "Board Count";
+            this.label23.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblBoardCount
+            // 
+            this.lblBoardCount.BackColor = System.Drawing.Color.White;
+            this.lblBoardCount.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblBoardCount.Location = new System.Drawing.Point(133, 481);
+            this.lblBoardCount.Margin = new System.Windows.Forms.Padding(3);
+            this.lblBoardCount.Name = "lblBoardCount";
+            this.lblBoardCount.Size = new System.Drawing.Size(100, 23);
+            this.lblBoardCount.TabIndex = 83;
+            this.lblBoardCount.Text = "99.99";
+            this.lblBoardCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // groupBox3
             // 
@@ -757,7 +774,7 @@
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox3.Location = new System.Drawing.Point(3, 238);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(479, 217);
+            this.groupBox3.Size = new System.Drawing.Size(604, 217);
             this.groupBox3.TabIndex = 5;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Advanced Parameter";
@@ -770,7 +787,7 @@
             this.groupBox10.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox10.Location = new System.Drawing.Point(3, 145);
             this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(473, 69);
+            this.groupBox10.Size = new System.Drawing.Size(598, 69);
             this.groupBox10.TabIndex = 89;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Start Dot Cycle";
@@ -810,7 +827,7 @@
             this.groupBox9.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox9.Location = new System.Drawing.Point(3, 18);
             this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(473, 127);
+            this.groupBox9.Size = new System.Drawing.Size(598, 127);
             this.groupBox9.TabIndex = 1;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "After Fill (PP4)";
@@ -906,7 +923,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Location = new System.Drawing.Point(3, 74);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(479, 164);
+            this.groupBox1.Size = new System.Drawing.Size(604, 164);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Common Parameter";
@@ -1120,7 +1137,7 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox2.Location = new System.Drawing.Point(3, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(479, 71);
+            this.groupBox2.Size = new System.Drawing.Size(604, 71);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Position";
@@ -1156,25 +1173,245 @@
             this.lblPos.Text = "label2";
             this.lblPos.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // btnPump2
+            // tpResult
             // 
-            this.btnPump2.Location = new System.Drawing.Point(159, 3);
-            this.btnPump2.Name = "btnPump2";
-            this.btnPump2.Size = new System.Drawing.Size(150, 30);
-            this.btnPump2.TabIndex = 32;
-            this.btnPump2.Text = "Gantry Right";
-            this.btnPump2.UseVisualStyleBackColor = true;
-            this.btnPump2.Click += new System.EventHandler(this.btnPump2_Click);
+            this.tpResult.Controls.Add(this.chartWeigh);
+            this.tpResult.Controls.Add(this.richTextBox1);
+            this.tpResult.Location = new System.Drawing.Point(4, 39);
+            this.tpResult.Name = "tpResult";
+            this.tpResult.Padding = new System.Windows.Forms.Padding(3);
+            this.tpResult.Size = new System.Drawing.Size(610, 620);
+            this.tpResult.TabIndex = 3;
+            this.tpResult.Text = "Result";
+            this.tpResult.UseVisualStyleBackColor = true;
             // 
-            // btnPump1
+            // richTextBox1
             // 
-            this.btnPump1.Location = new System.Drawing.Point(3, 3);
-            this.btnPump1.Name = "btnPump1";
-            this.btnPump1.Size = new System.Drawing.Size(150, 30);
-            this.btnPump1.TabIndex = 33;
-            this.btnPump1.Text = "Gantry Left";
-            this.btnPump1.UseVisualStyleBackColor = true;
-            this.btnPump1.Click += new System.EventHandler(this.btnPump1_Click);
+            this.richTextBox1.BackColor = System.Drawing.SystemColors.Menu;
+            this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.richTextBox1.Location = new System.Drawing.Point(3, 3);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(604, 179);
+            this.richTextBox1.TabIndex = 78;
+            this.richTextBox1.Text = "";
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.groupBox5);
+            this.tabPage1.Controls.Add(this.groupBox4);
+            this.tabPage1.Controls.Add(this.panel3);
+            this.tabPage1.Location = new System.Drawing.Point(4, 39);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(610, 620);
+            this.tabPage1.TabIndex = 4;
+            this.tabPage1.Text = "Calculator";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.AutoSize = true;
+            this.groupBox5.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox5.Controls.Add(this.btnAdaptiveFRExplain);
+            this.groupBox5.Controls.Add(this.label39);
+            this.groupBox5.Controls.Add(this.lblCalFlowRate);
+            this.groupBox5.Controls.Add(this.label43);
+            this.groupBox5.Controls.Add(this.lblCalSpeedInput);
+            this.groupBox5.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox5.Location = new System.Drawing.Point(3, 130);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(604, 69);
+            this.groupBox5.TabIndex = 1;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "AdaptiveFlowRate";
+            // 
+            // btnAdaptiveFRExplain
+            // 
+            this.btnAdaptiveFRExplain.Location = new System.Drawing.Point(482, 25);
+            this.btnAdaptiveFRExplain.Name = "btnAdaptiveFRExplain";
+            this.btnAdaptiveFRExplain.Size = new System.Drawing.Size(69, 23);
+            this.btnAdaptiveFRExplain.TabIndex = 78;
+            this.btnAdaptiveFRExplain.Text = "Explain";
+            this.btnAdaptiveFRExplain.UseVisualStyleBackColor = true;
+            this.btnAdaptiveFRExplain.Click += new System.EventHandler(this.btnAdaptiveFRExplain_Click);
+            // 
+            // label39
+            // 
+            this.label39.Location = new System.Drawing.Point(251, 25);
+            this.label39.Margin = new System.Windows.Forms.Padding(3);
+            this.label39.Name = "label39";
+            this.label39.Size = new System.Drawing.Size(110, 23);
+            this.label39.TabIndex = 76;
+            this.label39.Text = "FlowRate";
+            this.label39.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblCalFlowRate
+            // 
+            this.lblCalFlowRate.BackColor = System.Drawing.Color.White;
+            this.lblCalFlowRate.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblCalFlowRate.Location = new System.Drawing.Point(367, 25);
+            this.lblCalFlowRate.Margin = new System.Windows.Forms.Padding(3);
+            this.lblCalFlowRate.Name = "lblCalFlowRate";
+            this.lblCalFlowRate.Size = new System.Drawing.Size(100, 23);
+            this.lblCalFlowRate.TabIndex = 77;
+            this.lblCalFlowRate.Text = "99.99";
+            this.lblCalFlowRate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label43
+            // 
+            this.label43.Location = new System.Drawing.Point(6, 25);
+            this.label43.Margin = new System.Windows.Forms.Padding(3);
+            this.label43.Name = "label43";
+            this.label43.Size = new System.Drawing.Size(110, 23);
+            this.label43.TabIndex = 72;
+            this.label43.Text = "Speed";
+            this.label43.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblCalSpeedInput
+            // 
+            this.lblCalSpeedInput.BackColor = System.Drawing.Color.White;
+            this.lblCalSpeedInput.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblCalSpeedInput.Location = new System.Drawing.Point(120, 25);
+            this.lblCalSpeedInput.Margin = new System.Windows.Forms.Padding(3);
+            this.lblCalSpeedInput.Name = "lblCalSpeedInput";
+            this.lblCalSpeedInput.Size = new System.Drawing.Size(100, 23);
+            this.lblCalSpeedInput.TabIndex = 73;
+            this.lblCalSpeedInput.Text = "99.99";
+            this.lblCalSpeedInput.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblCalSpeedInput.Click += new System.EventHandler(this.lblCalSpeedInput_Click);
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.AutoSize = true;
+            this.groupBox4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox4.Controls.Add(this.btnStaticFRExplain);
+            this.groupBox4.Controls.Add(this.label37);
+            this.groupBox4.Controls.Add(this.lblCalSpeed);
+            this.groupBox4.Controls.Add(this.label33);
+            this.groupBox4.Controls.Add(this.lblCalFlowRateInput);
+            this.groupBox4.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox4.Location = new System.Drawing.Point(3, 61);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(604, 69);
+            this.groupBox4.TabIndex = 0;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "StaticFlowRate";
+            // 
+            // btnStaticFRExplain
+            // 
+            this.btnStaticFRExplain.Location = new System.Drawing.Point(482, 25);
+            this.btnStaticFRExplain.Name = "btnStaticFRExplain";
+            this.btnStaticFRExplain.Size = new System.Drawing.Size(69, 23);
+            this.btnStaticFRExplain.TabIndex = 69;
+            this.btnStaticFRExplain.Text = "Explain";
+            this.btnStaticFRExplain.UseVisualStyleBackColor = true;
+            this.btnStaticFRExplain.Click += new System.EventHandler(this.btnStaticFRExplain_Click);
+            // 
+            // label37
+            // 
+            this.label37.Location = new System.Drawing.Point(251, 25);
+            this.label37.Margin = new System.Windows.Forms.Padding(3);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(110, 23);
+            this.label37.TabIndex = 67;
+            this.label37.Text = "Speed";
+            this.label37.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblCalSpeed
+            // 
+            this.lblCalSpeed.BackColor = System.Drawing.Color.White;
+            this.lblCalSpeed.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblCalSpeed.Location = new System.Drawing.Point(367, 25);
+            this.lblCalSpeed.Margin = new System.Windows.Forms.Padding(3);
+            this.lblCalSpeed.Name = "lblCalSpeed";
+            this.lblCalSpeed.Size = new System.Drawing.Size(100, 23);
+            this.lblCalSpeed.TabIndex = 68;
+            this.lblCalSpeed.Text = "99.99";
+            this.lblCalSpeed.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label33
+            // 
+            this.label33.Location = new System.Drawing.Point(6, 25);
+            this.label33.Margin = new System.Windows.Forms.Padding(3);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(110, 23);
+            this.label33.TabIndex = 63;
+            this.label33.Text = "FlowRate";
+            this.label33.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblCalFlowRateInput
+            // 
+            this.lblCalFlowRateInput.BackColor = System.Drawing.Color.White;
+            this.lblCalFlowRateInput.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblCalFlowRateInput.Location = new System.Drawing.Point(120, 25);
+            this.lblCalFlowRateInput.Margin = new System.Windows.Forms.Padding(3);
+            this.lblCalFlowRateInput.Name = "lblCalFlowRateInput";
+            this.lblCalFlowRateInput.Size = new System.Drawing.Size(100, 23);
+            this.lblCalFlowRateInput.TabIndex = 64;
+            this.lblCalFlowRateInput.Text = "99.99";
+            this.lblCalFlowRateInput.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblCalFlowRateInput.Click += new System.EventHandler(this.lblCalFlowRateInput_Click);
+            // 
+            // panel3
+            // 
+            this.panel3.AutoSize = true;
+            this.panel3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panel3.Controls.Add(this.label31);
+            this.panel3.Controls.Add(this.lblCalTargetMassInput);
+            this.panel3.Controls.Add(this.lblCalLineDistInput);
+            this.panel3.Controls.Add(this.label35);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel3.Location = new System.Drawing.Point(3, 3);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(604, 58);
+            this.panel3.TabIndex = 2;
+            // 
+            // label31
+            // 
+            this.label31.Location = new System.Drawing.Point(4, 3);
+            this.label31.Margin = new System.Windows.Forms.Padding(3);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(110, 23);
+            this.label31.TabIndex = 61;
+            this.label31.Text = "Target Mass";
+            this.label31.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblCalTargetMassInput
+            // 
+            this.lblCalTargetMassInput.BackColor = System.Drawing.Color.White;
+            this.lblCalTargetMassInput.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblCalTargetMassInput.Location = new System.Drawing.Point(120, 3);
+            this.lblCalTargetMassInput.Margin = new System.Windows.Forms.Padding(3);
+            this.lblCalTargetMassInput.Name = "lblCalTargetMassInput";
+            this.lblCalTargetMassInput.Size = new System.Drawing.Size(100, 23);
+            this.lblCalTargetMassInput.TabIndex = 62;
+            this.lblCalTargetMassInput.Text = "99.99";
+            this.lblCalTargetMassInput.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblCalTargetMassInput.Click += new System.EventHandler(this.lblCalTargetMassInput_Click);
+            // 
+            // lblCalLineDistInput
+            // 
+            this.lblCalLineDistInput.BackColor = System.Drawing.Color.White;
+            this.lblCalLineDistInput.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblCalLineDistInput.Location = new System.Drawing.Point(120, 32);
+            this.lblCalLineDistInput.Margin = new System.Windows.Forms.Padding(3);
+            this.lblCalLineDistInput.Name = "lblCalLineDistInput";
+            this.lblCalLineDistInput.Size = new System.Drawing.Size(100, 23);
+            this.lblCalLineDistInput.TabIndex = 66;
+            this.lblCalLineDistInput.Text = "99.99";
+            this.lblCalLineDistInput.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblCalLineDistInput.Click += new System.EventHandler(this.lblCalLineDistInput_Click);
+            // 
+            // label35
+            // 
+            this.label35.Location = new System.Drawing.Point(4, 32);
+            this.label35.Margin = new System.Windows.Forms.Padding(3);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(110, 23);
+            this.label35.TabIndex = 65;
+            this.label35.Text = "LineDist";
+            this.label35.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // flowLayoutPanel1
             // 
@@ -1186,41 +1423,59 @@
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(493, 40);
-            this.flowLayoutPanel1.TabIndex = 77;
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(618, 40);
+            this.flowLayoutPanel1.TabIndex = 79;
             // 
-            // richTextBox1
+            // btnPump1
             // 
-            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.richTextBox1.Location = new System.Drawing.Point(493, 0);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(236, 577);
-            this.richTextBox1.TabIndex = 78;
-            this.richTextBox1.Text = "";
+            this.btnPump1.Location = new System.Drawing.Point(3, 3);
+            this.btnPump1.Name = "btnPump1";
+            this.btnPump1.Size = new System.Drawing.Size(150, 30);
+            this.btnPump1.TabIndex = 33;
+            this.btnPump1.Text = "Gantry Left";
+            this.btnPump1.UseVisualStyleBackColor = true;
+            this.btnPump1.Click += new System.EventHandler(this.btnPump1_Click);
+            // 
+            // btnPump2
+            // 
+            this.btnPump2.Location = new System.Drawing.Point(159, 3);
+            this.btnPump2.Name = "btnPump2";
+            this.btnPump2.Size = new System.Drawing.Size(150, 30);
+            this.btnPump2.TabIndex = 32;
+            this.btnPump2.Text = "Gantry Right";
+            this.btnPump2.UseVisualStyleBackColor = true;
+            this.btnPump2.Click += new System.EventHandler(this.btnPump2_Click);
+            // 
+            // chartWeigh
+            // 
+            chartArea2.Name = "ChartArea1";
+            this.chartWeigh.ChartAreas.Add(chartArea2);
+            this.chartWeigh.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend2.Name = "Legend1";
+            this.chartWeigh.Legends.Add(legend2);
+            this.chartWeigh.Location = new System.Drawing.Point(3, 182);
+            this.chartWeigh.Name = "chartWeigh";
+            this.chartWeigh.Size = new System.Drawing.Size(604, 435);
+            this.chartWeigh.TabIndex = 80;
+            this.chartWeigh.Text = "chart1";
             // 
             // frmWeighFunction
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(729, 577);
+            this.ClientSize = new System.Drawing.Size(618, 703);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.flowLayoutPanel1);
-            this.Controls.Add(this.richTextBox1);
             this.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.Navy;
             this.Name = "frmWeighFunction";
             this.Text = "frmWeigh";
             this.Load += new System.EventHandler(this.frmWeigh_Load);
             this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
-            this.panel2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
-            this.tabControl2.ResumeLayout(false);
-            this.tabPage4.ResumeLayout(false);
-            this.tabPage4.PerformLayout();
-            this.tabPage5.ResumeLayout(false);
-            this.tabPage5.PerformLayout();
+            this.tabPage3.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
             this.gbxMassFlowRate.ResumeLayout(false);
@@ -1235,7 +1490,14 @@
             this.groupBox9.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
+            this.tpResult.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.chartWeigh)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1243,25 +1505,67 @@
 
         #endregion
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.Button btnExec;
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.Button btnExecCal;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label lblTargetMass;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label lblTargetMassPercentage;
+        private System.Windows.Forms.GroupBox groupBox11;
         private System.Windows.Forms.CheckBox chkbxUpdataParaAfterCal;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label lblSampleCountCal;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Label lblSV;
+        private System.Windows.Forms.ComboBox cbxTuneVar;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label lblTunePercentageMin;
+        private System.Windows.Forms.Label lblSVRange;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lblTunePercentageMax;
+        private System.Windows.Forms.GroupBox gbxMassFlowRate;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label lblActualFR;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label lblTargetFRRange;
+        private System.Windows.Forms.Label lblTargetFR;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.Label lblTargetFRPercentage;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.GroupBox gbxMass;
+        private System.Windows.Forms.Label lblTargetMassLimit;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblTargetMassRange;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblTargetMass;
+        private System.Windows.Forms.Label lblTargetMassPercentage;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.ComboBox cbxWeighMode;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label lblMdotDispTime;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox cbxWeighType;
         private System.Windows.Forms.Label lblDotPerSampleCal;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Button btnGoto1;
-        private System.Windows.Forms.Button btnSet1;
-        private System.Windows.Forms.Label lblPos;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.ComboBox cbxCalProfile;
+        private System.Windows.Forms.Label lblSampleCountCal;
+        private System.Windows.Forms.Button btnExecCal;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.Button btnBoardCountReset;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label lblBoardCount;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox groupBox10;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label lblIgnoreCount;
+        private System.Windows.Forms.GroupBox groupBox9;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Label lblPurgeAF;
+        private System.Windows.Forms.Label lblFlushAF;
+        private System.Windows.Forms.Label lblCleanAF;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label lblStartWait;
@@ -1279,55 +1583,33 @@
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label lblDotWait;
         private System.Windows.Forms.Label lblDotPerSample;
-        private System.Windows.Forms.ComboBox cbxCalProfile;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label lblTargetMassRange;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label lblTunePercentageMax;
-        private System.Windows.Forms.Button btnPump2;
-        private System.Windows.Forms.Button btnPump1;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label lblSampleCountMeas;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label lblDotPerSampleMeas;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.TabControl tabControl2;
-        private System.Windows.Forms.TabPage tabPage4;
-        private System.Windows.Forms.TabPage tabPage5;
-        private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.Label lblTargetFR;
-        private System.Windows.Forms.Label lblTargetFRPercentage;
-        private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.Label label26;
-        private System.Windows.Forms.Label lblTargetFRRange;
-        private System.Windows.Forms.GroupBox gbxMass;
-        private System.Windows.Forms.GroupBox gbxMassFlowRate;
-        private System.Windows.Forms.GroupBox groupBox8;
-        private System.Windows.Forms.Label lblTargetMassLimit;
-        private System.Windows.Forms.Label lblSVRange;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label lblTunePercentageMin;
-        private System.Windows.Forms.GroupBox groupBox9;
-        private System.Windows.Forms.Label lblPurgeAF;
-        private System.Windows.Forms.Label lblFlushAF;
-        private System.Windows.Forms.Label lblCleanAF;
-        private System.Windows.Forms.GroupBox groupBox10;
-        private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Label lblIgnoreCount;
-        private System.Windows.Forms.Label label29;
-        private System.Windows.Forms.Label label28;
-        private System.Windows.Forms.Label label27;
-        private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.Label lblMdotDispTime;
-        private System.Windows.Forms.ComboBox cbxWeighCalMode;
-        private System.Windows.Forms.GroupBox groupBox11;
-        private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label lblActualFR;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button btnGoto1;
+        private System.Windows.Forms.Button btnSet1;
+        private System.Windows.Forms.Label lblPos;
+        private System.Windows.Forms.TabPage tpResult;
         private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.Button btnAdaptiveFRExplain;
+        private System.Windows.Forms.Label label39;
+        private System.Windows.Forms.Label lblCalFlowRate;
+        private System.Windows.Forms.Label label43;
+        private System.Windows.Forms.Label lblCalSpeedInput;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Button btnStaticFRExplain;
+        private System.Windows.Forms.Label label37;
+        private System.Windows.Forms.Label lblCalSpeed;
+        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.Label lblCalFlowRateInput;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.Label lblCalTargetMassInput;
+        private System.Windows.Forms.Label lblCalLineDistInput;
+        private System.Windows.Forms.Label label35;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.Button btnPump1;
+        private System.Windows.Forms.Button btnPump2;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartWeigh;
     }
 }

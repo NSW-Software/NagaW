@@ -664,6 +664,9 @@ namespace NagaW
 
         PURGE_STAGE = 750,              //  Count       PerUnit
 
+        DO_WEIGH,                       //  PerBoard    FRType      FlowRate
+        USE_WEIGH,                      //  TargetMass
+
         LINE_SPEED = 800,               //  LSpeed
         LINE_GAP_ADJUST = 801,          //  RZ          Length
 
@@ -3258,6 +3261,170 @@ namespace NagaW
 
                             break;
                         }
+                    #endregion
+
+                    case ECmd.DO_WEIGH:
+                        #region
+                        {
+                            int perboard = (int)cmd.Para[0];
+                            var FRType = (EWeighLearnType)(int)cmd.Para[1];
+                            double flowrate = cmd.Para[2];
+
+                            //bool exec = false;
+                            bool exec = perboard is 0 ? true : GSetupPara.Weighing.WeighBoardCount[gantryIdx] % perboard is 0;
+
+                            #region CompleteAllBoard
+                            var mlayout = instBoard.CurrentMLayout;
+                            var currentClusterCR = new PointI();
+
+                            while (true)
+                            {
+                                EndclusterCRs.Add(new PointI(currentClusterCR));
+
+                                for (int i = 0; i < GRecipes.MultiLayout[gantry.Index][layoutNo].Unit.CR.X; i++)
+                                    for (int j = 0; j < GRecipes.MultiLayout[gantry.Index][layoutNo].Unit.CR.Y; j++)
+                                    {
+                                        if (instBoard.MAP.GetState(currentClusterCR, new PointI(i, j)) == EDispState.READY)
+                                        {
+                                            instBoard.MAP.SetState(currentClusterCR, new PointI(i, j), state);
+                                        }
+                                        EndunitCRs.Add(new PointI(i, j));
+                                    }
+
+                                currentClusterCR = mlayout.Cluster.NextCR(currentClusterCR);
+
+                                if (currentClusterCR.IsZero) break;
+                            }
+                            #endregion
+
+                            TCmd wcmd = null;
+
+                            #region getPumpCmd
+                            //foreach (var c in CmdEnabled)
+                            //{
+                            //    switch (c.Cmd)
+                            //    {
+                            //        case ECmd.HM_SETUP:
+                            //        case ECmd.VERMES_3280_SETUP:
+                            //        case ECmd.SPLITE_SETUP:
+                            //        case ECmd.TP_SETUP:
+                            //        case ECmd.SP_SETUP: wcmd = c; break;
+                            //    }
+                            //}
+                            if (wcmd is null)
+                            {
+                                wcmd = new TCmd();
+                                switch (dispCtrl.PumpType)
+                                {
+                                    case EPumpType.SPLite:
+                                        {
+                                            wcmd.Cmd = ECmd.SPLITE_SETUP;
+                                            var setup = GRecipes.SP_Setups[gantryIdx];
+                                            cmd.Para[0] = setup.DispTime.Value;
+                                            cmd.Para[1] = setup.PulseOnDelay.Value;
+                                            cmd.Para[2] = setup.PulseOffDelay.Value;
+                                            cmd.Para[6] = setup.FPress.Value;
+                                            cmd.Para[7] = setup.PPress.Value;
+                                            cmd.Para[8] = setup.VacDur.Value;
+                                            break;
+                                        }
+                                    case EPumpType.SP:
+                                        {
+                                            wcmd.Cmd = ECmd.SP_SETUP;
+                                            var setup = GRecipes.SP_Setups[gantryIdx];
+                                            cmd.Para[0] = setup.DispTime.Value;
+                                            cmd.Para[1] = setup.PulseOnDelay.Value;
+                                            cmd.Para[2] = setup.PulseOffDelay.Value;
+                                            cmd.Para[6] = setup.FPress.Value;
+                                            cmd.Para[7] = setup.PPress.Value;
+                                            cmd.Para[8] = setup.VacDur.Value;
+                                            break;
+                                        }
+                                    case EPumpType.TP:
+                                        {
+                                            wcmd.Cmd = ECmd.TP_SETUP;
+                                            var setup = GRecipes.SP_Setups[gantryIdx];
+                                            cmd.Para[0] = setup.DispTime.Value;
+                                            cmd.Para[1] = setup.PulseOnDelay.Value;
+                                            cmd.Para[2] = setup.PulseOffDelay.Value;
+                                            cmd.Para[6] = setup.FPress.Value;
+                                            cmd.Para[7] = setup.PPress.Value;
+                                            cmd.Para[8] = setup.VacDur.Value;
+                                            break;
+                                        }
+                                    case EPumpType.VERMES_3280:
+                                        {
+                                            wcmd.Cmd = ECmd.VERMES_3280_SETUP;
+                                            var setup = GRecipes.Vermes_Setups[gantryIdx];
+                                            wcmd.Para[0] = setup.RisingTime.Value;
+                                            wcmd.Para[1] = setup.OpenTime.Value;
+                                            wcmd.Para[2] = setup.FallingTime.Value;
+                                            wcmd.Para[3] = setup.NeedleLift.Value;
+                                            wcmd.Para[4] = setup.Pulses.Value;
+                                            wcmd.Para[5] = setup.Delay.Value;
+                                            wcmd.Para[6] = setup.FPress.Value;
+                                            break;
+                                        }
+                                    case EPumpType.HM:
+                                        {
+                                            wcmd.Cmd = ECmd.HM_SETUP;
+                                            var setup = GRecipes.HM_Setups[gantryIdx];
+                                            wcmd.Para[0] = setup.DispTime.Value;
+                                            wcmd.Para[1] = setup.DispRPM.Value;
+                                            wcmd.Para[2] = setup.BSuckTime.Value;
+                                            wcmd.Para[3] = setup.BSuckRPM.Value;
+                                            wcmd.Para[4] = setup.DispAccel.Value;
+                                            wcmd.Para[5] = setup.BSuckAccel.Value;
+                                            wcmd.Para[6] = setup.FPress.Value;
+                                            wcmd.Para[8] = setup.VacDur.Value;
+                                            break;
+                                        }
+                                }
+                            }
+                            #endregion
+
+                            if (!TCWeighFunc.WeighCals[gantryIdx].Execute(0, 0, EWeighType.MassFlowRate, EWeighMode.Measure, ref wcmd)) return false;
+
+                            break;
+                        }
+                    #endregion
+                    case ECmd.USE_WEIGH:
+                        #region
+                        {
+                            double mass = cmd.Para[0];
+                            double wDist = 0;
+                            var wOffsetXY = new PointD();
+
+                            #region getwDist
+                            foreach (var c in CmdEnabled)
+                            {
+                                switch (c.Cmd)
+                                {
+                                    case ECmd.LINE_START:
+                                        if (c.Para[6] is 1) break;
+                                        wOffsetXY = new PointD(c.Para[0], c.Para[1]);
+                                        break;
+                                    case ECmd.LINE_PASS:
+                                        if (c.Para[6] is 1) break;
+                                        if (wOffsetXY.X != 0 && wOffsetXY.Y != 0) wDist += WeighDist(ECmd.LINE_PASS, new PointD(c.Para[0], c.Para[1]), wOffsetXY);
+                                        wOffsetXY = new PointD(c.Para[0], c.Para[1]);
+                                        break;
+                                    case ECmd.LINE_END:
+                                        wDist += WeighDist(ECmd.LINE_END, new PointD(c.Para[0], c.Para[1]), wOffsetXY);
+                                        wOffsetXY = new PointD(c.Para[0], c.Para[1]);
+                                        break;
+                                }
+                            }
+                            #endregion
+
+                            #region Calculation
+                            var fr = GProcessPara.Weighing.ActualMassFlowRate[gantryIdx].Value;
+                            lineSpeed = WeighReturnVelocity(wDist, mass, fr);
+                            GLog.LogProcess($"wDist {wDist}, mass {mass}, fr {fr}, Linespeed updated to {lineSpeed}");
+
+                            #endregion
+                        }
+                        break;
                         #endregion
                 }
                 Thread.Sleep(1);
@@ -3925,6 +4092,46 @@ namespace NagaW
                 case 7: return new PointD(x, 0);
             }
             return new PointD(0, 0);
+        }
+
+        private double WeighDist(ECmd cmd, PointD pt1, PointD pt2)
+        {
+            double dist = 0;
+
+            if (cmd == ECmd.LINE_START || cmd == ECmd.LINE_PASS || cmd == ECmd.LINE_END)
+            {
+                dist = Math.Sqrt(Math.Pow((pt2.X - pt1.X), 2) + Math.Pow((pt2.Y - pt1.Y), 2));
+            }
+            //else if (cmd == ECmd.CIRCLE)
+            //{
+            //    double radius = Math.Sqrt(Math.Pow((pt2.X - pt1.X), 2) + Math.Pow((pt2.Y - pt1.Y), 2));
+            //    dist = 2 * Math.PI * radius;
+            //}
+
+            return dist;
+        }
+        public double WeighReturnVelocity(double wdist, double mass, double flowRate)
+        {
+            // mdot = mg/t  (1)
+            // v = s/t      (2)
+            // (1) into (2)
+            // v = s/(mg/mdot)
+            // v = s*mdot/mg
+
+            double velocity = wdist * flowRate / mass;
+            return velocity;
+        }
+
+        public double WeighReturnFlowRate(double wdist, double mass, double velocity)
+        {
+            // mdot = mg/t  (1)
+            // v = s/t      (2)
+            // (2) into (1)
+            // mdot = mg/(s/v)
+            // mdot = mg*v/s
+
+            double flowrate = mass * velocity / wdist;
+            return flowrate;
         }
     }
 

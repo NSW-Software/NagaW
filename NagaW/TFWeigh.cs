@@ -14,7 +14,7 @@ namespace NagaW
 
         public static bool Open(string comport)
         {
-            
+
             Port.PortName = comport;
 
             if (!Port.IsOpen)
@@ -98,7 +98,7 @@ namespace NagaW
     {
         internal class MT_SICS_VMS
         {
-            public const string SET_UNIT = "M21"; 
+            public const string SET_UNIT = "M21";
             public const string READ_STABLE = "S";
             public const string READ_IMME = "SI";
             public const string TARE = "T";
@@ -312,158 +312,16 @@ namespace NagaW
             }
         }
     }
-    class TCWeighMeas
+
+    public enum EWeighMode { Measure, Calibration }
+    public enum EWeighType { Mass, MassFlowRate }
+    public enum EWeighLearnType { Static_FlowRate, Adaptive_FlowRate }
+
+    public enum EWeighSVParam { FPress, FPressPPress, RisingTime, OpeningTime, FallingTime, NeedleLift, Delay, DispRPM }
+
+    class TCWeighFunc
     {
-        public static bool Stop = false;
-        public static BindingList<double> Result = new BindingList<double>();
-
-        public static Mutex Mutex = new Mutex();
-        public static bool Execute(int gantryIdx, int dotsPerSample = 0, int SampleCount = 0)
-        {
-            var gantry = gantryIdx is 0 ? TFGantry.GantrySetup : TFGantry.GantryRight;
-            Stop = false;
-            Result.Clear();
-
-            var dispCtrl = GSystemCfg.Pump.Pumps[gantryIdx];
-
-            PointXYZ w_pos = GSetupPara.Weighing.Pos[gantryIdx, (int)GSystemCfg.Pump.Pumps[gantryIdx].PumpType];
-            int w_startwait = GProcessPara.Weighing.StartWait[gantryIdx].Value;
-            int w_endwait = GProcessPara.Weighing.EndWait[gantryIdx].Value;
-            int w_dotwait_ms = GProcessPara.Weighing.DotWait[gantryIdx].Value;
-            int w_readwait = GProcessPara.Weighing.ReadWait[gantryIdx].Value;
-            double w_zupdist = GProcessPara.Weighing.ZUpDist[gantryIdx].Value;
-            double w_zupvel = GProcessPara.Weighing.ZUpVel[gantryIdx].Value;
-            if (dotsPerSample <= 0) dotsPerSample = GProcessPara.Weighing.DotPerSample[gantryIdx].Value;
-            if (SampleCount <= 0) SampleCount = GProcessPara.Weighing.SampleCount[gantryIdx].Value;
-
-
-            try
-            {
-                Mutex.WaitOne();
-                if (!gantry.MoveOpXYAbs(w_pos.XYPos)) return false;
-
-                switch (dispCtrl.PumpType)
-                {
-                    case EPumpType.VERMES_3280:
-                        {
-                            var setup = new Vermes3280_Param(GRecipes.Vermes_Setups[gantryIdx]);
-                            setup.Pulses.Value = dotsPerSample;
-                            setup.Delay.Value = w_dotwait_ms;
-
-                            if (!TFPump.Vermes_Pump[gantryIdx].TriggerAset(setup)) return false;
-
-                            GMotDef.Outputs[(int)dispCtrl.FPressDO].Status = true;
-                            break;
-                        }
-                }
-
-                while (Result.Count < SampleCount)
-                {
-                    if (Stop) goto _stop;
-
-                    gantry.ZAxis.SpeedProfile(GProcessPara.Operation.GZSpeed);
-                    if (!gantry.MoveOpZAbs(w_pos.Z)) return false;
-                    Thread.Sleep(w_startwait);
-
-                    double beforeW = 0;
-                    Thread.Sleep(w_readwait); ;
-                    if (!TFWeightScale.ReadStable(ref beforeW)) goto _stop;
-
-                    switch (dispCtrl.PumpType)
-                    {
-                        case EPumpType.VERMES_3280:
-                            {
-                                var trig = GMotDef.Outputs[(int)dispCtrl.DispDO];
-                                trig.Status = true;
-                                while (!GMotDef.Inputs[(int)dispCtrl.DispDI].Status) Thread.Sleep(0);
-                                trig.Status = false;
-
-                                break;
-                            }
-                        //case EPumpType.PP4:
-                        //    {
-                        //        var setup = new PP4_Setup(GRecipe.PP4_Setups[gantryIdx]);
-
-                        //        var instantcount = 0;
-                        //        while (instantcount++ > dotsPerSample)
-                        //        {
-                        //            if (!TFPump.PP4.CheckStrokeThenSingleShot(setup, dualhead)) goto _stop;
-                        //            if (w_dotwait_ms > 0) Thread.Sleep(w_dotwait_ms);
-                        //        }
-
-                        //        break;
-                        //    }
-                        case EPumpType.SP:
-                            {
-                                //var setup = new SP_Setup(GRecipe.SP_Setups[headno]);
-
-                                //var instantcount = 0;
-                                //while (instantcount++ > dotsPerSample)
-                                //{
-                                //    TFPump.SP.Single_Shot(setup, headno);
-                                //    if (w_dotwait_ms > 0) Thread.Sleep(w_dotwait_ms);
-                                //}
-                                break;
-                            }
-                        case EPumpType.HM:
-                            {
-                                //no disp
-                                break;
-                            }
-                    }
-
-                    Thread.Sleep(w_endwait);
-
-                    if (w_zupdist > 0)
-                    {
-
-                        gantry.ZAxis.SetParam(0, w_zupvel, 100);
-                        if (!gantry.MoveOpZRel(w_zupdist)) return false;
-                    }
-
-                    double afterW = 0;
-                    Thread.Sleep(w_readwait);
-                    if (!TFWeightScale.ReadStable(ref afterW)) goto _stop;
-
-                    double value = 1000 * ((afterW - beforeW) / dotsPerSample);
-                    Result.Add(value);
-                }
-
-            _stop:
-
-                GMotDef.Outputs[(int)dispCtrl.FPressDO].Status = false;
-                GMotDef.Outputs[(int)dispCtrl.PPressDO].Status = false;
-                GMotDef.Outputs[(int)dispCtrl.VacDO].Status = true;
-
-                switch (dispCtrl.PumpType)
-                {
-                    case EPumpType.VERMES_3280:
-                        {
-                            TFPump.Vermes_Pump[gantryIdx].TriggerAset(GRecipes.Vermes_Setups[gantryIdx]);
-                            GMotDef.Outputs[(int)dispCtrl.VacDO].Status = false;
-                            break;
-                        }
-                }
-
-                gantry.ZAxis.SpeedProfile(GProcessPara.Operation.GZSpeed);
-                if (!gantry.MoveOpZAbs(0)) return false;
-                return true;
-            }
-            catch (Exception ex)
-            {
-                GLog.WriteException(ex);
-                MsgBox.ShowDialog(ex.Message.ToString());
-                return false;
-            }
-            finally
-            {
-                Mutex.ReleaseMutex();
-            }
-        }
-    }
-    class TCWeighCal
-    {
-        public enum EWeighCalMode { Mass, MassFlowRate }
+        static Mutex Mtx = new Mutex();
 
         //  ********************[Calibration Formula]********************
 
@@ -478,11 +336,13 @@ namespace NagaW
         //  m_dot = dm/(d/v);   if(dm = m2-m1, m1 =0, dm ~ m2)   
         //  m_dot = (m*v)d;
         //  to find v, v = m_dot*d/m;
+
         public int GantryIdx { get; private set; } = 0;
         public bool Stop = false;
+        public bool Finish = false;
         public BindingList<TEWeighData> Result = new BindingList<TEWeighData>();
 
-        public bool Execute(int dotPerSample, int SampleCount, EWeighCalMode calMode, ref TCmd cmd, ref double flowrate)
+        public bool Execute(int dotPerSample, int SampleCount, EWeighType wType, EWeighMode wMode, ref TCmd cmd, EWeighSVParam wSVPara = EWeighSVParam.FPress)
         {
             var gantry = GantryIdx is 0 ? TFGantry.GantryLeft : TFGantry.GantryRight;
             var gantryidx = gantry.Index;
@@ -491,23 +351,43 @@ namespace NagaW
             Result.Clear();
 
             #region Init variables
+
             if (dotPerSample <= 0) dotPerSample = GProcessPara.Weighing.DotPerSample[gantryidx].Value;
             if (SampleCount <= 0) SampleCount = GProcessPara.Weighing.SampleCount[gantryidx].Value;
 
             var dispCtrl = GSystemCfg.Pump.Pumps[gantryidx];
             var dualhead = new bool[] { gantryidx is 0, gantryidx is 1 };
 
-            //PP4_Setup pp4_setup = new PP4_Setup(GRecipes.PP4_Setups[headno]);
+            TCmd Wcmd = new TCmd(cmd);
+
             Vermes3280_Param vermes_setup = new Vermes3280_Param(GRecipes.Vermes_Setups[gantryidx]);
             HM_Param hm_setup = new HM_Param(GRecipes.HM_Setups[gantryidx]);
             SP_Param sp_setup = new SP_Param(GRecipes.SP_Setups[gantryidx]);
 
-            switch (cmd.Cmd)
+            double tunevariable = 0;
+
+            switch (Wcmd.Cmd)
             {
-                case ECmd.HM_SETUP: hm_setup = new HM_Param(cmd.Para); break;
-                //case ECmd.PP4_SETUP: pp4_setup = new PP4_Setup(pp4_setup, cmd.Para); break;
-                case ECmd.SP_SETUP: sp_setup = new SP_Param(cmd.Para); break;
-                case ECmd.VERMES_3280_SETUP: vermes_setup = new Vermes3280_Param(cmd.Para); break;
+                case ECmd.HM_SETUP:
+                    {
+                        hm_setup = new HM_Param(Wcmd.Para);
+                        tunevariable = hm_setup.FPress.Value;
+                        break;
+                    }
+                case ECmd.TP_SETUP:
+                case ECmd.SPLITE_SETUP:
+                case ECmd.SP_SETUP:
+                    {
+                        sp_setup = new SP_Param(Wcmd.Para);
+                        tunevariable = sp_setup.FPress.Value;
+                        break;
+                    }
+                case ECmd.VERMES_3280_SETUP:
+                    {
+                        vermes_setup = new Vermes3280_Param(Wcmd.Para);
+                        tunevariable = vermes_setup.FPress.Value;
+                    }
+                    break;
                 default: return false;
             }
 
@@ -521,6 +401,10 @@ namespace NagaW
             double w_zupvel = GProcessPara.Weighing.ZUpVel[gantryidx].Value;
 
             double target_mass = GProcessPara.Weighing.Target_Mass.Value;
+            double target_massFR = GProcessPara.Weighing.Target_FlowRate.Value;
+
+            double mass_range = GProcessPara.Weighing.Target_Mass_Range.Value;
+            double massFR_range = GProcessPara.Weighing.Target_FlowRate_Range.Value;
 
             double tune_percentage_Min = GProcessPara.Weighing.Tune_Percentage_LowerLimit.Value;
             double tune_percentage_Max = GProcessPara.Weighing.Tune_Percentage_UpperLimit.Value;
@@ -529,30 +413,27 @@ namespace NagaW
             var flushAF = GProcessPara.Weighing.FlushAfterFill.Value;
             var purgeAF = GProcessPara.Weighing.PurgeAfterFill.Value;
 
-            //var zAxis = GMotDef.DualZAxis[gantryidx];
 
             //mass cal
             var pp4_material_density = new List<double>();
 
             //FlowRate Cal
             var mdot_dispTime = GProcessPara.Weighing.DispTime_DotM.Value;
+
+            double actual_mdot = 0;
             #endregion
 
             try
             {
-                //if (!TFGantry.ChooseHead(gantryidx)) return false;
+                Mtx.WaitOne();
+
                 if (!gantry.MoveOpXYAbs(w_pos.XYPos)) return false;
 
                 while (Result.Count < SampleCount)
                 {
                     #region Processing
-                    var wdata = new TEWeighData();
-                    //Result.Add(wdata);
+                    var wdata = new TEWeighData() { EWeighCalMode = wType };
 
-                    var instantcount = 0;
-                
-                
-                _Process:
                     if (Stop) goto _stop;
 
                     //Pre Set Profile
@@ -561,25 +442,37 @@ namespace NagaW
                         case EPumpType.VERMES_3280:
                             {
                                 vermes_setup = vermes_setup is null ? new Vermes3280_Param(GRecipes.Vermes_Setups[gantryidx]) : new Vermes3280_Param(vermes_setup);
-                                vermes_setup.Pulses.Value = calMode > EWeighCalMode.Mass ? 0 : dotPerSample;
-                                vermes_setup.Delay.Value = calMode > EWeighCalMode.Mass ? 0.1 : w_dotwait_ms;
+                                vermes_setup.Pulses.Value = wType > EWeighType.Mass ? 0 : dotPerSample;
+                                vermes_setup.Delay.Value = wType > EWeighType.Mass ? vermes_setup.Delay.Value : w_dotwait_ms;
 
                                 if (!TFPump.Vermes_Pump[gantryidx].TriggerAset(vermes_setup)) return false;
                                 if (!TFPressCtrl.FPress[gantryidx].Set(vermes_setup.FPress.Value)) return false;
 
+                                GMotDef.Outputs[(int)dispCtrl.VacDO].Status = false;
                                 GMotDef.Outputs[(int)dispCtrl.FPressDO].Status = true;
+
+                                wdata.TuneVariableUnit = GSystemCfg.Display.PressUnit;
+                                wdata.TunePara = vermes_setup.FPress.Value;
+                                break;
+                            }
+                        case EPumpType.SP:
+                        case EPumpType.SPLite:
+                        case EPumpType.TP:
+                            {
+                                if (!TFPressCtrl.FPress[gantryidx].Set(sp_setup.FPress.Value)) return false;
+                                if (!TFPressCtrl.FPress[gantryidx + 2].Set(sp_setup.PPress.Value)) return false;
+
+                                wdata.TuneVariableUnit = GSystemCfg.Display.PressUnit;
+                                wdata.TunePara = sp_setup.FPress.Value;
                                 break;
                             }
                     }
 
-                    //if (!TFGantry.GZSetParam(zAxis)) return false;
-                    //if (!TFGantry.GZGoto(zAxis, w_pos.Z)) return false;
-
-                    if (!gantry.MoveOpZAbs(w_pos.Z)) ;
+                    if (!gantry.MoveOpZAbs(w_pos.Z)) return false;
                     Thread.Sleep(w_startwait);
 
                     double beforeW = 0;
-                    Thread.Sleep(w_readwait); ;
+                    Thread.Sleep(w_readwait);
                     if (!TFWeightScale.ReadStable(ref beforeW)) goto _stop;
 
                     //Disp
@@ -589,9 +482,9 @@ namespace NagaW
                             {
                                 var trig = GMotDef.Outputs[(int)dispCtrl.DispDO];
 
-                                switch (calMode)
+                                switch (wType)
                                 {
-                                    case EWeighCalMode.Mass:
+                                    case EWeighType.Mass:
                                         {
                                             trig.Status = true;
                                             while (!GMotDef.Inputs[(int)dispCtrl.DispDI].Status) Thread.Sleep(0);
@@ -599,7 +492,7 @@ namespace NagaW
 
                                             break;
                                         }
-                                    case EWeighCalMode.MassFlowRate:
+                                    case EWeighType.MassFlowRate:
                                         {
                                             trig.Status = true;
                                             Thread.Sleep(mdot_dispTime);
@@ -607,6 +500,27 @@ namespace NagaW
                                             break;
                                         }
                                 }
+                                break;
+                            }
+                        case EPumpType.SP:
+                            {
+                                switch (wType)
+                                {
+                                    case EWeighType.Mass:
+                                        {
+                                            var setup = new SP_Param(sp_setup);
+                                            TFPump.SP.Shot_One(setup, gantryidx);
+                                            break;
+                                        }
+                                    case EWeighType.MassFlowRate:
+                                        {
+                                            var setup = new SP_Param(sp_setup);
+                                            setup.DispTime.Value = mdot_dispTime;
+                                            TFPump.SP.Shot_One(setup, gantryidx);
+                                            break;
+                                        }
+                                }
+
                                 break;
                             }
                             //case EPumpType.PP4:
@@ -649,127 +563,97 @@ namespace NagaW
 
                     if (w_zupdist > 0)
                     {
-                        //if (!TFGantry.GZSetParam(zAxis, 0, w_zupvel, 100)) return false;
-                        //if (!TFGantry.GZMoveRel(zAxis, w_zupdist)) return false;
-                        //while (zAxis.Busy) Thread.Sleep(0);
-
                         gantry.ZAxis.SetParam(0, w_zupvel, 100);
-                        if (!gantry.MoveOpZRel(w_zupdist)) return false;
+                        if (!gantry.ZAxis.MoveRel(w_zupdist, true)) return false;
                     }
 
                     double afterW = 0;
                     Thread.Sleep(w_readwait);
                     if (!TFWeightScale.ReadStable(ref afterW)) goto _stop;
 
-
-                    double actual_mass = 1000 * ((afterW - beforeW) / dotPerSample);
+                    double actual_mass = 1000 * (double)((afterW - beforeW) / dotPerSample);
 
                     wdata.ActualMass = actual_mass;
-                    wdata.CumulativeMass = afterW;
-                    //wdata.Mean = Result.Select(x => x.ActualMass).Average();
-                    //wdata.SD = Math.Sqrt(Math.Pow(wdata.ActualMass - wdata.Mean, 2) / Result.Count);
 
-
-                    if (calMode > EWeighCalMode.Mass)
+                    if (wType == EWeighType.MassFlowRate)
                     {
-                        double actual_mdot = actual_mass / (mdot_dispTime / 1000);
+                        actual_mdot = actual_mass / (double)((double)mdot_dispTime / (double)1000);
                         wdata.FlowRate = actual_mdot;
                     }
+
                     #endregion
 
                     #region Calibrate
-
-                    switch (calMode)
+                    if (wMode == EWeighMode.Calibration)
                     {
-                        #region Mass
-                        case EWeighCalMode.Mass:
-                            {
-                                switch (dispCtrl.PumpType)
+                        bool IsLowerThanTarget = wType == EWeighType.Mass ? actual_mass <= target_mass : actual_mdot <= target_massFR;
+
+                        #region Change Para
+                        switch (dispCtrl.PumpType)
+                        {
+                            case EPumpType.VERMES_3280:
                                 {
-                                    case EPumpType.SP:
-                                    case EPumpType.TP:
-                                        {
-                                            wdata.SV_Before = sp_setup.FPress.Value;
+                                    wdata.TunePara = vermes_setup.FPress.Value;
 
-                                            var fpress = sp_setup.FPress.Value;
-                                            var minfpress = fpress - (fpress * tune_percentage_Min / 100);
-                                            var maxfpress = fpress + (fpress * tune_percentage_Max / 100);
-                                            fpress = actual_mass > target_mass ? (fpress + maxfpress) / 2 : (fpress + minfpress) / 2;
-                                            sp_setup.FPress.Value = fpress;
+                                    var fpress = vermes_setup.FPress.Value;
+                                    var minfpress = tunevariable - (tunevariable * tune_percentage_Min / 100);
+                                    var maxfpress = tunevariable + (tunevariable * tune_percentage_Max / 100);
+                                    fpress = IsLowerThanTarget ? (fpress + maxfpress) / 2 : (fpress + minfpress) / 2;
+                                    vermes_setup.FPress.Value = fpress;
 
-                                            wdata.SV_After = fpress;
-
-                                            cmd.Para[6] = fpress;
-
-                                            GLog.LogProcess($"Cal{dispCtrl.PumpType}_{gantryidx} SampleCount:{Result.Count}/{SampleCount} {nameof(fpress)} [{wdata.SV_Before} > {wdata.SV_After}]");
-                                            break;
-                                        }
-                                    case EPumpType.VERMES_3280:
-                                        {
-                                            wdata.SV_Before = vermes_setup.FPress.Value;
-
-                                            var fpress = vermes_setup.FPress.Value;
-                                            var minfpress = fpress - (fpress * tune_percentage_Min / 100);
-                                            var maxfpress = fpress + (fpress * tune_percentage_Max / 100);
-                                            fpress = actual_mass > target_mass ? (fpress + maxfpress) / 2 : (fpress + minfpress) / 2;
-                                            vermes_setup.FPress.Value = fpress;
-
-                                            wdata.SV_After = fpress;
-
-                                            cmd.Para[6] = fpress;
-                                            GLog.LogProcess($"Cal{dispCtrl.PumpType}_{gantryidx} SampleCount:{Result.Count}/{SampleCount} {nameof(fpress)} [{wdata.SV_Before} > {wdata.SV_After}]");
-                                            break;
-                                        }
-                                    case EPumpType.HM:
-                                        {
-                                            break;
-                                        }
-                                        //case EPumpType.PP4:
-                                        //    {
-                                        //        // density formula
-                                        //        // p = m/v
-                                        //        // when p = constant, m1/v1 = m2=v2
-                                        //        // get average of density to tune the target mass
-
-                                        //        wdata.SV_Before = pp4_setup.DispAmount.Value;
-
-                                        //        var dispAmt = pp4_setup.DispAmount.Value;
-                                        //        pp4_material_density.Add(actual_mass / dispAmt);
-
-                                        //        var volume = target_mass / pp4_material_density.Average();
-                                        //        volume = Math.Min(volume, dispAmt + (dispAmt * tune_percentage_Max / 100));
-                                        //        volume = Math.Max(volume, dispAmt - (dispAmt * tune_percentage_Min / 100));
-
-                                        //        pp4_setup.DispAmount.Value = volume;
-                                        //        wdata.SV_After = volume;
-
-                                        //        cmd.Para[0] = volume;
-                                        //        GLog.LogProcess($"Cal{dispCtrl.PumpType}_{gantryidx} SampleCount:{Result.Count}/{SampleCount} {nameof(volume)} [{wdata.SV_Before} > {wdata.SV_After}]");
-                                        //        break;
-                                        //    }
+                                    Wcmd.Para[6] = fpress;
+                                    GLog.LogProcess($"Cal{dispCtrl.PumpType}_ SampleCount:{Result.Count}/{SampleCount} {nameof(fpress)} [{wdata.TunePara} > {fpress}]");
+                                    break;
                                 }
+                            case EPumpType.SPLite:
+                            case EPumpType.TP:
+                                {
+                                    wdata.TunePara = sp_setup.FPress.Value;
 
-                                break;
-                            }
+                                    var fpress = sp_setup.FPress.Value;
+                                    var minfpress = tunevariable - (tunevariable * tune_percentage_Min / 100);
+                                    var maxfpress = tunevariable + (tunevariable * tune_percentage_Max / 100);
+                                    fpress = IsLowerThanTarget ? (fpress + maxfpress) / 2 : (fpress + minfpress) / 2;
+                                    sp_setup.FPress.Value = fpress;
+
+                                    Wcmd.Para[6] = fpress;
+                                    break;
+                                }
+                            case EPumpType.SP:
+                                {
+                                    wdata.TunePara = sp_setup.FPress.Value;
+
+                                    var fpress = sp_setup.FPress.Value;
+                                    var ppress = sp_setup.PPress.Value;
+
+                                    var minfpress = tunevariable - (tunevariable * tune_percentage_Min / 100);
+                                    var maxfpress = tunevariable + (tunevariable * tune_percentage_Max / 100);
+
+                                    fpress = IsLowerThanTarget ? (fpress + maxfpress) / 2 : (fpress + minfpress) / 2;
+                                    ppress += fpress - sp_setup.FPress.Value;
+
+                                    sp_setup.FPress.Value = fpress;
+                                    sp_setup.PPress.Value = ppress;
+
+                                    Wcmd.Para[6] = fpress;
+                                    Wcmd.Para[7] = ppress;
+                                    break;
+                                }
+                        }
                         #endregion
 
-                        #region MassFlowRate
-                        case EWeighCalMode.MassFlowRate:
-                            {
-                                break;
-                            }
-                            #endregion
                     }
                     #endregion
 
                     Result.Add(wdata);
                 }
 
-            _stop:
+                _stop:
 
                 #region Stop
                 GMotDef.Outputs[(int)dispCtrl.FPressDO].Status = false;
                 GMotDef.Outputs[(int)dispCtrl.PPressDO].Status = false;
+                GMotDef.Outputs[(int)dispCtrl.VacDO].Status = true;
 
                 gantry.ZAxis.SpeedProfile(GProcessPara.Operation.GZSpeed);
 
@@ -785,13 +669,21 @@ namespace NagaW
                 }
 
                 GMotDef.Outputs[(int)dispCtrl.VacDO].Status = true;
+                Thread.Sleep(10);
+                GMotDef.Outputs[(int)dispCtrl.VacDO].Status = false;
 
 
                 #endregion
 
-                flowrate = Result.Count is 0 ? 0 : Result.Select(x => x.FlowRate).Average();
+                var flowrate = Result.Count is 0 ? 0 : Result.Select(x => x.FlowRate).Average();
+                if (wType == EWeighType.MassFlowRate) GProcessPara.Weighing.ActualMassFlowRate[gantryidx].Value = flowrate;
+                cmd = GProcessPara.Weighing.EnableUpdateTCmd[gantryidx] ? Wcmd : cmd;
 
-                return true;
+                Finish = true;
+
+                return gantry.GotoXYZ(new PointXYZ());
+
+                //return true;
             }
             catch (Exception ex)
             {
@@ -799,43 +691,43 @@ namespace NagaW
                 MsgBox.ShowDialog(ex.Message.ToString());
                 return false;
             }
+            finally
+            {
+                Mtx.ReleaseMutex();
+            }
         }
-        public TCWeighCal(int gantryIdx)
+
+        public TCWeighFunc(int gantryIdx)
         {
             GantryIdx = gantryIdx;
         }
-        public TCWeighCal[] WeighCals = new TCWeighCal[2] { new TCWeighCal(TFGantry.GantryLeft.Index), new TCWeighCal(TFGantry.GantryRight.Index) };
+
+        public static TCWeighFunc[] WeighCals = new TCWeighFunc[2] { new TCWeighFunc(TFGantry.GantryLeft.Index), new TCWeighFunc(TFGantry.GantryRight.Index) };
     }
-
-
 
     class TEWeighData
     {
         public double ActualMass { get; set; }
-        public double CumulativeMass { get; set; }
-        public double SV_Before { get; set; }
-        public double SV_After { get; set; }
-        public EUnit EUnit { get; set; }
         public double FlowRate { get; set; }
+        public double TunePara { get; set; }
+        public EUnit TuneVariableUnit { get; set; }
+
+        public EWeighType EWeighCalMode { get; set; }
 
         public double Mean { get; set; }
-        public double Standard_Deviation { get; set; }
         public TEWeighData()
         {
         }
         public TEWeighData(TEWeighData weighData)
         {
             this.ActualMass = weighData.ActualMass;
-            this.CumulativeMass = weighData.CumulativeMass;
-            this.SV_Before = weighData.SV_Before;
-            this.SV_After = weighData.SV_After;
-            this.EUnit = weighData.EUnit;
-            this.FlowRate = weighData.FlowRate;
+            this.TunePara = weighData.TunePara;
+            this.TuneVariableUnit = weighData.TuneVariableUnit;
         }
 
         public override string ToString()
         {
-            return ActualMass.ToString() + " " + EUnit.ToStringForDisplay();
+            return $"\t{TunePara:f3}\t{TuneVariableUnit}\t{(EWeighCalMode == EWeighType.Mass ? ActualMass : FlowRate):f4}\t{(EWeighCalMode == EWeighType.Mass ? "mg" : "mg/s")}";
         }
     }
 

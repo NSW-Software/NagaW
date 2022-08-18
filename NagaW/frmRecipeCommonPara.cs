@@ -188,6 +188,13 @@ namespace NagaW
                     var fieldinfo = typeof(GSetupPara.Maintenance).GetFields(System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
                     Para[0] = new DPara($"{index} Position", cmd.Para[0], 0, fieldinfo.Length, EUnit.NONE, 0, fieldinfo.Select(x => x.Name).ToArray());
                     break;
+                case ECmd.DO_WEIGH:
+                    Para[0] = new DPara($"{index} PerBoard", cmd.Para[0], 0, 1000, EUnit.COUNT, 0);
+                    Para[1] = new DPara($"{index} LearnType", cmd.Para[1], 0, Enum.GetValues(typeof(EWeighLearnType)).Length, EUnit.NONE, 0, Enum.GetNames(typeof(EWeighLearnType)));
+                    break;
+                case ECmd.USE_WEIGH:
+                    Para[0] = new DPara($"{index} MassPerUnit", cmd.Para[0], 0, 1000, EUnit.MILLIGRAM);
+                    break;
             }
 
             lblPara0.Visible = Para[0].Name.Length > 0;

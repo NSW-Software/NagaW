@@ -511,6 +511,8 @@ namespace NagaW
                     case ECmd.LINE_SPEED:
                     case ECmd.LINE_GAP_ADJUST:
                     case ECmd.NOZZLE_INSPECTION:
+                    case ECmd.DO_WEIGH:
+                    case ECmd.USE_WEIGH:
                     case ECmd.GOTO_POSITION:
                         {
                             showForm(new frmRecipeCommonPara(gantry, tcmd, title), edit); break;
