@@ -3406,7 +3406,7 @@ namespace NagaW
                                         break;
                                     case ECmd.LINE_PASS:
                                         if (c.Para[6] is 1) break;
-                                        if (wOffsetXY.X != 0 && wOffsetXY.Y != 0) wDist += WeighDist(ECmd.LINE_PASS, new PointD(c.Para[0], c.Para[1]), wOffsetXY);
+                                        if (wOffsetXY.X != 0 || wOffsetXY.Y != 0) wDist += WeighDist(ECmd.LINE_PASS, new PointD(c.Para[0], c.Para[1]), wOffsetXY);
                                         wOffsetXY = new PointD(c.Para[0], c.Para[1]);
                                         break;
                                     case ECmd.LINE_END:

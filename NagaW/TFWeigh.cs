@@ -344,7 +344,7 @@ namespace NagaW
 
         public bool Execute(int dotPerSample, int SampleCount, EWeighType wType, EWeighMode wMode, ref TCmd cmd, EWeighSVParam wSVPara = EWeighSVParam.FPress)
         {
-            var gantry = GantryIdx is 0 ? TFGantry.GantryLeft : TFGantry.GantryRight;
+            var gantry = GantryIdx is 0 ? TFGantry.GantrySetup : TFGantry.GantryRight;
             var gantryidx = gantry.Index;
 
             Stop = false;
@@ -354,6 +354,7 @@ namespace NagaW
 
             if (dotPerSample <= 0) dotPerSample = GProcessPara.Weighing.DotPerSample[gantryidx].Value;
             if (SampleCount <= 0) SampleCount = GProcessPara.Weighing.SampleCount[gantryidx].Value;
+            var repeatCount = GProcessPara.Weighing.RepeatCount[gantryidx].Value is 0 ? 1 : GProcessPara.Weighing.RepeatCount[gantryidx].Value;
 
             var dispCtrl = GSystemCfg.Pump.Pumps[gantryidx];
             var dualhead = new bool[] { gantryidx is 0, gantryidx is 1 };
@@ -421,6 +422,7 @@ namespace NagaW
             var mdot_dispTime = GProcessPara.Weighing.DispTime_DotM.Value;
 
             double actual_mdot = 0;
+            int successCount = 0;
             #endregion
 
             try
@@ -464,6 +466,14 @@ namespace NagaW
 
                                 wdata.TuneVariableUnit = GSystemCfg.Display.PressUnit;
                                 wdata.TunePara = sp_setup.FPress.Value;
+                                break;
+                            }
+                        case EPumpType.HM:
+                            {
+                                if (!TFPressCtrl.FPress[gantryidx].Set(hm_setup.FPress.Value)) return false;
+
+                                wdata.TuneVariableUnit = GSystemCfg.Display.PressUnit;
+                                wdata.TunePara = hm_setup.DispRPM.Value;
                                 break;
                             }
                     }
@@ -523,6 +533,26 @@ namespace NagaW
 
                                 break;
                             }
+                        case EPumpType.HM:
+                            {
+                                switch (wType)
+                                {
+                                    case EWeighType.Mass:
+                                        {
+                                            var setup = new HM_Param(hm_setup);
+                                            TFPump.HM.Shot_One(setup, gantryidx);
+                                            break;
+                                        }
+                                    case EWeighType.MassFlowRate:
+                                        {
+                                            var setup = new HM_Param(hm_setup);
+                                            setup.DispTime.Value = mdot_dispTime;
+                                            TFPump.HM.Shot_One(setup, gantryidx);
+                                            break;
+                                        }
+                                }
+                                break;
+                            }
                             //case EPumpType.PP4:
                             //    {
                             //        //var instantcount = 0;
@@ -577,7 +607,7 @@ namespace NagaW
 
                     if (wType == EWeighType.MassFlowRate)
                     {
-                        actual_mdot = actual_mass / (double)((double)mdot_dispTime / (double)1000);
+                        actual_mdot = /*actual_mass*/ ((afterW - beforeW) * 1000) / (double)(mdot_dispTime / 1000);
                         wdata.FlowRate = actual_mdot;
                     }
 
@@ -586,6 +616,51 @@ namespace NagaW
                     #region Calibrate
                     if (wMode == EWeighMode.Calibration)
                     {
+                        bool massFRSuccess = actual_mdot >= target_massFR - massFR_range && actual_mdot <= target_massFR + massFR_range;
+                        bool massSuccess = actual_mass >= target_mass - mass_range && actual_mass <= target_mass + mass_range;
+
+                        switch (wType)
+                        {
+                            case EWeighType.MassFlowRate:
+                                {
+                                    if (massFRSuccess)
+                                    {
+                                        Result.Add(wdata);
+                                        successCount++;
+                                        if (successCount >= repeatCount)
+                                        {
+                                            goto _stop;
+                                        }
+                                        continue;
+                                    }
+                                    break;
+                                }
+                            case EWeighType.Mass:
+                                {
+                                    if (massSuccess)
+                                    {
+                                        Result.Add(wdata);
+                                        successCount++;
+                                        if (successCount >= repeatCount)
+                                        {
+                                            goto _stop;
+                                        }
+                                        continue;
+                                    }
+                                    break;
+                                }
+                        }
+                        //if (actual_mdot >= target_massFR - massFR_range && actual_mdot <= target_massFR + massFR_range)
+                        //{
+                        //    Result.Add(wdata);
+                        //    successCount++;
+                        //    if (successCount >= repeatCount)
+                        //    {
+                        //        goto _stop;
+                        //    }
+                        //    continue;
+                        //}
+
                         bool IsLowerThanTarget = wType == EWeighType.Mass ? actual_mass <= target_mass : actual_mdot <= target_massFR;
 
                         #region Change Para
@@ -596,8 +671,8 @@ namespace NagaW
                                     wdata.TunePara = vermes_setup.FPress.Value;
 
                                     var fpress = vermes_setup.FPress.Value;
-                                    var minfpress = tunevariable - (tunevariable * tune_percentage_Min / 100);
-                                    var maxfpress = tunevariable + (tunevariable * tune_percentage_Max / 100);
+                                    var minfpress = fpress - (fpress * tune_percentage_Min / 100);
+                                    var maxfpress = fpress + (fpress * tune_percentage_Max / 100);
                                     fpress = IsLowerThanTarget ? (fpress + maxfpress) / 2 : (fpress + minfpress) / 2;
                                     vermes_setup.FPress.Value = fpress;
 
@@ -611,8 +686,8 @@ namespace NagaW
                                     wdata.TunePara = sp_setup.FPress.Value;
 
                                     var fpress = sp_setup.FPress.Value;
-                                    var minfpress = tunevariable - (tunevariable * tune_percentage_Min / 100);
-                                    var maxfpress = tunevariable + (tunevariable * tune_percentage_Max / 100);
+                                    var minfpress = fpress - (fpress * tune_percentage_Min / 100);
+                                    var maxfpress = fpress + (fpress * tune_percentage_Max / 100);
                                     fpress = IsLowerThanTarget ? (fpress + maxfpress) / 2 : (fpress + minfpress) / 2;
                                     sp_setup.FPress.Value = fpress;
 
@@ -626,8 +701,8 @@ namespace NagaW
                                     var fpress = sp_setup.FPress.Value;
                                     var ppress = sp_setup.PPress.Value;
 
-                                    var minfpress = tunevariable - (tunevariable * tune_percentage_Min / 100);
-                                    var maxfpress = tunevariable + (tunevariable * tune_percentage_Max / 100);
+                                    var minfpress = fpress - (fpress * tune_percentage_Min / 100);
+                                    var maxfpress = fpress + (fpress * tune_percentage_Max / 100);
 
                                     fpress = IsLowerThanTarget ? (fpress + maxfpress) / 2 : (fpress + minfpress) / 2;
                                     ppress += fpress - sp_setup.FPress.Value;
@@ -639,13 +714,27 @@ namespace NagaW
                                     Wcmd.Para[7] = ppress;
                                     break;
                                 }
+                            case EPumpType.HM:
+                                {
+                                    wdata.TunePara = hm_setup.DispRPM.Value;
+
+                                    var dispRPM = hm_setup.DispRPM.Value;
+
+                                    var minDispRPM = (int)(dispRPM - (dispRPM * tune_percentage_Min / 100));
+                                    var maxDispRPM = (int)(dispRPM + (dispRPM * tune_percentage_Max / 100));
+
+                                    dispRPM = IsLowerThanTarget ? (dispRPM + maxDispRPM) / 2 : (dispRPM + minDispRPM) / 2;
+                                    hm_setup.DispRPM.Value = dispRPM;
+
+                                    Wcmd.Para[1] = dispRPM;
+                                    break;
+                                }
                         }
                         #endregion
 
                     }
                     #endregion
-
-                    Result.Add(wdata);
+                    else Result.Add(wdata);
                 }
 
                 _stop:

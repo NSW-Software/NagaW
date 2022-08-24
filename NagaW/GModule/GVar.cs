@@ -747,6 +747,8 @@ namespace NagaW
             public static DPara[] ActualMassFlowRate = Enumerable.Range(0, Headno).Select(x => new DPara($"{nameof(ActualMassFlowRate)} H{x}", 0, 0, 99999, EUnit.MASS_FLOW_RATE)).ToArray();
 
             public static bool[] EnableUpdateTCmd = new bool[Headno];
+
+            public static IPara[] RepeatCount = Enumerable.Range(0, Headno).Select(x => new IPara(nameof(SampleCount), 5, 0, 15, EUnit.COUNT)).ToArray();
         }
 
 

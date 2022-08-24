@@ -310,6 +310,14 @@ namespace NagaW
                 Thread.Sleep(setup.DispTime.Value + Math.Max(setup.BSuckTime.Value, setup.VacDur.Value) + 5);
                 Mtx.ReleaseMutex();
             }
+            public static void Shot_One(HM_Param setup, int gantryIdx)
+            {
+                var i = GSystemCfg.Pump.Pumps[gantryIdx];
+                var fpress = GMotDef.Outputs[(int)i.FPressDO];
+                var vac = GMotDef.Outputs[(int)i.VacDO];
+
+                Shot_One(gantryIdx, setup, fpress, vac);
+            }
         }
 
         public static class PnuematicJet

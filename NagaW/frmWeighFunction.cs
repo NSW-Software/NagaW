@@ -33,7 +33,8 @@ namespace NagaW
 
         private void frmWeigh_Load(object sender, EventArgs e)
         {
-            tabControl1.TabPages.RemoveAt(1);
+            btnPump2.Visible = btnPump2.Enabled = false;
+            //tabControl1.TabPages.RemoveAt(1);
             GControl.ConvertTabCtrlToFLP(tabControl1);
 
             cbxWeighMode.DataSource = Enum.GetValues(typeof(EWeighMode));
@@ -254,7 +255,7 @@ namespace NagaW
             btnPump2.BackColor = gantryIdx is 1 ? Color.Lime : SystemColors.Control;
             btnPump1.Text = $"Head 1 ({GSystemCfg.Pump.Pumps[0].PumpType})";
             btnPump2.Text = $"Head 2 ({GSystemCfg.Pump.Pumps[1].PumpType})";
-            Gantry = gantryIdx is 0 ? TFGantry.GantryLeft : TFGantry.GantryRight;
+            Gantry = gantryIdx is 0 ? TFGantry.GantrySetup : TFGantry.GantryRight;
 
             //Cal
             lblDotPerSampleCal.UpdatePara(GProcessPara.Weighing.DotPerSample[gantryIdx]);
@@ -295,6 +296,7 @@ namespace NagaW
             lblZUpDist.UpdatePara(GProcessPara.Weighing.ZUpDist[gantryIdx]);
             lblDotPerSample.UpdatePara(GProcessPara.Weighing.DotPerSample[gantryIdx]);
             lblSampleCount.UpdatePara(GProcessPara.Weighing.SampleCount[gantryIdx]);
+            lblRepeatCount.UpdatePara(GProcessPara.Weighing.RepeatCount[gantryIdx]);
 
             lblPos.Text = GSetupPara.Weighing.Pos[gantryIdx, (int)GSystemCfg.Pump.Pumps[gantryIdx].PumpType].ToStringForDisplay();
 
@@ -399,7 +401,7 @@ namespace NagaW
 
         private void btnGoto_Click(object sender, EventArgs e)
         {
-            var anotherG = gantryIdx is 0 ? TFGantry.GantryRight : TFGantry.GantryLeft;
+            var anotherG = gantryIdx is 0 ? TFGantry.GantryRight : TFGantry.GantrySetup;
             anotherG.GotoXYZ(new PointXYZ());
             Gantry.GotoXYZ(GSetupPara.Weighing.Pos[gantryIdx, (int)GSystemCfg.Pump.Pumps[gantryIdx].PumpType], true);
         }
@@ -431,6 +433,11 @@ namespace NagaW
         private void lblSampleCount_Click(object sender, EventArgs e)
         {
             GLog.SetPara(ref GProcessPara.Weighing.SampleCount[gantryIdx]);
+            UpdateDisplay();
+        }
+        private void lblRepeatCount_Click(object sender, EventArgs e)
+        {
+            GLog.SetPara(ref GProcessPara.Weighing.RepeatCount[gantryIdx]);
             UpdateDisplay();
         }
         private void lblDotPerSample_Click(object sender, EventArgs e)
@@ -480,7 +487,7 @@ namespace NagaW
                 richTextBox1.Clear();
                 chartWeigh.Series.Clear();
 
-                (gantryIdx is 0 ? TFGantry.GantryRight : TFGantry.GantryLeft).GotoXYZ(new PointXYZ());
+                (gantryIdx is 0 ? TFGantry.GantryRight : TFGantry.GantrySetup).GotoXYZ(new PointXYZ());
 
                 var wmode = (EWeighType)cbxWeighType.SelectedItem;
                 var wtype = (EWeighMode)cbxWeighMode.SelectedItem;
@@ -709,5 +716,6 @@ namespace NagaW
             var v = Variance(values);
             return v <= 0 ? 0 : Math.Sqrt(v);
         }
+
     }
 }
