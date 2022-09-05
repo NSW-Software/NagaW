@@ -242,6 +242,8 @@ namespace NagaW
 
             try
             {
+                //TEZMCAux.Execute("RUN INITSYSTEM");
+
                 TFGantry.InitAll();
 
                 bool ok = TFGantry.GLStatus == EStatus.Ready && TFGantry.GRStatus == EStatus.Ready;

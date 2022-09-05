@@ -65,6 +65,8 @@
             this.btnZTouchCalFast = new System.Windows.Forms.Button();
             this.btnLaserCalFast = new System.Windows.Forms.Button();
             this.gboxZTouch = new System.Windows.Forms.GroupBox();
+            this.label63 = new System.Windows.Forms.Label();
+            this.lblEncoderRes = new System.Windows.Forms.Label();
             this.lblZTouchCalState = new System.Windows.Forms.Label();
             this.label62 = new System.Windows.Forms.Label();
             this.cbZTouchManual = new System.Windows.Forms.CheckBox();
@@ -280,8 +282,9 @@
             this.lblSprayPos = new System.Windows.Forms.Label();
             this.btnSprayPosSet = new System.Windows.Forms.Button();
             this.btnSprayPosGoto = new System.Windows.Forms.Button();
-            this.label63 = new System.Windows.Forms.Label();
-            this.lblEncoderRes = new System.Windows.Forms.Label();
+            this.btnVCReset = new System.Windows.Forms.Button();
+            this.btnFlushReset = new System.Windows.Forms.Button();
+            this.btnPurgeReset = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -415,6 +418,7 @@
             // 
             this.groupBox2.AutoSize = true;
             this.groupBox2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox2.Controls.Add(this.btnVCReset);
             this.groupBox2.Controls.Add(this.lblVCHSensorOffset);
             this.groupBox2.Controls.Add(this.btnVCLearn);
             this.groupBox2.Controls.Add(this.cbVacCleanNeedle);
@@ -424,7 +428,7 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(516, 128);
+            this.groupBox2.Size = new System.Drawing.Size(516, 124);
             this.groupBox2.TabIndex = 11;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Position";
@@ -453,9 +457,9 @@
             // cbVacCleanNeedle
             // 
             this.cbVacCleanNeedle.AutoSize = true;
-            this.cbVacCleanNeedle.Location = new System.Drawing.Point(320, 67);
+            this.cbVacCleanNeedle.Location = new System.Drawing.Point(406, 67);
             this.cbVacCleanNeedle.Name = "cbVacCleanNeedle";
-            this.cbVacCleanNeedle.Size = new System.Drawing.Size(74, 22);
+            this.cbVacCleanNeedle.Size = new System.Drawing.Size(64, 18);
             this.cbVacCleanNeedle.TabIndex = 10;
             this.cbVacCleanNeedle.Text = "Needle";
             this.cbVacCleanNeedle.UseVisualStyleBackColor = true;
@@ -512,9 +516,9 @@
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.lblVCDispTime);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox1.Location = new System.Drawing.Point(0, 128);
+            this.groupBox1.Location = new System.Drawing.Point(0, 124);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(516, 180);
+            this.groupBox1.Size = new System.Drawing.Size(516, 176);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Parameter";
@@ -608,7 +612,7 @@
             this.groupBox5.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox5.Location = new System.Drawing.Point(0, 0);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(516, 85);
+            this.groupBox5.Size = new System.Drawing.Size(516, 81);
             this.groupBox5.TabIndex = 14;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Machine Pos";
@@ -689,9 +693,9 @@
             this.groupBox13.Controls.Add(this.btnNormalXYZCal);
             this.groupBox13.Controls.Add(this.btnTouchDot);
             this.groupBox13.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox13.Location = new System.Drawing.Point(264, 504);
+            this.groupBox13.Location = new System.Drawing.Point(264, 492);
             this.groupBox13.Name = "groupBox13";
-            this.groupBox13.Size = new System.Drawing.Size(252, 67);
+            this.groupBox13.Size = new System.Drawing.Size(252, 79);
             this.groupBox13.TabIndex = 8;
             this.groupBox13.TabStop = false;
             this.groupBox13.Text = "All Cal";
@@ -726,9 +730,9 @@
             this.groupBox9.Controls.Add(this.btnZTouchCalFast);
             this.groupBox9.Controls.Add(this.btnLaserCalFast);
             this.groupBox9.Dock = System.Windows.Forms.DockStyle.Left;
-            this.groupBox9.Location = new System.Drawing.Point(0, 504);
+            this.groupBox9.Location = new System.Drawing.Point(0, 492);
             this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(264, 67);
+            this.groupBox9.Size = new System.Drawing.Size(264, 79);
             this.groupBox9.TabIndex = 7;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Fast Mode";
@@ -783,12 +787,37 @@
             this.gboxZTouch.Controls.Add(this.lblZCamPos);
             this.gboxZTouch.Controls.Add(this.label11);
             this.gboxZTouch.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gboxZTouch.Location = new System.Drawing.Point(0, 305);
+            this.gboxZTouch.Location = new System.Drawing.Point(0, 297);
             this.gboxZTouch.Name = "gboxZTouch";
-            this.gboxZTouch.Size = new System.Drawing.Size(516, 199);
+            this.gboxZTouch.Size = new System.Drawing.Size(516, 195);
             this.gboxZTouch.TabIndex = 5;
             this.gboxZTouch.TabStop = false;
             this.gboxZTouch.Text = "Z Touch";
+            // 
+            // label63
+            // 
+            this.label63.Location = new System.Drawing.Point(311, 118);
+            this.label63.Margin = new System.Windows.Forms.Padding(3);
+            this.label63.Name = "label63";
+            this.label63.Size = new System.Drawing.Size(87, 25);
+            this.label63.TabIndex = 31;
+            this.label63.Text = "ZEncoderRes";
+            this.label63.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label63.Visible = false;
+            // 
+            // lblEncoderRes
+            // 
+            this.lblEncoderRes.BackColor = System.Drawing.Color.White;
+            this.lblEncoderRes.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblEncoderRes.Location = new System.Drawing.Point(412, 118);
+            this.lblEncoderRes.Margin = new System.Windows.Forms.Padding(3);
+            this.lblEncoderRes.Name = "lblEncoderRes";
+            this.lblEncoderRes.Size = new System.Drawing.Size(90, 25);
+            this.lblEncoderRes.TabIndex = 32;
+            this.lblEncoderRes.Text = "999.999";
+            this.lblEncoderRes.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblEncoderRes.Visible = false;
+            this.lblEncoderRes.Click += new System.EventHandler(this.lblEncoderRes_Click);
             // 
             // lblZTouchCalState
             // 
@@ -816,7 +845,7 @@
             this.cbZTouchManual.AutoSize = true;
             this.cbZTouchManual.Location = new System.Drawing.Point(336, 68);
             this.cbZTouchManual.Name = "cbZTouchManual";
-            this.cbZTouchManual.Size = new System.Drawing.Size(76, 22);
+            this.cbZTouchManual.Size = new System.Drawing.Size(63, 18);
             this.cbZTouchManual.TabIndex = 23;
             this.cbZTouchManual.Text = "Manual";
             this.cbZTouchManual.UseVisualStyleBackColor = true;
@@ -954,9 +983,9 @@
             this.gboxNeedleXY.Controls.Add(this.lblNeedleOffset);
             this.gboxNeedleXY.Controls.Add(this.lblNeedleCamPos);
             this.gboxNeedleXY.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gboxNeedleXY.Location = new System.Drawing.Point(0, 137);
+            this.gboxNeedleXY.Location = new System.Drawing.Point(0, 133);
             this.gboxNeedleXY.Name = "gboxNeedleXY";
-            this.gboxNeedleXY.Size = new System.Drawing.Size(516, 168);
+            this.gboxNeedleXY.Size = new System.Drawing.Size(516, 164);
             this.gboxNeedleXY.TabIndex = 4;
             this.gboxNeedleXY.TabStop = false;
             this.gboxNeedleXY.Text = "Needle XY";
@@ -1095,7 +1124,7 @@
             this.groupBox8.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox8.Location = new System.Drawing.Point(0, 0);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(516, 137);
+            this.groupBox8.Size = new System.Drawing.Size(516, 133);
             this.groupBox8.TabIndex = 3;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Laser";
@@ -1126,7 +1155,7 @@
             this.cboxLaserOffsetManual.AutoSize = true;
             this.cboxLaserOffsetManual.Location = new System.Drawing.Point(336, 68);
             this.cboxLaserOffsetManual.Name = "cboxLaserOffsetManual";
-            this.cboxLaserOffsetManual.Size = new System.Drawing.Size(76, 22);
+            this.cboxLaserOffsetManual.Size = new System.Drawing.Size(63, 18);
             this.cboxLaserOffsetManual.TabIndex = 9;
             this.cboxLaserOffsetManual.Text = "Manual";
             this.cboxLaserOffsetManual.UseVisualStyleBackColor = true;
@@ -1246,7 +1275,7 @@
             this.groupBox12.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox12.Location = new System.Drawing.Point(3, 3);
             this.groupBox12.Name = "groupBox12";
-            this.groupBox12.Size = new System.Drawing.Size(510, 396);
+            this.groupBox12.Size = new System.Drawing.Size(510, 392);
             this.groupBox12.TabIndex = 29;
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Dynamic Cal";
@@ -1334,7 +1363,7 @@
             this.cbxDynamicDir.FormattingEnabled = true;
             this.cbxDynamicDir.Location = new System.Drawing.Point(107, 238);
             this.cbxDynamicDir.Name = "cbxDynamicDir";
-            this.cbxDynamicDir.Size = new System.Drawing.Size(121, 26);
+            this.cbxDynamicDir.Size = new System.Drawing.Size(121, 22);
             this.cbxDynamicDir.TabIndex = 29;
             this.cbxDynamicDir.SelectionChangeCommitted += new System.EventHandler(this.cbxDynamicDir_SelectionChangeCommitted);
             // 
@@ -1569,9 +1598,9 @@
             this.groupBox3.Controls.Add(this.label38);
             this.groupBox3.Controls.Add(this.lblFlushDispTime);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox3.Location = new System.Drawing.Point(0, 128);
+            this.groupBox3.Location = new System.Drawing.Point(0, 124);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(516, 180);
+            this.groupBox3.Size = new System.Drawing.Size(516, 176);
             this.groupBox3.TabIndex = 12;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Parameter";
@@ -1751,6 +1780,7 @@
             // 
             this.groupBox4.AutoSize = true;
             this.groupBox4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox4.Controls.Add(this.btnFlushReset);
             this.groupBox4.Controls.Add(this.lblFlushHSensorOffset);
             this.groupBox4.Controls.Add(this.btnFlushLearn);
             this.groupBox4.Controls.Add(this.cbFlushNeedle);
@@ -1760,7 +1790,7 @@
             this.groupBox4.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox4.Location = new System.Drawing.Point(0, 0);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(516, 128);
+            this.groupBox4.Size = new System.Drawing.Size(516, 124);
             this.groupBox4.TabIndex = 13;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Position";
@@ -1789,9 +1819,9 @@
             // cbFlushNeedle
             // 
             this.cbFlushNeedle.AutoSize = true;
-            this.cbFlushNeedle.Location = new System.Drawing.Point(320, 67);
+            this.cbFlushNeedle.Location = new System.Drawing.Point(406, 67);
             this.cbFlushNeedle.Name = "cbFlushNeedle";
-            this.cbFlushNeedle.Size = new System.Drawing.Size(74, 22);
+            this.cbFlushNeedle.Size = new System.Drawing.Size(64, 18);
             this.cbFlushNeedle.TabIndex = 11;
             this.cbFlushNeedle.Text = "Needle";
             this.cbFlushNeedle.UseVisualStyleBackColor = true;
@@ -1860,9 +1890,9 @@
             this.groupBox6.Controls.Add(this.label57);
             this.groupBox6.Controls.Add(this.lblPurgeDispTime);
             this.groupBox6.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox6.Location = new System.Drawing.Point(0, 128);
+            this.groupBox6.Location = new System.Drawing.Point(0, 124);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(516, 180);
+            this.groupBox6.Size = new System.Drawing.Size(516, 176);
             this.groupBox6.TabIndex = 12;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Parameter";
@@ -2042,6 +2072,7 @@
             // 
             this.groupBox7.AutoSize = true;
             this.groupBox7.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox7.Controls.Add(this.btnPurgeReset);
             this.groupBox7.Controls.Add(this.lblPurgeHSensorOffset);
             this.groupBox7.Controls.Add(this.btnPurgeLearn);
             this.groupBox7.Controls.Add(this.cbPurgeNeedle);
@@ -2051,7 +2082,7 @@
             this.groupBox7.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox7.Location = new System.Drawing.Point(0, 0);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(516, 128);
+            this.groupBox7.Size = new System.Drawing.Size(516, 124);
             this.groupBox7.TabIndex = 13;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Position";
@@ -2080,9 +2111,9 @@
             // cbPurgeNeedle
             // 
             this.cbPurgeNeedle.AutoSize = true;
-            this.cbPurgeNeedle.Location = new System.Drawing.Point(320, 67);
+            this.cbPurgeNeedle.Location = new System.Drawing.Point(406, 67);
             this.cbPurgeNeedle.Name = "cbPurgeNeedle";
-            this.cbPurgeNeedle.Size = new System.Drawing.Size(74, 22);
+            this.cbPurgeNeedle.Size = new System.Drawing.Size(64, 18);
             this.cbPurgeNeedle.TabIndex = 11;
             this.cbPurgeNeedle.Text = "Needle";
             this.cbPurgeNeedle.UseVisualStyleBackColor = true;
@@ -2142,7 +2173,7 @@
             this.chkbxCamOffset.AutoSize = true;
             this.chkbxCamOffset.Location = new System.Drawing.Point(295, 380);
             this.chkbxCamOffset.Name = "chkbxCamOffset";
-            this.chkbxCamOffset.Size = new System.Drawing.Size(180, 40);
+            this.chkbxCamOffset.Size = new System.Drawing.Size(151, 32);
             this.chkbxCamOffset.TabIndex = 29;
             this.chkbxCamOffset.Text = "CamOffset After Purge\r\n(RunMode: Normal)";
             this.chkbxCamOffset.UseVisualStyleBackColor = true;
@@ -2175,7 +2206,7 @@
             this.cbxRunMode.FormattingEnabled = true;
             this.cbxRunMode.Location = new System.Drawing.Point(6, 397);
             this.cbxRunMode.Name = "cbxRunMode";
-            this.cbxRunMode.Size = new System.Drawing.Size(91, 26);
+            this.cbxRunMode.Size = new System.Drawing.Size(91, 22);
             this.cbxRunMode.TabIndex = 16;
             this.cbxRunMode.SelectionChangeCommitted += new System.EventHandler(this.cbxRunMode_SelectionChangeCommitted);
             // 
@@ -2188,9 +2219,9 @@
             this.groupBox16.Controls.Add(this.lblPurgeStageOffset);
             this.groupBox16.Controls.Add(this.label31);
             this.groupBox16.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox16.Location = new System.Drawing.Point(0, 307);
+            this.groupBox16.Location = new System.Drawing.Point(0, 303);
             this.groupBox16.Name = "groupBox16";
-            this.groupBox16.Size = new System.Drawing.Size(516, 71);
+            this.groupBox16.Size = new System.Drawing.Size(516, 67);
             this.groupBox16.TabIndex = 15;
             this.groupBox16.TabStop = false;
             this.groupBox16.Text = "Setting";
@@ -2258,7 +2289,7 @@
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Top;
             this.tabControl1.ItemSize = new System.Drawing.Size(100, 30);
-            this.tabControl1.Location = new System.Drawing.Point(0, 86);
+            this.tabControl1.Location = new System.Drawing.Point(0, 82);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(516, 221);
@@ -2634,7 +2665,7 @@
             this.cbxPath.FormattingEnabled = true;
             this.cbxPath.Location = new System.Drawing.Point(87, 105);
             this.cbxPath.Name = "cbxPath";
-            this.cbxPath.Size = new System.Drawing.Size(121, 26);
+            this.cbxPath.Size = new System.Drawing.Size(121, 22);
             this.cbxPath.TabIndex = 15;
             this.cbxPath.SelectionChangeCommitted += new System.EventHandler(this.cbxPath_SelectionChangeCommitted);
             // 
@@ -2771,7 +2802,7 @@
             this.groupBox15.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox15.Location = new System.Drawing.Point(0, 0);
             this.groupBox15.Name = "groupBox15";
-            this.groupBox15.Size = new System.Drawing.Size(516, 86);
+            this.groupBox15.Size = new System.Drawing.Size(516, 82);
             this.groupBox15.TabIndex = 12;
             this.groupBox15.TabStop = false;
             this.groupBox15.Text = "Position";
@@ -2781,7 +2812,7 @@
             this.cbPurgeStageNeedle.AutoSize = true;
             this.cbPurgeStageNeedle.Location = new System.Drawing.Point(406, 34);
             this.cbPurgeStageNeedle.Name = "cbPurgeStageNeedle";
-            this.cbPurgeStageNeedle.Size = new System.Drawing.Size(74, 22);
+            this.cbPurgeStageNeedle.Size = new System.Drawing.Size(64, 18);
             this.cbPurgeStageNeedle.TabIndex = 10;
             this.cbPurgeStageNeedle.Text = "Needle";
             this.cbPurgeStageNeedle.UseVisualStyleBackColor = true;
@@ -2837,9 +2868,9 @@
             this.groupBox14.Controls.Add(this.lblPumpPos);
             this.groupBox14.Controls.Add(this.btnPumpPosSet);
             this.groupBox14.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox14.Location = new System.Drawing.Point(0, 85);
+            this.groupBox14.Location = new System.Drawing.Point(0, 81);
             this.groupBox14.Name = "groupBox14";
-            this.groupBox14.Size = new System.Drawing.Size(516, 85);
+            this.groupBox14.Size = new System.Drawing.Size(516, 81);
             this.groupBox14.TabIndex = 15;
             this.groupBox14.TabStop = false;
             this.groupBox14.Text = "Pump Pos";
@@ -2900,9 +2931,9 @@
             this.groupBox11.Controls.Add(this.label48);
             this.groupBox11.Controls.Add(this.lblABCleanRelZPos);
             this.groupBox11.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox11.Location = new System.Drawing.Point(0, 128);
+            this.groupBox11.Location = new System.Drawing.Point(0, 124);
             this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(516, 137);
+            this.groupBox11.Size = new System.Drawing.Size(516, 133);
             this.groupBox11.TabIndex = 13;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Parameter";
@@ -3022,7 +3053,7 @@
             this.groupBox10.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox10.Location = new System.Drawing.Point(0, 0);
             this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(516, 128);
+            this.groupBox10.Size = new System.Drawing.Size(516, 124);
             this.groupBox10.TabIndex = 12;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Position";
@@ -3053,7 +3084,7 @@
             this.cbAirBladeCleanNeedle.AutoSize = true;
             this.cbAirBladeCleanNeedle.Location = new System.Drawing.Point(320, 67);
             this.cbAirBladeCleanNeedle.Name = "cbAirBladeCleanNeedle";
-            this.cbAirBladeCleanNeedle.Size = new System.Drawing.Size(74, 22);
+            this.cbAirBladeCleanNeedle.Size = new System.Drawing.Size(64, 18);
             this.cbAirBladeCleanNeedle.TabIndex = 9;
             this.cbAirBladeCleanNeedle.Text = "Needle";
             this.cbAirBladeCleanNeedle.UseVisualStyleBackColor = true;
@@ -3127,9 +3158,9 @@
             this.groupBox19.Controls.Add(this.lblSprayTime);
             this.groupBox19.Controls.Add(this.label78);
             this.groupBox19.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox19.Location = new System.Drawing.Point(0, 128);
+            this.groupBox19.Location = new System.Drawing.Point(0, 124);
             this.groupBox19.Name = "groupBox19";
-            this.groupBox19.Size = new System.Drawing.Size(516, 180);
+            this.groupBox19.Size = new System.Drawing.Size(516, 176);
             this.groupBox19.TabIndex = 15;
             this.groupBox19.TabStop = false;
             this.groupBox19.Text = "Parameter";
@@ -3272,7 +3303,7 @@
             this.groupBox18.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox18.Location = new System.Drawing.Point(0, 0);
             this.groupBox18.Name = "groupBox18";
-            this.groupBox18.Size = new System.Drawing.Size(516, 128);
+            this.groupBox18.Size = new System.Drawing.Size(516, 124);
             this.groupBox18.TabIndex = 14;
             this.groupBox18.TabStop = false;
             this.groupBox18.Text = "Position";
@@ -3303,7 +3334,7 @@
             this.cbNeedleSpray.AutoSize = true;
             this.cbNeedleSpray.Location = new System.Drawing.Point(320, 67);
             this.cbNeedleSpray.Name = "cbNeedleSpray";
-            this.cbNeedleSpray.Size = new System.Drawing.Size(74, 22);
+            this.cbNeedleSpray.Size = new System.Drawing.Size(64, 18);
             this.cbNeedleSpray.TabIndex = 11;
             this.cbNeedleSpray.Text = "Needle";
             this.cbNeedleSpray.UseVisualStyleBackColor = true;
@@ -3340,30 +3371,35 @@
             this.btnSprayPosGoto.UseVisualStyleBackColor = true;
             this.btnSprayPosGoto.Click += new System.EventHandler(this.btnSprayPosGoto_Click);
             // 
-            // label63
+            // btnVCReset
             // 
-            this.label63.Location = new System.Drawing.Point(311, 118);
-            this.label63.Margin = new System.Windows.Forms.Padding(3);
-            this.label63.Name = "label63";
-            this.label63.Size = new System.Drawing.Size(87, 25);
-            this.label63.TabIndex = 31;
-            this.label63.Text = "ZEncoderRes";
-            this.label63.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label63.Visible = false;
+            this.btnVCReset.Location = new System.Drawing.Point(320, 67);
+            this.btnVCReset.Name = "btnVCReset";
+            this.btnVCReset.Size = new System.Drawing.Size(80, 36);
+            this.btnVCReset.TabIndex = 13;
+            this.btnVCReset.Text = "Reset HSensor";
+            this.btnVCReset.UseVisualStyleBackColor = true;
+            this.btnVCReset.Click += new System.EventHandler(this.btnVCReset_Click);
             // 
-            // lblEncoderRes
+            // btnFlushReset
             // 
-            this.lblEncoderRes.BackColor = System.Drawing.Color.White;
-            this.lblEncoderRes.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblEncoderRes.Location = new System.Drawing.Point(412, 118);
-            this.lblEncoderRes.Margin = new System.Windows.Forms.Padding(3);
-            this.lblEncoderRes.Name = "lblEncoderRes";
-            this.lblEncoderRes.Size = new System.Drawing.Size(90, 25);
-            this.lblEncoderRes.TabIndex = 32;
-            this.lblEncoderRes.Text = "999.999";
-            this.lblEncoderRes.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblEncoderRes.Visible = false;
-            this.lblEncoderRes.Click += new System.EventHandler(this.lblEncoderRes_Click);
+            this.btnFlushReset.Location = new System.Drawing.Point(320, 67);
+            this.btnFlushReset.Name = "btnFlushReset";
+            this.btnFlushReset.Size = new System.Drawing.Size(80, 36);
+            this.btnFlushReset.TabIndex = 15;
+            this.btnFlushReset.Text = "Reset HSensor";
+            this.btnFlushReset.UseVisualStyleBackColor = true;
+            this.btnFlushReset.Click += new System.EventHandler(this.btnFlushReset_Click);
+            // 
+            // btnPurgeReset
+            // 
+            this.btnPurgeReset.Location = new System.Drawing.Point(320, 67);
+            this.btnPurgeReset.Name = "btnPurgeReset";
+            this.btnPurgeReset.Size = new System.Drawing.Size(80, 36);
+            this.btnPurgeReset.TabIndex = 18;
+            this.btnPurgeReset.Text = "Reset HSensor";
+            this.btnPurgeReset.UseVisualStyleBackColor = true;
+            this.btnPurgeReset.Click += new System.EventHandler(this.btnPurgeReset_Click);
             // 
             // frmSetup
             // 
@@ -3693,5 +3729,8 @@
         private System.Windows.Forms.Label label78;
         private System.Windows.Forms.Label label63;
         private System.Windows.Forms.Label lblEncoderRes;
+        private System.Windows.Forms.Button btnVCReset;
+        private System.Windows.Forms.Button btnFlushReset;
+        private System.Windows.Forms.Button btnPurgeReset;
     }
 }

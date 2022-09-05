@@ -206,6 +206,93 @@ namespace NagaW
         LocalToNSW,
     }
 
+    public enum EDO_Label
+    {
+        NONE,
+
+        PUMP_VERMES_TRIG = 10,
+        CAM_TRIG,
+        CONFOCAL_TRIG,
+        HEATER_VERMES_TRIG,
+
+        PUMP_PRESS_SV = 30,
+        PUMP_VAC_SV,
+        PUMP_PULSE_SV,
+        PP_A,
+        PP_B,
+        AGI_A,
+        AGI_B,
+
+        NEEDLE_SPRAY_ON = 50,
+        CLEAN_CLAMP_ON,
+        CLEAN_VAC_ON,
+        CHUCK_VAC_ON,
+        WAFER_VAC_LOW_ON,
+        WAFER_VAC_ON,
+        WAFER_PURGE_ON,
+        IONIZER_AIR_ON,
+        IONIZER_BLOWER,
+
+        DOOR_LOCK = 100,
+        TWR_LIGHT_RED,
+        TWR_LIGHT_YELLOW,
+        TWR_LIGHT_GREEN,
+        TWR_LIGHT_BLUE,
+        TWR_LIGHT_WHITE,
+        TWR_LIGHT_BUZZER,
+
+        SMEMA_UP_MC_RDY,
+        SMEMA_DN_BD_RDY,
+
+
+        LOOK_UP_CAM_TRIG = 200,
+    }
+
+    public enum EDI_Label
+    {
+        NONE,
+
+        PUMP_PRESS_SW_ON = 10,
+        PUMP_VAC_SW_ON,
+        PUMP_PULSE_SW_ON,
+        PUMP_FLUID_DETECTION,
+        PUMP_HM_ROT,
+        PUMP_VERMES_READY,
+        VERMES_HEATER_ERR,
+
+        MAIN_AIR_PRESS_SW_ON = 30,
+        SAFETY_LINE_CLOSE,
+        HEATER_CHUCK_TC_ALM,
+        HEATER_PUMP_TC_ALM,
+        TURNING_TABLE_THERM_CLOSE,
+
+        CLEAN_STATION_UNCLAMPED = 60,
+        BLOWER_IONIZER_ALM,
+        SPRAY_CLEAN_EXH,
+        SPRAY_CLEAN_SUPPLY,
+
+        WAFER_VAC1_ON = 100,
+        WAFER_VAC2_ON,
+        CHUCK_VAC_ON,
+        IONIZER_ON,
+
+        PRECISOR_1,
+        PRECISOR_2,
+        PRECISOR_3,
+        LIFTER_UP,
+        LIFTER_DN,
+        LIFTER_MTR_HOME,
+
+        DOOR_CLOSED = 150,
+        DOOR_LOCKED,
+        DOOR_BYPASS_KEY_SWITCH,
+        SMEMA_UP_BD_RDY,
+        SMEMA_DN_MC_RDY,
+
+        LOOK_UP_CAM_IMG_OK = 200,
+        SENS_EMITTER,
+    }
+
     #region
     [TypeConverter(typeof(ExpandableObjectConverter))]
     [Serializable]

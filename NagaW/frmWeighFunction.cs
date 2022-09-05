@@ -346,6 +346,8 @@ namespace NagaW
 
             OutputFlowRate.Value = new TFunction().WeighReturnFlowRate(CalLineDist.Value, CalTargetMass.Value, CalSpeed.Value);
             lblCalFlowRate.UpdatePara(OutputFlowRate);
+
+            cbxTuneVar.Enabled = GSystemCfg.Pump.Pumps[0].PumpType != EPumpType.HM;
         }
 
         private void UpdateChart(BindingList<TEWeighData> result)

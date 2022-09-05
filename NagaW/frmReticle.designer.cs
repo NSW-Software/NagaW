@@ -50,7 +50,7 @@
             // 
             this.nudSizeX.Location = new System.Drawing.Point(201, 75);
             this.nudSizeX.Maximum = new decimal(new int[] {
-            2000,
+            50000,
             0,
             0,
             0});
@@ -73,7 +73,7 @@
             // 
             this.nudSizeY.Location = new System.Drawing.Point(292, 75);
             this.nudSizeY.Maximum = new decimal(new int[] {
-            2000,
+            50000,
             0,
             0,
             0});

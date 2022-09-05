@@ -471,6 +471,11 @@ namespace NagaW
             MsgBox.Processing("Vac Clean Learn", () => TCNeedleFunc.CFP[gantry.Index].Learn(ENeedleCleanMode.VacClean));
             UpdateDisplay();
         }
+        private void btnVCReset_Click(object sender, EventArgs e)
+        {
+            GSetupPara.NeedleVacClean.HSensorValue[SelectedHead] = 0;
+            UpdateDisplay();
+        }
         private void btnExecVC_Click(object sender, EventArgs e)
         {
             MsgBox.Processing("Vac Clean", () => TCNeedleFunc.CFP[gantry.Index].Execute(ENeedleCleanMode.VacClean), () => TCNeedleFunc.CFP[gantry.Index].running = false);
@@ -550,6 +555,11 @@ namespace NagaW
             MsgBox.Processing("Flush Learn", () => TCNeedleFunc.CFP[gantry.Index].Learn(ENeedleCleanMode.Flush));
             UpdateDisplay();
         }
+        private void btnFlushReset_Click(object sender, EventArgs e)
+        {
+            GSetupPara.NeedleFlush.HSensorValue[SelectedHead] = 0;
+            UpdateDisplay();
+        }
         private void btnFlushExec_Click(object sender, EventArgs e)
         {
             MsgBox.Processing("Flush", () => TCNeedleFunc.CFP[gantry.Index].Execute(ENeedleCleanMode.Flush), () => TCNeedleFunc.CFP[gantry.Index].running = false);
@@ -622,6 +632,11 @@ namespace NagaW
         private void btnPurgeLearn_Click(object sender, EventArgs e)
         {
             MsgBox.Processing("Purge Learn", () => TCNeedleFunc.CFP[gantry.Index].Learn(ENeedleCleanMode.Purge));
+            UpdateDisplay();
+        }
+        private void btnPurgeReset_Click(object sender, EventArgs e)
+        {
+            GSetupPara.NeedlePurge.HSensorValue[SelectedHead] = 0;
             UpdateDisplay();
         }
         private void btnPurgeExec_Click(object sender, EventArgs e)
@@ -1096,5 +1111,6 @@ namespace NagaW
             GLog.SetPara(ref GProcessPara.Calibration.ZTouchEncoderRes[gantry.Index]);
             UpdateDisplay();
         }
+
     }
 }

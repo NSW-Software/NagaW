@@ -1375,6 +1375,7 @@ namespace NagaW
         {
             public int InputNo { get; set; } = 0;
             public string Name { get; set; } = "";
+            public EDI_Label Label { get; set; }
             public TInput(int inputNo, string name)
             {
                 this.InputNo = inputNo;
@@ -1407,6 +1408,7 @@ namespace NagaW
         {
             public int OutputNo { get; set; } = 0;
             public string Name { get; set; } = "";
+            public EDO_Label Label { get; set; }
             public TOutput(int outputNo, string name)
             {
                 this.OutputNo = outputNo;

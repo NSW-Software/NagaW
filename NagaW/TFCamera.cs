@@ -149,6 +149,7 @@ namespace NagaW
 
                         try
                         {
+                            MVC_GenTL.StopGrab();
                             MVC_GenTL.CloseDevice();
                         }
                         catch (Exception)
