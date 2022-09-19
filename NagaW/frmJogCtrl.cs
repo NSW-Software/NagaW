@@ -61,7 +61,7 @@ namespace NagaW
             btnNegY.Text = gantry == TFGantry.GantryLeft ? "Y-" : "V-";
 
 
-            btnGantryR.Visible = btnGantryL.Visible = TFGantry.GantrySelect != TFGantry.GantrySetup;
+            //btnGantryR.Visible = btnGantryL.Visible = TFGantry.GantrySelect == TFGantry.GantrySetup;
         }
 
         bool bLaserPool = true;

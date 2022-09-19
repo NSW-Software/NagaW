@@ -120,7 +120,8 @@ namespace NagaW
         private void btnLayoutStartPosPGoto_Click(object sender, EventArgs e)
         {
             var pos = StartPos + SelectedLayout.StartPos;
-            gantry.MoveOpXYAbs(pos.ToArray);
+            //gantry.MoveOpXYAbs(pos.ToArray);
+            gantry.GotoXYZ(new PointXYZ(pos.X, pos.Y, GRecipes.Board[gantry.Index].StartPos.Z));
         }
 
         private void lblLayoutCol_Click(object sender, EventArgs e)
@@ -177,7 +178,8 @@ namespace NagaW
         private void btnLayoutPitchColGoto_Click(object sender, EventArgs e)
         {
             var pos = StartPos + SelectedLayout.StartPos + new PointD(SelectedLayout.PitchCol.X * (SelectedLayout.CR.X - 1), SelectedLayout.PitchCol.Y * (SelectedLayout.CR.X - 1));
-            gantry.MoveOpXYAbs(pos.ToArray);
+            //gantry.MoveOpXYAbs(pos.ToArray);
+            gantry.GotoXYZ(new PointXYZ(pos.X, pos.Y, GRecipes.Board[gantry.Index].StartPos.Z));
         }
 
         private void lblLayoutPitchRowX_Click(object sender, EventArgs e)
@@ -212,7 +214,8 @@ namespace NagaW
         private void btnLayoutPitchRowGoto_Click(object sender, EventArgs e)
         {
             var pos = StartPos + SelectedLayout.StartPos + new PointD(SelectedLayout.PitchRow.X * (SelectedLayout.CR.Y - 1), SelectedLayout.PitchRow.Y * (SelectedLayout.CR.Y - 1));
-            gantry.MoveOpXYAbs(pos.ToArray);
+            //gantry.MoveOpXYAbs(pos.ToArray);
+            gantry.GotoXYZ(new PointXYZ(pos.X, pos.Y, GRecipes.Board[gantry.Index].StartPos.Z));
         }
 
         private void cbxPath_SelectionChangeCommitted(object sender, EventArgs e)

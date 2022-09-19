@@ -552,6 +552,8 @@ namespace NagaW
         static UInt32 uiResponseLength = 1024;
         private static void execute(string cmd, ref string stringResult, bool silent = false, bool forceLog = false)//Execute Task
         {
+            if (!CheckSideDoor()) return;
+
             CheckMoveFlag(cmd);
 
             if (!Enable || !Online) return;
@@ -592,6 +594,8 @@ namespace NagaW
         }
         private static void directCommand(string cmd, ref string stringResult, bool silent = false, bool forceLog = false)//Direct Command
         {
+            if (!CheckSideDoor()) return;
+
             CheckMoveFlag(cmd);
 
             if (!Enable || !Online) return;
@@ -844,6 +848,20 @@ namespace NagaW
         public static int Table(int tableNo)
         {
             return (int)QueryDouble($"TABLE({tableNo})");
+        }
+
+        public static bool CheckSideDoor()
+        {
+            if (GSystemCfg.Safety.SideDoorCheck)
+            {
+                var input = GMotDef.Inputs[(int)GSystemCfg.Safety.SideDoorSens];
+                if (input.Status)
+                {
+                    GAlarm.Prompt(EAlarm.SIDE_DOOR_PSNT, "Side Door Sensor Triggered. Please Check");
+                    return false;
+                }
+            }
+            return true;
         }
 
         public class TAxis

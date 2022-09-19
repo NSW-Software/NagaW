@@ -366,18 +366,27 @@ namespace NagaW
             {
                 TEZMCAux.Execute("GXCOLLISION=500");
 
-                var taskL = Task<bool>.Run(() =>
+                switch (GSystemCfg.Config.WaferEnable)
                 {
-                    return TFGantry.GXYZHome();
-                });
+                    case true:
+                        var taskL = Task<bool>.Run(() =>
+                        {
+                            return TFGantry.GXYZHome();
+                        });
 
-                var taskR = Task<bool>.Run(() =>
-                 {
-                     return TFGantry.GVRHome();
-                 });
+                        var taskR = Task<bool>.Run(() =>
+                        {
+                            return TFGantry.GVRHome();
+                        });
 
-                Task.WaitAll(taskL, taskR);
-                if (!taskL.Result || !taskR.Result) return false;
+                        Task.WaitAll(taskL, taskR);
+                        if (!taskL.Result || !taskR.Result) return false;
+                        break;
+                    case false:
+                        TFGantry.GXYZHome();
+                        break;
+                }
+
                 return true;
             }
             catch (Exception ex)
@@ -549,6 +558,8 @@ namespace NagaW
                             break;
                         }
                 }
+
+                if (!gantry.MoveOpZAbs(0)) return InComplete();
 
                 for (int c = 0; c < count; c++)
                 {

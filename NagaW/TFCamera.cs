@@ -105,6 +105,7 @@ namespace NagaW
                         {
                             try
                             {
+                                MVC_GenTL.StopGrab();
                                 MVC_GenTL.CloseDevice();
                             }
                             catch { }
@@ -150,6 +151,7 @@ namespace NagaW
                         try
                         {
                             MVC_GenTL.StopGrab();
+                            emgucvImage.Dispose();
                             MVC_GenTL.CloseDevice();
                         }
                         catch (Exception)

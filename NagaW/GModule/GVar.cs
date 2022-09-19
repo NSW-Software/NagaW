@@ -28,6 +28,8 @@ namespace NagaW
             public static int EquipmentID { get; set; }
 
             public static EZTouchType ZTouchType { get; set; } = EZTouchType.LINEAR;
+            [DisplayName("Wafer Enable")]
+            public static bool WaferEnable { get; set; } = false;
 
             [Description("Second")]
             public static int SafetyDoorDelaySens_Seconds { get; set; } = 5;

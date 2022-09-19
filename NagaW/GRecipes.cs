@@ -3994,7 +3994,7 @@ namespace NagaW
 
         public bool HeightAlignExecute(TEZMCAux.TGroup gantryGroup, PointD originAbs, TCmd cmd, ref THeightData heightData)
         {
-            TFLightCtrl.LightPair[gantryGroup.Index].Off();
+            //TFLightCtrl.LightPair[gantryGroup.Index].Off();
 
             heightData.Status = EHeightAlignStatus.NG;
 
