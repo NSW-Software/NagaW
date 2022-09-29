@@ -183,6 +183,8 @@ namespace NagaW
                     }
 
                 }
+
+                if (GSystemCfg.Weight.Weights[0].StartUpEnable) TFWeightScale.Open();
             });
             #endregion
 
@@ -218,7 +220,7 @@ namespace NagaW
                 for (int k = 0; k < GSystemCfg.Camera.Count; k++) TFCameras.Camera[k].Disconnect();
                 
                 TFPump.Close();
-
+                TFWeightScale.Close();
             });
             TFTower.Close();
             TFGantry.Close();

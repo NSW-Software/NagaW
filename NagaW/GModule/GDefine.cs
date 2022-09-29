@@ -138,9 +138,17 @@ namespace NagaW
         {
             return new PointD(a.X * b.X, a.Y * b.Y);
         }
+        public static PointD operator *(PointD a, double d)
+        {
+            return new PointD(a.X * d, a.Y * d);
+        }
         public static PointD operator /(PointD a, PointI b)
         {
             return new PointD(a.X / b.X, a.Y / b.Y);
+        }
+        public static PointD operator /(PointD a, double d)
+        {
+            return new PointD(a.X / d, a.Y / d);
         }
         public bool IsZero
         {

@@ -347,6 +347,7 @@ namespace NagaW
             var gantry = GantryIdx is 0 ? TFGantry.GantrySetup : TFGantry.GantryRight;
             var gantryidx = gantry.Index;
 
+            Finish = false;
             Stop = false;
             Result.Clear();
 
@@ -776,6 +777,7 @@ namespace NagaW
             }
             catch (Exception ex)
             {
+                Finish = false;
                 GLog.WriteException(ex);
                 MsgBox.ShowDialog(ex.Message.ToString());
                 return false;

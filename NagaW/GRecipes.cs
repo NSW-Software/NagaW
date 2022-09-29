@@ -4133,6 +4133,40 @@ namespace NagaW
             double flowrate = mass * velocity / wdist;
             return flowrate;
         }
+        public static double TwoPointsLength(PointD xy1, PointD xy2)
+        {
+            var x = Math.Pow(xy2.X - xy1.X, 2);
+            var y = Math.Pow(xy2.Y - xy1.Y, 2);
+
+            var length = Math.Sqrt(x + y);
+            return Math.Abs(length);
+        }
+        public static PointD TwoLineIntersectPoint(PointD l1Startpos, PointD l1EndPos, PointD l2StartPos, PointD l2EndPos)
+        {
+            double r = 0.00000001;
+            double m1 = ((l1EndPos.Y - l1Startpos.Y) is 0 ? r : (l1EndPos.Y - l1Startpos.Y)) / ((l1EndPos.X - l1Startpos.X) is 0 ? r : (l1EndPos.X - l1Startpos.X));
+            double m2 = ((l2EndPos.Y - l2StartPos.Y) is 0 ? r : (l2EndPos.Y - l2StartPos.Y)) / ((l2EndPos.X - l2StartPos.X) is 0 ? r : (l2EndPos.X - l2StartPos.X));
+
+            double _m1 = -1 / m1;
+            double _m2 = -1 / m2;
+
+            PointD midPt1 = new PointD((l1Startpos + l1EndPos).X / 2, (l1Startpos + l1EndPos).Y / 2);
+            PointD midPt2 = new PointD((l2StartPos + l2EndPos).X / 2, (l2StartPos + l2EndPos).Y / 2);
+
+            double c1 = midPt1.Y - (_m1 * midPt1.X);
+            double c2 = midPt2.Y - (_m2 * midPt2.X);
+
+            var x = (c2 - c1) / (_m1 - _m2);
+            var y = (_m1 * x) + c1;
+            return new PointD(x, y);
+        }
+        public static PointD HalfWayPoint(PointD pt1, PointD pt2, double splitRatio)
+        {
+            splitRatio = Math.Max(0, splitRatio);
+            splitRatio = Math.Min(0.75, splitRatio);
+            PointD intersectPt = new PointD((pt2.X * splitRatio) + (pt1.X * (1 - splitRatio)), (pt2.Y * splitRatio) + (pt1.Y * (1 - splitRatio)));
+            return intersectPt;
+        }
     }
 
     public class Circle
@@ -4209,6 +4243,89 @@ namespace NagaW
                 return -(angleEnd - angleStart);
             else//cw
                 return angleStart + (Math.PI * 2 - angleEnd);
+        }
+    }
+
+    public class PatternDisp
+    {
+        public static List<PointD> MultiDot(PointI CR, PointD pitchCol, PointD pitchRow, ERunPath runPath)
+        {
+            var dispPos = new List<PointD>();
+            TLayout layout = new TLayout()
+            {
+                CR = CR,
+                PitchCol = pitchCol,
+                PitchRow = pitchRow,
+                RunPath = runPath,
+            };
+
+            PointI crNow = new PointI();
+            while (true)
+            {
+                dispPos.Add(layout.RelPos(crNow));
+                crNow = layout.NextCR(crNow);
+                if (crNow.IsZero) break;
+            }
+            return dispPos;
+        }
+        public static List<PointD> SquareLine(PointD startPt, PointD endPt1, PointD endPt2)
+        {
+            var dispPos = new List<PointD>();
+
+            dispPos.Add(new PointD(startPt));
+            dispPos.Add(new PointD(endPt1));
+            dispPos.Add(new PointD(endPt2 + endPt1));
+            dispPos.Add(new PointD(endPt2));
+            dispPos.Add(new PointD(startPt));
+
+            return dispPos;
+        }
+        public enum EFillMode { Interval, Linewidth }
+        public static List<PointD> SquareFilling(PointD startPt, PointD endPt1, PointD endPt2, int interval, double linewidth, ERunPath runPath)
+        {
+            bool isXpath = runPath < ERunPath.Y_SPath;
+
+            //var lw = isXpath ? (MathPro.TwoPointsLength(endPt1, endPt2) / linewidth) : (MathPro.TwoPointsLength(startPt, endPt1) / linewidth);
+
+            PointI cr = new PointI(isXpath ? 2 : interval, isXpath ? interval : 2);
+            PointD pitchCol = new PointD(endPt1 - startPt) / (cr.X - 1);
+            PointD pitchRow = new PointD(endPt2 - startPt) / (cr.Y - 1);
+
+            return MultiDot(cr, pitchCol, pitchRow, runPath);
+        }
+        public static List<PointD> SquareSpiral(PointD startPt, PointD endPt1, PointD endPt2, int interval, double curvature)
+        {
+            PointD intervalX = new PointD((endPt1.X - startPt.X) / 2 / interval, (endPt1.Y - startPt.Y) / 2 / interval);
+            PointD intervalY = new PointD((endPt2.X - startPt.X) / 2 / interval, (endPt2.Y - startPt.Y) / 2 / interval);
+            PointD midPt = TFunction.TwoLineIntersectPoint(endPt1, startPt, startPt, endPt2);
+            PointD nextPt = new PointD(midPt);
+
+            int count = 0;
+            int turn = 1;
+            int turnMax = interval * 2;
+            var dispPos = new List<PointD>();
+            dispPos.Add(midPt);
+
+            dispPos.Add(nextPt = new PointD(intervalX * turn) + nextPt);
+
+            while (count++ < interval)
+            {
+                PointD pt = new PointD();
+                for (int i = 0; i < 4; i++)
+                {
+                    switch (i)
+                    {
+                        case 0: pt = new PointD(intervalY * Math.Min(turn, turnMax)) + nextPt; break;
+                        case 1: pt = new PointD(intervalX * Math.Min(++turn, turnMax) * -1) + nextPt; break;
+                        case 2: pt = new PointD(intervalY * Math.Min(turn, turnMax) * -1) + nextPt; break;
+                        case 3: pt = new PointD(intervalX * Math.Min(++turn, turnMax)) + nextPt; break;
+                    }
+
+                    dispPos.Add(TFunction.HalfWayPoint((nextPt + pt) / 2, midPt, curvature / 100));
+                    dispPos.Add(nextPt = pt);
+                }
+            }
+            return dispPos;
         }
     }
 

@@ -508,7 +508,8 @@ namespace NagaW
                 GControl.UI_Enable();
 
                 result.ListChanged -= Result_ListChanged;
-                UpdateResultinRTB($"Head{gantryIdx + 1}/{wtype}/{wmode}/End\n");
+                string word = TCWeighFunc.WeighCals[gantryIdx].Finish ? "Success" : "Fail";
+                UpdateResultinRTB($"Head{gantryIdx + 1}/{wtype}/{wmode}/{word}\n");
 
                 UpdateResultinRTB($"{nameof(Variance)}\t{Variance(result.Select(x => wmode == EWeighType.Mass ? x.ActualMass : x.FlowRate).ToList())}");
                 UpdateResultinRTB($"{nameof(StandardDeviation)}\t{StandardDeviation(result.Select(x => wmode == EWeighType.Mass ? x.ActualMass : x.FlowRate).ToList())}");
