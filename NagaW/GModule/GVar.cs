@@ -28,8 +28,6 @@ namespace NagaW
             public static int EquipmentID { get; set; }
 
             public static EZTouchType ZTouchType { get; set; } = EZTouchType.LINEAR;
-            [DisplayName("Wafer Enable")]
-            public static bool WaferEnable { get; set; } = false;
 
             [Description("Second")]
             public static int SafetyDoorDelaySens_Seconds { get; set; } = 5;
@@ -342,7 +340,7 @@ namespace NagaW
             public static bool SideDoorCheck { get; set; } = false;
             [Category("DI")]
             [DisplayName("SideDoorDI")]
-            public static EDInput SideDoorSens { get; set; }
+            public static EDInput SideDoorSens { get; set; } = EDInput.DI00;
         }
 
         public static bool SaveFile(string filepath)

@@ -94,6 +94,13 @@ namespace NagaW
                     case TEMEDAQ.EType.CL3000: CL3.GetValue(Index, out value); break;
                     default: HSensor.Poll(ref value); break;
                 }
+
+                if (Math.Abs(value) is 999.999)
+                {
+                    GAlarm.Prompt(EAlarm.LASERSENSOR_VALUE_ERROR, "Out of Distance.");
+                    return false;
+                }
+
                 return true;
             }
             catch

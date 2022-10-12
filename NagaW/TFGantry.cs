@@ -366,26 +366,18 @@ namespace NagaW
             {
                 TEZMCAux.Execute("GXCOLLISION=500");
 
-                switch (GSystemCfg.Config.WaferEnable)
+                var taskL = Task<bool>.Run(() =>
                 {
-                    case true:
-                        var taskL = Task<bool>.Run(() =>
-                        {
-                            return TFGantry.GXYZHome();
-                        });
+                    return TFGantry.GXYZHome();
+                });
 
-                        var taskR = Task<bool>.Run(() =>
-                        {
-                            return TFGantry.GVRHome();
-                        });
+                var taskR = Task<bool>.Run(() =>
+                {
+                    return TFGantry.GVRHome();
+                });
 
-                        Task.WaitAll(taskL, taskR);
-                        if (!taskL.Result || !taskR.Result) return false;
-                        break;
-                    case false:
-                        TFGantry.GXYZHome();
-                        break;
-                }
+                Task.WaitAll(taskL, taskR);
+                if (!taskL.Result || !taskR.Result) return false;
 
                 return true;
             }

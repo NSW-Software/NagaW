@@ -214,6 +214,8 @@ namespace NagaW
             public static bool Decode(string fileName, ref TDispFeature feature)
             {
                 feature = new TDispFeature();
+                string lastX = "";
+                string lastY = "";
 
                 #region Key Commands RS-274X
                 /*List essential commands only
@@ -401,19 +403,23 @@ namespace NagaW
                                 if (line.StartsWith("X"))
                                 {
                                     sx = split[0];
+                                    lastX = sx;
                                     if (split.Length == 2) D = split[1];
                                     if (split.Length == 3)
                                     {
                                         sy = split[1];
                                         D = split[2];
+                                        lastY = sy;
                                     }
+                                    sy = lastY;
                                 }
                                 if (line.StartsWith("Y"))
                                 {
                                     sy = split[0];
                                     if (split.Length == 2) D = split[1];
+                                    sx = lastX;
                                 }
-                                if (D == "01") continue;
+                                //if (D == "01") continue;
                                 //x=633,y=356193
                                 //x=-633,y=356193
                                 //x=123

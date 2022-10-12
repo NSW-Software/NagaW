@@ -594,8 +594,6 @@ namespace NagaW
         }
         private static void directCommand(string cmd, ref string stringResult, bool silent = false, bool forceLog = false)//Direct Command
         {
-            if (!CheckSideDoor()) return;
-
             CheckMoveFlag(cmd);
 
             if (!Enable || !Online) return;
@@ -852,16 +850,23 @@ namespace NagaW
 
         public static bool CheckSideDoor()
         {
-            if (GSystemCfg.Safety.SideDoorCheck)
+            try
             {
-                var input = GMotDef.Inputs[(int)GSystemCfg.Safety.SideDoorSens];
-                if (input.Status)
+                if (GSystemCfg.Safety.SideDoorCheck)
                 {
-                    GAlarm.Prompt(EAlarm.SIDE_DOOR_PSNT, "Side Door Sensor Triggered. Please Check");
-                    return false;
+                    var input = GMotDef.Inputs[(int)GSystemCfg.Safety.SideDoorSens];
+                    if (input.Status)
+                    {
+                        GAlarm.Prompt(EAlarm.SIDE_DOOR_PSNT, "Side Door Sensor Triggered. Please Check");
+                        return false;
+                    }
                 }
+                return true;
             }
-            return true;
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         public class TAxis
