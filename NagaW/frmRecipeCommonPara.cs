@@ -44,6 +44,10 @@ namespace NagaW
 
             switch (cmd.Cmd)
             {
+                case ECmd.CHECK_INPUT:
+                    Para[0] = new DPara($"{index} Input, DI", cmd.Para[0], 0, 100, EUnit.NONE, 0, GMotDef.Inputs.Select(x => x.Name).ToArray());
+                    Para[1] = new DPara($"{index} Status", cmd.Para[1], 0, 1, EUnit.NONE, 0, new string[] { "False", "True"});
+                    break;
                 case ECmd.SPEED:
                     Para[0] = new DPara($"{index} Speed", cmd.Para[0] = Math.Max(minSpeed, cmd.Para[0]), minSpeed, maxSpeed, EUnit.MILLIMETER_PER_SECOND);
                     Para[1] = new DPara($"{index} Accel", cmd.Para[1], minAccel, maxAccel, EUnit.MILLIMETER_PER_SECOND_SQUARED);

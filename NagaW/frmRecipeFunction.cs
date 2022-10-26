@@ -479,6 +479,7 @@ namespace NagaW
             {
                 switch (tcmd.Cmd)
                 {
+                    case ECmd.CHECK_INPUT:
                     case ECmd.SPEED:
                     case ECmd.ADJUST_OFFSET:
 

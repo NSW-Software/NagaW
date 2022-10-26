@@ -67,11 +67,14 @@
     <ApplicationIcon>w12-02.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Emgu.CV.UI">
-      <HintPath>..\dll\Emgu.CV.UI.dll</HintPath>
+    <Reference Include="Emgu.CV.Bitmap">
+      <HintPath>..\dll\Emgu.CV.Bitmap.dll</HintPath>
     </Reference>
-    <Reference Include="Emgu.CV.World.Netstandard">
-      <HintPath>..\dll\Emgu.CV.World.Netstandard.dll</HintPath>
+    <Reference Include="Emgu.CV.Platform.NetFramework">
+      <HintPath>..\dll\Emgu.CV.Platform.NetFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.CV.Platform.NetStandard">
+      <HintPath>..\dll\Emgu.CV.Platform.NetStandard.dll</HintPath>
     </Reference>
     <Reference Include="GemTaro, Version=4.3.5.5, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -92,6 +95,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing.Common">
+      <HintPath>..\dll\System.Drawing.Common.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -115,6 +121,12 @@
     </Compile>
     <Compile Include="frmAuto.Designer.cs">
       <DependentUpon>frmAuto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmCamera.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCamera.designer.cs">
+      <DependentUpon>frmCamera.cs</DependentUpon>
     </Compile>
     <Compile Include="frmConfig.cs">
       <SubType>Form</SubType>
@@ -384,6 +396,7 @@
     <Compile Include="TCSystem.cs" />
     <Compile Include="TEFlirCamera.cs" />
     <Compile Include="TEMEDAQ.cs" />
+    <Compile Include="TFCamera1.cs" />
     <Compile Include="TFFileImport.cs" />
     <Compile Include="TFMap.cs" />
     <Compile Include="TFSecsGems.cs" />
@@ -409,6 +422,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmAuto.resx">
       <DependentUpon>frmAuto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCamera.resx">
+      <DependentUpon>frmCamera.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmConfig.resx">
       <DependentUpon>frmConfig.cs</DependentUpon>

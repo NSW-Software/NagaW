@@ -24,7 +24,8 @@ namespace NagaW
 
         }
 
-        public static frmFlirCamera Cam = new frmFlirCamera();
+        //public static frmFlirCamera Cam = new frmFlirCamera();
+        public static frmCamera Cam = new frmCamera(0);
         public static frmJogCtrl Jog = new frmJogCtrl();
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -215,7 +216,8 @@ namespace NagaW
             PublishForm(new frmRecipe(TFGantry.GantryLeft), pnlRecipe);
 
             TFGantry.GantrySelect = TFGantry.GantryLeft;
-            Cam.Link(0);
+            //Cam.Link(0);
+            Cam = new frmCamera(0);
             TFLightCtrl.lightPair = TFLightCtrl.LightPair[0];
             TFTool.UpdateTool(tsTools, 0);
         }
@@ -224,7 +226,7 @@ namespace NagaW
             PublishForm(new frmRecipe(TFGantry.GantryRight), pnlRecipe);
 
             TFGantry.GantrySelect = TFGantry.GantryRight;
-            Cam.Link(1);
+            Cam = new frmCamera(1);
             TFLightCtrl.lightPair = TFLightCtrl.LightPair[1];
             TFTool.UpdateTool(tsTools, 1);
         }
@@ -248,7 +250,8 @@ namespace NagaW
             PublishForm(new frmSetup(TFGantry.GantryRight), pnlRecipe);
 
             TFGantry.GantrySelect = TFGantry.GantryRight;
-            Cam.Link(1);
+            //Cam.Link(1);
+            Cam = new frmCamera(1);
             TFLightCtrl.lightPair = TFLightCtrl.LightPair[1];
             TFTool.UpdateTool(tsTools, 1);
         }
@@ -257,7 +260,8 @@ namespace NagaW
             PublishForm(new frmSetup(TFGantry.GantryLeft), pnlRecipe);
 
             TFGantry.GantrySelect = TFGantry.GantryLeft;
-            Cam.Link(0);
+            //Cam.Link(0);
+            Cam = new frmCamera(0);
             TFLightCtrl.lightPair = TFLightCtrl.LightPair[0];
             TFTool.UpdateTool(tsTools, 0);
         }

@@ -185,9 +185,9 @@ namespace NagaW
             btnHsensorOpen.BackColor = TFHSensors.Sensor[selectedHSensor].IsConnected ? open : close;
             btnHsensorOpen.Text = TFHSensors.Sensor[selectedHSensor].IsConnected ? connected : disconnect;
 
-            pg(tpCamera, selectedCam).Enabled = !TFCameras.Camera[selectedCam].IsConnected;
-            btnCamOpen.BackColor = TFCameras.Camera[selectedCam].IsConnected ? open : close;
-            btnCamOpen.Text = TFCameras.Camera[selectedCam].IsConnected ? connected : disconnect;
+            pg(tpCamera, selectedCam).Enabled = !TFCamera1.Cameras[selectedCam].IsConnected;
+            btnCamOpen.BackColor = TFCamera1.Cameras[selectedCam].IsConnected ? open : close;
+            btnCamOpen.Text = TFCamera1.Cameras[selectedCam].IsConnected ? connected : disconnect;
 
             var light = TFLightCtrl.Lights;
             pg(tpLightingCtrl, SelectedLightCtrl).Enabled = !light.IsOpen;
@@ -246,8 +246,8 @@ namespace NagaW
 
         private void btnCamOpen_Click(object sender, EventArgs e)
         {
-            if (TFCameras.Camera[selectedCam].IsConnected) TFCameras.Camera[selectedCam].Disconnect();
-            else MsgBox.Processing("Connecting Cam", () => TFCameras.Camera[selectedCam].Connect());
+            if (TFCamera1.Cameras[selectedCam].IsConnected) TFCamera1.Cameras[selectedCam].Disconnect();
+            else MsgBox.Processing("Connecting Cam", () => TFCamera1.Cameras[selectedCam].Connect());
         }
 
         private void btnLightOpen_Click(object sender, EventArgs e)

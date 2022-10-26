@@ -289,7 +289,8 @@ namespace NagaW
         private void btnAutoFocus_Click(object sender, EventArgs e)
         {
             MsgBox.Processing("Auto Focusing", () => TCAutoFocus.Execute(gantry));
-            TFCameras.Camera[gantry.Index].Live();
+            //TFCameras.Camera[gantry.Index].Live();
+            TFCamera1.Cameras[gantry.Index].Live();
             UpdateFocus();
         }
         private void btnToggleLight_Click(object sender, EventArgs e)
@@ -383,12 +384,14 @@ namespace NagaW
         private void btnGantryL_Click(object sender, EventArgs e)
         {
             TFGantry.GantrySelect = TFGantry.GantryLeft;
-            frmMain.Cam.Link(0);
+            //frmMain.Cam.Link(0);
+            frmMain.Cam = new frmCamera(0);
         }
         private void btnGantryR_Click(object sender, EventArgs e)
         {
             TFGantry.GantrySelect = TFGantry.GantryVR;
-            frmMain.Cam.Link(0);
+            //frmMain.Cam.Link(0);
+            frmMain.Cam = new frmCamera(0);
         }
 
         private void btnLightToggle_Click(object sender, EventArgs e)

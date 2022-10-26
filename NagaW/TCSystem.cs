@@ -164,7 +164,7 @@ namespace NagaW
                 foreach (var temp in GSystemCfg.Temperature.Temp.Channels) TFTempCtrl.TempCtrl.Run(temp.Address);
 
                 for (int k = 0; k < GSystemCfg.HSensor.Count; k++) if (GSystemCfg.HSensor.HSensors[k].StartUpEnable) TFHSensors.Sensor[k].Open();
-                for (int k = 0; k < GSystemCfg.Camera.Count; k++) if (GSystemCfg.Camera.Cameras[k].StartUpEnable) try { TFCameras.Camera[k].Connect(); } catch { };
+                for (int k = 0; k < GSystemCfg.Camera.Count; k++) if (GSystemCfg.Camera.Cameras[k].StartUpEnable) try { TFCamera1.Cameras[k].Connect(); } catch { };
                 for (int k = 0; k < GSystemCfg.Pump.Count; k++)
                 {
                     var dpCtrl = GSystemCfg.Pump.Pumps[k];
@@ -217,7 +217,7 @@ namespace NagaW
                 TFTempCtrl.TempCtrl.Close();
 
                 for (int k = 0; k < GSystemCfg.HSensor.Count; k++) TFHSensors.Sensor[k].Close();
-                for (int k = 0; k < GSystemCfg.Camera.Count; k++) TFCameras.Camera[k].Disconnect();
+                for (int k = 0; k < GSystemCfg.Camera.Count; k++) TFCamera1.Cameras[k].Disconnect();
                 
                 TFPump.Close();
                 TFWeightScale.Close();

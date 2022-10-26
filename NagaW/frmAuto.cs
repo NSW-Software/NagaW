@@ -108,7 +108,7 @@ namespace NagaW
                     TFLightCtrl.LightPair[0].Set(GRecipes.Board[0].LightDefault);
                 }
 
-                if (runMode == ERunMode.Camera) TFCameras.Camera[TFGantry.GantrySelect.Index].FlirCamera.Live();
+                if (runMode == ERunMode.Camera) TFCamera1.Cameras[TFGantry.GantrySelect.Index].Live();//TFCameras.Camera[TFGantry.GantrySelect.Index].FlirCamera.Live();
 
                 //GControl.UI_Enable();
                 //TCWafer.SvIonizer.Status = false;

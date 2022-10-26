@@ -14,6 +14,10 @@ using Emgu.CV.Structure;
 
 namespace NagaW
 {
+    using Emgu.CV;
+    using Emgu.CV.UI;
+    using Emgu.CV.Structure;
+
     public class MVC_GenTL
     {
         [DllImport("kernel32.dll", EntryPoint = "CopyMemory", SetLastError = false)]
@@ -274,7 +278,7 @@ namespace NagaW
             {
                 lock (lockObject)
                 {
-                    nRet = m_MyCamera.MV_CC_GetImageBuffer_NET(ref stFrameInfo, 500);
+                    nRet = m_MyCamera.MV_CC_GetImageBuffer_NET(ref stFrameInfo, 1000);
                     if (nRet == MyCamera.MV_OK)
                     {
                         lock (BufForDriverLock)
@@ -326,13 +330,9 @@ namespace NagaW
                             try
                             {
                                 int stride = stDisplayInfo.nWidth + (stDisplayInfo.nWidth % 4);
-                                i++;
                                 mImage = new Image<Gray, byte>(stDisplayInfo.nWidth, stDisplayInfo.nHeight, stride, stDisplayInfo.pData);
-                                i++;
-                                m_picBox.Image = (System.Drawing.Image)mImage.ToBitmap().Clone();
-                                i++;
-                                m_picBox.Invalidate();
-                                i++;
+                                m_emguBox.Image = mImage;
+                                m_emguBox.Invalidate();
                             }
                             catch (Exception ex)
                             {
@@ -383,9 +383,9 @@ namespace NagaW
                             i++;
                             mImage = new Image<Gray, byte>(stDisplayInfo.nWidth, stDisplayInfo.nHeight, stride, stDisplayInfo.pData);
                             i++;
-                            m_picBox.Image = (System.Drawing.Image)mImage.ToBitmap().Clone();
+                            m_emguBox.Image = mImage;
                             i++;
-                            m_picBox.Invalidate();
+                            m_emguBox.Invalidate();
                             i++;
                         }
                         catch (Exception ex)
@@ -418,6 +418,9 @@ namespace NagaW
             //Set position bit true
             m_bGrabbing = true;
 
+            m_hReceiveThread = new Thread(ReceiveThreadProcess);
+            m_hReceiveThread.Start();
+
             //Initialize Frame Info
             m_stFrameInfo.nFrameLen = 0;
             m_stFrameInfo.enPixelType = MyCamera.MvGvspPixelType.PixelType_Gvsp_Undefined;
@@ -429,8 +432,8 @@ namespace NagaW
                 m_hReceiveThread.Join();
                 throw new Exception(GetErrorMsg("Start Grabbing Fail!", nRet));
             }
-            m_hReceiveThread = new Thread(ReceiveThreadProcess);
-            m_hReceiveThread.Start();
+            //m_hReceiveThread = new Thread(ReceiveThreadProcess);
+            //m_hReceiveThread.Start();
 
             return true;
         }
@@ -440,7 +443,7 @@ namespace NagaW
 
             //Set flag bit false
             m_bGrabbing = false;
-            if (m_hReceiveThread != null) m_hReceiveThread.Join();
+            if (m_hReceiveThread != null) m_hReceiveThread.Abort();
 
             //Stop Grabbing
             int nRet = m_MyCamera.MV_CC_StopGrabbing_NET();
@@ -609,12 +612,12 @@ namespace NagaW
         public bool IsRecording => m_bRecording;
 
         //Register picturebox for display - mehtod 1: manual rendering
-        PictureBox m_picBox = new PictureBox();
-        public void RegisterPictureBox(PictureBox pictureBox)
+        ImageBox m_emguBox = new ImageBox();
+        public void RegisterPictureBox(ImageBox pictureBox)
         {
             lock (lockObject)
             {
-                m_picBox = pictureBox;
+                m_emguBox = pictureBox;
             }
         }
         //Register PictureBox for display - Mehtod 2: Handled by API. Image is always strectched.

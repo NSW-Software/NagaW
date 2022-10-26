@@ -95,7 +95,7 @@ namespace NagaW
                     default: HSensor.Poll(ref value); break;
                 }
 
-                if (Math.Abs(value) is 999.999)
+                if (Math.Abs(value) > 50)
                 {
                     GAlarm.Prompt(EAlarm.LASERSENSOR_VALUE_ERROR, "Out of Distance.");
                     return false;

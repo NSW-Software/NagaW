@@ -2928,7 +2928,7 @@ namespace NagaW
                 Thread.Sleep(GProcessPara.Vision.SettleTime.Value);
                 TFLightCtrl.LightPair[gantry.Index].Set(GSetupPara.Wafer.PatLightRGBA);
 
-                var fCam = TFCameras.Camera[gantry.Index];
+                var fCam = TFCamera1.Cameras[gantry.Index];
                 fCam.Snap();
                 var img = fCam.emgucvImage.Clone();
                 fCam.Live();

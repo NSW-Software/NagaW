@@ -237,6 +237,8 @@ namespace NagaW
         SIDE_DOOR_PSNT,
         #endregion
 
-        DXF_FILE_ERROR
+        DXF_FILE_ERROR,
+
+        IO_CHECK_FAILED,
     }
 }

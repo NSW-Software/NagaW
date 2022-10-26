@@ -463,9 +463,12 @@ namespace NagaW
 
             try
             {
-                TFCameras.Camera[gantry.Index].Snap();
-                img = TFCameras.Camera[gantry.Index].emgucvImage.Clone();
-                TFCameras.Camera[gantry.Index].Live();
+                TFCamera1.Cameras[gantry.Index].Snap();
+                img = TFCamera1.Cameras[gantry.Index].emgucvImage.Clone();
+                TFCamera1.Cameras[gantry.Index].Live();
+                //TFCameras.Camera[gantry.Index].Snap();
+                //img = TFCameras.Camera[gantry.Index].emgucvImage.Clone();
+                //TFCameras.Camera[gantry.Index].Live();
 
 
                 Rectangle[] rects = new Rectangle[2] { patRec.SearchRect[0], patRec.PatRect[0] };
