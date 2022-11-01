@@ -492,7 +492,7 @@ namespace NagaW
                         return false;
                     }
                     bufferClusterCR = GRecipes.MultiLayout[gantryNo][layoutNo].Cluster.NextCR(bufferClusterCR);
-                    System.Threading.Thread.Sleep(0);
+                    System.Threading.Thread.Sleep(1);
                     if (bufferClusterCR.IsZero && bufferUnitCR.IsZero) break;
                     if (!bRun) return false;
                 }

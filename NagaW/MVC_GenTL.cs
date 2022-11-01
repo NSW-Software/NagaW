@@ -621,7 +621,7 @@ namespace NagaW
             }
         }
         //Register PictureBox for display - Mehtod 2: Handled by API. Image is always strectched.
-        public void RegisterPictureBoxHandle(PictureBox picBox)
+        public void RegisterPictureBoxHandle(ImageBox picBox)
         {
             stDisplayInfo.hWnd = picBox.Handle;
         }

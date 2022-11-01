@@ -112,7 +112,7 @@ namespace NagaW
         }
         public static void UI_DisableExceptCamJog()
         {
-            var cam = Application.OpenForms.OfType<frmFlirCamera>().FirstOrDefault();
+            var cam = Application.OpenForms.OfType<frmCamera>().FirstOrDefault();
             var jog = Application.OpenForms.OfType<frmJogCtrl>().FirstOrDefault();
             UI_Disable(cam, jog);
         }

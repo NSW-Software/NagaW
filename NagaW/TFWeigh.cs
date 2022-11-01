@@ -498,7 +498,7 @@ namespace NagaW
                                     case EWeighType.Mass:
                                         {
                                             trig.Status = true;
-                                            while (!GMotDef.Inputs[(int)dispCtrl.DispDI].Status) Thread.Sleep(0);
+                                            while (!GMotDef.Inputs[(int)dispCtrl.DispDI].Status) Thread.Sleep(1);
                                             trig.Status = false;
 
                                             break;

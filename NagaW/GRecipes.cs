@@ -2354,7 +2354,7 @@ namespace NagaW
 
                             #endregion
 
-                            while (gantry.Busy) Thread.Sleep(0);
+                            while (gantry.Busy) Thread.Sleep(1);
 
                             #region Jet
                             if (runMode == ERunMode.Normal)
@@ -2386,8 +2386,8 @@ namespace NagaW
                             cmdBuffer += $"MOVEABSSP({abs_point.X},{abs_point.Y}) ";
 
                             TEZMCAux.DirectCommand(cmdBuffer);
-                            Thread.Sleep(0);
-                            while (gantry.Busy) Thread.Sleep(0);
+                            Thread.Sleep(1);
+                            while (gantry.Busy) Thread.Sleep(1);
 
                             cmdBuffer = $"BASE({(isRow ? gantry.XAxis.AxisNo : gantry.YAxis.AxisNo)}) ";
                             cmdBuffer += $"HW_PSWITCH2(2) ";
@@ -2436,7 +2436,7 @@ namespace NagaW
                             while (gantry.Axis[0].Busy)
                             {
                                 if (!running) return false;
-                                Thread.Sleep(0);
+                                Thread.Sleep(1);
                             }
                             switch (PatAlignExecute(gantry, unitOrigin, cmd, ref alignData, settleTime, false, multisearchEn))
                             {
@@ -2483,7 +2483,7 @@ namespace NagaW
                             while (gantry.Axis[0].Busy)
                             {
                                 if (!running) return false;
-                                Thread.Sleep(0);
+                                Thread.Sleep(1);
                             }
                             switch (PatAlignExecute(gantry, originAbs, cmd, ref alignData, settleTime, false, multisearchEn))
                             {
@@ -2539,7 +2539,7 @@ namespace NagaW
                             while (gantry.Axis[0].Busy)
                             {
                                 if (!running) return false;
-                                Thread.Sleep(0);
+                                Thread.Sleep(1);
                             }
                             switch (PatAlignExecute(gantry, originAbs, cmd, ref alignData, settleTime, false, multisearchEn))
                             {
@@ -2720,7 +2720,7 @@ namespace NagaW
                                 while (gantry.Axis[0].Busy)
                                 {
                                     if (!running) return false;
-                                    Thread.Sleep(0);
+                                    Thread.Sleep(1);
                                 }
                                 //TFCameras.Camera[gantryIdx].FlirCamera.TrigMode = false;
                                 //TFCameras.Camera[gantryIdx].FlirCamera.Gain = GSystemCfg.Camera.Cameras[gantryIdx].Gain;
@@ -2755,7 +2755,7 @@ namespace NagaW
                             while (gantry.Axis[0].Busy)
                             {
                                 if (!running) return false;
-                                Thread.Sleep(0);
+                                Thread.Sleep(1);
                             }
                             if (!HeightAlignExecute(gantry, unitOrigin, cmd, ref heightData)) return false;
 
@@ -2792,7 +2792,7 @@ namespace NagaW
                             while (gantry.Axis[0].Busy)
                             {
                                 if (!running) return false;
-                                Thread.Sleep(0);
+                                Thread.Sleep(1);
                             }
                             if (!HeightAlignExecute(gantry, originAbs, cmd, ref heightData)) return false;
                             hsensorValue.Add(heightData.SensorValue);
@@ -2848,7 +2848,7 @@ namespace NagaW
                             while (gantry.Axis[0].Busy)
                             {
                                 if (!running) return false;
-                                Thread.Sleep(0);
+                                Thread.Sleep(1);
                             }
                             if (!HeightAlignExecute(gantry, originAbs, cmd, ref heightData)) return false;
 
@@ -2922,7 +2922,7 @@ namespace NagaW
                             while (gantry.Axis[0].Busy)
                             {
                                 if (!running) return false;
-                                Thread.Sleep(0);
+                                Thread.Sleep(1);
                             }
                             if (!HeightAlignExecute(gantry, unitOrigin, cmd, ref heightData)) return false;
 
@@ -3019,7 +3019,7 @@ namespace NagaW
                             Task.Run(() =>
                             {
                                 TCNeedleFunc.CFP[gantry.Index].running = true;
-                                while (TCDisp.Run[gantry.Index].bRun && TCNeedleFunc.CFP[gantry.Index].running) Thread.Sleep(0);
+                                while (TCDisp.Run[gantry.Index].bRun && TCNeedleFunc.CFP[gantry.Index].running) Thread.Sleep(1);
                                 TCNeedleFunc.CFP[gantry.Index].running = false;
                             });
                             #endregion
@@ -3028,7 +3028,7 @@ namespace NagaW
                             {
                                 RefreshMap();
                                 if (!running) return false;
-                                Thread.Sleep(0);
+                                Thread.Sleep(1);
                             }
                             moveNextDispCmdAtXYPlane = true;
                             if (!TCNeedleFunc.CFP[gantry.Index].Execute(mode, n_dnwait, n_disptime, n_vactime, n_postvactime, n_postwait, n_count)) return false;
@@ -3071,7 +3071,7 @@ namespace NagaW
                             Task.Run(() =>
                             {
                                 TCNeedleFunc.SprayClean[gantry.Index].running = true;
-                                while (TCDisp.Run[gantry.Index].bRun && TCNeedleFunc.SprayClean[gantry.Index].running) Thread.Sleep(0);
+                                while (TCDisp.Run[gantry.Index].bRun && TCNeedleFunc.SprayClean[gantry.Index].running) Thread.Sleep(1);
                                 TCNeedleFunc.SprayClean[gantry.Index].running = false;
                             });
 
@@ -3102,7 +3102,7 @@ namespace NagaW
                             {
                                 RefreshMap();
                                 if (!running) return false;
-                                Thread.Sleep(0);
+                                Thread.Sleep(1);
                             }
                             moveNextDispCmdAtXYPlane = true;
                             if (!TCNeedleFunc.PurgeStage[gantry.Index].Execute(n_count)) return false;
@@ -3128,7 +3128,7 @@ namespace NagaW
                             {
                                 RefreshMap();
                                 if (!running) return false;
-                                Thread.Sleep(0);
+                                Thread.Sleep(1);
                             }
                             moveNextDispCmdAtXYPlane = true;
                             if (!TCNeedleFunc.AirBladeClean[gantry.Index].Execute(n_count)) return false;
@@ -3196,7 +3196,7 @@ namespace NagaW
                             while (gantry.Axis[0].Busy)
                             {
                                 if (!running) return false;
-                                Thread.Sleep(0);
+                                Thread.Sleep(1);
                             }
                             switch (PatAlignExecute(gantry, originAbs, cmd, ref alignData, settleTime, false, multisearchEn))
                             {
@@ -3527,7 +3527,7 @@ namespace NagaW
 
             while (true)
             {
-                Thread.Sleep(0);
+                Thread.Sleep(1);
                 int ibuffer = TEZMCAux.RemainBuffer(gantry.Axis[0].AxisNo);
                 if (ibuffer < 250) Thread.Sleep(100);//Switch thread. Prevent instant thread hold
                 if (ibuffer > GSystemCfg.MakerData.ZMotion_MinimumBufferRemain) break;
@@ -3535,12 +3535,12 @@ namespace NagaW
                 var sw = System.Diagnostics.Stopwatch.StartNew();
                 while (true)
                 {
-                    Thread.Sleep(0);
+                    Thread.Sleep(1);
                     if (sw.ElapsedMilliseconds >= GSystemCfg.MakerData.ZMotion_BufferFullSleepDuration) break;
                     if (!running) return true;
                 }
             }
-            Thread.Sleep(0);
+            Thread.Sleep(1);
 
             RefreshMap();
 
@@ -4040,7 +4040,7 @@ namespace NagaW
 
             GLog.LogProcess("HeightAlignExecute" + hSensorValue.ToString());
             File.AppendAllText(@"C:\Users\Administrator\Desktop\heightdata.txt", hSensorValue.ToString() + "\n");
-            if (hSensorValue <= -999 || hSensorValue >= 999)
+            if (Math.Abs(hSensorValue) >= 70)
             {
                 heightData.Status = EHeightAlignStatus.Error;
                 GDefine.SystemState = ESystemState.ErrorRestart;
@@ -4226,8 +4226,7 @@ namespace NagaW
                 yc = -(1 / mr) * (xc - (startPt.X + endPt.X) / 2) + ((startPt.Y + endPt.Y) / 2);
                 //rad = (double)Math.Sqrt(Math.Pow(x3 - xc, 2) + Math.Pow(y3 - yc, 2));
             }
-            else
-                if (startPt.X == endPt.X)
+            else if (startPt.X == endPt.X)
             {
                 mr = (passPt.Y - startPt.Y) / (passPt.X - startPt.X);
                 mt = (endPt.Y - passPt.Y) / (endPt.X - passPt.X);
@@ -4249,6 +4248,34 @@ namespace NagaW
 
             return new PointD(xc, yc);
         }
+        public static PointD CenterPoint(PointD startPt, PointD passPt, PointD endPt)
+        {
+            var dy1 = passPt.Y - startPt.Y;
+            var dx1 = passPt.X - startPt.X;
+            var dy2 = endPt.Y - passPt.Y;
+            var dx2 = endPt.X - passPt.X;
+
+            if (Math.Abs(dy1) < 0.01) dy1 = 0.01;
+            else if (Math.Abs(dy2) < 0.01) dy2 = 0.01;
+            else if (Math.Abs(dx1) < 0.01) dx1 = 0.01;
+            else if (Math.Abs(dx2) < 0.01) dx2 = 0.01;
+
+            var grad1 = dy1 / dx1;
+            var grad2 = dy2 / dx2;
+            var inv_grad1 = -1 / grad1;
+            var inv_grad2 = -1 / grad2;
+
+            var midPt1 = new PointD((startPt.X + passPt.X) / 2, (startPt.Y + passPt.Y) / 2);
+            var midPt2 = new PointD((passPt.X + endPt.X) / 2, (passPt.Y + endPt.Y) / 2);
+
+            double ppd_c1 = midPt1.Y - (inv_grad1 * midPt1.X);
+            double ppd_c2 = midPt2.Y - (inv_grad2 * midPt2.X);
+
+            var x = (ppd_c2 - ppd_c1) / (inv_grad1 - inv_grad2);
+            var y = (inv_grad1 * x) + ppd_c1;
+
+            return new PointD(x, y);
+        }
         public static double SideOfLine(PointD startPt, PointD endPt, PointD pt)
         {
             return ((pt.X - startPt.X) * (endPt.Y - startPt.Y)) - ((pt.Y - startPt.Y) * (endPt.X - startPt.X));
@@ -4262,9 +4289,9 @@ namespace NagaW
             double angleEnd = (double)Math.Atan2((endPt.Y - centerPt.Y), (endPt.X - centerPt.X));
 
             //Convert to positive angles 
-            if (angleStart < 0) angleStart = Math.PI * 2 - angleStart;
-            if (anglePass < 0) anglePass = Math.PI * 2 - anglePass;
-            if (angleEnd < 0) angleEnd = Math.PI * 2 - angleEnd;
+            //if (angleStart < 0) angleStart = Math.PI * 2 - angleStart;
+            //if (anglePass < 0) anglePass = Math.PI * 2 - anglePass;
+            //if (angleEnd < 0) angleEnd = Math.PI * 2 - angleEnd;
 
             if (anglePass > angleStart)//ccw
                 return -(angleEnd - angleStart);

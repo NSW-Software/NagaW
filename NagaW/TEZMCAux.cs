@@ -1244,7 +1244,7 @@ namespace NagaW
             {
                 try
                 {
-                    while (Busy) { Thread.Sleep(0); }
+                    while (Busy) { Thread.Sleep(1); }
                     return true;
                 }
                 catch (Exception ex)
@@ -1640,7 +1640,7 @@ namespace NagaW
                     if (!Ready) return false;
                     SpeedProfile(speedProfile);
                     TEZMCAux.Execute($"BASE({Axis[0].AxisNo},{Axis[1].AxisNo}) MOVEABS({pos[0]:f6},{pos[1]:f6})");
-                    if (wait) while (Busy) Thread.Sleep(0);
+                    if (wait) while (Busy) Thread.Sleep(1);
                     if (!Ready) return false;
                 }
                 catch (Exception ex)
@@ -1667,7 +1667,7 @@ namespace NagaW
                     if (!Ready) return false;
                     SpeedProfile(speedProfile);
                     TEZMCAux.Execute($"BASE({Axis[0].AxisNo},{Axis[1].AxisNo}) MOVE({pos[0]:f6},{pos[1]:f6})");
-                    if (wait) while (Busy) Thread.Sleep(0);
+                    if (wait) while (Busy) Thread.Sleep(1);
                     if (!Ready) return false;
                 }
                 catch (Exception ex)
@@ -1690,7 +1690,7 @@ namespace NagaW
                     if (!ZAxis.Ready) return false;
 
                     ZAxis.MoveAbs(GProcessPara.Operation.GZSpeed, absZ, true);
-                    while (ZAxis.Busy) { Thread.Sleep(0); }
+                    while (ZAxis.Busy) { Thread.Sleep(1); }
 
                     if (!ZAxis.Ready) return false;
 
@@ -1710,7 +1710,7 @@ namespace NagaW
                     if (!ZAxis.Ready) return false;
 
                     ZAxis.MoveRel(GProcessPara.Operation.GZSpeed, relZ, true);
-                    while (ZAxis.Busy) { Thread.Sleep(0); }
+                    while (ZAxis.Busy) { Thread.Sleep(1); }
 
                     if (!ZAxis.Ready) return false;
 

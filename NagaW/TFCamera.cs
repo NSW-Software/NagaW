@@ -431,7 +431,7 @@ namespace NagaW
                 gantrySelect.ZAxis.SetParam(0.1, 10, 500);
                 if (!gantrySelect.ZAxis.MoveRel(dCoarseDist, true)) return false;
                 if (!gantrySelect.ZAxis.Wait()) return false;
-                var sw = Stopwatch.StartNew(); while (sw.ElapsedMilliseconds < tCoarseMoveDelay) { Thread.Sleep(0); }
+                var sw = Stopwatch.StartNew(); while (sw.ElapsedMilliseconds < tCoarseMoveDelay) { Thread.Sleep(1); }
 
                 TFCameras.Camera[gantrySelect.Index].GrabGetFocusValue(ref FV);
                 Ite++;
@@ -446,7 +446,7 @@ namespace NagaW
                         if (!gantrySelect.ZAxis.Wait()) return false;
 
                         sw = Stopwatch.StartNew();
-                        while (sw.ElapsedMilliseconds < tCoarseMoveDelay) { Thread.Sleep(0); }
+                        while (sw.ElapsedMilliseconds < tCoarseMoveDelay) { Thread.Sleep(1); }
 
                         TFCameras.Camera[gantrySelect.Index].GrabGetFocusValue(ref FV);
                         Ite++;
@@ -474,7 +474,7 @@ namespace NagaW
                         if (!gantrySelect.ZAxis.Wait()) return false;
 
                         sw = Stopwatch.StartNew();
-                        while (sw.ElapsedMilliseconds < tCoarseMoveDelay) { Thread.Sleep(0); }
+                        while (sw.ElapsedMilliseconds < tCoarseMoveDelay) { Thread.Sleep(1); }
 
                         TFCameras.Camera[gantrySelect.Index].GrabGetFocusValue(ref FV);
                         Ite++;
@@ -503,7 +503,7 @@ namespace NagaW
 
                     if (!gantrySelect.ZAxis.MoveRel(dFineDist, true)) return false;
                     if (!gantrySelect.ZAxis.Wait()) return false;
-                    sw = Stopwatch.StartNew(); while (sw.ElapsedMilliseconds < tFineMoveDelay) { Thread.Sleep(0); }
+                    sw = Stopwatch.StartNew(); while (sw.ElapsedMilliseconds < tFineMoveDelay) { Thread.Sleep(1); }
 
                     TFCameras.Camera[gantrySelect.Index].GrabGetFocusValue(ref FV);
                     Ite++;
@@ -513,7 +513,7 @@ namespace NagaW
                         //Best focus value found
                         if (!gantrySelect.ZAxis.MoveRel(-dFineDist, true)) return false;
                         if (!gantrySelect.ZAxis.Wait()) return false;
-                        sw = Stopwatch.StartNew(); while (sw.ElapsedMilliseconds < tFineMoveDelay) { Thread.Sleep(0); }
+                        sw = Stopwatch.StartNew(); while (sw.ElapsedMilliseconds < tFineMoveDelay) { Thread.Sleep(1); }
                         break;
                     }
                     if (Ite >= Fine_Max_Ite)

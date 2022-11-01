@@ -2379,7 +2379,7 @@ namespace NagaW
 
             double dist = GProcessPara.Wafer.LifterStroke.Value;
             TEZMCAux.Execute($"BASE({axisno}) MOVEABS({dist})");
-            while (GMotDef.Lifter.Busy) Thread.Sleep(0);
+            while (GMotDef.Lifter.Busy) Thread.Sleep(1);
             return true;
         }
         public static bool PreciserOn(bool airon = false)
@@ -2393,9 +2393,9 @@ namespace NagaW
             sbase = $"BASE({GMotDef.Preciser_0.AxisNo},{GMotDef.Preciser_1.AxisNo},{GMotDef.Preciser_2.AxisNo}) ";
             sbase += $"MOVEABS({GSetupPara.Wafer.PrecisorPos_1.Value},{GSetupPara.Wafer.PrecisorPos_2.Value},{GSetupPara.Wafer.PrecisorPos_3.Value}) ";
             TEZMCAux.Execute(sbase);
-            while (GMotDef.Preciser_0.Busy) Thread.Sleep(0);
-            while (GMotDef.Preciser_1.Busy) Thread.Sleep(0);
-            while (GMotDef.Preciser_2.Busy) Thread.Sleep(0);
+            while (GMotDef.Preciser_0.Busy) Thread.Sleep(1);
+            while (GMotDef.Preciser_1.Busy) Thread.Sleep(1);
+            while (GMotDef.Preciser_2.Busy) Thread.Sleep(1);
 
             return true;
         }
@@ -2412,9 +2412,9 @@ namespace NagaW
                     TEZMCAux.Execute($"DATUM({0})AXIS({i})");
                     TEZMCAux.Execute($"DATUM({homemode})AXIS({i})");
                 }
-                while (GMotDef.Preciser_0.Busy) Thread.Sleep(0);
-                while (GMotDef.Preciser_1.Busy) Thread.Sleep(0);
-                while (GMotDef.Preciser_2.Busy) Thread.Sleep(0);
+                while (GMotDef.Preciser_0.Busy) Thread.Sleep(1);
+                while (GMotDef.Preciser_1.Busy) Thread.Sleep(1);
+                while (GMotDef.Preciser_2.Busy) Thread.Sleep(1);
 
             }
             catch
@@ -2441,7 +2441,7 @@ namespace NagaW
                 sw.Start();
                 while (GMotDef.Lifter.Busy)
                 {
-                    Thread.Sleep(0);
+                    Thread.Sleep(1);
                     if (sw.ElapsedMilliseconds > timeout_ms)
                     {
                         throw new Exception("Check speed or lifter motor off issue");
@@ -2662,7 +2662,7 @@ namespace NagaW
                 stopwatch.Start();
                 while (!SMEMA_UP_IN.Status)
                 {
-                    Thread.Sleep(0);
+                    Thread.Sleep(1);
                     if (!SMEMA_ING)
                     {
                         SMEMA_UP_OUT.Status = false;
@@ -2712,7 +2712,7 @@ namespace NagaW
 
                 while (!SMEMA_DN_IN.Status)
                 {
-                    Thread.Sleep(0);
+                    Thread.Sleep(1);
                     if (!SMEMA_ING)
                     {
                         SMEMA_DN_OUT.Status = false;
@@ -2782,8 +2782,8 @@ namespace NagaW
                     }
                     if (!findnotchedge()) return false;
 
-                    while (gantry.Busy) Thread.Sleep(0);
-                    while (RAxis.Busy) Thread.Sleep(0);
+                    while (gantry.Busy) Thread.Sleep(1);
+                    while (RAxis.Busy) Thread.Sleep(1);
                     Thread.Sleep(50);
                     //couter-clockwise
 
@@ -2887,10 +2887,10 @@ namespace NagaW
                                 var edgepos = YAxis.ActualPos;
                                 //stop movement
                                 YAxis.StopEmg();
-                                while (YAxis.Busy) Thread.Sleep(0);
+                                while (YAxis.Busy) Thread.Sleep(1);
                                 Thread.Sleep(100);
                                 YAxis.MoveAbs(edgepos + 1, true);
-                                while (gantry.Busy) Thread.Sleep(0);
+                                while (gantry.Busy) Thread.Sleep(1);
                                 Thread.Sleep(100);
 
                                 findedge = true;

@@ -104,7 +104,7 @@ namespace NagaW
                         GAlarm.Prompt(EAlarm.CONV_LEFT_DN_TIMEOUT);
                         return false;
                     }
-                    Thread.Sleep(0);
+                    Thread.Sleep(1);
                 }
 
                 if (vacEnabled && GProcessPara.Conveyor.VacSequence.Value == 1) SvChuckVac.Status = true;
@@ -118,7 +118,7 @@ namespace NagaW
                         GAlarm.Prompt(EAlarm.CONV_LEFT_VAC_TIMEOUT);
                         return false;
                     }
-                    Thread.Sleep(0);
+                    Thread.Sleep(1);
                 }
                 return true;
             }
@@ -149,7 +149,7 @@ namespace NagaW
                         GAlarm.Prompt(EAlarm.CONV_LEFT_VAC_TIMEOUT);
                         return false;
                     }
-                    Thread.Sleep(0);
+                    Thread.Sleep(1);
                 }
 
                 var sw = Stopwatch.StartNew();
@@ -160,7 +160,7 @@ namespace NagaW
                         GAlarm.Prompt(EAlarm.CONV_LEFT_UP_TIMEOUT);
                         return false;
                     }
-                    Thread.Sleep(0);
+                    Thread.Sleep(1);
                 }
                 return true;
             }
@@ -186,7 +186,7 @@ namespace NagaW
                         GAlarm.Prompt(EAlarm.CONV_LEFT_STOPPER_UP_TIMEOUT);
                         return false;
                     }
-                    Thread.Sleep(0);
+                    Thread.Sleep(1);
                 }
                 return true;
             }
@@ -211,7 +211,7 @@ namespace NagaW
                         GAlarm.Prompt(EAlarm.CONV_LEFT_STOPPER_DN_TIMEOUT);
                         return false;
                     }
-                    Thread.Sleep(0);
+                    Thread.Sleep(1);
                 }
                 return true;
             }
@@ -257,7 +257,7 @@ namespace NagaW
                     Stop();
                     break;
                 }
-                Thread.Sleep(0);
+                Thread.Sleep(1);
             }
             Stop();
             GMotDef.ConvL.Wait();
@@ -302,10 +302,10 @@ namespace NagaW
                     if (!MoveFwdSlow()) { Stop(); return Error(); };
                     break;
                 }
-                Thread.Sleep(0);
+                Thread.Sleep(1);
             }
             var sw2 = Stopwatch.StartNew();
-            while (sw2.ElapsedMilliseconds < GProcessPara.Conveyor.MoveDelay.Value) { Thread.Sleep(0); };
+            while (sw2.ElapsedMilliseconds < GProcessPara.Conveyor.MoveDelay.Value) { Thread.Sleep(1); };
             Stop();
             GMotDef.ConvL.Wait();
 
@@ -342,7 +342,7 @@ namespace NagaW
                     Stop();
                     break;
                 }
-                Thread.Sleep(0);
+                Thread.Sleep(1);
             }
             Stop();
             GMotDef.ConvL.Wait();
@@ -388,7 +388,7 @@ namespace NagaW
                     TFRConv.Stop();
                     break;
                 }
-                Thread.Sleep(0);
+                Thread.Sleep(1);
             }
             Stop();
             if (!TFRConv.Stop()) return Abort();
@@ -640,7 +640,7 @@ namespace NagaW
                         GAlarm.Prompt(EAlarm.CONV_RIGHT_DN_TIMEOUT);
                         return false;
                     }
-                    Thread.Sleep(0);
+                    Thread.Sleep(1);
                 }
 
                 if (vacEnabled && GProcessPara.Conveyor.VacSequence.Value == 1) SvChuckVac.Status = true;
@@ -656,7 +656,7 @@ namespace NagaW
                             GAlarm.Prompt(EAlarm.CONV_RIGHT_VAC_TIMEOUT);
                             return false;
                         }
-                        Thread.Sleep(0);
+                        Thread.Sleep(1);
                     }
                 }
                 return true;
@@ -687,7 +687,7 @@ namespace NagaW
                         GAlarm.Prompt(EAlarm.CONV_RIGHT_VAC_TIMEOUT);
                         return false;
                     }
-                    Thread.Sleep(0);
+                    Thread.Sleep(1);
                 }
 
                 var sw = Stopwatch.StartNew();
@@ -699,7 +699,7 @@ namespace NagaW
                         GAlarm.Prompt(EAlarm.CONV_RIGHT_UP_TIMEOUT);
                         return false;
                     }
-                    Thread.Sleep(0);
+                    Thread.Sleep(1);
                 }
                 return true;
             }
@@ -725,7 +725,7 @@ namespace NagaW
                         GAlarm.Prompt(EAlarm.CONV_RIGHT_STOPPER_UP_TIMEOUT);
                         return false;
                     }
-                    Thread.Sleep(0);
+                    Thread.Sleep(1);
                 }
                 return true;
             }
@@ -750,7 +750,7 @@ namespace NagaW
                         GAlarm.Prompt(EAlarm.CONV_RIGHT_STOPPER_DN_TIMEOUT);
                         return false;
                     }
-                    Thread.Sleep(0);
+                    Thread.Sleep(1);
                 }
                 return true;
             }
@@ -796,7 +796,7 @@ namespace NagaW
                 {
                     break;
                 }
-                Thread.Sleep(0);
+                Thread.Sleep(1);
             }
             Stop();
             GMotDef.ConvR.Wait();
@@ -845,7 +845,7 @@ namespace NagaW
                 {
                     break;
                 }
-                Thread.Sleep(0);
+                Thread.Sleep(1);
             }
             Stop();
             GMotDef.ConvR.Wait();
@@ -868,11 +868,11 @@ namespace NagaW
                     break;
                 }
          
-                Thread.Sleep(0);
+                Thread.Sleep(1);
             }
             var sw2 = Stopwatch.StartNew();
             /*sw.Restart(); */
-            while (sw2.ElapsedMilliseconds < GProcessPara.Conveyor.MoveDelay.Value) { Thread.Sleep(0); };
+            while (sw2.ElapsedMilliseconds < GProcessPara.Conveyor.MoveDelay.Value) { Thread.Sleep(1); };
             Stop();
             GMotDef.ConvR.Wait();
 
@@ -919,10 +919,10 @@ namespace NagaW
                     if (!MoveFwdSlow()) return Error();
                     break;
                 }
-                Thread.Sleep(0);
+                Thread.Sleep(1);
             }
             var sw2 = Stopwatch.StartNew();
-            while (sw2.ElapsedMilliseconds < GProcessPara.Conveyor.MoveDelay.Value) { Thread.Sleep(0); };
+            while (sw2.ElapsedMilliseconds < GProcessPara.Conveyor.MoveDelay.Value) { Thread.Sleep(1); };
             Stop();
             if (!TFLConv.Stop()) return Error();
             GMotDef.ConvL.Wait();
@@ -972,7 +972,7 @@ namespace NagaW
                     Stop();
                     break;
                 }
-                Thread.Sleep(0);
+                Thread.Sleep(1);
             }
             Stop();
             GMotDef.ConvR.Wait();
@@ -1009,7 +1009,7 @@ namespace NagaW
                     TFLConv.Stop();
                     break;
                 }
-                Thread.Sleep(0);
+                Thread.Sleep(1);
             }
             Stop();
             TFLConv.Stop();
