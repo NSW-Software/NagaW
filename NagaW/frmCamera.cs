@@ -66,7 +66,8 @@ namespace NagaW
                 var pixelDiff = mouseLoc - centrePt;
                 var camdiff = new PointD(pixelDiff.X * distPerPixel[0], -pixelDiff.Y * distPerPixel[1]);
 
-               // GroupCam.OPGroupXYGotoRel(camdiff, true);
+                // GroupCam.OPGroupXYGotoRel(camdiff, true);
+                TFGantry.GantrySelect.MoveOpXYRel(camdiff.ToArray);
             }
             catch (Exception ex)
             {

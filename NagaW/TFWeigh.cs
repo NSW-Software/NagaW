@@ -793,6 +793,44 @@ namespace NagaW
             GantryIdx = gantryIdx;
         }
 
+        public string UpdateCPK(EWeighType type, EWeighMode mode)
+        {
+            //LSL = Lower Spec Limit
+            //USL = Upper Spec Limit
+            //Cpu = Mean – LSL / 3 X SD
+            //Cpl = USL – Mean / (3 X SD) 
+            //Cpk = Min(Cpu, Cpl)
+
+            var val = type == EWeighType.Mass ? GProcessPara.Weighing.Target_Mass.Value : GProcessPara.Weighing.Target_FlowRate.Value;
+            var tgtval = mode == EWeighMode.Measure ? 0 : val;
+            var tol = type == EWeighType.Mass ? GProcessPara.Weighing.Target_Mass_Range.Value : GProcessPara.Weighing.Target_FlowRate_Range.Value;
+            var tgttol = mode == EWeighMode.Measure ? 0 : tol;
+
+            var lsl = tgtval is 0 ? 0 : tgtval - tgttol;
+            var usl = tgtval is 0 ? 0 : tgtval + tgttol;
+
+            var list = type == EWeighType.Mass ? WeighCals[GantryIdx].Result.Select(x => x.ActualMass).ToList() : WeighCals[GantryIdx].Result.Select(x => x.FlowRate).ToList();
+
+            var avg = list.Average();
+            var min = list.Min();
+            var max = list.Max();
+
+            double sumof = 0;
+            for (int i = 0; i < list.Count; i++) sumof += Math.Pow(list[i] - avg, 2);
+
+            var stdev = Math.Sqrt(sumof / list.Count);
+            var cpl = lsl is 0 ? 0 : (avg - (lsl)) / (3 * stdev);
+            var cpu = usl is 0 ? 0 : ((usl) - avg) / (3 * stdev);
+            var cpk = Math.Min(cpl, cpu);
+            var cp = tgttol is 0 ? 0 : (tgttol * 2) / (6 * stdev);
+
+            var msg = $"Target: \t{tgtval:f5}\nLowerLmt: \t{tgtval - tgttol:f5}\nUpperLmt: \t{tgtval + tgttol:f5}\n" +
+                $"Min: \t{min:f5}\nMax: \t{max:f5}\nRange: \t{max - min:f5}\nAverage: \t{avg:f5}\nStDev: \t{stdev:f5}\n" +
+                $"Cpl: \t{cpl:f5}\nCpu: \t{cpu:f5}\nCpk: \t{cpk:f5}\nCp: \t{cp:f5}";
+
+            return msg;
+        }
+
         public static TCWeighFunc[] WeighCals = new TCWeighFunc[2] { new TCWeighFunc(TFGantry.GantryLeft.Index), new TCWeighFunc(TFGantry.GantryRight.Index) };
     }
 

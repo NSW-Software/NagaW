@@ -3428,6 +3428,11 @@ namespace NagaW
                                         if (wOffsetXY.X != 0 || wOffsetXY.Y != 0) wDist += WeighDist(ECmd.LINE_PASS, new PointD(c.Para[0], c.Para[1]), wOffsetXY);
                                         wOffsetXY = new PointD(c.Para[0], c.Para[1]);
                                         break;
+                                    case ECmd.ARC_PASS:
+                                        if (c.Para[6] is 1) break;
+                                        if (wOffsetXY.X != 0 || wOffsetXY.Y != 0) wDist += WeighDist(ECmd.ARC_PASS, wOffsetXY, new PointD(c.Para[3], c.Para[4]));
+                                        wOffsetXY = new PointD(c.Para[3], c.Para[4]);
+                                        break;
                                     case ECmd.LINE_END:
                                         wDist += WeighDist(ECmd.LINE_END, new PointD(c.Para[0], c.Para[1]), wOffsetXY);
                                         wOffsetXY = new PointD(c.Para[0], c.Para[1]);
@@ -4128,6 +4133,14 @@ namespace NagaW
             if (cmd == ECmd.LINE_START || cmd == ECmd.LINE_PASS || cmd == ECmd.LINE_END)
             {
                 dist = Math.Sqrt(Math.Pow((pt2.X - pt1.X), 2) + Math.Pow((pt2.Y - pt1.Y), 2));
+            }
+            if (cmd == ECmd.ARC_PASS)
+            {
+                double angleEnd = (double)Math.Atan2((pt2.Y - pt1.Y), (pt2.X - pt1.X));
+                if (angleEnd < 0) angleEnd = Math.PI * 2 - angleEnd;
+                var relCenter = Circle.Center(new PointD(0, 0), pt1, pt2);
+                var radius = Math.Sqrt(Math.Pow((pt2.X - relCenter.X), 2) + Math.Pow((pt2.Y - relCenter.Y), 2));
+                dist = angleEnd * (Math.PI / 180) * radius;
             }
             //else if (cmd == ECmd.CIRCLE)
             //{

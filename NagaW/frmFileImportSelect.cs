@@ -117,7 +117,7 @@ namespace NagaW
             switch (cbxFileType.SelectedIndex)
             {
                 case (int)TFFileImport.EFileType.Gerber_RS274X:
-                    if (!TFFileImport.Gerber_RS274X.Decode(fileName, ref TFFileImport.Feature)) return;
+                    if (!TFFileImport.Gerber_RS274X.Decode1(fileName, ref TFFileImport.Feature)) return;
                     break;
                 case (int)TFFileImport.EFileType.OBD_v7:
                     if (!TFFileImport.ODBPP.Decode(fileName, ref TFFileImport.Feature)) return;

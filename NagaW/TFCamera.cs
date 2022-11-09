@@ -419,7 +419,8 @@ namespace NagaW
                 uint MaxFV = 0;
                 uint FV = 0;
 
-                TFCameras.Camera[gantrySelect.Index].GrabGetFocusValue(ref MaxFV);
+                TFCamera1.Cameras[gantrySelect.Index].GrabGetFocusValue(ref MaxFV);
+                //TFCameras.Camera[gantrySelect.Index].GrabGetFocusValue(ref MaxFV);
                 if (MaxFV < 100000)
                 {
                     GAlarm.Prompt(EAlarm.FOCUS_VALUE_CONTRAST_LOW);
@@ -433,7 +434,8 @@ namespace NagaW
                 if (!gantrySelect.ZAxis.Wait()) return false;
                 var sw = Stopwatch.StartNew(); while (sw.ElapsedMilliseconds < tCoarseMoveDelay) { Thread.Sleep(1); }
 
-                TFCameras.Camera[gantrySelect.Index].GrabGetFocusValue(ref FV);
+                TFCamera1.Cameras[gantrySelect.Index].GrabGetFocusValue(ref FV);
+                //TFCameras.Camera[gantrySelect.Index].GrabGetFocusValue(ref FV);
                 Ite++;
 
                 if (FV > MaxFV)//Image is more focus in plus direction
@@ -448,7 +450,8 @@ namespace NagaW
                         sw = Stopwatch.StartNew();
                         while (sw.ElapsedMilliseconds < tCoarseMoveDelay) { Thread.Sleep(1); }
 
-                        TFCameras.Camera[gantrySelect.Index].GrabGetFocusValue(ref FV);
+                        TFCamera1.Cameras[gantrySelect.Index].GrabGetFocusValue(ref FV);
+                        //TFCameras.Camera[gantrySelect.Index].GrabGetFocusValue(ref FV);
                         Ite++;
 
                         if (FV < MaxFV)//Image focus is less, continue fine from previous 2 coarse step
@@ -476,7 +479,8 @@ namespace NagaW
                         sw = Stopwatch.StartNew();
                         while (sw.ElapsedMilliseconds < tCoarseMoveDelay) { Thread.Sleep(1); }
 
-                        TFCameras.Camera[gantrySelect.Index].GrabGetFocusValue(ref FV);
+                        TFCamera1.Cameras[gantrySelect.Index].GrabGetFocusValue(ref FV);
+                        //TFCameras.Camera[gantrySelect.Index].GrabGetFocusValue(ref FV);
                         Ite++;
 
                         if (FV < MaxFV)//Image focus is less, continue fine from here
@@ -495,7 +499,8 @@ namespace NagaW
                 #region Fine Search - Search in Plus dir only
                 Ite = 0;
                 FV = 0;
-                TFCameras.Camera[gantrySelect.Index].GrabGetFocusValue(ref MaxFV);
+                TFCamera1.Cameras[gantrySelect.Index].GrabGetFocusValue(ref MaxFV);
+                //TFCameras.Camera[gantrySelect.Index].GrabGetFocusValue(ref MaxFV);
 
                 while (true)
                 {
@@ -505,7 +510,8 @@ namespace NagaW
                     if (!gantrySelect.ZAxis.Wait()) return false;
                     sw = Stopwatch.StartNew(); while (sw.ElapsedMilliseconds < tFineMoveDelay) { Thread.Sleep(1); }
 
-                    TFCameras.Camera[gantrySelect.Index].GrabGetFocusValue(ref FV);
+                    TFCamera1.Cameras[gantrySelect.Index].GrabGetFocusValue(ref FV);
+                    //TFCameras.Camera[gantrySelect.Index].GrabGetFocusValue(ref FV);
                     Ite++;
 
                     if (FV < MaxFV)
@@ -524,7 +530,8 @@ namespace NagaW
                 }
                 #endregion
 
-                TFCameras.Camera[gantrySelect.Index].Live();
+                TFCamera1.Cameras[gantrySelect.Index].Live();
+                //TFCameras.Camera[gantrySelect.Index].Live();
 
                 return true;
             }

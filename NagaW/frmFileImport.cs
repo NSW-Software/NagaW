@@ -13,9 +13,17 @@ namespace NagaW
 {
     public partial class frmFileImport : Form
     {
+        PointD InitialPnlSize = new PointD(0, 0);
+        double Scale = 1;
+        private PictureBox PictureBox;
+
         public frmFileImport()
         {
             InitializeComponent();
+            PictureBox = new PictureBox() { /*Dock = DockStyle.Fill,*/Width = pnlPicture.Width, Height = pnlPicture.Height, BackColor = Color.LightGray, };
+            pnlPicture.BackColor = Color.LightGray;
+            pnlPicture.Controls.Add(PictureBox);
+            InitialPnlSize = new PointD(pnlPicture.Width, pnlPicture.Height);
         }
 
         enum ESelect { All, Features, OneFeature }
@@ -23,6 +31,8 @@ namespace NagaW
         {
             cbxSelect.DataSource = Enum.GetValues(typeof(ESelect));
             UpdateApertureList();
+
+            pnlPicture.Scroll += (a, b) => { UpdatePicBx(Scale); };
         }
 
         private void UpdateDisplay()
@@ -274,6 +284,8 @@ namespace NagaW
             lbxFeaturesList.DataSource = TFFileImport.Feature.Features.Where(x => x.ApertureIndex == i).ToArray();
 
             UpdateInfo();
+            //UpdatePicBx();
+            ZoomFit();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -372,5 +384,61 @@ namespace NagaW
         {
             TFFileImport.OptimizeAll = cbxOptimizeAll.Checked;
         }
+
+        #region Image Box
+        private void tsbtnZoomIn_Click(object sender, EventArgs e)
+        {
+            ZoomIn();
+        }
+        private void tsbtnZoomFit_Click(object sender, EventArgs e)
+        {
+            ZoomFit();
+        }
+        private void tsbtnZoomOut_Click(object sender, EventArgs e)
+        {
+            ZoomOut();
+        }
+
+        public void ZoomFit()
+        {
+            Scale = 1;
+            UpdatePicBx(Scale);
+        }
+        public void ZoomIn()
+        {
+            Scale += 0.2;
+            UpdatePicBx(Scale);
+        }
+        public void ZoomOut()
+        {
+            Scale -= 0.2;
+            UpdatePicBx(Scale);
+        }
+
+        public void UpdatePicBx(double multiply = 1)
+        {
+            if (TFFileImport.Feature.Features.Count < 1) return;
+            int width = 5;
+            pnlPicture.Refresh();
+            PictureBox.Refresh();
+
+            PictureBox.Width = (int)InitialPnlSize.X * (int)multiply;
+            PictureBox.Height = (int)InitialPnlSize.Y * (int)multiply;
+            var mid = new int[] { PictureBox.Width / 2, PictureBox.Height / 2 };
+
+            Graphics g = PictureBox.CreateGraphics();
+            Pen pen = new Pen(Color.Violet);
+            SolidBrush solidBrush = new SolidBrush(Color.Violet);
+
+            for (int i = 0; i < TFFileImport.Feature.Features.Count; i++)
+            {
+                var xy = TFFileImport.Feature.Features[i].Point;
+                xy = new PointD(mid[0] + (xy.X * multiply), mid[1] + (xy.Y * multiply));
+                g.DrawEllipse(pen, (float)xy.X, (float)xy.Y, width, width);
+                g.FillEllipse(solidBrush, (float)xy.X, (float)xy.Y, width, width);
+            }
+
+        }
+        #endregion
     }
 }

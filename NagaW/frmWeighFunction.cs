@@ -488,6 +488,7 @@ namespace NagaW
                 tabControl1.SelectTab(ResultTab);
                 richTextBox1.Clear();
                 chartWeigh.Series.Clear();
+                lblCpk.Text = "";
 
                 (gantryIdx is 0 ? TFGantry.GantryRight : TFGantry.GantrySetup).GotoXYZ(new PointXYZ());
 
@@ -528,6 +529,7 @@ namespace NagaW
 
                 UpdateProfile();
                 UpdateDisplay();
+                lblCpk.Text = TCWeighFunc.WeighCals[gantryIdx].UpdateCPK(wmode, wtype);
 
                 var f = new FileStream(GDoc.WeighDataDateTimeDir.FullName + "log.txt", FileMode.Append, FileAccess.Write, FileShare.Write);
                 using (StreamWriter w = new StreamWriter(f)) w.Write(richTextBox1.Text);

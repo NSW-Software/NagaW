@@ -140,6 +140,7 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.btnPump1 = new System.Windows.Forms.Button();
             this.btnPump2 = new System.Windows.Forms.Button();
+            this.lblCpk = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -199,9 +200,9 @@
             // groupBox11
             // 
             this.groupBox11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox11.Location = new System.Drawing.Point(3, 150);
+            this.groupBox11.Location = new System.Drawing.Point(3, 146);
             this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(321, 467);
+            this.groupBox11.Size = new System.Drawing.Size(321, 471);
             this.groupBox11.TabIndex = 78;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Parameter";
@@ -212,7 +213,7 @@
             this.chkbxUpdataParaAfterCal.Dock = System.Windows.Forms.DockStyle.Top;
             this.chkbxUpdataParaAfterCal.Location = new System.Drawing.Point(3, 128);
             this.chkbxUpdataParaAfterCal.Name = "chkbxUpdataParaAfterCal";
-            this.chkbxUpdataParaAfterCal.Size = new System.Drawing.Size(321, 22);
+            this.chkbxUpdataParaAfterCal.Size = new System.Drawing.Size(321, 18);
             this.chkbxUpdataParaAfterCal.TabIndex = 65;
             this.chkbxUpdataParaAfterCal.Text = "Update Param After Calibration";
             this.chkbxUpdataParaAfterCal.UseVisualStyleBackColor = true;
@@ -243,9 +244,9 @@
             this.groupBox8.Controls.Add(this.label5);
             this.groupBox8.Controls.Add(this.lblTunePercentageMax);
             this.groupBox8.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox8.Location = new System.Drawing.Point(0, 318);
+            this.groupBox8.Location = new System.Drawing.Point(0, 310);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(283, 184);
+            this.groupBox8.Size = new System.Drawing.Size(283, 176);
             this.groupBox8.TabIndex = 88;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Tune Variable";
@@ -278,7 +279,7 @@
             this.cbxTuneVar.FormattingEnabled = true;
             this.cbxTuneVar.Location = new System.Drawing.Point(127, 22);
             this.cbxTuneVar.Name = "cbxTuneVar";
-            this.cbxTuneVar.Size = new System.Drawing.Size(100, 26);
+            this.cbxTuneVar.Size = new System.Drawing.Size(100, 22);
             this.cbxTuneVar.TabIndex = 82;
             // 
             // label7
@@ -320,7 +321,7 @@
             this.lblSVRange.Location = new System.Drawing.Point(6, 141);
             this.lblSVRange.Margin = new System.Windows.Forms.Padding(3);
             this.lblSVRange.Name = "lblSVRange";
-            this.lblSVRange.Size = new System.Drawing.Size(71, 18);
+            this.lblSVRange.Size = new System.Drawing.Size(60, 14);
             this.lblSVRange.TabIndex = 77;
             this.lblSVRange.Text = "SV Range";
             this.lblSVRange.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -361,9 +362,9 @@
             this.gbxMassFlowRate.Controls.Add(this.lblTargetFRPercentage);
             this.gbxMassFlowRate.Controls.Add(this.label25);
             this.gbxMassFlowRate.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbxMassFlowRate.Location = new System.Drawing.Point(0, 155);
+            this.gbxMassFlowRate.Location = new System.Drawing.Point(0, 151);
             this.gbxMassFlowRate.Name = "gbxMassFlowRate";
-            this.gbxMassFlowRate.Size = new System.Drawing.Size(283, 163);
+            this.gbxMassFlowRate.Size = new System.Drawing.Size(283, 159);
             this.gbxMassFlowRate.TabIndex = 83;
             this.gbxMassFlowRate.TabStop = false;
             this.gbxMassFlowRate.Text = "Mass Flow Rate (m_dot)";
@@ -474,7 +475,7 @@
             this.gbxMass.Dock = System.Windows.Forms.DockStyle.Top;
             this.gbxMass.Location = new System.Drawing.Point(0, 0);
             this.gbxMass.Name = "gbxMass";
-            this.gbxMass.Size = new System.Drawing.Size(283, 155);
+            this.gbxMass.Size = new System.Drawing.Size(283, 151);
             this.gbxMass.TabIndex = 84;
             this.gbxMass.TabStop = false;
             this.gbxMass.Text = "Mass";
@@ -485,7 +486,7 @@
             this.lblTargetMassLimit.Location = new System.Drawing.Point(119, 54);
             this.lblTargetMassLimit.Margin = new System.Windows.Forms.Padding(3);
             this.lblTargetMassLimit.Name = "lblTargetMassLimit";
-            this.lblTargetMassLimit.Size = new System.Drawing.Size(110, 18);
+            this.lblTargetMassLimit.Size = new System.Drawing.Size(91, 14);
             this.lblTargetMassLimit.TabIndex = 75;
             this.lblTargetMassLimit.Text = "Tol Range (TR)";
             this.lblTargetMassLimit.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -596,7 +597,7 @@
             this.cbxWeighMode.FormattingEnabled = true;
             this.cbxWeighMode.Location = new System.Drawing.Point(58, 2);
             this.cbxWeighMode.Name = "cbxWeighMode";
-            this.cbxWeighMode.Size = new System.Drawing.Size(137, 26);
+            this.cbxWeighMode.Size = new System.Drawing.Size(137, 22);
             this.cbxWeighMode.TabIndex = 80;
             this.cbxWeighMode.SelectionChangeCommitted += new System.EventHandler(this.cbxWeighMode_SelectionChangeCommitted);
             // 
@@ -649,7 +650,7 @@
             this.cbxWeighType.FormattingEnabled = true;
             this.cbxWeighType.Location = new System.Drawing.Point(58, 34);
             this.cbxWeighType.Name = "cbxWeighType";
-            this.cbxWeighType.Size = new System.Drawing.Size(137, 26);
+            this.cbxWeighType.Size = new System.Drawing.Size(137, 22);
             this.cbxWeighType.TabIndex = 78;
             this.cbxWeighType.SelectionChangeCommitted += new System.EventHandler(this.cbxWeighType_SelectionChangeCommitted);
             // 
@@ -682,7 +683,7 @@
             this.cbxCalProfile.FormattingEnabled = true;
             this.cbxCalProfile.Location = new System.Drawing.Point(58, 91);
             this.cbxCalProfile.Name = "cbxCalProfile";
-            this.cbxCalProfile.Size = new System.Drawing.Size(392, 26);
+            this.cbxCalProfile.Size = new System.Drawing.Size(392, 22);
             this.cbxCalProfile.TabIndex = 70;
             this.cbxCalProfile.SelectionChangeCommitted += new System.EventHandler(this.cbxCalProfile_SelectionChangeCommitted);
             // 
@@ -774,9 +775,9 @@
             this.groupBox3.Controls.Add(this.groupBox10);
             this.groupBox3.Controls.Add(this.groupBox9);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox3.Location = new System.Drawing.Point(3, 277);
+            this.groupBox3.Location = new System.Drawing.Point(3, 269);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(604, 229);
+            this.groupBox3.Size = new System.Drawing.Size(604, 217);
             this.groupBox3.TabIndex = 5;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Advanced Parameter";
@@ -787,9 +788,9 @@
             this.groupBox10.Controls.Add(this.label20);
             this.groupBox10.Controls.Add(this.lblIgnoreCount);
             this.groupBox10.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox10.Location = new System.Drawing.Point(3, 153);
+            this.groupBox10.Location = new System.Drawing.Point(3, 145);
             this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(598, 73);
+            this.groupBox10.Size = new System.Drawing.Size(598, 69);
             this.groupBox10.TabIndex = 89;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Start Dot Cycle";
@@ -827,9 +828,9 @@
             this.groupBox9.Controls.Add(this.lblFlushAF);
             this.groupBox9.Controls.Add(this.lblCleanAF);
             this.groupBox9.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox9.Location = new System.Drawing.Point(3, 22);
+            this.groupBox9.Location = new System.Drawing.Point(3, 18);
             this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(598, 131);
+            this.groupBox9.Size = new System.Drawing.Size(598, 127);
             this.groupBox9.TabIndex = 1;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "After Fill (PP4)";
@@ -925,9 +926,9 @@
             this.groupBox1.Controls.Add(this.lblDotWait);
             this.groupBox1.Controls.Add(this.lblDotPerSample);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox1.Location = new System.Drawing.Point(3, 78);
+            this.groupBox1.Location = new System.Drawing.Point(3, 74);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(604, 199);
+            this.groupBox1.Size = new System.Drawing.Size(604, 195);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Common Parameter";
@@ -1166,7 +1167,7 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox2.Location = new System.Drawing.Point(3, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(604, 75);
+            this.groupBox2.Size = new System.Drawing.Size(604, 71);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Position";
@@ -1205,6 +1206,7 @@
             // tpResult
             // 
             this.tpResult.Controls.Add(this.chartWeigh);
+            this.tpResult.Controls.Add(this.lblCpk);
             this.tpResult.Controls.Add(this.richTextBox1);
             this.tpResult.Location = new System.Drawing.Point(4, 39);
             this.tpResult.Name = "tpResult";
@@ -1218,12 +1220,12 @@
             // 
             chartArea1.Name = "ChartArea1";
             this.chartWeigh.ChartAreas.Add(chartArea1);
-            this.chartWeigh.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chartWeigh.Dock = System.Windows.Forms.DockStyle.Top;
             legend1.Name = "Legend1";
             this.chartWeigh.Legends.Add(legend1);
-            this.chartWeigh.Location = new System.Drawing.Point(3, 182);
+            this.chartWeigh.Location = new System.Drawing.Point(3, 347);
             this.chartWeigh.Name = "chartWeigh";
-            this.chartWeigh.Size = new System.Drawing.Size(604, 435);
+            this.chartWeigh.Size = new System.Drawing.Size(604, 264);
             this.chartWeigh.TabIndex = 80;
             this.chartWeigh.Text = "chart1";
             // 
@@ -1234,7 +1236,7 @@
             this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.richTextBox1.Location = new System.Drawing.Point(3, 3);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(604, 179);
+            this.richTextBox1.Size = new System.Drawing.Size(604, 173);
             this.richTextBox1.TabIndex = 78;
             this.richTextBox1.Text = "";
             // 
@@ -1261,9 +1263,9 @@
             this.groupBox5.Controls.Add(this.label43);
             this.groupBox5.Controls.Add(this.lblCalSpeedInput);
             this.groupBox5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox5.Location = new System.Drawing.Point(3, 134);
+            this.groupBox5.Location = new System.Drawing.Point(3, 130);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(604, 73);
+            this.groupBox5.Size = new System.Drawing.Size(604, 69);
             this.groupBox5.TabIndex = 1;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "AdaptiveFlowRate";
@@ -1335,7 +1337,7 @@
             this.groupBox4.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox4.Location = new System.Drawing.Point(3, 61);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(604, 73);
+            this.groupBox4.Size = new System.Drawing.Size(604, 69);
             this.groupBox4.TabIndex = 0;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "StaticFlowRate";
@@ -1490,9 +1492,18 @@
             this.btnPump2.Visible = false;
             this.btnPump2.Click += new System.EventHandler(this.btnPump2_Click);
             // 
+            // lblCpk
+            // 
+            this.lblCpk.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblCpk.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblCpk.Location = new System.Drawing.Point(3, 176);
+            this.lblCpk.Name = "lblCpk";
+            this.lblCpk.Size = new System.Drawing.Size(604, 171);
+            this.lblCpk.TabIndex = 81;
+            // 
             // frmWeighFunction
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 18F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(618, 703);
             this.Controls.Add(this.tabControl1);
@@ -1644,5 +1655,6 @@
         private System.Windows.Forms.DataVisualization.Charting.Chart chartWeigh;
         private System.Windows.Forms.Label lblRepeatCount;
         private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.Label lblCpk;
     }
 }

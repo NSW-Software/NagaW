@@ -17,6 +17,7 @@ namespace NagaW
         Machine_Pos,
         Pump_Pos,
         VacChuck,
+        VacExhaust,
         Cam_Offset,
         Goto_Laser,
         Teach_XY,
@@ -85,16 +86,25 @@ namespace NagaW
                     {
                         if (dualMode)
                         {
-                            TFRConv.SvChuckVac.Status = !TFRConv.SvChuckVac.Status;
-                            TFLConv.SvChuckVac.Status = !TFLConv.SvChuckVac.Status;
+                            TCWafer.WaferVacHigh.Status = !TCWafer.WaferVacHigh.Status;
+                            TCWafer.WaferVacLow.Status = !TCWafer.WaferVacLow.Status;
+                            //TFRConv.SvChuckVac.Status = !TFRConv.SvChuckVac.Status;
+                            //TFLConv.SvChuckVac.Status = !TFLConv.SvChuckVac.Status;
                         }
                         else
                         {
-                            TEZMCAux.TOutput svVac = GantrySelect == EGanytrySelect.GantryR ? TFRConv.SvChuckVac : TFLConv.SvChuckVac;
-                            svVac.Status = !svVac.Status;
+                            //TEZMCAux.TOutput svVac = GantrySelect == EGanytrySelect.GantryR ? TFRConv.SvChuckVac : TFLConv.SvChuckVac;
+                            //svVac.Status = !svVac.Status;
+                            TCWafer.WaferVacHigh.Status = !TCWafer.WaferVacHigh.Status;
+                            TCWafer.WaferVacLow.Status = !TCWafer.WaferVacLow.Status;
                         }
                     }
                     break;
+                case ETool.VacExhaust:
+                    {
+                        TCWafer.WaferExh.Status = !TCWafer.WaferExh.Status;
+                        break;
+                    }
                 case ETool.Cam_Offset:
                     {
                         TEZMCAux.TGroup gantrySelect = GantrySelect == EGanytrySelect.GantryR ? TFGantry.GantryRight : TFGantry.GantryLeft;
