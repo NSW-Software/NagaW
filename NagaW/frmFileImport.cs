@@ -20,10 +20,15 @@ namespace NagaW
         public frmFileImport()
         {
             InitializeComponent();
-            PictureBox = new PictureBox() { /*Dock = DockStyle.Fill,*/Width = pnlPicture.Width, Height = pnlPicture.Height, BackColor = Color.LightGray, };
-            pnlPicture.BackColor = Color.LightGray;
+            PictureBox = new PictureBox() { /*Dock = DockStyle.Fill,*/Width = pnlPicture.Width, Height = pnlPicture.Height, BackColor = Color.Black, };
+            pnlPicture.BackColor = Color.Black;
             pnlPicture.Controls.Add(PictureBox);
             InitialPnlSize = new PointD(pnlPicture.Width, pnlPicture.Height);
+
+            //var temp = typeof(Color).GetProperties().Where(x => x.PropertyType == typeof(Color)).Select(x => (Color)x.GetValue(null)).ToArray();
+            //var temp = typeof(Color).GetProperties(BindingFlags.Static | BindingFlags.DeclaredOnly | BindingFlags.Public).Select(x => (Color)x.GetValue(null, null)).ToArray();
+            //foreach (var t in temp) tscmbxColor.Items.Add(t);
+            //tscmbxColor.Items.AddRange(typeof(Color).GetProperties(BindingFlags.Static | BindingFlags.DeclaredOnly | BindingFlags.Public).Select(x => (Color)x.GetValue(null, null)).ToArray());
         }
 
         enum ESelect { All, Features, OneFeature }
@@ -418,7 +423,7 @@ namespace NagaW
         public void UpdatePicBx(double multiply = 1)
         {
             if (TFFileImport.Feature.Features.Count < 1) return;
-            int width = 5;
+            int width = 3;
             pnlPicture.Refresh();
             PictureBox.Refresh();
 
@@ -427,15 +432,54 @@ namespace NagaW
             var mid = new int[] { PictureBox.Width / 2, PictureBox.Height / 2 };
 
             Graphics g = PictureBox.CreateGraphics();
-            Pen pen = new Pen(Color.Violet);
-            SolidBrush solidBrush = new SolidBrush(Color.Violet);
+            Pen pen = new Pen(Color.Lime);
+            SolidBrush solidBrush = new SolidBrush(Color.Lime);
 
             for (int i = 0; i < TFFileImport.Feature.Features.Count; i++)
             {
                 var xy = TFFileImport.Feature.Features[i].Point;
-                xy = new PointD(mid[0] + (xy.X * multiply), mid[1] + (xy.Y * multiply));
-                g.DrawEllipse(pen, (float)xy.X, (float)xy.Y, width, width);
-                g.FillEllipse(solidBrush, (float)xy.X, (float)xy.Y, width, width);
+                xy = new PointD(mid[0] + (xy.X * multiply), mid[1] - (xy.Y * multiply));
+
+                PointD prevPt = new PointD(0, 0);
+                if (i > 0)
+                {
+                    var temp = TFFileImport.Feature.Features[i - 1].Point;
+                    prevPt = new PointD(mid[0] + (temp.X * multiply), mid[1] - (temp.Y * multiply));
+                }
+
+                switch (TFFileImport.Feature.Features[i].Type)
+                {
+                    case TFFileImport.EFeatureType.Dot:
+                        g.DrawEllipse(pen, (float)xy.X, (float)xy.Y, width, width);
+                        g.FillEllipse(solidBrush, (float)xy.X, (float)xy.Y, width, width);
+                        break;
+                    case TFFileImport.EFeatureType.Line:
+                        var prevXY = TFFileImport.Feature.Features[i - 1].Type == TFFileImport.Feature.Features[i].Type ? prevPt : xy;
+                        //var prevXY = new PointD(mid[0] + (prevPt.X * multiply), mid[1] - (prevPt.Y * multiply));
+                        g.DrawLine(pen, (float)prevXY.X, (float)prevXY.Y, (float)xy.X, (float)xy.Y);
+                        break;
+                    case TFFileImport.EFeatureType.Arc:
+                        bool circle = prevPt == xy;
+                        var radius = TFFileImport.Feature.Features[i].Radius;
+
+                        if (circle) g.DrawEllipse(pen, (float)xy.X, (float)xy.Y, (float)radius, (float)radius);
+                        else
+                        {
+                            PointD center = new PointD(radius + xy.X, radius + xy.Y);
+                            var angleStart = Math.Atan2((prevPt.Y - center.Y), (prevPt.X - center.X));
+                            var angleEnd = Math.Atan2((xy.Y - center.Y), (xy.X - center.X));
+                            if (angleStart < 0) angleStart = Math.PI * 2 - angleStart;
+                            if (angleEnd < 0) angleEnd = Math.PI * 2 - angleEnd;
+                            double rad = angleEnd - angleStart;
+
+                            var sweepDeg = rad * 180 / Math.PI;
+                            var startDeg = angleStart * 180 / Math.PI;
+
+                            g.DrawArc(pen, (float)xy.X, (float)xy.Y, (float)radius, (float)radius, (float)startDeg, (float)sweepDeg);
+                        }
+
+                        break;
+                }
             }
 
         }

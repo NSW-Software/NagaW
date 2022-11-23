@@ -61,18 +61,22 @@
             this.tsbtnZoomOut = new System.Windows.Forms.ToolStripButton();
             this.tsbtnZoomFit = new System.Windows.Forms.ToolStripButton();
             this.tsbtnZoomIn = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.tscmbxColor = new System.Windows.Forms.ToolStripComboBox();
             this.pnlPicture = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.panel1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnImport
             // 
-            this.btnImport.Location = new System.Drawing.Point(467, 8);
+            this.btnImport.Location = new System.Drawing.Point(459, 5);
             this.btnImport.Name = "btnImport";
             this.btnImport.Size = new System.Drawing.Size(75, 23);
             this.btnImport.TabIndex = 0;
@@ -127,7 +131,7 @@
             // 
             // btnLoad
             // 
-            this.btnLoad.Location = new System.Drawing.Point(8, 8);
+            this.btnLoad.Location = new System.Drawing.Point(0, 5);
             this.btnLoad.Name = "btnLoad";
             this.btnLoad.Size = new System.Drawing.Size(75, 23);
             this.btnLoad.TabIndex = 15;
@@ -137,7 +141,7 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(89, 8);
+            this.btnSave.Location = new System.Drawing.Point(81, 5);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 16;
@@ -147,7 +151,7 @@
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(1189, 8);
+            this.btnOK.Location = new System.Drawing.Point(1181, 5);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 17;
@@ -157,7 +161,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(1270, 8);
+            this.btnCancel.Location = new System.Drawing.Point(1262, 5);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 18;
@@ -167,7 +171,7 @@
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(386, 8);
+            this.btnClear.Location = new System.Drawing.Point(378, 5);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(75, 23);
             this.btnClear.TabIndex = 19;
@@ -181,7 +185,7 @@
             this.lbxFeaturesList.ItemHeight = 14;
             this.lbxFeaturesList.Location = new System.Drawing.Point(6, 134);
             this.lbxFeaturesList.Name = "lbxFeaturesList";
-            this.lbxFeaturesList.Size = new System.Drawing.Size(214, 396);
+            this.lbxFeaturesList.Size = new System.Drawing.Size(214, 382);
             this.lbxFeaturesList.TabIndex = 4;
             this.lbxFeaturesList.Click += new System.EventHandler(this.lblFeatures_Click);
             // 
@@ -365,7 +369,8 @@
             this.panel1.Controls.Add(this.pnlPicture);
             this.panel1.Controls.Add(this.groupBox2);
             this.panel1.Controls.Add(this.groupBox3);
-            this.panel1.Location = new System.Drawing.Point(8, 37);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(5, 39);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1343, 591);
             this.panel1.TabIndex = 20;
@@ -373,10 +378,13 @@
             // toolStrip1
             // 
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsbtnZoomOut,
             this.tsbtnZoomFit,
-            this.tsbtnZoomIn});
+            this.tsbtnZoomIn,
+            this.toolStripSeparator1,
+            this.tscmbxColor});
             this.toolStrip1.Location = new System.Drawing.Point(540, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(803, 25);
@@ -415,6 +423,17 @@
             this.tsbtnZoomIn.Text = "Z+";
             this.tsbtnZoomIn.Click += new System.EventHandler(this.tsbtnZoomIn_Click);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // tscmbxColor
+            // 
+            this.tscmbxColor.ForeColor = System.Drawing.Color.Navy;
+            this.tscmbxColor.Name = "tscmbxColor";
+            this.tscmbxColor.Size = new System.Drawing.Size(131, 25);
+            // 
             // pnlPicture
             // 
             this.pnlPicture.AutoScroll = true;
@@ -424,19 +443,27 @@
             this.pnlPicture.Size = new System.Drawing.Size(803, 591);
             this.pnlPicture.TabIndex = 15;
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.btnClear);
+            this.panel2.Controls.Add(this.btnCancel);
+            this.panel2.Controls.Add(this.btnOK);
+            this.panel2.Controls.Add(this.btnSave);
+            this.panel2.Controls.Add(this.btnLoad);
+            this.panel2.Controls.Add(this.btnImport);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Location = new System.Drawing.Point(5, 5);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1343, 34);
+            this.panel2.TabIndex = 21;
+            // 
             // frmFileImport
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1353, 649);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.btnClear);
-            this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.btnOK);
-            this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.btnLoad);
-            this.Controls.Add(this.btnImport);
+            this.Controls.Add(this.panel2);
             this.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.Navy;
             this.Margin = new System.Windows.Forms.Padding(2);
@@ -455,6 +482,7 @@
             this.panel1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -494,6 +522,9 @@
         private System.Windows.Forms.ToolStripButton tsbtnZoomOut;
         private System.Windows.Forms.ToolStripButton tsbtnZoomFit;
         private System.Windows.Forms.ToolStripButton tsbtnZoomIn;
+        private System.Windows.Forms.ToolStripComboBox tscmbxColor;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.Panel panel2;
     }
 }
 

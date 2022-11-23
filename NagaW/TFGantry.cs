@@ -1673,6 +1673,11 @@ namespace NagaW
                         if (!gantry.MoveOpXYAbs(new double[] { zTouchCamPos.X + laserOffset.X + ofst.X, zTouchCamPos.Y + laserOffset.Y + ofst.Y })) return false;
                         Thread.Sleep(GProcessPara.HSensor.SettleTime.Value);
                         if (!TFHSensors.Sensor[gantry.Index].GetValue(ref hSensorValue)) return false;
+                        if (Math.Abs(hSensorValue) >= 70)
+                        {
+                            GAlarm.Prompt(EAlarm.LASERSENSOR_RANGE_ERROR, "Value Over Limit");
+                            return false;
+                        }
                         hSensorValues.Add(hSensorValue);
                     }
 

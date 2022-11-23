@@ -602,7 +602,7 @@ namespace NagaW
                     Thread.Sleep(w_readwait);
                     if (!TFWeightScale.ReadStable(ref afterW)) goto _stop;
 
-                    double actual_mass = 1000 * (double)((afterW - beforeW) / dotPerSample);
+                    double actual_mass = GProcessPara.Weighing.ResultState.Value is 0 ? 1000 * (double)((afterW - beforeW) / dotPerSample) : 1000 * (double)(afterW - beforeW);
 
                     wdata.ActualMass = actual_mass;
 

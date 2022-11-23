@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
@@ -118,6 +118,7 @@
             this.lblPos = new System.Windows.Forms.Label();
             this.tpResult = new System.Windows.Forms.TabPage();
             this.chartWeigh = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.lblCpk = new System.Windows.Forms.Label();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
@@ -140,7 +141,8 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.btnPump1 = new System.Windows.Forms.Button();
             this.btnPump2 = new System.Windows.Forms.Button();
-            this.lblCpk = new System.Windows.Forms.Label();
+            this.lblResult = new System.Windows.Forms.Label();
+            this.label36 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -775,7 +777,7 @@
             this.groupBox3.Controls.Add(this.groupBox10);
             this.groupBox3.Controls.Add(this.groupBox9);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox3.Location = new System.Drawing.Point(3, 269);
+            this.groupBox3.Location = new System.Drawing.Point(3, 300);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(604, 217);
             this.groupBox3.TabIndex = 5;
@@ -907,6 +909,8 @@
             // groupBox1
             // 
             this.groupBox1.AutoSize = true;
+            this.groupBox1.Controls.Add(this.lblResult);
+            this.groupBox1.Controls.Add(this.label36);
             this.groupBox1.Controls.Add(this.lblRepeatCount);
             this.groupBox1.Controls.Add(this.label34);
             this.groupBox1.Controls.Add(this.label11);
@@ -928,7 +932,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Location = new System.Drawing.Point(3, 74);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(604, 195);
+            this.groupBox1.Size = new System.Drawing.Size(604, 226);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Common Parameter";
@@ -1218,16 +1222,25 @@
             // 
             // chartWeigh
             // 
-            chartArea1.Name = "ChartArea1";
-            this.chartWeigh.ChartAreas.Add(chartArea1);
+            chartArea2.Name = "ChartArea1";
+            this.chartWeigh.ChartAreas.Add(chartArea2);
             this.chartWeigh.Dock = System.Windows.Forms.DockStyle.Top;
-            legend1.Name = "Legend1";
-            this.chartWeigh.Legends.Add(legend1);
+            legend2.Name = "Legend1";
+            this.chartWeigh.Legends.Add(legend2);
             this.chartWeigh.Location = new System.Drawing.Point(3, 347);
             this.chartWeigh.Name = "chartWeigh";
             this.chartWeigh.Size = new System.Drawing.Size(604, 264);
             this.chartWeigh.TabIndex = 80;
             this.chartWeigh.Text = "chart1";
+            // 
+            // lblCpk
+            // 
+            this.lblCpk.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblCpk.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblCpk.Location = new System.Drawing.Point(3, 176);
+            this.lblCpk.Name = "lblCpk";
+            this.lblCpk.Size = new System.Drawing.Size(604, 171);
+            this.lblCpk.TabIndex = 81;
             // 
             // richTextBox1
             // 
@@ -1492,14 +1505,30 @@
             this.btnPump2.Visible = false;
             this.btnPump2.Click += new System.EventHandler(this.btnPump2_Click);
             // 
-            // lblCpk
+            // lblResult
             // 
-            this.lblCpk.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblCpk.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblCpk.Location = new System.Drawing.Point(3, 176);
-            this.lblCpk.Name = "lblCpk";
-            this.lblCpk.Size = new System.Drawing.Size(604, 171);
-            this.lblCpk.TabIndex = 81;
+            this.lblResult.BackColor = System.Drawing.Color.White;
+            this.lblResult.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblResult.ForeColor = System.Drawing.Color.Navy;
+            this.lblResult.Location = new System.Drawing.Point(366, 180);
+            this.lblResult.Margin = new System.Windows.Forms.Padding(3);
+            this.lblResult.Name = "lblResult";
+            this.lblResult.Size = new System.Drawing.Size(120, 25);
+            this.lblResult.TabIndex = 20;
+            this.lblResult.Text = "label16";
+            this.lblResult.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblResult.Click += new System.EventHandler(this.lblResult_Click);
+            // 
+            // label36
+            // 
+            this.label36.ForeColor = System.Drawing.Color.Navy;
+            this.label36.Location = new System.Drawing.Point(251, 180);
+            this.label36.Margin = new System.Windows.Forms.Padding(3);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(109, 25);
+            this.label36.TabIndex = 19;
+            this.label36.Text = "Result (Meas)";
+            this.label36.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // frmWeighFunction
             // 
@@ -1656,5 +1685,7 @@
         private System.Windows.Forms.Label lblRepeatCount;
         private System.Windows.Forms.Label label34;
         private System.Windows.Forms.Label lblCpk;
+        private System.Windows.Forms.Label lblResult;
+        private System.Windows.Forms.Label label36;
     }
 }

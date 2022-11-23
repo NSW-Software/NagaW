@@ -69,7 +69,6 @@ namespace NagaW
             #endregion
         }
 
-
         private void UpdateProfile()
         {
             int functionNo = 0;
@@ -301,6 +300,7 @@ namespace NagaW
             lblPos.Text = GSetupPara.Weighing.Pos[gantryIdx, (int)GSystemCfg.Pump.Pumps[gantryIdx].PumpType].ToStringForDisplay();
 
             lblBoardCount.UpdatePara(new IPara("", GSetupPara.Weighing.WeighBoardCount[gantryIdx], 0, 99999, EUnit.COUNT));
+            lblResult.UpdatePara(GProcessPara.Weighing.ResultState);
 
             //Event
             lblCleanAF.UpdatePara(GProcessPara.Weighing.CleanAfterFill);
@@ -377,7 +377,6 @@ namespace NagaW
         private void timer1_Tick(object sender, EventArgs e)
         {
         }
-
 
         private void btnPump1_Click(object sender, EventArgs e)
         {
@@ -471,6 +470,12 @@ namespace NagaW
         private void lblPurgeAF_Click(object sender, EventArgs e)
         {
             GLog.SetPara(ref GProcessPara.Weighing.PurgeAfterFill);
+            UpdateDisplay();
+        }
+
+        private void lblResult_Click(object sender, EventArgs e)
+        {
+            GLog.SetPara(ref GProcessPara.Weighing.ResultState);
             UpdateDisplay();
         }
         #endregion
@@ -721,6 +726,5 @@ namespace NagaW
             var v = Variance(values);
             return v <= 0 ? 0 : Math.Sqrt(v);
         }
-
     }
 }

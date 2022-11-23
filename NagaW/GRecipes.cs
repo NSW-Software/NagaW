@@ -1989,7 +1989,8 @@ namespace NagaW
                                     cmdBuffer += $"MOVECIRCSP(0,0,{relCenter.X:f6},{relCenter.Y:f6},{circCCW}) ";
                                     break;
                                 case ECmd.ARC_PASS:
-                                    cmdBuffer += $"MOVECIRCSP({relPass2.X:f6},{relPass2.Y:f6},{relCenter.X:f6},{relCenter.Y:f6},{circCCW}) ";
+                                    //cmdBuffer += $"MOVECIRCSP({relPass2.X:f6},{relPass2.Y:f6},{relCenter.X:f6},{relCenter.Y:f6},{circCCW}) ";
+                                    cmdBuffer += $"MOVECIRC2SP({relPass1.X:f6},{relPass1.Y:f6},{relPass2.X:f6},{relPass2.Y:f6}) ";
                                     break;
                             }
 
@@ -3444,6 +3445,11 @@ namespace NagaW
                             #region Calculation
                             var fr = GProcessPara.Weighing.ActualMassFlowRate[gantryIdx].Value;
                             lineSpeed = WeighReturnVelocity(wDist, mass, fr);
+                            if (lineSpeed is 0 || fr is 0)
+                            {
+                                GAlarm.Prompt(EAlarm.RECIPE_INVALID_PARA, "USE_WEIGH\nLineSpeed is 0 after calculation. Please check value of MassFlowRate or MassPerUnit set in USE_WEIGH command.");
+                                return false;
+                            }
                             GLog.LogProcess($"wDist {wDist}, mass {mass}, fr {fr}, Linespeed updated to {lineSpeed}");
 
                             #endregion

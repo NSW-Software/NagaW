@@ -182,6 +182,8 @@ namespace NagaW
             tsslblEvent.Text = "Recent Activity: " + GLog.RecentHistory;
             tsslblConnection.Text = "Connection: " + (TEZMCAux.Online ? "Online" : "Offline");
             tsslblSystemState.Text = "System State: " + GDefine.SystemState.ToString() + " L: " + TFGantry.GLStatus.ToString() + " R: " + TFGantry.GRStatus.ToString();
+
+            //TCTempCtrl.TempMonitoring();
         }
 
         private void btnHomeAll_Click(object sender, EventArgs e)

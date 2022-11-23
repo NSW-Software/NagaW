@@ -749,6 +749,7 @@ namespace NagaW
             public static bool[] EnableUpdateTCmd = new bool[Headno];
 
             public static IPara[] RepeatCount = Enumerable.Range(0, Headno).Select(x => new IPara(nameof(SampleCount), 5, 0, 15, EUnit.COUNT)).ToArray();
+            public static DPara ResultState = new DPara(nameof(Weighing) + nameof(ResultState), 0, 0, 1, EUnit.COUNT, 0, new string[] { "Average", "Total" });
         }
 
 

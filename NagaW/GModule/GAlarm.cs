@@ -116,6 +116,7 @@ namespace NagaW
         RECIPE_HEIGHTSET_INVALID_NEXT_CMD,
         RECIPE_INVALID_PREV_CMD,
         RECIPE_INVALID_NEXT_CMD,
+        RECIPE_INVALID_PARA,
         #endregion
 
         #region Lighting Ctrl

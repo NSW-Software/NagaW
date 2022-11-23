@@ -160,6 +160,7 @@ namespace NagaW
                 return false;
             }
 
+            TCTempCtrl.TempRetFlag = true;
             TCTempCtrl.StartIdle();
 
             return Init();
@@ -603,6 +604,8 @@ namespace NagaW
         static bool stopchecking = true;
         static bool Flag_Allpass;
 
+        public static bool TempRetFlag = true;
+
         public static bool Monitoring()
         {
             if (!GProcessPara.Temp.CheckTempBeforeRun) return true;
@@ -675,6 +678,38 @@ namespace NagaW
             MsgBox.Processing($"Awaiting Temp to reach setup value ({awaitperiodsecond.ToStringForDisplay()})", act, () => stopchecking = true);
 
             return Flag_Allpass;
+        }
+
+        public static bool TempMonitoring()
+        {
+            if (!TempRetFlag) return false;
+
+            if (!TFTempCtrl.TempCtrl.IsOpen)
+            {
+                if (!GSystemCfg.Temperature.Temp.StartUpEnable) return true;
+                if (!TFTempCtrl.TempCtrl.Open()) return false;
+            }
+
+            var instantenable = new List<bool>(GSystemCfg.Temperature.Temp.Channels.Select(x => x.Enable));
+            for (int i = 0; i < GSystemCfg.Temperature.Temp.Channels.Count; i++)
+            {
+                var addr = GSystemCfg.Temperature.Temp.Channels[i].Address;
+
+                if (instantenable[i])
+                {
+                    TFTempCtrl.TempCtrl.Run(addr);
+                    TFTempCtrl.TempCtrl.Read_PresentValue(addr, out int pv);
+
+                    if (pv >= 130)
+                    {
+                        TFTempCtrl.TempCtrl.Stop(addr);
+                        TempRetFlag = false;
+                        GAlarm.Prompt(EAlarm.TEMPCTRL_OPEN_ERROR, $"TempCtrl {i} Out of Limit.");
+                        break;
+                    }
+                }
+            }
+            return true;
         }
     }
 }

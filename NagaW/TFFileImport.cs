@@ -687,6 +687,7 @@ namespace NagaW
                             if (line.StartsWith("D"))
                             {
                                 latest_aperture = line;
+                                interMode = EInterpolation.None;
                                 //latest_point = new PointD(0, 0);
                                 continue;
                             }
@@ -745,12 +746,16 @@ namespace NagaW
                                     {
                                         case EInterpolation.Linear:
                                             feature.Features.Add(new TFeatures(feature.Features.Count, tempApID, EFeatureType.Line, new PointD(tempPt)));
-                                            break;
+                                            continue;
+                                        case EInterpolation.CounterClockWise:
                                         case EInterpolation.ClockWise:
-                                            var radius = temp[2] is "0" ? temp[3] : temp[2];
-                                            feature.Features.Add(new TFeatures(feature.Features.Count, tempApID, EFeatureType.Arc, new PointD(tempPt)));
-                                            break;
-                                        case EInterpolation.CounterClockWise: break;
+                                            double i, j = 0;
+                                            if (temp.Length > 3) double.TryParse(temp[3], out j);
+                                            double.TryParse(temp[2], out i); 
+                                            var tempRad = Convert(feature, new double[] { i, j });
+                                            var radius = tempRad[0] == 0 ? Math.Abs(tempRad[1]) : Math.Abs(tempRad[0]);
+                                            feature.Features.Add(new TFeatures(feature.Features.Count, tempApID, EFeatureType.Arc, new PointD(tempPt), radius));
+                                            continue;
                                         default: break;
                                     }
                                 }
