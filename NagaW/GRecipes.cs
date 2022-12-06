@@ -642,6 +642,14 @@ namespace NagaW
         DYNAMIC_JET_DOT = 260,          //  FRX         FRY                                                         Disp?
         DYNAMIC_JET_DOT_SW,             //  FRX         FRY                                                         Disp?       JetDir 
 
+        //PATTERN_MULTI_DOT = 280,
+        //PATTERN_POLKA_DOT,
+        //PATTERN_MULTI_LINE,
+        //PATTERN_RECT_LINE,
+        //PATTERN_RECT_FILL,
+        //PATTERN_RECT_SPIRAL,
+        //PATTERN_START,
+
         PAT_ALIGN_UNIT = 504,           //  FRX         FRY         FRZ         FRX2        FRY2        FRZ2         MinScore    MaxXYOffset MaxAngle    OptionBits
         PAT_ALIGN_CLUSTER = 505,        //  FRX         FRY         FRZ         FRX2        FRY2        FRZ2         MinScore    MaxXYOffset MaxAngle    OptionBits
         PAT_ALIGN_BOARD = 506,          //  FRX         FRY         FRZ         FRX2        FRY2        FRZ2         MinScore    MaxXYOffset MaxAngle    OptionBits
@@ -686,6 +694,7 @@ namespace NagaW
         [Browsable(false)]
         public int ID { get; set; } = 0;
         public double[] Para { get; set; } = Enumerable.Range(0, MAX_PARA).Select(x => new double()).ToArray();
+        //public PointXYZ[] Pos { get; set; } = Enumerable.Range(0, MAX_PARA).Select(x => new PointXYZ()).ToArray();
         public TCmd()
         {
         }
@@ -697,6 +706,7 @@ namespace NagaW
         {
             this.Cmd = tCommand.Cmd;
             this.Para = Enumerable.Range(0, MAX_PARA).Select(x => tCommand.Para[x]).ToArray();
+            //this.Pos = Enumerable.Range(0, MAX_PARA).Select(x => tCommand.Pos[x]).ToArray();
         }
 
         public string Param_Edit
@@ -4319,88 +4329,159 @@ namespace NagaW
         }
     }
 
-    public class PatternDisp
-    {
-        public static List<PointD> MultiDot(PointI CR, PointD pitchCol, PointD pitchRow, ERunPath runPath)
-        {
-            var dispPos = new List<PointD>();
-            TLayout layout = new TLayout()
-            {
-                CR = CR,
-                PitchCol = pitchCol,
-                PitchRow = pitchRow,
-                RunPath = runPath,
-            };
+    //public class PatternDisp
+    //{
+    //    private static List<PointD> MultiDot(PointI CR, PointD pitchCol, PointD pitchRow, ERunPath runPath)
+    //    {
+    //        var dispPos = new List<PointD>();
+    //        TLayout unitLayout = new TLayout()
+    //        {
+    //            CR = CR,
+    //            PitchCol = pitchCol,
+    //            PitchRow = pitchRow,
+    //            RunPath = runPath,
+    //        };
 
-            PointI crNow = new PointI();
-            while (true)
-            {
-                dispPos.Add(layout.RelPos(crNow));
-                crNow = layout.NextCR(crNow);
-                if (crNow.IsZero) break;
-            }
-            return dispPos;
-        }
-        public static List<PointD> SquareLine(PointD startPt, PointD endPt1, PointD endPt2)
-        {
-            var dispPos = new List<PointD>();
+    //        PointI crNow = new PointI();
+    //        while (true)
+    //        {
+    //            dispPos.Add(unitLayout.RelPos(crNow));
+    //            crNow = unitLayout.NextCR(crNow);
+    //            if (crNow.IsZero) break;
+    //        }
+    //        return dispPos;
+    //    }
+    //    public static List<PointD> MultiDot(TCmd tcmd)
+    //    {
+    //        PointI cr = new PointI((int)tcmd.Para[0], (int)tcmd.Para[1]);
+    //        PointD pitchCol = new PointD(tcmd.Para[2], tcmd.Para[3]);
+    //        PointD pitchRow = new PointD(tcmd.Para[4], tcmd.Para[5]);
+    //        ERunPath runPath = (ERunPath)tcmd.Para[6];
 
-            dispPos.Add(new PointD(startPt));
-            dispPos.Add(new PointD(endPt1));
-            dispPos.Add(new PointD(endPt2 + endPt1));
-            dispPos.Add(new PointD(endPt2));
-            dispPos.Add(new PointD(startPt));
+    //        var pts = MultiDot(cr, pitchCol, pitchRow, runPath);
+    //        pts = pts.Select(x => x + tcmd.Pos[0].GetPointD()).ToList();
 
-            return dispPos;
-        }
-        public enum EFillMode { Interval, Linewidth }
-        public static List<PointD> SquareFilling(PointD startPt, PointD endPt1, PointD endPt2, int interval, double linewidth, ERunPath runPath)
-        {
-            bool isXpath = runPath < ERunPath.Y_SPath;
+    //        return pts;
+    //    }
+    //    public static List<List<PointD>> MultiLine(TCmd tcmd)
+    //    {
+    //        PointI cr = new PointI((int)tcmd.Para[0], (int)tcmd.Para[1]);
+    //        PointD pitchCol = new PointD(tcmd.Para[2], tcmd.Para[3]);
+    //        PointD pitchRow = new PointD(tcmd.Para[4], tcmd.Para[5]);
+    //        ERunPath runPath = (ERunPath)tcmd.Para[6];
 
-            //var lw = isXpath ? (MathPro.TwoPointsLength(endPt1, endPt2) / linewidth) : (MathPro.TwoPointsLength(startPt, endPt1) / linewidth);
+    //        var pts = MultiDot(cr, pitchCol, pitchRow, runPath);
+    //        var lines = pts.Select(x => new List<PointD>() { x + tcmd.Pos[0].GetPointD(), x + tcmd.Pos[1].GetPointD() }).ToList();
+    //        return lines;
+    //    }
 
-            PointI cr = new PointI(isXpath ? 2 : interval, isXpath ? interval : 2);
-            PointD pitchCol = new PointD(endPt1 - startPt) / (cr.X - 1);
-            PointD pitchRow = new PointD(endPt2 - startPt) / (cr.Y - 1);
 
-            return MultiDot(cr, pitchCol, pitchRow, runPath);
-        }
-        public static List<PointD> SquareSpiral(PointD startPt, PointD endPt1, PointD endPt2, int interval, double curvature)
-        {
-            PointD intervalX = new PointD((endPt1.X - startPt.X) / 2 / interval, (endPt1.Y - startPt.Y) / 2 / interval);
-            PointD intervalY = new PointD((endPt2.X - startPt.X) / 2 / interval, (endPt2.Y - startPt.Y) / 2 / interval);
-            PointD midPt = TFunction.TwoLineIntersectPoint(endPt1, startPt, startPt, endPt2);
-            PointD nextPt = new PointD(midPt);
+    //    public static List<PointD> PolkaDot(TCmd tcmd)
+    //    {
+    //        PointI cr = new PointI((int)tcmd.Para[0], (int)tcmd.Para[1]);
+    //        PointD pitchCol = new PointD(tcmd.Para[2], tcmd.Para[3]);
+    //        PointD pitchRow = new PointD(tcmd.Para[4], tcmd.Para[5]);
+    //        ERunPath runPath = (ERunPath)tcmd.Para[6];
+    //        PointD pitchPolka = new PointD(tcmd.Pos[1].X - tcmd.Pos[0].X, tcmd.Pos[1].Y - tcmd.Pos[0].Y);
 
-            int count = 0;
-            int turn = 1;
-            int turnMax = interval * 2;
-            var dispPos = new List<PointD>();
-            dispPos.Add(midPt);
+    //        var pts = MultiDot(cr, pitchCol, pitchRow, runPath < ERunPath.Y_SPath ? ERunPath.X_ZPath : ERunPath.Y_ZPath);
+    //        pts = pts.Select(x => x + tcmd.Pos[0].GetPointD()).ToList();
 
-            dispPos.Add(nextPt = new PointD(intervalX * turn) + nextPt);
+    //        var blockLength = runPath < ERunPath.Y_SPath ? cr.X : cr.Y;
+    //        var blockNumber = runPath < ERunPath.Y_SPath ? cr.Y : cr.X;
 
-            while (count++ < interval)
-            {
-                PointD pt = new PointD();
-                for (int i = 0; i < 4; i++)
-                {
-                    switch (i)
-                    {
-                        case 0: pt = new PointD(intervalY * Math.Min(turn, turnMax)) + nextPt; break;
-                        case 1: pt = new PointD(intervalX * Math.Min(++turn, turnMax) * -1) + nextPt; break;
-                        case 2: pt = new PointD(intervalY * Math.Min(turn, turnMax) * -1) + nextPt; break;
-                        case 3: pt = new PointD(intervalX * Math.Min(++turn, turnMax)) + nextPt; break;
-                    }
+    //        for (int i = 0; i < blockNumber * 2; i++)
+    //        {
+    //            var b = pts.GetRange(i * blockLength, blockLength).Select(p => p + pitchPolka).ToList();
+    //            if (runPath == ERunPath.X_SPath || runPath == ERunPath.Y_SPath) b.Reverse();
+    //            pts.InsertRange(++i * blockLength, b);
+    //        }
+    //        return pts;
+    //    }
 
-                    dispPos.Add(TFunction.HalfWayPoint((nextPt + pt) / 2, midPt, curvature / 100));
-                    dispPos.Add(nextPt = pt);
-                }
-            }
-            return dispPos;
-        }
-    }
+    //    public static List<PointD> SquareLine(PointD startPt, PointD endPt1, PointD endPt2)
+    //    {
+    //        var dispPos = new List<PointD>();
+
+    //        dispPos.Add(new PointD(startPt));
+    //        dispPos.Add(new PointD(endPt1));
+    //        dispPos.Add(new PointD(endPt2 + endPt1));
+    //        dispPos.Add(new PointD(endPt2));
+    //        dispPos.Add(new PointD(startPt));
+
+    //        return dispPos;
+    //    }
+    //    public static List<PointD> SquareFilling(TCmd tcmd)
+    //    {
+    //        PointD pt1 = new PointD(tcmd.Pos[0].GetPointD());
+    //        PointD pt2 = new PointD(tcmd.Pos[1].GetPointD());
+    //        PointD pt3 = new PointD(tcmd.Pos[2].GetPointD());
+    //        int interval = (int)tcmd.Para[0];
+    //        double lineWidth = tcmd.Para[1];
+    //        ERunPath runPath = (ERunPath)tcmd.Para[2];
+
+    //        bool isXpath = runPath < ERunPath.Y_SPath;
+
+    //        PointI cr = new PointI(isXpath ? 2 : interval, isXpath ? interval : 2);
+    //        PointD pitchCol = new PointD(pt2 - pt1) / (cr.X - 1);
+    //        PointD pitchRow = new PointD(pt3 - pt1) / (cr.Y - 1);
+
+    //        var pts = MultiDot(cr, pitchCol, pitchRow, runPath);
+    //        pts = pts.Select(x => x + tcmd.Pos[0].GetPointD()).ToList();
+
+    //        return pts;
+    //    }
+
+    //    private static List<PointD> SquareSpiral(PointD startPt, PointD endPt1, PointD endPt2, int interval, double curvature, bool spiralout = true)
+    //    {
+    //        PointD intervalX = new PointD((endPt1.X - startPt.X) / 2 / interval, (endPt1.Y - startPt.Y) / 2 / interval);
+    //        PointD intervalY = new PointD((endPt2.X - startPt.X) / 2 / interval, (endPt2.Y - startPt.Y) / 2 / interval);
+    //        PointD midPt = MathPro.TwoLineIntersectPoint(endPt1, startPt, startPt, endPt2);
+    //        PointD nextPt = new PointD(midPt);
+
+    //        int count = 0;
+    //        int turn = 1;
+    //        int turnMax = interval * 2;
+    //        var dispPos = new List<PointD>();
+    //        dispPos.Add(midPt);
+
+    //        dispPos.Add(nextPt = new PointD(intervalX * turn) + nextPt);
+
+    //        while (count++ < interval)
+    //        {
+    //            PointD pt = new PointD();
+    //            for (int i = 0; i < 4; i++)
+    //            {
+    //                switch (i)
+    //                {
+    //                    case 0: pt = new PointD(intervalY * Math.Min(turn, turnMax)) + nextPt; break;
+    //                    case 1: pt = new PointD(intervalX * Math.Min(++turn, turnMax) * -1) + nextPt; break;
+    //                    case 2: pt = new PointD(intervalY * Math.Min(turn, turnMax) * -1) + nextPt; break;
+    //                    case 3: pt = new PointD(intervalX * Math.Min(++turn, turnMax)) + nextPt; break;
+    //                }
+
+    //                dispPos.Add(MathPro.HalfWayPoint((nextPt + pt) / 2, midPt, curvature / 100));
+    //                dispPos.Add(nextPt = pt);
+    //            }
+    //        }
+
+    //        if (!spiralout) dispPos.Reverse();
+
+    //        return dispPos;
+    //    }
+    //    public static List<PointD> SquareSpiral(TCmd tcmd)
+    //    {
+    //        PointD pt1 = new PointD(tcmd.Pos[0].GetPointD());
+    //        PointD pt2 = new PointD(tcmd.Pos[1].GetPointD());
+    //        PointD pt3 = new PointD(tcmd.Pos[2].GetPointD());
+    //        int interval = (int)tcmd.Para[0];
+    //        double splitRatio = tcmd.Para[1];
+    //        bool spiralout = tcmd.Para[2] is 0;
+
+    //        var pts = SquareSpiral(pt1, pt2, pt3, interval, splitRatio, spiralout);
+    //        return pts;
+    //    }
+    //}
 
     public class TPatRect
     {

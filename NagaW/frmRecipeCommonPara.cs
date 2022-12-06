@@ -198,6 +198,7 @@ namespace NagaW
                     break;
                 case ECmd.USE_WEIGH:
                     Para[0] = new DPara($"{index} MassPerUnit", cmd.Para[0], 0, 1000, EUnit.MILLIGRAM);
+                    Para[1] = new DPara($"{index} MassFR", GProcessPara.Weighing.ActualMassFlowRate[0].Value, 0, 1000, EUnit.MASS_FLOW_RATE, 3);
                     break;
             }
 
@@ -275,6 +276,16 @@ namespace NagaW
             lblPara7.UpdatePara(Para[7]);
             lblPara8.UpdatePara(Para[8]);
             lblPara9.UpdatePara(Para[9]);
+
+            switch (Tcmd.Cmd)
+            {
+                default: break;
+                case ECmd.USE_WEIGH:
+                    {
+                        lblPara1.Enabled = false;
+                        break;
+                    }
+            }
         }
 
         private void lblPara0_Click(object sender, EventArgs e)

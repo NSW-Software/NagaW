@@ -61,10 +61,9 @@
             this.tsbtnZoomOut = new System.Windows.Forms.ToolStripButton();
             this.tsbtnZoomFit = new System.Windows.Forms.ToolStripButton();
             this.tsbtnZoomIn = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.tscmbxColor = new System.Windows.Forms.ToolStripComboBox();
             this.pnlPicture = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.tslblZoom = new System.Windows.Forms.ToolStripLabel();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -87,7 +86,7 @@
             // lbxApertureList
             // 
             this.lbxApertureList.FormattingEnabled = true;
-            this.lbxApertureList.ItemHeight = 14;
+            this.lbxApertureList.ItemHeight = 18;
             this.lbxApertureList.Location = new System.Drawing.Point(6, 62);
             this.lbxApertureList.Name = "lbxApertureList";
             this.lbxApertureList.Size = new System.Drawing.Size(159, 508);
@@ -182,7 +181,7 @@
             // lbxFeaturesList
             // 
             this.lbxFeaturesList.FormattingEnabled = true;
-            this.lbxFeaturesList.ItemHeight = 14;
+            this.lbxFeaturesList.ItemHeight = 18;
             this.lbxFeaturesList.Location = new System.Drawing.Point(6, 134);
             this.lbxFeaturesList.Name = "lbxFeaturesList";
             this.lbxFeaturesList.Size = new System.Drawing.Size(214, 382);
@@ -261,7 +260,7 @@
             this.cbxSelect.FormattingEnabled = true;
             this.cbxSelect.Location = new System.Drawing.Point(30, 147);
             this.cbxSelect.Name = "cbxSelect";
-            this.cbxSelect.Size = new System.Drawing.Size(75, 22);
+            this.cbxSelect.Size = new System.Drawing.Size(75, 26);
             this.cbxSelect.TabIndex = 24;
             // 
             // btnNone
@@ -347,7 +346,7 @@
             this.cbxOptimizeAll.AutoSize = true;
             this.cbxOptimizeAll.Location = new System.Drawing.Point(6, 74);
             this.cbxOptimizeAll.Name = "cbxOptimizeAll";
-            this.cbxOptimizeAll.Size = new System.Drawing.Size(126, 18);
+            this.cbxOptimizeAll.Size = new System.Drawing.Size(147, 22);
             this.cbxOptimizeAll.TabIndex = 27;
             this.cbxOptimizeAll.Text = "Optimize Aperture";
             this.cbxOptimizeAll.UseVisualStyleBackColor = true;
@@ -383,11 +382,10 @@
             this.tsbtnZoomOut,
             this.tsbtnZoomFit,
             this.tsbtnZoomIn,
-            this.toolStripSeparator1,
-            this.tscmbxColor});
+            this.tslblZoom});
             this.toolStrip1.Location = new System.Drawing.Point(540, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(803, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(803, 31);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -397,7 +395,7 @@
             this.tsbtnZoomOut.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsbtnZoomOut.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbtnZoomOut.Name = "tsbtnZoomOut";
-            this.tsbtnZoomOut.Size = new System.Drawing.Size(23, 22);
+            this.tsbtnZoomOut.Size = new System.Drawing.Size(29, 22);
             this.tsbtnZoomOut.Text = "Z-";
             this.tsbtnZoomOut.Click += new System.EventHandler(this.tsbtnZoomOut_Click);
             // 
@@ -408,7 +406,7 @@
             this.tsbtnZoomFit.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnZoomFit.Image")));
             this.tsbtnZoomFit.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbtnZoomFit.Name = "tsbtnZoomFit";
-            this.tsbtnZoomFit.Size = new System.Drawing.Size(24, 22);
+            this.tsbtnZoomFit.Size = new System.Drawing.Size(29, 28);
             this.tsbtnZoomFit.Text = "ZF";
             this.tsbtnZoomFit.Click += new System.EventHandler(this.tsbtnZoomFit_Click);
             // 
@@ -419,20 +417,9 @@
             this.tsbtnZoomIn.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnZoomIn.Image")));
             this.tsbtnZoomIn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbtnZoomIn.Name = "tsbtnZoomIn";
-            this.tsbtnZoomIn.Size = new System.Drawing.Size(26, 22);
+            this.tsbtnZoomIn.Size = new System.Drawing.Size(31, 22);
             this.tsbtnZoomIn.Text = "Z+";
             this.tsbtnZoomIn.Click += new System.EventHandler(this.tsbtnZoomIn_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // tscmbxColor
-            // 
-            this.tscmbxColor.ForeColor = System.Drawing.Color.Navy;
-            this.tscmbxColor.Name = "tscmbxColor";
-            this.tscmbxColor.Size = new System.Drawing.Size(131, 25);
             // 
             // pnlPicture
             // 
@@ -456,6 +443,14 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1343, 34);
             this.panel2.TabIndex = 21;
+            // 
+            // tslblZoom
+            // 
+            this.tslblZoom.BackColor = System.Drawing.Color.White;
+            this.tslblZoom.Name = "tslblZoom";
+            this.tslblZoom.Size = new System.Drawing.Size(0, 28);
+            this.tslblZoom.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.tslblZoom.Click += new System.EventHandler(this.tslblZoom_Click);
             // 
             // frmFileImport
             // 
@@ -522,9 +517,8 @@
         private System.Windows.Forms.ToolStripButton tsbtnZoomOut;
         private System.Windows.Forms.ToolStripButton tsbtnZoomFit;
         private System.Windows.Forms.ToolStripButton tsbtnZoomIn;
-        private System.Windows.Forms.ToolStripComboBox tscmbxColor;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.ToolStripLabel tslblZoom;
     }
 }
 

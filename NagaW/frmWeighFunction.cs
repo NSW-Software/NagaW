@@ -564,6 +564,7 @@ namespace NagaW
                 richTextBox1.AppendText($"{DateTime.Now}\t{msg}{Environment.NewLine}");
                 richTextBox1.ScrollToCaret();
             }));
+            GLog.WriteLog(ELogType.PROCESS, msg, GDoc.WeighDataFile.FullName);
         }
 
         private void lblDotperSampleCal_Click(object sender, EventArgs e)

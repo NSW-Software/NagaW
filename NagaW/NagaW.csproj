@@ -391,6 +391,7 @@
     <Compile Include="GModule\GMotDef.cs" />
     <Compile Include="GModule\GVar.cs" />
     <Compile Include="GRecipes.cs" />
+    <Compile Include="MathPro.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TCDisp.cs" />

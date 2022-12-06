@@ -1513,7 +1513,7 @@ namespace NagaW
 
                 needleXYCam = gantry.PointXYZ;
                 var newoffset = new PointD(needleXY.X - needleXYCam.X, needleXY.Y - needleXYCam.Y);
-                GLog.LogProcess(gantry.Name + " new XY Offset generated => {newoffset.ToStringForDisplay()}");
+                GLog.LogProcess(gantry.Name + $" new XY Offset generated => {newoffset.ToStringForDisplay()}");
                 if (MsgBox.ShowDialog("Update " + gantry.Name + $" offset value from\r\n{needleXYOffset.ToStringForDisplay()} to {newoffset.ToStringForDisplay()}", MsgBoxBtns.OKCancel) != DialogResult.OK) return false;
                 needleXYOffset = new PointD(newoffset);
                 lighting = TFLightCtrl.LightPair[gantry.Index].CurrentLight;
@@ -1626,6 +1626,7 @@ namespace NagaW
 
                 if (!gantry.MoveOpZAbs(0)) return false;
 
+                GLog.LogProcess(gantry.Name + $" Height Sensor Value: {hSensorValue}, ZTouch Value: {zTouch}");
                 GLog.LogProcess(gantry.Name + " TouchZ Cal Completed");
                 //MsgBox.ShowDialog(gantry.Name + " TouchZ Cal Completed");
                 return true;

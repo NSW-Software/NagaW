@@ -446,7 +446,7 @@ namespace NagaW
                             {
                                 vermes_setup = vermes_setup is null ? new Vermes3280_Param(GRecipes.Vermes_Setups[gantryidx]) : new Vermes3280_Param(vermes_setup);
                                 vermes_setup.Pulses.Value = wType > EWeighType.Mass ? 0 : dotPerSample;
-                                vermes_setup.Delay.Value = wType > EWeighType.Mass ? vermes_setup.Delay.Value : w_dotwait_ms;
+                                //vermes_setup.Delay.Value = wType > EWeighType.Mass ? vermes_setup.Delay.Value : w_dotwait_ms;
 
                                 if (!TFPump.Vermes_Pump[gantryidx].TriggerAset(vermes_setup)) return false;
                                 if (!TFPressCtrl.FPress[gantryidx].Set(vermes_setup.FPress.Value)) return false;
@@ -624,9 +624,9 @@ namespace NagaW
                         {
                             case EWeighType.MassFlowRate:
                                 {
+                                    Result.Add(wdata);
                                     if (massFRSuccess)
                                     {
-                                        Result.Add(wdata);
                                         successCount++;
                                         if (successCount >= repeatCount)
                                         {
@@ -638,9 +638,9 @@ namespace NagaW
                                 }
                             case EWeighType.Mass:
                                 {
+                                    Result.Add(wdata);
                                     if (massSuccess)
                                     {
-                                        Result.Add(wdata);
                                         successCount++;
                                         if (successCount >= repeatCount)
                                         {

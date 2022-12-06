@@ -36,13 +36,15 @@ namespace NagaW
         {
             cbxSelect.DataSource = Enum.GetValues(typeof(ESelect));
             UpdateApertureList();
+            UpdateDisplay();
 
             pnlPicture.Scroll += (a, b) => { UpdatePicBx(Scale); };
         }
 
         private void UpdateDisplay()
         {
-            cbxOptimizeAll.Checked = TFFileImport.OptimizeAll;
+            //cbxOptimizeAll.Checked = TFFileImport.OptimizeAll;
+            tslblZoom.Text = $"{Scale * 100}%";
         }
         private void UpdateApertureList()
         {
@@ -408,16 +410,27 @@ namespace NagaW
         {
             Scale = 1;
             UpdatePicBx(Scale);
+            UpdateDisplay();
         }
         public void ZoomIn()
         {
             Scale += 0.2;
             UpdatePicBx(Scale);
+            UpdateDisplay();
         }
         public void ZoomOut()
         {
             Scale -= 0.2;
             UpdatePicBx(Scale);
+            UpdateDisplay();
+        }
+        private void tslblZoom_Click(object sender, EventArgs e)
+        {
+            IPara tempPara = new IPara("File Import Scale", 100, 0, 60000, EUnit.PERCENTAGE);
+
+            if (GLog.SetPara(ref tempPara)) Scale = tempPara.Value / 100;
+            UpdatePicBx(Scale);
+            UpdateDisplay();
         }
 
         public void UpdatePicBx(double multiply = 1)
@@ -426,6 +439,10 @@ namespace NagaW
             int width = 3;
             pnlPicture.Refresh();
             PictureBox.Refresh();
+
+            //var tempXList = TFFileImport.Feature.Features.Select(x => x.Point.X).ToList();
+            //var tempYList = TFFileImport.Feature.Features.Select(x => x.Point.Y).ToList();
+            //var tempXSmall = tempXList.Min(); var tempYSmall = tempYList.Min();
 
             PictureBox.Width = (int)InitialPnlSize.X * (int)multiply;
             PictureBox.Height = (int)InitialPnlSize.Y * (int)multiply;
@@ -439,12 +456,14 @@ namespace NagaW
             {
                 var xy = TFFileImport.Feature.Features[i].Point;
                 xy = new PointD(mid[0] + (xy.X * multiply), mid[1] - (xy.Y * multiply));
+                //xy = new PointD((xy.X * multiply) - tempXSmall, (xy.Y * multiply) - tempYSmall);
 
                 PointD prevPt = new PointD(0, 0);
                 if (i > 0)
                 {
                     var temp = TFFileImport.Feature.Features[i - 1].Point;
                     prevPt = new PointD(mid[0] + (temp.X * multiply), mid[1] - (temp.Y * multiply));
+                    //prevPt = new PointD((temp.X * multiply) - tempXSmall, (temp.Y * multiply) - tempYSmall);
                 }
 
                 switch (TFFileImport.Feature.Features[i].Type)
@@ -484,5 +503,6 @@ namespace NagaW
 
         }
         #endregion
+
     }
 }

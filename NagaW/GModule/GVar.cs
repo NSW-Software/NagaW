@@ -721,8 +721,8 @@ namespace NagaW
             public static DPara[] ZUpVel = Enumerable.Range(0, Headno).Select(x => new DPara(nameof(Weighing) + nameof(ZUpVel), 5, 0, 150, EUnit.MILLIMETER_PER_SECOND)).ToArray();
             public static DPara[] ZUpDist = Enumerable.Range(0, Headno).Select(x => new DPara(nameof(Weighing) + nameof(ZUpDist), 5, 0, 10, EUnit.MILLIMETER)).ToArray();
 
-            public static IPara[] DotPerSample = Enumerable.Range(0, Headno).Select(x => new IPara(nameof(DotPerSample), 1, 0, 150, EUnit.COUNT)).ToArray();
-            public static IPara[] SampleCount = Enumerable.Range(0, Headno).Select(x => new IPara(nameof(SampleCount), 5, 0, 15, EUnit.COUNT)).ToArray();
+            public static IPara[] DotPerSample = Enumerable.Range(0, Headno).Select(x => new IPara(nameof(DotPerSample), 1, 0, 32000, EUnit.COUNT)).ToArray();
+            public static IPara[] SampleCount = Enumerable.Range(0, Headno).Select(x => new IPara(nameof(SampleCount), 5, 0, 200, EUnit.COUNT)).ToArray();
 
             public static DPara Target_Mass = new DPara(nameof(Weighing) + nameof(Target_Mass), 0, 0, 5000, EUnit.MILLIGRAM);
             public static DPara Target_Mass_Percentage = new DPara(nameof(Weighing) + nameof(Target_Mass_Percentage), 1, 0, 50, EUnit.PERCENTAGE);
