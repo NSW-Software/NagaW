@@ -117,9 +117,9 @@ namespace NagaW
             UpdateDisplay();
         }
 
-        THeightData heightData = new THeightData();
         private async void btnExecute_Click(object sender, EventArgs e)
         {
+            THeightData heightData = new THeightData();
             try
             {
                 Inst.TBoard instBoard = Inst.Board[gantry.Index];
@@ -127,7 +127,7 @@ namespace NagaW
                 await Task.Run(() => GRecipes.Functions[gantry.Index][instBoard.FuncNo].HeightAlignExecute(gantry, pt, Tcmd, ref heightData));
 
                 string res = heightData.Status.ToString();
-                res = $"Value {heightData.SensorValue:f5}";
+                res = $"Value {heightData.HMatrixVal[0].Z:f5}";
                 rtbxResult.Text = res;
                 UpdateDisplay();
             }

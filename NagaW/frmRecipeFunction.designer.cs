@@ -50,7 +50,6 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnImport = new System.Windows.Forms.Button();
             this.btnOption = new System.Windows.Forms.Button();
-            this.btnCopy = new System.Windows.Forms.Button();
             this.lboxFuncList = new System.Windows.Forms.ListBox();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.btnFuncAdd = new System.Windows.Forms.Button();
@@ -80,6 +79,9 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lblDnWait = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.btnSaveFunc = new System.Windows.Forms.Button();
+            this.btnLoadFunc = new System.Windows.Forms.Button();
             this.gbxFuncsCmds.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.panel1.SuspendLayout();
@@ -92,6 +94,7 @@
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // gbxFuncsCmds
@@ -309,9 +312,9 @@
             // 
             this.groupBox2.AutoSize = true;
             this.groupBox2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox2.Controls.Add(this.panel2);
             this.groupBox2.Controls.Add(this.btnImport);
             this.groupBox2.Controls.Add(this.btnOption);
-            this.groupBox2.Controls.Add(this.btnCopy);
             this.groupBox2.Controls.Add(this.lboxFuncList);
             this.groupBox2.Controls.Add(this.flowLayoutPanel2);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
@@ -324,7 +327,7 @@
             // 
             // btnImport
             // 
-            this.btnImport.Location = new System.Drawing.Point(487, 50);
+            this.btnImport.Location = new System.Drawing.Point(493, 52);
             this.btnImport.Name = "btnImport";
             this.btnImport.Size = new System.Drawing.Size(75, 25);
             this.btnImport.TabIndex = 19;
@@ -334,23 +337,13 @@
             // 
             // btnOption
             // 
-            this.btnOption.Location = new System.Drawing.Point(487, 21);
+            this.btnOption.Location = new System.Drawing.Point(493, 22);
             this.btnOption.Name = "btnOption";
             this.btnOption.Size = new System.Drawing.Size(75, 23);
             this.btnOption.TabIndex = 18;
             this.btnOption.Text = "Option";
             this.btnOption.UseVisualStyleBackColor = true;
             this.btnOption.Click += new System.EventHandler(this.btnOption_Click);
-            // 
-            // btnCopy
-            // 
-            this.btnCopy.Location = new System.Drawing.Point(406, 21);
-            this.btnCopy.Name = "btnCopy";
-            this.btnCopy.Size = new System.Drawing.Size(75, 23);
-            this.btnCopy.TabIndex = 17;
-            this.btnCopy.Text = "Copy";
-            this.btnCopy.UseVisualStyleBackColor = true;
-            this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
             // 
             // lboxFuncList
             // 
@@ -463,7 +456,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 39);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(660, 528);
+            this.tabPage1.Size = new System.Drawing.Size(660, 532);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Properties";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -705,6 +698,37 @@
             this.label3.Text = "Down Wait";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.btnLoadFunc);
+            this.panel2.Controls.Add(this.btnSaveFunc);
+            this.panel2.Location = new System.Drawing.Point(404, 18);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(83, 63);
+            this.panel2.TabIndex = 20;
+            // 
+            // btnSaveFunc
+            // 
+            this.btnSaveFunc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnSaveFunc.Location = new System.Drawing.Point(3, 3);
+            this.btnSaveFunc.Name = "btnSaveFunc";
+            this.btnSaveFunc.Size = new System.Drawing.Size(75, 25);
+            this.btnSaveFunc.TabIndex = 2;
+            this.btnSaveFunc.Text = "Save";
+            this.btnSaveFunc.UseVisualStyleBackColor = true;
+            this.btnSaveFunc.Click += new System.EventHandler(this.btnSaveFunc_Click);
+            // 
+            // btnLoadFunc
+            // 
+            this.btnLoadFunc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnLoadFunc.Location = new System.Drawing.Point(3, 34);
+            this.btnLoadFunc.Name = "btnLoadFunc";
+            this.btnLoadFunc.Size = new System.Drawing.Size(75, 25);
+            this.btnLoadFunc.TabIndex = 3;
+            this.btnLoadFunc.Text = "Load";
+            this.btnLoadFunc.UseVisualStyleBackColor = true;
+            this.btnLoadFunc.Click += new System.EventHandler(this.btnLoadFunc_Click);
+            // 
             // frmRecipeFunction
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -733,6 +757,7 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox1.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -788,8 +813,10 @@
         private System.Windows.Forms.Label lblLineWait;
         private System.Windows.Forms.Label lblLineEDelay;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Button btnCopy;
         private System.Windows.Forms.Button btnOption;
         private System.Windows.Forms.Button btnImport;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Button btnLoadFunc;
+        private System.Windows.Forms.Button btnSaveFunc;
     }
 }

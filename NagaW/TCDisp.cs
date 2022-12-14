@@ -12,6 +12,7 @@ namespace NagaW
     public enum ERunSelect { All, Func, /*Cluster, Unit,*/ Continuous }
     public enum EHeightAlignStatus { None, Processing, Aligned, Error, NG }
     public enum EPatAlignStatus { None, BoardOK, ClusterOK, OK, FailScore, FailOffset, FailScore2, FailOffset2, FailAngle, Error, NG };
+    public enum EHeightMeasMode { Average, Matrix };
 
     //public enum EDispState
     //{
@@ -66,20 +67,26 @@ namespace NagaW
     public class THeightData
     {
         public EHeightAlignStatus Status = EHeightAlignStatus.None;
-        public double SensorValue = 0;
+        //public double SensorValue = 0;
+        public EHeightMeasMode MeasMode = EHeightMeasMode.Average;
+        public List<PointXYZ> HMatrixVal = new List<PointXYZ>();
         public THeightData()
         {
             Status = EHeightAlignStatus.None;
-            SensorValue = 0;
+            //SensorValue = 0;
+            MeasMode = EHeightMeasMode.Average;
+            HMatrixVal = new List<PointXYZ>();
         }
         public THeightData(THeightData heightData)
         {
             Status = heightData.Status;
-            SensorValue = heightData.SensorValue;
+            //SensorValue = heightData.SensorValue;
+            MeasMode = heightData.MeasMode;
+            HMatrixVal = heightData.HMatrixVal;
         }
         public override string ToString()
         {
-            return $"{Status} {SensorValue}";
+            return $"{Status}";
         }
     }
     public class TUnit
@@ -126,7 +133,18 @@ namespace NagaW
         }
         public void SetUnitHeight(PointI[] clusterCR_unitCR, THeightData heightData)
         {
-            Cluster_Unit_HeightData[clusterCR_unitCR[0].X, clusterCR_unitCR[0].Y, clusterCR_unitCR[1].X, clusterCR_unitCR[1].Y] = new THeightData(heightData);
+            //Cluster_Unit_HeightData[clusterCR_unitCR[0].X, clusterCR_unitCR[0].Y, clusterCR_unitCR[1].X, clusterCR_unitCR[1].Y] = new THeightData(heightData);
+            switch (heightData.MeasMode)
+            {
+                case EHeightMeasMode.Average: Cluster_Unit_HeightData[clusterCR_unitCR[0].X, clusterCR_unitCR[0].Y, clusterCR_unitCR[1].X, clusterCR_unitCR[1].Y] = new THeightData(heightData); break;
+                case EHeightMeasMode.Matrix:
+                    if (Cluster_Unit_HeightData[clusterCR_unitCR[0].X, clusterCR_unitCR[0].Y, clusterCR_unitCR[1].X, clusterCR_unitCR[1].Y] is null)
+                        Cluster_Unit_HeightData[clusterCR_unitCR[0].X, clusterCR_unitCR[0].Y, clusterCR_unitCR[1].X, clusterCR_unitCR[1].Y] = new THeightData();
+                    Cluster_Unit_HeightData[clusterCR_unitCR[0].X, clusterCR_unitCR[0].Y, clusterCR_unitCR[1].X, clusterCR_unitCR[1].Y].MeasMode = heightData.MeasMode;
+                    Cluster_Unit_HeightData[clusterCR_unitCR[0].X, clusterCR_unitCR[0].Y, clusterCR_unitCR[1].X, clusterCR_unitCR[1].Y].Status = heightData.Status;
+                    Cluster_Unit_HeightData[clusterCR_unitCR[0].X, clusterCR_unitCR[0].Y, clusterCR_unitCR[1].X, clusterCR_unitCR[1].Y].HMatrixVal.Add(heightData.HMatrixVal[0]);
+                    break;
+            }
         }
 
         //Reset Buffer

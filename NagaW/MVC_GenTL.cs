@@ -326,7 +326,6 @@ namespace NagaW
                         }
                         else
                         {
-                            int i = 0;
                             try
                             {
                                 int stride = stDisplayInfo.nWidth + (stDisplayInfo.nWidth % 4);
@@ -336,8 +335,6 @@ namespace NagaW
                             }
                             catch (Exception ex)
                             {
-                                //NDispWin.Event.CAMERA_INFO.Set(MethodBase.GetCurrentMethod().Name.ToString(), m_CamName + " " + ex.Message.ToString());
-                                //NDispWin.Event.CAMERA_INFO.Set($"Data", $"{i},{stDisplayInfo.nWidth},{stDisplayInfo.nHeight},{stDisplayInfo.pData}");
                                 m_MyCamera.MV_CC_FreeImageBuffer_NET(ref stFrameInfo);
                                 System.Threading.Thread.Sleep(10);
                             }
@@ -350,7 +347,6 @@ namespace NagaW
                         {
 
                         }
-                            //NDispWin.Event.CAMERA_INFO.Set(MethodBase.GetCurrentMethod().Name.ToString(), GetErrorMsg("Get Image Buffer Fail.!", nRet));
                     }
                 }
             }
@@ -376,22 +372,15 @@ namespace NagaW
                     }
                     else
                     {
-                        int i = 0;
                         try
                         {
                             int stride = stDisplayInfo.nWidth + (stDisplayInfo.nWidth % 4);
-                            i++;
                             mImage = new Image<Gray, byte>(stDisplayInfo.nWidth, stDisplayInfo.nHeight, stride, stDisplayInfo.pData);
-                            i++;
                             m_emguBox.Image = mImage;
-                            i++;
                             m_emguBox.Invalidate();
-                            i++;
                         }
                         catch (Exception ex)
                         {
-                            //NDispWin.Event.CAMERA_INFO.Set(MethodBase.GetCurrentMethod().Name.ToString(), m_CamName + " " + ex.Message.ToString());
-                            //NDispWin.Event.CAMERA_INFO.Set($"Data", $"{i},{stDisplayInfo.nWidth},{stDisplayInfo.nHeight},{stDisplayInfo.pData}");
                             m_MyCamera.MV_CC_FreeImageBuffer_NET(ref stFrameInfo);
                             System.Threading.Thread.Sleep(10);
                         }
@@ -404,7 +393,6 @@ namespace NagaW
                     {
 
                     }
-                        //NDispWin.Event.CAMERA_INFO.Set(MethodBase.GetCurrentMethod().Name.ToString(), GetErrorMsg("Get Image Buffer Fail.!", nRet));
                 }
             }
         }

@@ -159,6 +159,12 @@
     <Compile Include="frmFlirCamera.designer.cs">
       <DependentUpon>frmFlirCamera.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmFuncImport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmFuncImport.Designer.cs">
+      <DependentUpon>frmFuncImport.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmImageSelectBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -321,6 +327,12 @@
     <Compile Include="frmRecipeXYZ.designer.cs">
       <DependentUpon>frmRecipeXYZ.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmRecipeXYZ_Multi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRecipeXYZ_Multi.Designer.cs">
+      <DependentUpon>frmRecipeXYZ_Multi.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmReticle.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -400,6 +412,7 @@
     <Compile Include="TEMEDAQ.cs" />
     <Compile Include="TFCamera1.cs" />
     <Compile Include="TFFileImport.cs" />
+    <Compile Include="TFFuncImport.cs" />
     <Compile Include="TFMap.cs" />
     <Compile Include="TFSecsGems.cs" />
     <Compile Include="TFWeigh.cs" />
@@ -442,6 +455,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmFlirCamera.resx">
       <DependentUpon>frmFlirCamera.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmFuncImport.resx">
+      <DependentUpon>frmFuncImport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmImageSelectBox.resx">
       <DependentUpon>frmImageSelectBox.cs</DependentUpon>
@@ -524,6 +540,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmRecipeXYZ.resx">
       <DependentUpon>frmRecipeXYZ.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmRecipeXYZ_Multi.resx">
+      <DependentUpon>frmRecipeXYZ_Multi.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmReticle.resx">
       <DependentUpon>frmReticle.cs</DependentUpon>

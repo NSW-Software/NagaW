@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace NagaW
@@ -22,6 +23,8 @@ namespace NagaW
         public frmCamera(int idx)
         {
             InitializeComponent();
+            Control.CheckForIllegalCrossThreadCalls = false;
+
             this.DoubleBuffered = true;
             EmguImageBox = new ImageBox() { Dock = DockStyle.Fill, Image = Cam.emgucvImage.Clone(), FunctionalMode = ImageBox.FunctionalModeOption.Minimum, };
             pnlImage.Controls.Add(EmguImageBox);
@@ -35,7 +38,7 @@ namespace NagaW
 
             Cam.Connected += (a, b) =>
             {
-                System.Threading.Thread.Sleep(500);
+                Thread.Sleep(500);
                 ZoomFit();
             };
 
@@ -75,13 +78,15 @@ namespace NagaW
             }
         }
 
-
+        static Mutex mtx = new Mutex();
         public void ZoomFit()
         {
+            mtx.WaitOne();
             double XScale = (double)pnlImage.Width / Cam.emgucvImage.Width;
             double YScale = (double)pnlImage.Height / Cam.emgucvImage.Height;
             EmguImageBox.SetZoomScale(Math.Min(XScale, YScale), new Point(0, 0));
             scale = 100;
+            mtx.ReleaseMutex();
         }
         public void ZoomIn()
         {

@@ -39,6 +39,7 @@
             this.btnSetXY1 = new System.Windows.Forms.Button();
             this.cbxDisp = new System.Windows.Forms.CheckBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.lblVirtualPos = new System.Windows.Forms.Label();
             this.btnGotoXY0 = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.btnGotoXY1 = new System.Windows.Forms.Button();
@@ -55,7 +56,6 @@
             this.pnlPara6 = new System.Windows.Forms.Panel();
             this.lblParaDesc6 = new System.Windows.Forms.Label();
             this.lblPara6 = new System.Windows.Forms.Label();
-            this.lblVirtualPos = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.pnlPara.SuspendLayout();
@@ -174,7 +174,7 @@
             this.cbxDisp.Dock = System.Windows.Forms.DockStyle.Top;
             this.cbxDisp.Location = new System.Drawing.Point(3, 24);
             this.cbxDisp.Name = "cbxDisp";
-            this.cbxDisp.Size = new System.Drawing.Size(392, 22);
+            this.cbxDisp.Size = new System.Drawing.Size(392, 18);
             this.cbxDisp.TabIndex = 24;
             this.cbxDisp.Text = "Disp";
             this.cbxDisp.UseVisualStyleBackColor = true;
@@ -191,10 +191,20 @@
             this.panel1.Controls.Add(this.lblY0);
             this.panel1.Controls.Add(this.btnSetXY0);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(3, 46);
+            this.panel1.Location = new System.Drawing.Point(3, 42);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(392, 64);
             this.panel1.TabIndex = 25;
+            // 
+            // lblVirtualPos
+            // 
+            this.lblVirtualPos.Location = new System.Drawing.Point(3, 34);
+            this.lblVirtualPos.Margin = new System.Windows.Forms.Padding(3);
+            this.lblVirtualPos.Name = "lblVirtualPos";
+            this.lblVirtualPos.Size = new System.Drawing.Size(100, 25);
+            this.lblVirtualPos.TabIndex = 24;
+            this.lblVirtualPos.Text = "Virtual Pos";
+            this.lblVirtualPos.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // btnGotoXY0
             // 
@@ -216,7 +226,7 @@
             this.panel2.Controls.Add(this.lblY1);
             this.panel2.Controls.Add(this.btnSetXY1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(3, 110);
+            this.panel2.Location = new System.Drawing.Point(3, 106);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(392, 62);
             this.panel2.TabIndex = 26;
@@ -238,9 +248,9 @@
             this.pnlPara.Controls.Add(this.pnlPara7);
             this.pnlPara.Controls.Add(this.pnlPara6);
             this.pnlPara.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlPara.Location = new System.Drawing.Point(3, 172);
+            this.pnlPara.Location = new System.Drawing.Point(3, 168);
             this.pnlPara.Name = "pnlPara";
-            this.pnlPara.Size = new System.Drawing.Size(392, 219);
+            this.pnlPara.Size = new System.Drawing.Size(392, 140);
             this.pnlPara.TabIndex = 27;
             // 
             // pnlPara9
@@ -379,20 +389,10 @@
             this.lblPara6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lblPara6.Click += new System.EventHandler(this.lblPara6_Click);
             // 
-            // lblVirtualPos
-            // 
-            this.lblVirtualPos.Location = new System.Drawing.Point(3, 34);
-            this.lblVirtualPos.Margin = new System.Windows.Forms.Padding(3);
-            this.lblVirtualPos.Name = "lblVirtualPos";
-            this.lblVirtualPos.Size = new System.Drawing.Size(100, 25);
-            this.lblVirtualPos.TabIndex = 24;
-            this.lblVirtualPos.Text = "Virtual Pos";
-            this.lblVirtualPos.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // frmRecipeXYZ
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(398, 528);
+            this.ClientSize = new System.Drawing.Size(398, 317);
             this.Controls.Add(this.pnlPara);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);

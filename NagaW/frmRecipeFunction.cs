@@ -53,8 +53,6 @@ namespace NagaW
 
             Function = GRecipes.Functions[gantry.Index].Count is 0 ? Function : GRecipes.Functions[gantry.Index][Math.Max(lboxFuncList.SelectedIndex, 0)];
 
-            btnCopy.Text = "Copy " + (gantry.Index == 0 ? "R" : "L");
-
             tbxFuncName.Text = Function.Name;
             cbxFuncLayout.Items.Clear();
             cbxFuncLayout.Items.AddRange(GRecipes.MultiLayout[gantry.Index].ToArray());
@@ -557,6 +555,12 @@ namespace NagaW
                             PointD bdOrigin = GRecipes.Board[gantry.Index].StartPos.GetPointD();
                             showForm(new frmRecipeHeightAlign(gantry, bdOrigin, tcmd, cmdIdx), edit); break;
                         }
+                    case ECmd.PATTERN_SPIRAL:
+                    case ECmd.PATTERN_RECT_FILL:
+                    case ECmd.PATTERN_RECT_SPIRAL:
+                        {
+                            showForm(new frmRecipeXYZ_Multi(gantry, origin, tcmd, title), edit); break;
+                        }
                     default:
                         {
                             showForm(null);
@@ -927,5 +931,98 @@ namespace NagaW
             }
         }
 
+        #region Function Import
+        private void btnLoadFunc_Click(object sender, EventArgs e)
+        {
+            PointD temp = new PointD();
+            TFFuncImport.Load();
+
+            frmFuncImport frmFuncImport = new frmFuncImport();
+            frmFuncImport.ShowDialog();
+
+            if (MsgBox.ShowDialog("Please Set Reference Point of the Pattern", MsgBoxBtns.OKCancel) != DialogResult.OK) return;
+
+            temp = TFGantry.GantryLeft.PointXY;
+
+            GRecipes.Functions[gantry.Index].Add(new TFunction() { Name = "DataSet" });
+
+            #region Calculate RelPos
+            int funcNo = 0;
+            int layoutNo = GRecipes.Functions[gantry.Index][funcNo].LayoutNo;
+
+            PointD layoutRel = GRecipes.MultiLayout[gantry.Index][layoutNo].Cluster.RelPos(Inst.Board[gantry.Index].ClusterCR);
+            PointD unitRel = GRecipes.MultiLayout[gantry.Index][layoutNo].Unit.RelPos(Inst.Board[gantry.Index].UnitCR);
+
+            var relPt = temp - GRecipes.Board[gantry.Index].StartPos.GetPointD() + layoutRel + unitRel;
+            #endregion
+
+            var funcCount = GRecipes.Functions[gantry.Index].Count;
+            var orientation = TFFuncStat.Orientation.Value;
+
+            #region Add point into function
+            foreach (var c in TFFuncImport.Functions[TFFuncStat.SelectedIdx].Function.Cmds)
+            {
+                switch (c.Cmd)
+                {
+                    default:
+                        {
+                            GRecipes.Functions[gantry.Index][funcCount - 1].Cmds.Add(new TCmd(c));
+                            break;
+                        }
+                    case ECmd.LINE_START:
+                    case ECmd.LINE_PASS:
+                    case ECmd.LINE_END:
+                    case ECmd.DOT:
+                        {
+
+                            #region Scale
+                            var scaleX = TFFuncStat.Scale.X;
+                            var scaleY = TFFuncStat.Scale.Y;
+
+                            if (c.Para[0] > 0) c.Para[0] += scaleX;
+                            else if (c.Para[0] < 0) c.Para[0] -= scaleX;
+
+                            if (c.Para[1] > 0) c.Para[1] += scaleY;
+                            else if (c.Para[1] < 0) c.Para[1] -= scaleY;
+                            #endregion
+
+                            double newX = c.Para[0];
+                            double newY = c.Para[1];
+                            //ptRotate.X = alignData.Datum.X + (ptOri.X - alignData.Datum.X) * Math.Cos(angle) - (ptOri.Y - alignData.Datum.Y) * Math.Sin(angle);
+                            //ptRotate.Y = alignData.Datum.Y + (ptOri.X - alignData.Datum.X) * Math.Sin(angle) + (ptOri.Y - alignData.Datum.Y) * Math.Cos(angle);
+                            #region Orientation
+                            if (orientation > 0)
+                            {
+                                double rad = (360 - orientation) * Math.PI / 180;
+                                var radius = Math.Sqrt(Math.Pow(c.Para[0], 2) + Math.Pow(c.Para[1], 2));
+                                //newX = 0 + (radius * Math.Sin(rad));
+                                //newY = 0 + (radius * Math.Cos(rad));
+                                newX = c.Para[0] * Math.Cos(rad) - c.Para[1] * Math.Sin(rad);
+                                newY = c.Para[0] * Math.Sin(rad) + c.Para[1] * Math.Cos(rad);
+                            }
+                            #endregion
+
+                            TCmd cmd = new TCmd(c.Cmd);
+                            cmd.Para[0] = newX + relPt.X;
+                            cmd.Para[1] = newY + relPt.Y;
+                            GRecipes.Functions[gantry.Index][funcCount - 1].Cmds.Add(new TCmd(cmd));
+                        }
+                        break;
+                }
+            }
+            #endregion
+        }
+        private void btnSaveFunc_Click(object sender, EventArgs e)
+        {
+            PointD temp = new PointD();
+
+            if (MsgBox.ShowDialog("Please Set Reference Point of The Pattern.", MsgBoxBtns.OKCancel) != DialogResult.OK) return;
+            temp = TFGantry.GantryLeft.PointXY;
+
+            TFFuncImport.Functions.Add(new TEFuncImport(Function, temp));
+            TFFuncImport.Save();
+            MsgBox.ShowDialog("Saved.", MsgBoxBtns.OK);
+        }
+        #endregion
     }
 }
