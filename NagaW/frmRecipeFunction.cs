@@ -555,6 +555,7 @@ namespace NagaW
                             PointD bdOrigin = GRecipes.Board[gantry.Index].StartPos.GetPointD();
                             showForm(new frmRecipeHeightAlign(gantry, bdOrigin, tcmd, cmdIdx), edit); break;
                         }
+                    case ECmd.PATTERN_STAR:
                     case ECmd.PATTERN_SPIRAL:
                     case ECmd.PATTERN_RECT_FILL:
                     case ECmd.PATTERN_RECT_SPIRAL:
