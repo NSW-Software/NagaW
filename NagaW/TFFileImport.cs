@@ -653,7 +653,7 @@ namespace NagaW
                                         {
                                             double.TryParse(temp[1], out double result);
                                             var finalXY = Convert(feature, new double[] { result, result });
-                                            PointD size = feature.Unit == EUnit.inch ? new PointD(finalXY[0] * 25.4, finalXY[1] * 25.3) : new PointD(finalXY[0], finalXY[1]);
+                                            PointD size = feature.Unit == EUnit.inch ? new PointD(finalXY[0] * 25.4, finalXY[1] * 25.4) : new PointD(finalXY[0], finalXY[1]);
 
                                             feature.Apertures.Add(new TApertures(apertureIdx.ToString(), temp[0], temp[1], size, EApertureType.Circle));
                                             apertureIdx++;
@@ -710,7 +710,7 @@ namespace NagaW
                             #region Coordinate
                             if (latest_aperture != "")
                             {
-                                double x = 0; double y = 0;
+                                double x = 0; double y = 0; double d = 0;
                                 bool x_contain = line.Contains("X");
                                 bool y_contain = line.Contains("Y");
                                 var temp = line.Split(new char[] { 'X', 'Y', 'I', 'J', 'D' }, StringSplitOptions.RemoveEmptyEntries);
@@ -722,15 +722,18 @@ namespace NagaW
                                 {
                                     double.TryParse(temp[0], out x);
                                     double.TryParse(temp[1], out y);
+                                    double.TryParse(temp[2], out d);
                                 }
                                 else if (x_contain && !y_contain)
                                 {
                                     double.TryParse(temp[0], out x);
+                                    double.TryParse(temp[1], out d);
                                     y = latest_point.Y;
                                 }
                                 else
                                 {
                                     double.TryParse(temp[0], out y);
+                                    double.TryParse(temp[1], out d);
                                     x = latest_point.X;
                                     //x = 0;
                                 }
@@ -740,27 +743,251 @@ namespace NagaW
 
                                 PointD tempPt = feature.Unit == EUnit.inch ? new PointD(finalXY[0] * 25.4, finalXY[1] * 25.4) : new PointD(finalXY[0], finalXY[1]);
 
-                                if (regionFeature)
+                                PointD lineEndPt = new PointD(tempPt);
+                                if (feature.Features.Count - 1 >= 0)
                                 {
-                                    switch (interMode)
-                                    {
-                                        case EInterpolation.Linear:
-                                            feature.Features.Add(new TFeatures(feature.Features.Count, tempApID, EFeatureType.Line, new PointD(tempPt)));
-                                            continue;
-                                        case EInterpolation.CounterClockWise:
-                                        case EInterpolation.ClockWise:
-                                            double i, j = 0;
-                                            if (temp.Length > 3) double.TryParse(temp[3], out j);
-                                            double.TryParse(temp[2], out i); 
-                                            var tempRad = Convert(feature, new double[] { i, j });
-                                            var radius = tempRad[0] == 0 ? Math.Abs(tempRad[1]) : Math.Abs(tempRad[0]);
-                                            feature.Features.Add(new TFeatures(feature.Features.Count, tempApID, EFeatureType.Arc, new PointD(tempPt), radius));
-                                            continue;
-                                        default: break;
-                                    }
+                                    lineEndPt = /*feature.Features[feature.Features.Count - 1].Type is EFeatureType.Line ?*/ new PointD(feature.Features[feature.Features.Count - 1].Point);//: new PointD(tempPt);
                                 }
 
-                                feature.Features.Add(new TFeatures(feature.Features.Count, tempApID, EFeatureType.Dot, new PointD(tempPt)));
+                                //if (regionFeature)
+                                //{
+                                switch (interMode)
+                                {
+                                    case EInterpolation.Linear:
+                                        if (d is 2) lineEndPt = new PointD(tempPt);
+                                        feature.Features.Add(new TFeatures(feature.Features.Count, tempApID, EFeatureType.Line, new PointD(tempPt), new PointD(lineEndPt)));
+                                        break;//continue;
+                                    case EInterpolation.CounterClockWise:
+                                    case EInterpolation.ClockWise:
+                                        double i, j = 0;
+                                        if (temp.Length > 3) double.TryParse(temp[3], out j);
+                                        double.TryParse(temp[2], out i);
+                                        var tempRad = Convert(feature, new double[] { i, j });
+                                        var radius = tempRad[0] == 0 ? Math.Abs(tempRad[1]) : Math.Abs(tempRad[0]);
+                                        feature.Features.Add(new TFeatures(feature.Features.Count, tempApID, EFeatureType.Arc, new PointD(tempPt), radius));
+                                        break;//continue;
+                                    default:
+                                        feature.Features.Add(new TFeatures(feature.Features.Count, tempApID, EFeatureType.Dot, new PointD(tempPt)));
+                                        break;
+                                }
+                                //}
+
+                                //feature.Features.Add(new TFeatures(feature.Features.Count, tempApID, EFeatureType.Dot, new PointD(tempPt)));
+                                continue;
+                            }
+                            #endregion
+                        }
+                    }
+                }
+                catch (Exception ex) { MessageBox.Show(ex.Message); }
+
+                return true;
+            }
+
+            public static bool Decode(string filename, ref List<TFunction> function)
+            {
+                int apertureIdx = 0;
+                int tempApID = 0;
+                string latest_aperture = "";
+                PointD latest_point = new PointD(0, 0);
+                PointI xDigit = new PointI(0, 0);
+                PointI yDigit = new PointI(0, 0);
+                EUnit unit = EUnit.mm;
+
+                bool regionFeature = false;
+                var interMode = EInterpolation.None;
+
+                try
+                {
+                    using (StreamReader reader = new StreamReader(filename))
+                    {
+                        var filedata = reader.ReadToEnd();
+                        var filedatas = filedata.Split(new string[] { Environment.NewLine, "\n" }, StringSplitOptions.RemoveEmptyEntries);
+
+                        foreach (var data in filedatas)
+                        {
+                            string line = data;
+                            Char[] replacements = new Char[] { '%', '*' };
+                            foreach (Char c in replacements)
+                            {
+                                if (line.Contains(c))
+                                    line = line.Replace(c.ToString(), String.Empty);
+                            }
+
+                            if (line.StartsWith("M02")) break;
+
+                            #region Coordinate Format, Digits
+                            if (line.StartsWith("FS"))
+                            {
+                                var temp = line.Split(new char[] { 'X', 'Y' }, StringSplitOptions.RemoveEmptyEntries);
+                                int.TryParse(temp[1][0].ToString(), out int x1);
+                                int.TryParse(temp[1][1].ToString(), out int x2);
+                                xDigit = new PointI(x1, x2);
+                                int.TryParse(temp[2][0].ToString(), out int y1);
+                                int.TryParse(temp[2][1].ToString(), out int y2);
+                                yDigit = new PointI(y1, y2);
+                                continue;
+                            }
+                            #endregion
+
+                            #region Unit
+                            if (line.StartsWith("MO"))
+                            {
+                                if (line.Contains("MM")) unit = EUnit.mm;
+                                else if (line.Contains("IN")) unit = EUnit.inch;
+
+                                continue;
+                            }
+                            #endregion
+
+                            #region Aperture
+                            if (line.StartsWith("AD"))
+                            {
+                                line = line.Remove(0, 2);
+                                var temp = line.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                                var type = temp[0][3];
+                                switch (type)
+                                {
+                                    case 'C':
+                                        {
+                                            double.TryParse(temp[1], out double result);
+                                            var finalXY = Convert(xDigit, yDigit, new double[] { result, result });
+                                            PointD size = unit == EUnit.inch ? new PointD(finalXY[0] * 25.4, finalXY[1] * 25.3) : new PointD(finalXY[0], finalXY[1]);
+
+                                            function.Add(new TFunction() { Name = temp[0] });
+                                            //feature.Apertures.Add(new TApertures(apertureIdx.ToString(), temp[0], temp[1], size, EApertureType.Circle));
+                                            apertureIdx++;
+                                            break;
+                                        }
+                                    case 'O':
+                                    case 'R':
+                                        {
+                                            var tempSize = temp[1].Split(new char[] { 'X' }, StringSplitOptions.RemoveEmptyEntries);
+                                            double.TryParse(tempSize[0], out double xResult);
+                                            double.TryParse(tempSize[1], out double yResult);
+                                            var finalXY = Convert(xDigit, yDigit, new double[] { xResult, yResult });
+                                            PointD size = unit == EUnit.inch ? new PointD(finalXY[0] * 25.4, finalXY[1] * 25.4) : new PointD(finalXY[0], finalXY[1]);
+
+                                            function.Add(new TFunction() { Name = temp[0] });
+                                            //feature.Apertures.Add(new TApertures(apertureIdx.ToString(), temp[0], temp[1], size, EApertureType.Rectangle));
+                                            apertureIdx++;
+                                            break;
+                                        }
+                                    default:
+                                        {
+                                            function.Add(new TFunction() { Name = temp[0] });
+                                            //feature.Apertures.Add(new TApertures(apertureIdx.ToString(), temp[0], "", new PointD(0, 0)));
+                                            apertureIdx++;
+                                            break;
+                                        }
+                                }
+                                continue;
+                            }
+                            #endregion
+
+                            //Check Aperture
+                            if (line.StartsWith("D"))
+                            {
+                                latest_aperture = line;
+                                interMode = EInterpolation.None;
+                                continue;
+                            }
+
+                            #region Region Statement
+                            if (line.StartsWith("G"))
+                            {
+                                switch (line)
+                                {
+                                    case "G36": regionFeature = true; break;
+                                    case "G37": regionFeature = false; break;
+                                    case "G01": interMode = EInterpolation.Linear; break;
+                                    case "G02": interMode = EInterpolation.ClockWise; break;
+                                    case "G03": interMode = EInterpolation.CounterClockWise; break;
+                                }
+                                continue;
+                            }
+                            #endregion
+
+                            #region Coordinate
+                            if (latest_aperture != "")
+                            {
+                                double x = 0; double y = 0; double d = 0;
+                                bool x_contain = line.Contains("X");
+                                bool y_contain = line.Contains("Y");
+                                var temp = line.Split(new char[] { 'X', 'Y', 'I', 'J', 'D' }, StringSplitOptions.RemoveEmptyEntries);
+
+                                var id = function.Where(a => a.Name.Contains(latest_aperture)).ToList();
+                                if (id.Count() > 0) tempApID = function.IndexOf(id[0]);
+
+                                if (x_contain && y_contain)
+                                {
+                                    double.TryParse(temp[0], out x);
+                                    double.TryParse(temp[1], out y);
+                                    double.TryParse(temp[2], out d);
+                                }
+                                else if (x_contain && !y_contain)
+                                {
+                                    double.TryParse(temp[0], out x);
+                                    double.TryParse(temp[1], out d);
+                                    y = latest_point.Y;
+                                }
+                                else
+                                {
+                                    double.TryParse(temp[0], out y);
+                                    double.TryParse(temp[1], out d);
+                                    x = latest_point.X;
+                                    //x = 0;
+                                }
+                                latest_point = new PointD(x, y);
+
+                                var finalXY = Convert(xDigit, yDigit, new double[] { x, y });
+
+                                PointD tempPt = unit == EUnit.inch ? new PointD(finalXY[0] * 25.4, finalXY[1] * 25.4) : new PointD(finalXY[0], finalXY[1]);
+
+                                switch (interMode)
+                                {
+                                    case EInterpolation.CounterClockWise:
+                                    case EInterpolation.ClockWise:
+                                        double i, j = 0;
+                                        if (temp.Length > 3) double.TryParse(temp[3], out j);
+                                        double.TryParse(temp[2], out i);
+                                        var tempRad = Convert(xDigit, yDigit, new double[] { i, j });
+                                        var radius = tempRad[0] == 0 ? Math.Abs(tempRad[1]) : Math.Abs(tempRad[0]);
+                                        TCmd cmd = new TCmd(ECmd.DOT); cmd.Para[0] = tempPt.X; cmd.Para[1] = tempPt.Y;
+                                        function[tempApID].Cmds.Add(new TCmd(cmd));
+                                        //feature.Features.Add(new TFeatures(feature.Features.Count, tempApID, EFeatureType.Arc, new PointD(tempPt), radius));
+                                        break;
+                                    case EInterpolation.Linear:
+                                    default:
+                                        TCmd tempTcmd = new TCmd(ECmd.NONE);
+                                        var tempCount = function[tempApID].Cmds.Count - 1;
+
+                                        var prevCmd = tempCount >= 0 ? function[tempApID].Cmds[tempCount] : new TCmd(ECmd.NONE);
+                                        if (d is 1)
+                                        {
+                                            if (prevCmd.Cmd is ECmd.DOT)
+                                            {
+                                                tempTcmd = new TCmd(ECmd.LINE_START); tempTcmd.Para[0] = prevCmd.Para[0]; tempTcmd.Para[1] = prevCmd.Para[1];
+                                                function[tempApID].Cmds[tempCount] = new TCmd(tempTcmd);
+                                            }
+                                            tempTcmd = new TCmd(ECmd.LINE_PASS); tempTcmd.Para[0] = tempPt.X; tempTcmd.Para[1] = tempPt.Y;
+                                            function[tempApID].Cmds.Add(new TCmd(tempTcmd));
+                                        }
+                                        else
+                                        {
+                                            tempTcmd = new TCmd(ECmd.DOT); tempTcmd.Para[0] = tempPt.X; tempTcmd.Para[1] = tempPt.Y;
+                                            function[tempApID].Cmds.Add(new TCmd(tempTcmd));
+
+                                            if (prevCmd.Cmd is ECmd.LINE_PASS)
+                                            {
+                                                tempTcmd = new TCmd(ECmd.LINE_END); tempTcmd.Para[0] = prevCmd.Para[0]; tempTcmd.Para[1] = prevCmd.Para[1];
+                                                function[tempApID].Cmds[tempCount] = new TCmd(tempTcmd);
+                                            }
+                                        }
+
+                                        break;
+                                }
+
                                 continue;
                             }
                             #endregion
@@ -779,6 +1006,19 @@ namespace NagaW
 
                 xa = xa.PadLeft(feature.XDigit.X + feature.XDigit.Y, '0').Insert(feature.XDigit.X, ".");
                 ya = ya.PadLeft(feature.YDigit.X + feature.YDigit.Y, '0').Insert(feature.YDigit.X, ".");
+
+                if (xy[0].ToString().StartsWith("-")) xa = "-" + xa; if (xy[1].ToString().StartsWith("-")) ya = "-" + ya;
+                double.TryParse(xa, out double xResult); double.TryParse(ya, out double yResult);
+                return new double[] { xResult, yResult };
+            }
+
+            public static double[] Convert(PointI xDigit, PointI yDigit, double[] xy)
+            {
+                string xa = xy[0].ToString().Replace("-", "");
+                string ya = xy[1].ToString().Replace("-", "");
+
+                xa = xa.PadLeft(xDigit.X + xDigit.Y, '0').Insert(xDigit.X, ".");
+                ya = ya.PadLeft(yDigit.X + yDigit.Y, '0').Insert(yDigit.X, ".");
 
                 if (xy[0].ToString().StartsWith("-")) xa = "-" + xa; if (xy[1].ToString().StartsWith("-")) ya = "-" + ya;
                 double.TryParse(xa, out double xResult); double.TryParse(ya, out double yResult);
@@ -931,7 +1171,7 @@ namespace NagaW
             static StreamReader DXFReader = null;
             public static bool Decode(string filename, ref TDispFeature feature)
             {
-                double unit = 0;
+                double unit = 1;
                 int aUnit = 0;
 
                 int apertureIndex = -1;

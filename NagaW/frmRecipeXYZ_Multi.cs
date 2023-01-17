@@ -70,7 +70,7 @@ namespace NagaW
                     Para[5] = new DPara($"{index} Y2", tcmd.Para[5], min, max, EUnit.MILLIMETER);
 
                     Para[6] = new DPara($"{index} Interval", tcmd.Para[6], 0, 100, EUnit.COUNT, 0);
-                    Para[7] = new DPara($"{index} Curvature", tcmd.Para[7], 0, 100, EUnit.PERCENTAGE, 0);
+                    Para[7] = new DPara($"{index} Curvature", tcmd.Para[7] is 0 ? 10 : tcmd.Para[7], 0, 100, EUnit.PERCENTAGE, 0);
                     Para[8] = new DPara($"{index} Spiral Out", tcmd.Para[8], 0, 1, EUnit.NONE, 0, new string[] { "Spiral Out", "Spiral In" });
                     break;
                 case ECmd.PATTERN_RECT_FILL:

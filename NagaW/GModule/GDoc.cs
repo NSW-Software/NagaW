@@ -52,7 +52,7 @@ namespace NagaW
         public static FileInfo MotionLogFile => new FileInfo(MotionLogDir.FullName + DateTime.Now.ToString("yyyy-MM-dd") + ".txt");
 
         public static FileInfo SecsGemEventFile => new FileInfo(SecsGemDir.FullName + "Event.ini");
-        public static DirectoryInfo WeighDataDateTimeDir => Directory.CreateDirectory(WeighDataLogDir.FullName + DateTime.Now.ToString("dd-MM-yyyy HHmmss"));
+        public static DirectoryInfo WeighDataDateTimeDir => Directory.CreateDirectory(WeighDataLogDir.FullName + "Chart\\");
 
         public static FileInfo SMTRecipeFile => new FileInfo(SMTRecipeDir.FullName + "DataSet.ini");
 

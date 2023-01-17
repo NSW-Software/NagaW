@@ -48,6 +48,9 @@
             this.lblMoveAccel = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnModels = new System.Windows.Forms.Button();
+            this.btnLoadFunc = new System.Windows.Forms.Button();
+            this.btnSaveFunc = new System.Windows.Forms.Button();
             this.btnImport = new System.Windows.Forms.Button();
             this.btnOption = new System.Windows.Forms.Button();
             this.lboxFuncList = new System.Windows.Forms.ListBox();
@@ -79,9 +82,8 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lblDnWait = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.btnSaveFunc = new System.Windows.Forms.Button();
-            this.btnLoadFunc = new System.Windows.Forms.Button();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.gbxFuncsCmds.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.panel1.SuspendLayout();
@@ -94,7 +96,8 @@
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.panel2.SuspendLayout();
+            this.groupBox6.SuspendLayout();
+            this.groupBox7.SuspendLayout();
             this.SuspendLayout();
             // 
             // gbxFuncsCmds
@@ -104,7 +107,7 @@
             this.gbxFuncsCmds.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbxFuncsCmds.Location = new System.Drawing.Point(3, 34);
             this.gbxFuncsCmds.Name = "gbxFuncsCmds";
-            this.gbxFuncsCmds.Size = new System.Drawing.Size(654, 495);
+            this.gbxFuncsCmds.Size = new System.Drawing.Size(721, 448);
             this.gbxFuncsCmds.TabIndex = 36;
             this.gbxFuncsCmds.TabStop = false;
             this.gbxFuncsCmds.Text = "Commands";
@@ -114,7 +117,7 @@
             this.pnlEditor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlEditor.Location = new System.Drawing.Point(399, 18);
             this.pnlEditor.Name = "pnlEditor";
-            this.pnlEditor.Size = new System.Drawing.Size(252, 474);
+            this.pnlEditor.Size = new System.Drawing.Size(319, 427);
             this.pnlEditor.TabIndex = 14;
             // 
             // dgv
@@ -128,7 +131,7 @@
             this.dgv.ReadOnly = true;
             this.dgv.RowHeadersWidth = 51;
             this.dgv.RowTemplate.Height = 24;
-            this.dgv.Size = new System.Drawing.Size(396, 474);
+            this.dgv.Size = new System.Drawing.Size(396, 427);
             this.dgv.TabIndex = 38;
             this.dgv.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDown);
             this.dgv.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgv_ColumnHeaderMouseClick);
@@ -145,7 +148,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(654, 31);
+            this.panel1.Size = new System.Drawing.Size(721, 31);
             this.panel1.TabIndex = 20;
             // 
             // btnUp
@@ -312,22 +315,55 @@
             // 
             this.groupBox2.AutoSize = true;
             this.groupBox2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.groupBox2.Controls.Add(this.panel2);
-            this.groupBox2.Controls.Add(this.btnImport);
+            this.groupBox2.Controls.Add(this.groupBox7);
+            this.groupBox2.Controls.Add(this.groupBox6);
+            this.groupBox2.Controls.Add(this.btnModels);
             this.groupBox2.Controls.Add(this.btnOption);
             this.groupBox2.Controls.Add(this.lboxFuncList);
             this.groupBox2.Controls.Add(this.flowLayoutPanel2);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(668, 102);
+            this.groupBox2.Size = new System.Drawing.Size(735, 149);
             this.groupBox2.TabIndex = 32;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Functions";
             // 
+            // btnModels
+            // 
+            this.btnModels.Location = new System.Drawing.Point(235, 87);
+            this.btnModels.Name = "btnModels";
+            this.btnModels.Size = new System.Drawing.Size(75, 23);
+            this.btnModels.TabIndex = 21;
+            this.btnModels.Text = "Models";
+            this.btnModels.UseVisualStyleBackColor = true;
+            this.btnModels.Click += new System.EventHandler(this.btnModels_Click);
+            // 
+            // btnLoadFunc
+            // 
+            this.btnLoadFunc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnLoadFunc.Location = new System.Drawing.Point(20, 68);
+            this.btnLoadFunc.Name = "btnLoadFunc";
+            this.btnLoadFunc.Size = new System.Drawing.Size(75, 25);
+            this.btnLoadFunc.TabIndex = 3;
+            this.btnLoadFunc.Text = "Load";
+            this.btnLoadFunc.UseVisualStyleBackColor = true;
+            this.btnLoadFunc.Click += new System.EventHandler(this.btnLoadFunc_Click);
+            // 
+            // btnSaveFunc
+            // 
+            this.btnSaveFunc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnSaveFunc.Location = new System.Drawing.Point(20, 38);
+            this.btnSaveFunc.Name = "btnSaveFunc";
+            this.btnSaveFunc.Size = new System.Drawing.Size(75, 25);
+            this.btnSaveFunc.TabIndex = 2;
+            this.btnSaveFunc.Text = "Save";
+            this.btnSaveFunc.UseVisualStyleBackColor = true;
+            this.btnSaveFunc.Click += new System.EventHandler(this.btnSaveFunc_Click);
+            // 
             // btnImport
             // 
-            this.btnImport.Location = new System.Drawing.Point(493, 52);
+            this.btnImport.Location = new System.Drawing.Point(16, 38);
             this.btnImport.Name = "btnImport";
             this.btnImport.Size = new System.Drawing.Size(75, 25);
             this.btnImport.TabIndex = 19;
@@ -337,7 +373,7 @@
             // 
             // btnOption
             // 
-            this.btnOption.Location = new System.Drawing.Point(493, 22);
+            this.btnOption.Location = new System.Drawing.Point(316, 87);
             this.btnOption.Name = "btnOption";
             this.btnOption.Size = new System.Drawing.Size(75, 23);
             this.btnOption.TabIndex = 18;
@@ -351,7 +387,7 @@
             this.lboxFuncList.ItemHeight = 14;
             this.lboxFuncList.Location = new System.Drawing.Point(3, 18);
             this.lboxFuncList.Name = "lboxFuncList";
-            this.lboxFuncList.Size = new System.Drawing.Size(223, 81);
+            this.lboxFuncList.Size = new System.Drawing.Size(223, 128);
             this.lboxFuncList.TabIndex = 0;
             this.lboxFuncList.SelectedIndexChanged += new System.EventHandler(this.lboxFuncList_SelectedIndexChanged);
             this.lboxFuncList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lboxFuncList_MouseDown);
@@ -428,10 +464,10 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.ItemSize = new System.Drawing.Size(100, 35);
-            this.tabControl1.Location = new System.Drawing.Point(0, 102);
+            this.tabControl1.Location = new System.Drawing.Point(0, 149);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(668, 575);
+            this.tabControl1.Size = new System.Drawing.Size(735, 528);
             this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabControl1.TabIndex = 37;
             // 
@@ -442,7 +478,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 39);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(660, 532);
+            this.tabPage2.Size = new System.Drawing.Size(727, 485);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Commands";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -698,42 +734,32 @@
             this.label3.Text = "Down Wait";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // panel2
+            // groupBox6
             // 
-            this.panel2.Controls.Add(this.btnLoadFunc);
-            this.panel2.Controls.Add(this.btnSaveFunc);
-            this.panel2.Location = new System.Drawing.Point(404, 18);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(83, 63);
-            this.panel2.TabIndex = 20;
+            this.groupBox6.Controls.Add(this.btnLoadFunc);
+            this.groupBox6.Controls.Add(this.btnSaveFunc);
+            this.groupBox6.Location = new System.Drawing.Point(404, 18);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(114, 110);
+            this.groupBox6.TabIndex = 22;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Function Import";
             // 
-            // btnSaveFunc
+            // groupBox7
             // 
-            this.btnSaveFunc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnSaveFunc.Location = new System.Drawing.Point(3, 3);
-            this.btnSaveFunc.Name = "btnSaveFunc";
-            this.btnSaveFunc.Size = new System.Drawing.Size(75, 25);
-            this.btnSaveFunc.TabIndex = 2;
-            this.btnSaveFunc.Text = "Save";
-            this.btnSaveFunc.UseVisualStyleBackColor = true;
-            this.btnSaveFunc.Click += new System.EventHandler(this.btnSaveFunc_Click);
-            // 
-            // btnLoadFunc
-            // 
-            this.btnLoadFunc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnLoadFunc.Location = new System.Drawing.Point(3, 34);
-            this.btnLoadFunc.Name = "btnLoadFunc";
-            this.btnLoadFunc.Size = new System.Drawing.Size(75, 25);
-            this.btnLoadFunc.TabIndex = 3;
-            this.btnLoadFunc.Text = "Load";
-            this.btnLoadFunc.UseVisualStyleBackColor = true;
-            this.btnLoadFunc.Click += new System.EventHandler(this.btnLoadFunc_Click);
+            this.groupBox7.Controls.Add(this.btnImport);
+            this.groupBox7.Location = new System.Drawing.Point(524, 18);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(106, 110);
+            this.groupBox7.TabIndex = 23;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Gerber File";
             // 
             // frmRecipeFunction
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(668, 677);
+            this.ClientSize = new System.Drawing.Size(735, 677);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.groupBox2);
             this.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -757,7 +783,8 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox1.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox7.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -815,8 +842,10 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Button btnOption;
         private System.Windows.Forms.Button btnImport;
-        private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button btnLoadFunc;
         private System.Windows.Forms.Button btnSaveFunc;
+        private System.Windows.Forms.Button btnModels;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.GroupBox groupBox6;
     }
 }

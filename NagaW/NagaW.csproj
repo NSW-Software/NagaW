@@ -315,6 +315,12 @@
     <Compile Include="frmRecipeMap.designer.cs">
       <DependentUpon>frmRecipeMap.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmRecipeModel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRecipeModel.designer.cs">
+      <DependentUpon>frmRecipeModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmRecipePatAlign.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -414,6 +420,7 @@
     <Compile Include="TFFileImport.cs" />
     <Compile Include="TFFuncImport.cs" />
     <Compile Include="TFMap.cs" />
+    <Compile Include="TFModel.cs" />
     <Compile Include="TFSecsGems.cs" />
     <Compile Include="TFWeigh.cs" />
     <Compile Include="TEZMCAux.cs" />
@@ -534,6 +541,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmRecipeMap.resx">
       <DependentUpon>frmRecipeMap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmRecipeModel.resx">
+      <DependentUpon>frmRecipeModel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmRecipePatAlign.resx">
       <DependentUpon>frmRecipePatAlign.cs</DependentUpon>

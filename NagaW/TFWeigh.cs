@@ -394,6 +394,7 @@ namespace NagaW
             }
 
             PointXYZ w_pos = GSetupPara.Weighing.Pos[gantryidx, (int)GSystemCfg.Pump.Pumps[gantryidx].PumpType];
+            PointD w_endpos = GSetupPara.Weighing.EndPos[gantryidx, (int)GSystemCfg.Pump.Pumps[gantryidx].PumpType];
 
             int w_startwait = GProcessPara.Weighing.StartWait[gantryidx].Value;
             int w_endwait = GProcessPara.Weighing.EndWait[gantryidx].Value;
@@ -424,18 +425,24 @@ namespace NagaW
 
             double actual_mdot = 0;
             int successCount = 0;
+
+            //Cut Function
+            bool cutTailEnable = GProcessPara.Weighing.CutTailEnable;
+            double cutXYSpeed = GProcessPara.Weighing.XYCutSpeed.Value;
             #endregion
 
             try
             {
                 Mtx.WaitOne();
 
-                if (!gantry.MoveOpXYAbs(w_pos.XYPos)) return false;
+                //if (!gantry.MoveOpXYAbs(w_pos.XYPos)) return false;
 
                 while (Result.Count < SampleCount)
                 {
                     #region Processing
                     var wdata = new TEWeighData() { EWeighCalMode = wType };
+
+                    if (!gantry.MoveOpXYAbs(w_pos.XYPos)) return false;
 
                     if (Stop) goto _stop;
 
@@ -591,6 +598,13 @@ namespace NagaW
                     }
 
                     Thread.Sleep(w_endwait);
+
+                    if (cutTailEnable)
+                    {
+                        //gantry.XAxis.SetSpeed = cutXYSpeed;
+                        //gantry.YAxis.SetSpeed = cutXYSpeed;
+                        if (!gantry.MoveXYAbs(new double[5] { 0, cutXYSpeed, 300, 300, 0 }, w_endpos.ToArray, true)) return false;
+                    }
 
                     if (w_zupdist > 0)
                     {

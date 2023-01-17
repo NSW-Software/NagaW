@@ -486,7 +486,7 @@ namespace NagaW
 
             foreach (var ctrl in GetChildItems(frm, LangUsedControl).Where(x => !string.IsNullOrEmpty(x.Name)))
             {
-                //if (string.IsNullOrEmpty(ctrl.Name)) continue;
+                if (string.IsNullOrEmpty(ctrl.Name)) continue;
                 iniFile.Write(ctrl.Name, ctrl.Text, string.Empty);
             }
         }
@@ -500,7 +500,7 @@ namespace NagaW
 
             foreach (var ctrl in GetChildItems(frm, LangUsedControl).Where(x => !string.IsNullOrEmpty(x.Name)))
             {
-                //if (string.IsNullOrEmpty(ctrl.Name)) continue;
+                if (string.IsNullOrEmpty(ctrl.Name)) continue;
 
                 string ctrltext = ctrl.Text;
                 if (iniFile.ReadString(ctrl.Name, ctrl.Text, ref ctrltext))

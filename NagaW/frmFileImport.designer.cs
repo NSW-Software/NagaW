@@ -61,15 +61,18 @@
             this.tsbtnZoomOut = new System.Windows.Forms.ToolStripButton();
             this.tsbtnZoomFit = new System.Windows.Forms.ToolStripButton();
             this.tsbtnZoomIn = new System.Windows.Forms.ToolStripButton();
-            this.pnlPicture = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.tslblZoom = new System.Windows.Forms.ToolStripLabel();
+            this.pnlPicture = new System.Windows.Forms.Panel();
+            this.picBxPrevImg = new System.Windows.Forms.PictureBox();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.panel1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            this.pnlPicture.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picBxPrevImg)).BeginInit();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -86,7 +89,7 @@
             // lbxApertureList
             // 
             this.lbxApertureList.FormattingEnabled = true;
-            this.lbxApertureList.ItemHeight = 18;
+            this.lbxApertureList.ItemHeight = 14;
             this.lbxApertureList.Location = new System.Drawing.Point(6, 62);
             this.lbxApertureList.Name = "lbxApertureList";
             this.lbxApertureList.Size = new System.Drawing.Size(159, 508);
@@ -103,7 +106,7 @@
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Left;
             this.groupBox3.Location = new System.Drawing.Point(0, 0);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(171, 591);
+            this.groupBox3.Size = new System.Drawing.Size(171, 570);
             this.groupBox3.TabIndex = 14;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Aperture List";
@@ -181,12 +184,13 @@
             // lbxFeaturesList
             // 
             this.lbxFeaturesList.FormattingEnabled = true;
-            this.lbxFeaturesList.ItemHeight = 18;
+            this.lbxFeaturesList.ItemHeight = 14;
             this.lbxFeaturesList.Location = new System.Drawing.Point(6, 134);
             this.lbxFeaturesList.Name = "lbxFeaturesList";
             this.lbxFeaturesList.Size = new System.Drawing.Size(214, 382);
             this.lbxFeaturesList.TabIndex = 4;
             this.lbxFeaturesList.Click += new System.EventHandler(this.lblFeatures_Click);
+            this.lbxFeaturesList.SelectedIndexChanged += new System.EventHandler(this.lbxFeaturesList_SelectedIndexChanged);
             // 
             // rtbFeatureDetail
             // 
@@ -260,7 +264,7 @@
             this.cbxSelect.FormattingEnabled = true;
             this.cbxSelect.Location = new System.Drawing.Point(30, 147);
             this.cbxSelect.Name = "cbxSelect";
-            this.cbxSelect.Size = new System.Drawing.Size(75, 26);
+            this.cbxSelect.Size = new System.Drawing.Size(75, 22);
             this.cbxSelect.TabIndex = 24;
             // 
             // btnNone
@@ -325,7 +329,7 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Left;
             this.groupBox2.Location = new System.Drawing.Point(171, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(369, 591);
+            this.groupBox2.Size = new System.Drawing.Size(369, 570);
             this.groupBox2.TabIndex = 13;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Feature List";
@@ -346,7 +350,7 @@
             this.cbxOptimizeAll.AutoSize = true;
             this.cbxOptimizeAll.Location = new System.Drawing.Point(6, 74);
             this.cbxOptimizeAll.Name = "cbxOptimizeAll";
-            this.cbxOptimizeAll.Size = new System.Drawing.Size(147, 22);
+            this.cbxOptimizeAll.Size = new System.Drawing.Size(126, 18);
             this.cbxOptimizeAll.TabIndex = 27;
             this.cbxOptimizeAll.Text = "Optimize Aperture";
             this.cbxOptimizeAll.UseVisualStyleBackColor = true;
@@ -369,9 +373,9 @@
             this.panel1.Controls.Add(this.groupBox2);
             this.panel1.Controls.Add(this.groupBox3);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(5, 39);
+            this.panel1.Location = new System.Drawing.Point(5, 59);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1343, 591);
+            this.panel1.Size = new System.Drawing.Size(1342, 570);
             this.panel1.TabIndex = 20;
             // 
             // toolStrip1
@@ -385,7 +389,7 @@
             this.tslblZoom});
             this.toolStrip1.Location = new System.Drawing.Point(540, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(803, 31);
+            this.toolStrip1.Size = new System.Drawing.Size(802, 25);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -395,7 +399,7 @@
             this.tsbtnZoomOut.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsbtnZoomOut.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbtnZoomOut.Name = "tsbtnZoomOut";
-            this.tsbtnZoomOut.Size = new System.Drawing.Size(29, 22);
+            this.tsbtnZoomOut.Size = new System.Drawing.Size(23, 22);
             this.tsbtnZoomOut.Text = "Z-";
             this.tsbtnZoomOut.Click += new System.EventHandler(this.tsbtnZoomOut_Click);
             // 
@@ -406,7 +410,7 @@
             this.tsbtnZoomFit.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnZoomFit.Image")));
             this.tsbtnZoomFit.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbtnZoomFit.Name = "tsbtnZoomFit";
-            this.tsbtnZoomFit.Size = new System.Drawing.Size(29, 28);
+            this.tsbtnZoomFit.Size = new System.Drawing.Size(24, 22);
             this.tsbtnZoomFit.Text = "ZF";
             this.tsbtnZoomFit.Click += new System.EventHandler(this.tsbtnZoomFit_Click);
             // 
@@ -417,18 +421,36 @@
             this.tsbtnZoomIn.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnZoomIn.Image")));
             this.tsbtnZoomIn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbtnZoomIn.Name = "tsbtnZoomIn";
-            this.tsbtnZoomIn.Size = new System.Drawing.Size(31, 22);
+            this.tsbtnZoomIn.Size = new System.Drawing.Size(26, 22);
             this.tsbtnZoomIn.Text = "Z+";
             this.tsbtnZoomIn.Click += new System.EventHandler(this.tsbtnZoomIn_Click);
+            // 
+            // tslblZoom
+            // 
+            this.tslblZoom.BackColor = System.Drawing.Color.White;
+            this.tslblZoom.Name = "tslblZoom";
+            this.tslblZoom.Size = new System.Drawing.Size(38, 22);
+            this.tslblZoom.Text = "100 %";
+            this.tslblZoom.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.tslblZoom.Click += new System.EventHandler(this.tslblZoom_Click);
             // 
             // pnlPicture
             // 
             this.pnlPicture.AutoScroll = true;
+            this.pnlPicture.Controls.Add(this.picBxPrevImg);
             this.pnlPicture.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlPicture.Location = new System.Drawing.Point(540, 0);
             this.pnlPicture.Name = "pnlPicture";
-            this.pnlPicture.Size = new System.Drawing.Size(803, 591);
+            this.pnlPicture.Size = new System.Drawing.Size(802, 570);
             this.pnlPicture.TabIndex = 15;
+            // 
+            // picBxPrevImg
+            // 
+            this.picBxPrevImg.Location = new System.Drawing.Point(0, 28);
+            this.picBxPrevImg.Name = "picBxPrevImg";
+            this.picBxPrevImg.Size = new System.Drawing.Size(802, 542);
+            this.picBxPrevImg.TabIndex = 0;
+            this.picBxPrevImg.TabStop = false;
             // 
             // panel2
             // 
@@ -441,22 +463,14 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(5, 5);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1343, 34);
+            this.panel2.Size = new System.Drawing.Size(1342, 54);
             this.panel2.TabIndex = 21;
-            // 
-            // tslblZoom
-            // 
-            this.tslblZoom.BackColor = System.Drawing.Color.White;
-            this.tslblZoom.Name = "tslblZoom";
-            this.tslblZoom.Size = new System.Drawing.Size(0, 28);
-            this.tslblZoom.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.tslblZoom.Click += new System.EventHandler(this.tslblZoom_Click);
             // 
             // frmFileImport
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(1353, 649);
+            this.ClientSize = new System.Drawing.Size(1352, 637);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel2);
             this.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -477,6 +491,8 @@
             this.panel1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.pnlPicture.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picBxPrevImg)).EndInit();
             this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -512,13 +528,14 @@
         private System.Windows.Forms.CheckBox cbxOptimizeAll;
         private System.Windows.Forms.Button btnArc;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel pnlPicture;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton tsbtnZoomOut;
         private System.Windows.Forms.ToolStripButton tsbtnZoomFit;
         private System.Windows.Forms.ToolStripButton tsbtnZoomIn;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.ToolStripLabel tslblZoom;
+        private System.Windows.Forms.PictureBox picBxPrevImg;
+        private System.Windows.Forms.Panel pnlPicture;
     }
 }
 

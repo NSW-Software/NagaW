@@ -919,17 +919,6 @@ namespace NagaW
             UpdateDisplay();
 
             UpdateGrid();
-
-            using (StreamWriter streamWriter = new StreamWriter("C:\\Users\\yhlee\\Desktop\\New.txt"))
-            {
-                for (int i = 0; i < func.Count; i++)
-                {
-                    for (int j = 0; j < func[i].Cmds.Count; j++)
-                    {
-                        streamWriter.WriteLine($"{func[i].Cmds[j].Para[0]}\t{func[i].Cmds[j].Para[1]}");
-                    }
-                }
-            }
         }
 
         #region Function Import
@@ -1025,5 +1014,11 @@ namespace NagaW
             MsgBox.ShowDialog("Saved.", MsgBoxBtns.OK);
         }
         #endregion
+
+        private void btnModels_Click(object sender, EventArgs e)
+        {
+            frmRecipeModel frmRecipeModel = new frmRecipeModel();
+            frmRecipeModel.ShowDialog();
+        }
     }
 }

@@ -71,6 +71,7 @@ namespace NagaW
         }
     }
 
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public class IPara
     {
         public string Name { get; set; } = string.Empty;
@@ -103,6 +104,10 @@ namespace NagaW
         {
             return $"{Value} {Unit.ToStringForDisplay()}";
         }
+        public override string ToString()
+        {
+            return ToStringForDisplay();
+        }
         public TEParamCtrl ParamCtrl => new TEParamCtrl(Name, Min, Max);
 
         public DPara ToDPara
@@ -113,6 +118,7 @@ namespace NagaW
             }
         }
     }
+
     public class PointD
     {
         public double X { get; set; } = 0;
@@ -171,6 +177,8 @@ namespace NagaW
             return ToStringForDisplay();
         }
     }
+
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public class DPara
     {
         [ReadOnly(true)]
@@ -218,6 +226,10 @@ namespace NagaW
             {
                 return Collection[(int)Value];
             }
+        }
+        public override string ToString()
+        {
+            return ToStringForDisplay();
         }
 
         public TEParamCtrl ParamCtrl => new TEParamCtrl(Name, Min, Max);

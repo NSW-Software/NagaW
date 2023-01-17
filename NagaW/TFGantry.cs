@@ -3031,5 +3031,20 @@ namespace NagaW
 
             return true;
         }
+
+        public static bool CheckCalFinish()
+        {
+            if (TCCalibration.LaserCal[0].CalibrationState != ECalibrationState.Completed || TCCalibration.NeedleXYOffsets[0].CalibrationState != ECalibrationState.Completed 
+                || TCCalibration.NeedleZTouches[0].CalibrationState != ECalibrationState.Completed)
+            {
+                DialogResult msgbox = DialogResult.Cancel;
+
+                Application.OpenForms[0].Invoke(new Action(() => msgbox = MsgBox.ShowDialog($"XYZ Calibration Incomplete,\r\nContinue?", MsgBoxBtns.OKCancel)));
+
+                return msgbox == DialogResult.OK;
+            }
+
+            return true;
+        }
     }
 }

@@ -20,6 +20,11 @@ namespace NagaW
 
         private ImageBox EmguImageBox;
         private TFCamera1 Cam => TFCamera1.Cameras[Idx];
+
+        public frmCamera()
+        {
+
+        }
         public frmCamera(int idx)
         {
             InitializeComponent();

@@ -607,6 +607,9 @@ namespace NagaW
                         return false;
                     }
                 }
+
+                if (!TFSafety.CheckCalFinish()) return false;
+
                 switch (RunSelect)
                 {
                     case ERunSelect.All:

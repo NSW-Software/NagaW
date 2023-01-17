@@ -5315,6 +5315,8 @@ namespace NagaW
 
         public static List<PressureSetup> PressureSetups = Enumerable.Range(0, 2).Select(x => new PressureSetup()).ToList();
 
+        public static TFModel[] Models = Enumerable.Range(0, 2).Select(x => new TFModel(x)).ToArray();
+
         public static bool Save(string filepath)
         {
             for (int x = 0; x < 2; x++)

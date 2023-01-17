@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
@@ -79,12 +79,12 @@
             this.btnExecCal = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.btnBoardCountReset = new System.Windows.Forms.Button();
-            this.label23 = new System.Windows.Forms.Label();
-            this.lblBoardCount = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.btnBoardCountReset = new System.Windows.Forms.Button();
+            this.label23 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
+            this.lblBoardCount = new System.Windows.Forms.Label();
             this.lblIgnoreCount = new System.Windows.Forms.Label();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.label29 = new System.Windows.Forms.Label();
@@ -94,6 +94,8 @@
             this.lblFlushAF = new System.Windows.Forms.Label();
             this.lblCleanAF = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lblResult = new System.Windows.Forms.Label();
+            this.label36 = new System.Windows.Forms.Label();
             this.lblRepeatCount = new System.Windows.Forms.Label();
             this.label34 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
@@ -113,6 +115,14 @@
             this.lblDotWait = new System.Windows.Forms.Label();
             this.lblDotPerSample = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.cbxCutFunc = new System.Windows.Forms.CheckBox();
+            this.pnlCutFunction = new System.Windows.Forms.Panel();
+            this.lblSpeed = new System.Windows.Forms.Label();
+            this.label41 = new System.Windows.Forms.Label();
+            this.label38 = new System.Windows.Forms.Label();
+            this.btnGoto2 = new System.Windows.Forms.Button();
+            this.btnSet2 = new System.Windows.Forms.Button();
+            this.lblEndPos = new System.Windows.Forms.Label();
             this.btnGoto1 = new System.Windows.Forms.Button();
             this.btnSet1 = new System.Windows.Forms.Button();
             this.lblPos = new System.Windows.Forms.Label();
@@ -141,8 +151,6 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.btnPump1 = new System.Windows.Forms.Button();
             this.btnPump2 = new System.Windows.Forms.Button();
-            this.lblResult = new System.Windows.Forms.Label();
-            this.label36 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -156,6 +164,7 @@
             this.groupBox9.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.pnlCutFunction.SuspendLayout();
             this.tpResult.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartWeigh)).BeginInit();
             this.tabPage1.SuspendLayout();
@@ -181,7 +190,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 40);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(618, 663);
+            this.tabControl1.Size = new System.Drawing.Size(618, 815);
             this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabControl1.TabIndex = 78;
             // 
@@ -194,7 +203,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 39);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(610, 620);
+            this.tabPage3.Size = new System.Drawing.Size(610, 772);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Function";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -204,7 +213,7 @@
             this.groupBox11.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox11.Location = new System.Drawing.Point(3, 146);
             this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(321, 471);
+            this.groupBox11.Size = new System.Drawing.Size(321, 623);
             this.groupBox11.TabIndex = 78;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Parameter";
@@ -229,7 +238,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel2.Location = new System.Drawing.Point(324, 128);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(283, 489);
+            this.panel2.Size = new System.Drawing.Size(283, 641);
             this.panel2.TabIndex = 89;
             // 
             // groupBox8
@@ -725,23 +734,49 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.btnBoardCountReset);
-            this.tabPage2.Controls.Add(this.label23);
-            this.tabPage2.Controls.Add(this.lblBoardCount);
             this.tabPage2.Controls.Add(this.groupBox3);
             this.tabPage2.Controls.Add(this.groupBox1);
             this.tabPage2.Controls.Add(this.groupBox2);
             this.tabPage2.Location = new System.Drawing.Point(4, 39);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(610, 620);
+            this.tabPage2.Size = new System.Drawing.Size(610, 772);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Setting";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // groupBox3
+            // 
+            this.groupBox3.AutoSize = true;
+            this.groupBox3.Controls.Add(this.groupBox10);
+            this.groupBox3.Controls.Add(this.groupBox9);
+            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox3.Location = new System.Drawing.Point(3, 425);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(604, 219);
+            this.groupBox3.TabIndex = 5;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Advanced Parameter";
+            // 
+            // groupBox10
+            // 
+            this.groupBox10.AutoSize = true;
+            this.groupBox10.Controls.Add(this.btnBoardCountReset);
+            this.groupBox10.Controls.Add(this.label23);
+            this.groupBox10.Controls.Add(this.label20);
+            this.groupBox10.Controls.Add(this.lblBoardCount);
+            this.groupBox10.Controls.Add(this.lblIgnoreCount);
+            this.groupBox10.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox10.Location = new System.Drawing.Point(3, 145);
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.Size = new System.Drawing.Size(598, 71);
+            this.groupBox10.TabIndex = 89;
+            this.groupBox10.TabStop = false;
+            this.groupBox10.Text = "Start Dot Cycle";
+            // 
             // btnBoardCountReset
             // 
-            this.btnBoardCountReset.Location = new System.Drawing.Point(239, 481);
+            this.btnBoardCountReset.Location = new System.Drawing.Point(477, 25);
             this.btnBoardCountReset.Name = "btnBoardCountReset";
             this.btnBoardCountReset.Size = new System.Drawing.Size(85, 25);
             this.btnBoardCountReset.TabIndex = 6;
@@ -751,51 +786,13 @@
             // 
             // label23
             // 
-            this.label23.Location = new System.Drawing.Point(12, 481);
+            this.label23.Location = new System.Drawing.Point(250, 25);
             this.label23.Margin = new System.Windows.Forms.Padding(3);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(110, 23);
             this.label23.TabIndex = 82;
             this.label23.Text = "Board Count";
             this.label23.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lblBoardCount
-            // 
-            this.lblBoardCount.BackColor = System.Drawing.Color.White;
-            this.lblBoardCount.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblBoardCount.Location = new System.Drawing.Point(133, 481);
-            this.lblBoardCount.Margin = new System.Windows.Forms.Padding(3);
-            this.lblBoardCount.Name = "lblBoardCount";
-            this.lblBoardCount.Size = new System.Drawing.Size(100, 23);
-            this.lblBoardCount.TabIndex = 83;
-            this.lblBoardCount.Text = "99.99";
-            this.lblBoardCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.AutoSize = true;
-            this.groupBox3.Controls.Add(this.groupBox10);
-            this.groupBox3.Controls.Add(this.groupBox9);
-            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox3.Location = new System.Drawing.Point(3, 300);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(604, 217);
-            this.groupBox3.TabIndex = 5;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Advanced Parameter";
-            // 
-            // groupBox10
-            // 
-            this.groupBox10.AutoSize = true;
-            this.groupBox10.Controls.Add(this.label20);
-            this.groupBox10.Controls.Add(this.lblIgnoreCount);
-            this.groupBox10.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox10.Location = new System.Drawing.Point(3, 145);
-            this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(598, 69);
-            this.groupBox10.TabIndex = 89;
-            this.groupBox10.TabStop = false;
-            this.groupBox10.Text = "Start Dot Cycle";
             // 
             // label20
             // 
@@ -806,6 +803,18 @@
             this.label20.TabIndex = 80;
             this.label20.Text = "Ignore Count";
             this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblBoardCount
+            // 
+            this.lblBoardCount.BackColor = System.Drawing.Color.White;
+            this.lblBoardCount.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblBoardCount.Location = new System.Drawing.Point(371, 25);
+            this.lblBoardCount.Margin = new System.Windows.Forms.Padding(3);
+            this.lblBoardCount.Name = "lblBoardCount";
+            this.lblBoardCount.Size = new System.Drawing.Size(100, 23);
+            this.lblBoardCount.TabIndex = 83;
+            this.lblBoardCount.Text = "99.99";
+            this.lblBoardCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblIgnoreCount
             // 
@@ -930,12 +939,37 @@
             this.groupBox1.Controls.Add(this.lblDotWait);
             this.groupBox1.Controls.Add(this.lblDotPerSample);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox1.Location = new System.Drawing.Point(3, 74);
+            this.groupBox1.Location = new System.Drawing.Point(3, 199);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(604, 226);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Common Parameter";
+            // 
+            // lblResult
+            // 
+            this.lblResult.BackColor = System.Drawing.Color.White;
+            this.lblResult.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblResult.ForeColor = System.Drawing.Color.Navy;
+            this.lblResult.Location = new System.Drawing.Point(366, 180);
+            this.lblResult.Margin = new System.Windows.Forms.Padding(3);
+            this.lblResult.Name = "lblResult";
+            this.lblResult.Size = new System.Drawing.Size(120, 25);
+            this.lblResult.TabIndex = 20;
+            this.lblResult.Text = "label16";
+            this.lblResult.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblResult.Click += new System.EventHandler(this.lblResult_Click);
+            // 
+            // label36
+            // 
+            this.label36.ForeColor = System.Drawing.Color.Navy;
+            this.label36.Location = new System.Drawing.Point(251, 180);
+            this.label36.Margin = new System.Windows.Forms.Padding(3);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(109, 25);
+            this.label36.TabIndex = 19;
+            this.label36.Text = "Result (Meas)";
+            this.label36.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblRepeatCount
             // 
@@ -1165,16 +1199,108 @@
             // 
             this.groupBox2.AutoSize = true;
             this.groupBox2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox2.Controls.Add(this.cbxCutFunc);
+            this.groupBox2.Controls.Add(this.pnlCutFunction);
             this.groupBox2.Controls.Add(this.btnGoto1);
             this.groupBox2.Controls.Add(this.btnSet1);
             this.groupBox2.Controls.Add(this.lblPos);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox2.Location = new System.Drawing.Point(3, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(604, 71);
+            this.groupBox2.Size = new System.Drawing.Size(604, 196);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Position";
+            // 
+            // cbxCutFunc
+            // 
+            this.cbxCutFunc.AutoSize = true;
+            this.cbxCutFunc.Location = new System.Drawing.Point(6, 56);
+            this.cbxCutFunc.Name = "cbxCutFunc";
+            this.cbxCutFunc.Size = new System.Drawing.Size(96, 18);
+            this.cbxCutFunc.TabIndex = 7;
+            this.cbxCutFunc.Text = "Cut Function";
+            this.cbxCutFunc.UseVisualStyleBackColor = true;
+            this.cbxCutFunc.CheckedChanged += new System.EventHandler(this.cbxCutFunc_CheckedChanged);
+            // 
+            // pnlCutFunction
+            // 
+            this.pnlCutFunction.Controls.Add(this.lblSpeed);
+            this.pnlCutFunction.Controls.Add(this.label41);
+            this.pnlCutFunction.Controls.Add(this.label38);
+            this.pnlCutFunction.Controls.Add(this.btnGoto2);
+            this.pnlCutFunction.Controls.Add(this.btnSet2);
+            this.pnlCutFunction.Controls.Add(this.lblEndPos);
+            this.pnlCutFunction.Location = new System.Drawing.Point(6, 80);
+            this.pnlCutFunction.Name = "pnlCutFunction";
+            this.pnlCutFunction.Size = new System.Drawing.Size(593, 95);
+            this.pnlCutFunction.TabIndex = 6;
+            // 
+            // lblSpeed
+            // 
+            this.lblSpeed.BackColor = System.Drawing.Color.White;
+            this.lblSpeed.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblSpeed.ForeColor = System.Drawing.Color.Navy;
+            this.lblSpeed.Location = new System.Drawing.Point(122, 58);
+            this.lblSpeed.Margin = new System.Windows.Forms.Padding(3);
+            this.lblSpeed.Name = "lblSpeed";
+            this.lblSpeed.Size = new System.Drawing.Size(120, 25);
+            this.lblSpeed.TabIndex = 12;
+            this.lblSpeed.Text = "label8";
+            this.lblSpeed.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblSpeed.Click += new System.EventHandler(this.lblSpeed_Click);
+            // 
+            // label41
+            // 
+            this.label41.ForeColor = System.Drawing.Color.Navy;
+            this.label41.Location = new System.Drawing.Point(3, 58);
+            this.label41.Margin = new System.Windows.Forms.Padding(3);
+            this.label41.Name = "label41";
+            this.label41.Size = new System.Drawing.Size(113, 25);
+            this.label41.TabIndex = 11;
+            this.label41.Text = "Speed";
+            this.label41.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label38
+            // 
+            this.label38.Location = new System.Drawing.Point(3, 14);
+            this.label38.Margin = new System.Windows.Forms.Padding(3);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(113, 25);
+            this.label38.TabIndex = 10;
+            this.label38.Text = "End Pos";
+            this.label38.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // btnGoto2
+            // 
+            this.btnGoto2.Location = new System.Drawing.Point(474, 14);
+            this.btnGoto2.Name = "btnGoto2";
+            this.btnGoto2.Size = new System.Drawing.Size(85, 25);
+            this.btnGoto2.TabIndex = 9;
+            this.btnGoto2.Text = "Goto";
+            this.btnGoto2.UseVisualStyleBackColor = true;
+            this.btnGoto2.Click += new System.EventHandler(this.btnGoto2_Click);
+            // 
+            // btnSet2
+            // 
+            this.btnSet2.Location = new System.Drawing.Point(383, 14);
+            this.btnSet2.Name = "btnSet2";
+            this.btnSet2.Size = new System.Drawing.Size(85, 25);
+            this.btnSet2.TabIndex = 8;
+            this.btnSet2.Text = "Set";
+            this.btnSet2.UseVisualStyleBackColor = true;
+            this.btnSet2.Click += new System.EventHandler(this.btnSet2_Click);
+            // 
+            // lblEndPos
+            // 
+            this.lblEndPos.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblEndPos.Location = new System.Drawing.Point(122, 14);
+            this.lblEndPos.Margin = new System.Windows.Forms.Padding(3);
+            this.lblEndPos.Name = "lblEndPos";
+            this.lblEndPos.Size = new System.Drawing.Size(254, 25);
+            this.lblEndPos.TabIndex = 7;
+            this.lblEndPos.Text = "label2";
+            this.lblEndPos.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // btnGoto1
             // 
@@ -1215,18 +1341,18 @@
             this.tpResult.Location = new System.Drawing.Point(4, 39);
             this.tpResult.Name = "tpResult";
             this.tpResult.Padding = new System.Windows.Forms.Padding(3);
-            this.tpResult.Size = new System.Drawing.Size(610, 620);
+            this.tpResult.Size = new System.Drawing.Size(610, 772);
             this.tpResult.TabIndex = 3;
             this.tpResult.Text = "Result";
             this.tpResult.UseVisualStyleBackColor = true;
             // 
             // chartWeigh
             // 
-            chartArea2.Name = "ChartArea1";
-            this.chartWeigh.ChartAreas.Add(chartArea2);
+            chartArea3.Name = "ChartArea1";
+            this.chartWeigh.ChartAreas.Add(chartArea3);
             this.chartWeigh.Dock = System.Windows.Forms.DockStyle.Top;
-            legend2.Name = "Legend1";
-            this.chartWeigh.Legends.Add(legend2);
+            legend3.Name = "Legend1";
+            this.chartWeigh.Legends.Add(legend3);
             this.chartWeigh.Location = new System.Drawing.Point(3, 347);
             this.chartWeigh.Name = "chartWeigh";
             this.chartWeigh.Size = new System.Drawing.Size(604, 264);
@@ -1261,7 +1387,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 39);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(610, 620);
+            this.tabPage1.Size = new System.Drawing.Size(610, 772);
             this.tabPage1.TabIndex = 4;
             this.tabPage1.Text = "Calculator";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -1505,36 +1631,11 @@
             this.btnPump2.Visible = false;
             this.btnPump2.Click += new System.EventHandler(this.btnPump2_Click);
             // 
-            // lblResult
-            // 
-            this.lblResult.BackColor = System.Drawing.Color.White;
-            this.lblResult.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblResult.ForeColor = System.Drawing.Color.Navy;
-            this.lblResult.Location = new System.Drawing.Point(366, 180);
-            this.lblResult.Margin = new System.Windows.Forms.Padding(3);
-            this.lblResult.Name = "lblResult";
-            this.lblResult.Size = new System.Drawing.Size(120, 25);
-            this.lblResult.TabIndex = 20;
-            this.lblResult.Text = "label16";
-            this.lblResult.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lblResult.Click += new System.EventHandler(this.lblResult_Click);
-            // 
-            // label36
-            // 
-            this.label36.ForeColor = System.Drawing.Color.Navy;
-            this.label36.Location = new System.Drawing.Point(251, 180);
-            this.label36.Margin = new System.Windows.Forms.Padding(3);
-            this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(109, 25);
-            this.label36.TabIndex = 19;
-            this.label36.Text = "Result (Meas)";
-            this.label36.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // frmWeighFunction
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(618, 703);
+            this.ClientSize = new System.Drawing.Size(618, 855);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1561,6 +1662,8 @@
             this.groupBox9.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.pnlCutFunction.ResumeLayout(false);
             this.tpResult.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chartWeigh)).EndInit();
             this.tabPage1.ResumeLayout(false);
@@ -1687,5 +1790,13 @@
         private System.Windows.Forms.Label lblCpk;
         private System.Windows.Forms.Label lblResult;
         private System.Windows.Forms.Label label36;
+        private System.Windows.Forms.Panel pnlCutFunction;
+        private System.Windows.Forms.Label lblSpeed;
+        private System.Windows.Forms.Label label41;
+        private System.Windows.Forms.Label label38;
+        private System.Windows.Forms.Button btnGoto2;
+        private System.Windows.Forms.Button btnSet2;
+        private System.Windows.Forms.Label lblEndPos;
+        private System.Windows.Forms.CheckBox cbxCutFunc;
     }
 }

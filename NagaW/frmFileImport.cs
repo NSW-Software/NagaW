@@ -8,22 +8,23 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace NagaW
 {
     public partial class frmFileImport : Form
     {
         PointD InitialPnlSize = new PointD(0, 0);
-        double Scale = 1;
-        private PictureBox PictureBox;
+        DPara Scale = new DPara("File Import Scale", 100, 0, 60000, EUnit.PERCENTAGE, 0);
+        //private PictureBox PictureBox;
 
         public frmFileImport()
         {
             InitializeComponent();
-            PictureBox = new PictureBox() { /*Dock = DockStyle.Fill,*/Width = pnlPicture.Width, Height = pnlPicture.Height, BackColor = Color.Black, };
-            pnlPicture.BackColor = Color.Black;
-            pnlPicture.Controls.Add(PictureBox);
-            InitialPnlSize = new PointD(pnlPicture.Width, pnlPicture.Height);
+            //PictureBox = new PictureBox() { /*Dock = DockStyle.Fill,*/Width = pnlPicture.Width, Height = pnlPicture.Height, BackColor = Color.Black, };
+            //pnlPicture.BackColor = SystemColors.Control;//Color.Black;
+            //pnlPicture.Controls.Add(PictureBox);
+            //InitialPnlSize = new PointD(pnlPicture.Width, pnlPicture.Height);
 
             //var temp = typeof(Color).GetProperties().Where(x => x.PropertyType == typeof(Color)).Select(x => (Color)x.GetValue(null)).ToArray();
             //var temp = typeof(Color).GetProperties(BindingFlags.Static | BindingFlags.DeclaredOnly | BindingFlags.Public).Select(x => (Color)x.GetValue(null, null)).ToArray();
@@ -38,13 +39,15 @@ namespace NagaW
             UpdateApertureList();
             UpdateDisplay();
 
-            pnlPicture.Scroll += (a, b) => { UpdatePicBx(Scale); };
+            UpdatePicBx(Scale.Value / 100);
+
+            pnlPicture.Scroll += (a, b) => { UpdatePicBx(Scale.Value / 100); };
         }
 
         private void UpdateDisplay()
         {
             //cbxOptimizeAll.Checked = TFFileImport.OptimizeAll;
-            tslblZoom.Text = $"{Scale * 100}%";
+            tslblZoom.Text = $"{Scale.Value}%";
         }
         private void UpdateApertureList()
         {
@@ -95,7 +98,10 @@ namespace NagaW
 
         private void btnOriginXY_Click(object sender, EventArgs e)
         {
-            int i = lbxFeaturesList.SelectedIndex + (featureListIndex.Count * lbxApertureList.SelectedIndex);
+            int tempCount = 0;
+            tempCount = TFFileImport.Feature.Features.Where(x => x.ApertureIndex < lbxApertureList.SelectedIndex).Count();
+
+            int i = lbxFeaturesList.SelectedIndex + tempCount;
             if (i < 0) return;
 
             //int idx = featureListIndex[i];
@@ -408,62 +414,63 @@ namespace NagaW
 
         public void ZoomFit()
         {
-            Scale = 1;
-            UpdatePicBx(Scale);
+            Scale.Value = 100;
+            UpdatePicBx(Scale.Value / 100);
             UpdateDisplay();
         }
         public void ZoomIn()
         {
-            Scale += 0.2;
-            UpdatePicBx(Scale);
+            Scale.Value += 20;
+            UpdatePicBx(Scale.Value / 100);
             UpdateDisplay();
         }
         public void ZoomOut()
         {
-            Scale -= 0.2;
-            UpdatePicBx(Scale);
+            Scale.Value -= 20;
+            UpdatePicBx(Scale.Value / 100);
             UpdateDisplay();
         }
         private void tslblZoom_Click(object sender, EventArgs e)
         {
-            IPara tempPara = new IPara("File Import Scale", 100, 0, 60000, EUnit.PERCENTAGE);
-
-            if (GLog.SetPara(ref tempPara)) Scale = tempPara.Value / 100;
-            UpdatePicBx(Scale);
+            if (!GLog.SetPara(ref Scale)) return;
+            UpdatePicBx(Scale.Value / 100);
             UpdateDisplay();
         }
 
-        public void UpdatePicBx(double multiply = 1)
+        public void UpdatePicBx2(double multiply = 1)
         {
             if (TFFileImport.Feature.Features.Count < 1) return;
             int width = 3;
-            pnlPicture.Refresh();
-            PictureBox.Refresh();
 
-            //var tempXList = TFFileImport.Feature.Features.Select(x => x.Point.X).ToList();
-            //var tempYList = TFFileImport.Feature.Features.Select(x => x.Point.Y).ToList();
-            //var tempXSmall = tempXList.Min(); var tempYSmall = tempYList.Min();
+            double minX = TFFileImport.Feature.Features.Min(p => p.Point.X);
+            double maxX = TFFileImport.Feature.Features.Max(p => p.Point.X);
+            double minY = TFFileImport.Feature.Features.Min(p => p.Point.Y);
+            double maxY = TFFileImport.Feature.Features.Max(p => p.Point.Y);
 
-            PictureBox.Width = (int)InitialPnlSize.X * (int)multiply;
-            PictureBox.Height = (int)InitialPnlSize.Y * (int)multiply;
-            var mid = new int[] { PictureBox.Width / 2, PictureBox.Height / 2 };
+            if ((maxX - minX) is 0 || (maxY - minY) is 0) return;
+            if (double.IsNaN(minX) || double.IsNaN(maxX) || double.IsNaN(minY) || double.IsNaN(maxY)) return;
+            Size s = new Size((int)Math.Abs(maxX - minX), (int)Math.Abs(maxY - minY));
+            s = s.Height is 0 && s.Width is 0 ? new Size(1, 1) : s;
+            float ratio = (float)Math.Min(picBxPrevImg.Width, picBxPrevImg.Height) / (float)Math.Max(s.Width, s.Height);
+            if (float.IsNaN(ratio) || float.IsInfinity(ratio)) return;
 
-            Graphics g = PictureBox.CreateGraphics();
-            Pen pen = new Pen(Color.Lime);
-            SolidBrush solidBrush = new SolidBrush(Color.Lime);
+            PointF[] pFs = TFFileImport.Feature.Features.Select(p => new PointF((float)(p.Point.X - minX) * ratio, -(float)(p.Point.Y - minY) * ratio)).ToArray();
+
+            Image img = new Bitmap((int)Math.Abs(pFs.Max(p => p.X) - pFs.Min(p => p.X)) + 2, (int)Math.Abs(pFs.Max(p => p.Y) - pFs.Min(p => p.Y)) + 2);
+            Graphics g = Graphics.FromImage(img);
+
+            Pen pen = new Pen(Color.Navy);
+            SolidBrush solidBrush = new SolidBrush(Color.Navy);
 
             for (int i = 0; i < TFFileImport.Feature.Features.Count; i++)
             {
                 var xy = TFFileImport.Feature.Features[i].Point;
-                xy = new PointD(mid[0] + (xy.X * multiply), mid[1] - (xy.Y * multiply));
-                //xy = new PointD((xy.X * multiply) - tempXSmall, (xy.Y * multiply) - tempYSmall);
 
                 PointD prevPt = new PointD(0, 0);
                 if (i > 0)
                 {
-                    var temp = TFFileImport.Feature.Features[i - 1].Point;
-                    prevPt = new PointD(mid[0] + (temp.X * multiply), mid[1] - (temp.Y * multiply));
-                    //prevPt = new PointD((temp.X * multiply) - tempXSmall, (temp.Y * multiply) - tempYSmall);
+                    prevPt = TFFileImport.Feature.Features[i - 1].Point;
+                    //var temp = TFFileImport.Feature.Features[i - 1].Point;
                 }
 
                 switch (TFFileImport.Feature.Features[i].Type)
@@ -473,7 +480,8 @@ namespace NagaW
                         g.FillEllipse(solidBrush, (float)xy.X, (float)xy.Y, width, width);
                         break;
                     case TFFileImport.EFeatureType.Line:
-                        var prevXY = TFFileImport.Feature.Features[i - 1].Type == TFFileImport.Feature.Features[i].Type ? prevPt : xy;
+                        var prevXY = i is 0 ? xy : new PointD(0, 0);
+                        if (i > 0) prevXY = TFFileImport.Feature.Features[i - 1].Type == TFFileImport.Feature.Features[i].Type ? prevPt : xy;
                         //var prevXY = new PointD(mid[0] + (prevPt.X * multiply), mid[1] - (prevPt.Y * multiply));
                         g.DrawLine(pen, (float)prevXY.X, (float)prevXY.Y, (float)xy.X, (float)xy.Y);
                         break;
@@ -501,8 +509,193 @@ namespace NagaW
                 }
             }
 
+            picBxPrevImg.SizeMode = PictureBoxSizeMode.Zoom;
+            picBxPrevImg.Image = img;
+            //img.Save("C:\\Users\\yhlee\\Desktop\\temp.PNG");
+        }
+
+        public void UpdatePicBx1(double multiply = 1)
+        {
+            if (TFFileImport.Feature.Features.Count < 1) return;
+            int width = 3;
+            int startPoint = 5;
+
+            picBxPrevImg.Refresh();
+
+            var mid = new int[] { startPoint, picBxPrevImg.Height - startPoint };
+
+            double minX = TFFileImport.Feature.Features.Min(p => p.Point.X);
+            double maxX = TFFileImport.Feature.Features.Max(p => p.Point.X);
+            double minY = TFFileImport.Feature.Features.Min(p => p.Point.Y);
+            double maxY = TFFileImport.Feature.Features.Max(p => p.Point.Y);
+
+            if ((maxX - minX) is 0 || (maxY - minY) is 0) return;
+            if (double.IsNaN(minX) || double.IsNaN(maxX) || double.IsNaN(minY) || double.IsNaN(maxY)) return;
+            Size s = new Size((int)Math.Abs(maxX - minX), (int)Math.Abs(maxY - minY));
+            s = s.Height is 0 && s.Width is 0 ? new Size(1, 1) : s;
+            float ratio = (float)Math.Min(picBxPrevImg.Width, picBxPrevImg.Height) / (float)Math.Max(s.Width, s.Height);
+            if (float.IsNaN(ratio) || float.IsInfinity(ratio)) return;
+
+            PointF[] pFs = TFFileImport.Feature.Features.Select(p => new PointF((float)(p.Point.X - minX) * ratio, -(float)(p.Point.Y - minY) * ratio)).ToArray();
+
+            Graphics g = picBxPrevImg.CreateGraphics();
+            Pen pen = new Pen(Color.Navy);
+            SolidBrush solidBrush = new SolidBrush(Color.Navy);
+
+            for (int i = 0; i < pFs.Length; i++)
+            {
+                var xy = pFs[i];
+                xy = new PointF(mid[0] + (xy.X * (float)multiply), mid[1] + (xy.Y * (float)multiply));
+
+                PointF prevPt = new PointF(0, 0);
+                if (i > 0)
+                {
+                    var temp = pFs[i - 1];
+                    prevPt = new PointF(mid[0] + (temp.X * (float)multiply), mid[1] + (temp.Y * (float)multiply));
+                }
+
+                switch (TFFileImport.Feature.Features[i].Type)
+                {
+                    case TFFileImport.EFeatureType.Dot:
+                        g.DrawEllipse(pen, xy.X, xy.Y, width, width);
+                        g.FillEllipse(solidBrush, xy.X, xy.Y, width, width);
+                        break;
+                    case TFFileImport.EFeatureType.Line:
+                        var prevXY = i is 0 ? xy : new PointF(0, 0);
+                        if (i > 0) prevXY = TFFileImport.Feature.Features[i - 1].Type == TFFileImport.Feature.Features[i].Type ? prevPt : xy;
+                        g.DrawLine(pen, prevXY.X, prevXY.Y, xy.X, xy.Y);
+                        break;
+                    case TFFileImport.EFeatureType.Arc:
+                        bool circle = prevPt == xy;
+                        var radius = TFFileImport.Feature.Features[i].Radius * ratio;
+
+                        if (circle) g.DrawEllipse(pen, xy.X, xy.Y, (float)radius, (float)radius);
+                        else
+                        {
+                            PointD center = new PointD(radius + xy.X, radius + xy.Y);
+                            var angleStart = Math.Atan2((prevPt.Y - center.Y), (prevPt.X - center.X));
+                            var angleEnd = Math.Atan2((xy.Y - center.Y), (xy.X - center.X));
+                            if (angleStart < 0) angleStart = Math.PI * 2 - angleStart;
+                            if (angleEnd < 0) angleEnd = Math.PI * 2 - angleEnd;
+                            double rad = angleEnd - angleStart;
+
+                            var sweepDeg = rad * 180 / Math.PI;
+                            var startDeg = angleStart * 180 / Math.PI;
+
+                            g.DrawArc(pen, xy.X, xy.Y, (float)radius, (float)radius, (float)startDeg, (float)sweepDeg);
+                        }
+
+                        break;
+                }
+            }
+            //picBxPrevImg.SizeMode = PictureBoxSizeMode.Zoom;
+
+        }
+
+        public void UpdatePicBx(double multiply = 1)
+        {
+            if (TFFileImport.Feature.Features.Count < 1) return;
+            int width = 3;
+            int startPoint = 5;
+
+            //picBxPrevImg.Refresh();
+            bool lineNo = TFFileImport.Feature.Features.Where(x => x.Type == TFFileImport.EFeatureType.Line).ToList().Count > 0;
+
+            double minX = lineNo is true ? Math.Min(TFFileImport.Feature.Features.Min(p => p.Point.X), TFFileImport.Feature.Features.Min(p => p.Point2.X)) : TFFileImport.Feature.Features.Min(p => p.Point.X);
+            double maxX = lineNo is true ? Math.Max(TFFileImport.Feature.Features.Max(p => p.Point.X), TFFileImport.Feature.Features.Max(p => p.Point2.X)) : TFFileImport.Feature.Features.Max(p => p.Point.X);
+            double minY = lineNo is true ? Math.Max(TFFileImport.Feature.Features.Max(p => p.Point.Y), TFFileImport.Feature.Features.Max(p => p.Point2.Y)) : TFFileImport.Feature.Features.Max(p => p.Point.Y);
+            double maxY = lineNo is true ? Math.Min(TFFileImport.Feature.Features.Min(p => p.Point.Y), TFFileImport.Feature.Features.Min(p => p.Point2.Y)) : TFFileImport.Feature.Features.Min(p => p.Point.Y);
+
+            if ((maxX - minX) is 0 || (maxY - minY) is 0) return;
+            if (double.IsNaN(minX) || double.IsNaN(maxX) || double.IsNaN(minY) || double.IsNaN(maxY)) return;
+            Size s = new Size((int)Math.Abs(maxX - minX), (int)Math.Abs(maxY - minY));
+            s = s.Height is 0 && s.Width is 0 ? new Size(1, 1) : s;
+            float ratio = (float)Math.Min(picBxPrevImg.Width, picBxPrevImg.Height) / (float)Math.Max(s.Width, s.Height);
+            ratio *= (float)multiply;
+            if (float.IsNaN(ratio) || float.IsInfinity(ratio)) return;
+
+            PointF[] pFs = TFFileImport.Feature.Features.Select(p => new PointF((float)(p.Point.X - minX) * ratio, -(float)(p.Point.Y - minY) * ratio)).ToArray();
+            PointF[] pFs1 = TFFileImport.Feature.Features.Select(p => new PointF((float)(p.Point2.X - minX) * ratio, -(float)(p.Point2.Y - minY) * ratio)).ToArray();
+
+            //Image img = new Bitmap((int)Math.Abs(pFs.Max(p => p.X) - pFs.Min(p => p.X)) + startPoint, (int)Math.Abs(pFs.Max(p => p.Y) - pFs.Min(p => p.Y)) + startPoint);
+            var sizeMaxX = Math.Max(Math.Abs(pFs.Max(p => p.X) - pFs.Min(p => p.X)), Math.Abs(pFs1.Max(p => p.X) - pFs1.Min(p => p.X)));
+            var sizeMaxY = Math.Max(Math.Abs(pFs.Max(p => p.Y) - pFs.Min(p => p.Y)), Math.Abs(pFs1.Max(p => p.Y) - pFs1.Min(p => p.Y)));
+            Image img = new Bitmap((int)sizeMaxX + startPoint, (int)sizeMaxY + startPoint);
+            Graphics g = Graphics.FromImage(img);
+
+            Pen pen = new Pen(Color.Navy);
+            SolidBrush solidBrush = new SolidBrush(Color.Navy);
+
+            for (int i = 0; i < pFs.Length; i++)
+            {
+                var xy = pFs[i];
+                xy = new PointF(xy.X, xy.Y);
+
+                PointF prevPt = new PointF(0, 0);
+                if (i > 0)
+                {
+                    var temp = pFs[i - 1];
+                    prevPt = new PointF(temp.X, temp.Y);
+                }
+
+                switch (TFFileImport.Feature.Features[i].Type)
+                {
+                    case TFFileImport.EFeatureType.Pad:
+                    case TFFileImport.EFeatureType.Dot:
+                        g.DrawEllipse(pen, xy.X, xy.Y, width, width);
+                        g.FillEllipse(solidBrush, xy.X, xy.Y, width, width);
+                        break;
+                    case TFFileImport.EFeatureType.Line:
+                        //var prevXY = i is 0 ? xy : new PointF(0, 0);
+                        //if (i > 0) prevXY = TFFileImport.Feature.Features[i - 1].Type == TFFileImport.Feature.Features[i].Type ? prevPt : xy;
+                        //g.DrawLine(pen, prevXY.X, prevXY.Y, xy.X, xy.Y);
+                        g.DrawLine(pen, pFs1[i].X, pFs1[i].Y, pFs[i].X, pFs[i].Y);
+                        break;
+                    case TFFileImport.EFeatureType.Arc:
+                        bool circle = prevPt == xy;
+                        var radius = TFFileImport.Feature.Features[i].Radius * ratio;
+
+                        if (circle) g.DrawEllipse(pen, xy.X, xy.Y, (float)radius, (float)radius);
+                        else
+                        {
+                            PointD center = new PointD(radius + xy.X, radius + xy.Y);
+                            var angleStart = Math.Atan2((prevPt.Y - center.Y), (prevPt.X - center.X));
+                            var angleEnd = Math.Atan2((xy.Y - center.Y), (xy.X - center.X));
+                            if (angleStart < 0) angleStart = Math.PI * 2 - angleStart;
+                            if (angleEnd < 0) angleEnd = Math.PI * 2 - angleEnd;
+                            double rad = angleEnd - angleStart;
+
+                            var sweepDeg = rad * 180 / Math.PI;
+                            var startDeg = angleStart * 180 / Math.PI;
+
+                            g.DrawArc(pen, xy.X, xy.Y, (float)radius, (float)radius, (float)startDeg, (float)sweepDeg);
+                        }
+
+                        break;
+                }
+            }
+
+            int tempCount = 0;
+            tempCount = TFFileImport.Feature.Features.Where(x => x.ApertureIndex < lbxApertureList.SelectedIndex).Count();
+
+            int y = lbxFeaturesList.SelectedIndex + tempCount;
+            pen = new Pen(Color.Red); solidBrush = new SolidBrush(Color.Red);
+            if (y >= 0)
+            {
+                width += 1;
+                g.DrawEllipse(pen, pFs[y].X, pFs[y].Y, width, width);
+                g.FillEllipse(solidBrush, pFs[y].X, pFs[y].Y, width, width);
+            }
+
+            picBxPrevImg.SizeMode = PictureBoxSizeMode.StretchImage;
+            picBxPrevImg.Image = img;
+
         }
         #endregion
 
+        private void lbxFeaturesList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdatePicBx(Scale.Value / 100);
+        }
     }
 }

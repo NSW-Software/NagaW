@@ -348,6 +348,14 @@ namespace NagaW
             lblCalFlowRate.UpdatePara(OutputFlowRate);
 
             cbxTuneVar.Enabled = GSystemCfg.Pump.Pumps[0].PumpType != EPumpType.HM;
+
+            #region Cut
+            cbxCutFunc.Checked = GProcessPara.Weighing.CutTailEnable;
+            pnlCutFunction.Visible = GProcessPara.Weighing.CutTailEnable;
+            lblEndPos.Text = GSetupPara.Weighing.EndPos[gantryIdx, (int)GSystemCfg.Pump.Pumps[gantryIdx].PumpType].ToStringForDisplay();
+
+            lblSpeed.UpdatePara(GProcessPara.Weighing.XYCutSpeed);
+            #endregion
         }
 
         private void UpdateChart(BindingList<TEWeighData> result)
@@ -535,12 +543,9 @@ namespace NagaW
                 UpdateProfile();
                 UpdateDisplay();
                 lblCpk.Text = TCWeighFunc.WeighCals[gantryIdx].UpdateCPK(wmode, wtype);
-
-                var f = new FileStream(GDoc.WeighDataDateTimeDir.FullName + "log.txt", FileMode.Append, FileAccess.Write, FileShare.Write);
-                using (StreamWriter w = new StreamWriter(f)) w.Write(richTextBox1.Text);
-
+                               
                 var format = ChartImageFormat.Png;
-                chartWeigh.SaveImage(GDoc.WeighDataDateTimeDir.FullName + $"chart.{format.ToString().ToLower()}", format);
+                chartWeigh.SaveImage(GDoc.WeighDataDateTimeDir.FullName + DateTime.Now.ToString("yyyyMMddTHHmmss") + $"chart.{format.ToString().ToLower()}", format);
             }
             catch (Exception ex)
             {
@@ -727,5 +732,30 @@ namespace NagaW
             var v = Variance(values);
             return v <= 0 ? 0 : Math.Sqrt(v);
         }
+
+        #region Cut
+        private void cbxCutFunc_CheckedChanged(object sender, EventArgs e)
+        {
+            GProcessPara.Weighing.CutTailEnable = cbxCutFunc.Checked;
+            UpdateDisplay();
+        }
+        private void btnSet2_Click(object sender, EventArgs e)
+        {
+            GLog.SetPointD(ref GSetupPara.Weighing.EndPos[gantryIdx, (int)GSystemCfg.Pump.Pumps[gantryIdx].PumpType], Gantry.PointXY, "Weigh Pos");
+            UpdateDisplay();
+            Gantry.MoveOpZAbs(0);
+        }
+        private void btnGoto2_Click(object sender, EventArgs e)
+        {
+            var anotherG = gantryIdx is 0 ? TFGantry.GantryRight : TFGantry.GantrySetup;
+            anotherG.GotoXYZ(new PointXYZ());
+            Gantry.MoveOpXYAbs(GSetupPara.Weighing.EndPos[gantryIdx, (int)GSystemCfg.Pump.Pumps[gantryIdx].PumpType].ToArray, true);
+        }
+        private void lblSpeed_Click(object sender, EventArgs e)
+        {
+            GLog.SetPara(ref GProcessPara.Weighing.XYCutSpeed);
+            UpdateDisplay();
+        }
+        #endregion
     }
 }

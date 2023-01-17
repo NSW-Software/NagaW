@@ -433,6 +433,7 @@ namespace NagaW
         {
             public static PointXYZ[,] Pos = (PointXYZ[,])GControl.Create2DArray(typeof(PointXYZ), HeadCount, 103/*Enum.GetValues(typeof(EPumpType)).Length*/);
             public static int[] WeighBoardCount = new int[HeadCount];
+            public static PointD[,] EndPos = (PointD[,])GControl.Create2DArray(typeof(PointD), HeadCount, 103/*Enum.GetValues(typeof(EPumpType)).Length*/);
             //public static PointXYZ[,] Pos = (PointXYZ[,])GControl.Create2DArray(typeof(PointXYZ), HeadCount, Enum.GetValues(typeof(EPumpType)).Length);/*Enumerable.Range(0, HeadCount).Select(x => new PointXYZ()).ToArray();*/
         }
 
@@ -750,6 +751,9 @@ namespace NagaW
 
             public static IPara[] RepeatCount = Enumerable.Range(0, Headno).Select(x => new IPara(nameof(SampleCount), 5, 0, 15, EUnit.COUNT)).ToArray();
             public static DPara ResultState = new DPara(nameof(Weighing) + nameof(ResultState), 0, 0, 1, EUnit.COUNT, 0, new string[] { "Average", "Total" });
+
+            public static bool CutTailEnable = false;
+            public static DPara XYCutSpeed = new DPara(nameof(Weighing) + nameof(XYCutSpeed), 10, 0, 300, EUnit.MILLIMETER_PER_SECOND);
         }
 
 

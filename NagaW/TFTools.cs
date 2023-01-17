@@ -27,6 +27,9 @@ namespace NagaW
         Flush,
         Purge,
         Purge_Stage,
+
+        Pump_Maint,
+
         Manual_Load = 100,
         Manual_Unload,
     }
@@ -227,6 +230,17 @@ namespace NagaW
                 case ETool.Manual_Unload:
                     {
                         TCWafer.Manual_Unload();
+                        break;
+                    }
+                case ETool.Pump_Maint:
+                    {
+                        MsgBox.Processing("Goto Machine Pos", () => TCNeedleFunc.Maint[(int)GantrySelect].GotoPumpMaint(false));
+
+                        TCCalibration.LaserCal[0].CalibrationState = ECalibrationState.Fail;
+                        TCCalibration.NeedleXYOffsets[0].CalibrationState = ECalibrationState.Fail;
+                        TCCalibration.NeedleZTouches[0].CalibrationState = ECalibrationState.Fail;
+
+                        MsgBox.ShowDialog("Please Do Calibration.", MsgBoxBtns.OK);
                         break;
                     }
             }
