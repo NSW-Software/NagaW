@@ -14,6 +14,7 @@ namespace NagaW
 {
     public partial class frmFileImportSelect : Form
     {
+        public BindingList<TFunction> Functions;
         //public TFFileImport.TDispFeature feature;
         public frmFileImportSelect()
         {
@@ -112,23 +113,34 @@ namespace NagaW
         string fileName = "";
         private void btnOK_Click(object sender, EventArgs e)
         {
+            List<TFunction> funcs = new List<TFunction>();
             if (!File.Exists(fileName)) MessageBox.Show("File not found.");
 
             switch (cbxFileType.SelectedIndex)
             {
                 case (int)TFFileImport.EFileType.Gerber_RS274X:
-                    if (!TFFileImport.Gerber_RS274X.Decode1(fileName, ref TFFileImport.Feature)) return;
+                    //if (!TFFileImport.Gerber_RS274X.Decode1(fileName, ref TFFileImport.Feature)) return;
+                    if (!TFFileImport.Gerber_RS274X.Decode(fileName, ref funcs)) return;
+
+                    for (int i = 0; i < funcs.Count; i++)
+                    {
+                        if (funcs[i].Cmds.Count <= 0) continue;
+                        if (funcs[i].Cmds.Last().Cmd is ECmd.LINE_PASS)
+                            funcs[i].Cmds.Last().Cmd = ECmd.LINE_END;
+                    }
                     break;
                 case (int)TFFileImport.EFileType.OBD_v7:
-                    if (!TFFileImport.ODBPP.Decode(fileName, ref TFFileImport.Feature)) return;
+                    if (!TFFileImport.ODBPP.Decode(fileName, ref funcs)) return;
                     break;
                 case (int)TFFileImport.EFileType.DXF:
-                    if (!TFFileImport.DXF.Decode(fileName, ref TFFileImport.Feature)) return;
+                    if (!TFFileImport.DXF.Decode(fileName, ref funcs)) return;
                     break;
                 case (int)TFFileImport.EFileType.Excel_New:
-                    if (!TFFileImport.Excel.Decode(fileName, ref TFFileImport.Feature)) return;
+                    if (!TFFileImport.Excel.Decode(fileName, ref funcs)) return;
                     break;
             }
+
+            Functions = new BindingList<TFunction>(funcs);
 
             DialogResult = DialogResult.OK;
         }

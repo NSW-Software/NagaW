@@ -324,6 +324,7 @@
             // tscbx
             // 
             this.tscbx.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.tscbx.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.tscbx.Name = "tscbx";
             this.tscbx.Size = new System.Drawing.Size(150, 31);
             // 

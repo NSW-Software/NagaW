@@ -32,6 +32,7 @@
             this.btnImport = new System.Windows.Forms.Button();
             this.lbxApertureList = new System.Windows.Forms.ListBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btnApDel = new System.Windows.Forms.Button();
             this.btnApDn = new System.Windows.Forms.Button();
             this.btnApUp = new System.Windows.Forms.Button();
             this.btnLoad = new System.Windows.Forms.Button();
@@ -46,13 +47,12 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnArc = new System.Windows.Forms.Button();
             this.btnLine = new System.Windows.Forms.Button();
-            this.cbxSelect = new System.Windows.Forms.ComboBox();
             this.btnNone = new System.Windows.Forms.Button();
             this.btnDot = new System.Windows.Forms.Button();
             this.btnOriginXY = new System.Windows.Forms.Button();
             this.btnRef1 = new System.Windows.Forms.Button();
-            this.btnRef2 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnFtDel = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.cbxOptimizeAll = new System.Windows.Forms.CheckBox();
             this.btnOptimize = new System.Windows.Forms.Button();
@@ -62,6 +62,8 @@
             this.tsbtnZoomFit = new System.Windows.Forms.ToolStripButton();
             this.tsbtnZoomIn = new System.Windows.Forms.ToolStripButton();
             this.tslblZoom = new System.Windows.Forms.ToolStripLabel();
+            this.tsbtnMirrorY = new System.Windows.Forms.ToolStripButton();
+            this.tsbtnMirrorX = new System.Windows.Forms.ToolStripButton();
             this.pnlPicture = new System.Windows.Forms.Panel();
             this.picBxPrevImg = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -90,9 +92,9 @@
             // 
             this.lbxApertureList.FormattingEnabled = true;
             this.lbxApertureList.ItemHeight = 14;
-            this.lbxApertureList.Location = new System.Drawing.Point(6, 62);
+            this.lbxApertureList.Location = new System.Drawing.Point(6, 90);
             this.lbxApertureList.Name = "lbxApertureList";
-            this.lbxApertureList.Size = new System.Drawing.Size(159, 508);
+            this.lbxApertureList.Size = new System.Drawing.Size(159, 466);
             this.lbxApertureList.TabIndex = 3;
             this.lbxApertureList.Click += new System.EventHandler(this.lbxApertureList_Click);
             this.lbxApertureList.SelectedIndexChanged += new System.EventHandler(this.lbxApertureList_SelectedIndexChanged);
@@ -100,6 +102,7 @@
             // groupBox3
             // 
             this.groupBox3.AutoSize = true;
+            this.groupBox3.Controls.Add(this.btnApDel);
             this.groupBox3.Controls.Add(this.btnApDn);
             this.groupBox3.Controls.Add(this.lbxApertureList);
             this.groupBox3.Controls.Add(this.btnApUp);
@@ -110,6 +113,16 @@
             this.groupBox3.TabIndex = 14;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Aperture List";
+            // 
+            // btnApDel
+            // 
+            this.btnApDel.Location = new System.Drawing.Point(9, 54);
+            this.btnApDel.Name = "btnApDel";
+            this.btnApDel.Size = new System.Drawing.Size(75, 23);
+            this.btnApDel.TabIndex = 22;
+            this.btnApDel.Text = "Delete";
+            this.btnApDel.UseVisualStyleBackColor = true;
+            this.btnApDel.Click += new System.EventHandler(this.btnApDel_Click);
             // 
             // btnApDn
             // 
@@ -187,9 +200,9 @@
             this.lbxFeaturesList.ItemHeight = 14;
             this.lbxFeaturesList.Location = new System.Drawing.Point(6, 134);
             this.lbxFeaturesList.Name = "lbxFeaturesList";
-            this.lbxFeaturesList.Size = new System.Drawing.Size(214, 382);
+            this.lbxFeaturesList.Size = new System.Drawing.Size(228, 424);
             this.lbxFeaturesList.TabIndex = 4;
-            this.lbxFeaturesList.Click += new System.EventHandler(this.lblFeatures_Click);
+            this.lbxFeaturesList.Click += new System.EventHandler(this.lbxFeaturesList_Click);
             this.lbxFeaturesList.SelectedIndexChanged += new System.EventHandler(this.lbxFeaturesList_SelectedIndexChanged);
             // 
             // rtbFeatureDetail
@@ -203,7 +216,7 @@
             // 
             // btnFtUp
             // 
-            this.btnFtUp.Location = new System.Drawing.Point(64, 105);
+            this.btnFtUp.Location = new System.Drawing.Point(6, 105);
             this.btnFtUp.Name = "btnFtUp";
             this.btnFtUp.Size = new System.Drawing.Size(75, 23);
             this.btnFtUp.TabIndex = 22;
@@ -213,7 +226,7 @@
             // 
             // btnFtDn
             // 
-            this.btnFtDn.Location = new System.Drawing.Point(145, 105);
+            this.btnFtDn.Location = new System.Drawing.Point(87, 105);
             this.btnFtDn.Name = "btnFtDn";
             this.btnFtDn.Size = new System.Drawing.Size(75, 23);
             this.btnFtDn.TabIndex = 23;
@@ -226,22 +239,20 @@
             this.groupBox1.AutoSize = true;
             this.groupBox1.Controls.Add(this.btnArc);
             this.groupBox1.Controls.Add(this.btnLine);
-            this.groupBox1.Controls.Add(this.cbxSelect);
             this.groupBox1.Controls.Add(this.btnNone);
             this.groupBox1.Controls.Add(this.btnDot);
             this.groupBox1.Controls.Add(this.btnOriginXY);
             this.groupBox1.Controls.Add(this.btnRef1);
-            this.groupBox1.Controls.Add(this.btnRef2);
-            this.groupBox1.Location = new System.Drawing.Point(226, 105);
+            this.groupBox1.Location = new System.Drawing.Point(240, 131);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(137, 310);
+            this.groupBox1.Size = new System.Drawing.Size(123, 270);
             this.groupBox1.TabIndex = 21;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Disp Type";
             // 
             // btnArc
             // 
-            this.btnArc.Location = new System.Drawing.Point(30, 262);
+            this.btnArc.Location = new System.Drawing.Point(24, 216);
             this.btnArc.Name = "btnArc";
             this.btnArc.Size = new System.Drawing.Size(75, 23);
             this.btnArc.TabIndex = 27;
@@ -251,7 +262,7 @@
             // 
             // btnLine
             // 
-            this.btnLine.Location = new System.Drawing.Point(30, 233);
+            this.btnLine.Location = new System.Drawing.Point(24, 187);
             this.btnLine.Name = "btnLine";
             this.btnLine.Size = new System.Drawing.Size(75, 23);
             this.btnLine.TabIndex = 26;
@@ -259,17 +270,9 @@
             this.btnLine.UseVisualStyleBackColor = true;
             this.btnLine.Click += new System.EventHandler(this.btnLine_Click);
             // 
-            // cbxSelect
-            // 
-            this.cbxSelect.FormattingEnabled = true;
-            this.cbxSelect.Location = new System.Drawing.Point(30, 147);
-            this.cbxSelect.Name = "cbxSelect";
-            this.cbxSelect.Size = new System.Drawing.Size(75, 22);
-            this.cbxSelect.TabIndex = 24;
-            // 
             // btnNone
             // 
-            this.btnNone.Location = new System.Drawing.Point(30, 175);
+            this.btnNone.Location = new System.Drawing.Point(24, 129);
             this.btnNone.Name = "btnNone";
             this.btnNone.Size = new System.Drawing.Size(75, 23);
             this.btnNone.TabIndex = 23;
@@ -279,7 +282,7 @@
             // 
             // btnDot
             // 
-            this.btnDot.Location = new System.Drawing.Point(30, 204);
+            this.btnDot.Location = new System.Drawing.Point(24, 158);
             this.btnDot.Name = "btnDot";
             this.btnDot.Size = new System.Drawing.Size(75, 23);
             this.btnDot.TabIndex = 20;
@@ -289,7 +292,7 @@
             // 
             // btnOriginXY
             // 
-            this.btnOriginXY.Location = new System.Drawing.Point(30, 29);
+            this.btnOriginXY.Location = new System.Drawing.Point(24, 40);
             this.btnOriginXY.Name = "btnOriginXY";
             this.btnOriginXY.Size = new System.Drawing.Size(75, 23);
             this.btnOriginXY.TabIndex = 17;
@@ -299,27 +302,18 @@
             // 
             // btnRef1
             // 
-            this.btnRef1.Location = new System.Drawing.Point(30, 69);
+            this.btnRef1.Location = new System.Drawing.Point(24, 80);
             this.btnRef1.Name = "btnRef1";
             this.btnRef1.Size = new System.Drawing.Size(75, 23);
             this.btnRef1.TabIndex = 18;
-            this.btnRef1.Text = "Ref1";
+            this.btnRef1.Text = "Pat Align";
             this.btnRef1.UseVisualStyleBackColor = true;
             this.btnRef1.Click += new System.EventHandler(this.btnRef1_Click);
-            // 
-            // btnRef2
-            // 
-            this.btnRef2.Location = new System.Drawing.Point(30, 98);
-            this.btnRef2.Name = "btnRef2";
-            this.btnRef2.Size = new System.Drawing.Size(75, 23);
-            this.btnRef2.TabIndex = 19;
-            this.btnRef2.Text = "Ref2";
-            this.btnRef2.UseVisualStyleBackColor = true;
-            this.btnRef2.Click += new System.EventHandler(this.btnRef2_Click);
             // 
             // groupBox2
             // 
             this.groupBox2.AutoSize = true;
+            this.groupBox2.Controls.Add(this.btnFtDel);
             this.groupBox2.Controls.Add(this.groupBox4);
             this.groupBox2.Controls.Add(this.groupBox1);
             this.groupBox2.Controls.Add(this.btnFtDn);
@@ -334,13 +328,23 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Feature List";
             // 
+            // btnFtDel
+            // 
+            this.btnFtDel.Location = new System.Drawing.Point(168, 105);
+            this.btnFtDel.Name = "btnFtDel";
+            this.btnFtDel.Size = new System.Drawing.Size(75, 23);
+            this.btnFtDel.TabIndex = 25;
+            this.btnFtDel.Text = "Delete";
+            this.btnFtDel.UseVisualStyleBackColor = true;
+            this.btnFtDel.Click += new System.EventHandler(this.btnFtDel_Click);
+            // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.cbxOptimizeAll);
             this.groupBox4.Controls.Add(this.btnOptimize);
-            this.groupBox4.Location = new System.Drawing.Point(226, 421);
+            this.groupBox4.Location = new System.Drawing.Point(240, 407);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(137, 149);
+            this.groupBox4.Size = new System.Drawing.Size(123, 149);
             this.groupBox4.TabIndex = 24;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Tools";
@@ -348,7 +352,7 @@
             // cbxOptimizeAll
             // 
             this.cbxOptimizeAll.AutoSize = true;
-            this.cbxOptimizeAll.Location = new System.Drawing.Point(6, 74);
+            this.cbxOptimizeAll.Location = new System.Drawing.Point(0, 89);
             this.cbxOptimizeAll.Name = "cbxOptimizeAll";
             this.cbxOptimizeAll.Size = new System.Drawing.Size(126, 18);
             this.cbxOptimizeAll.TabIndex = 27;
@@ -358,7 +362,7 @@
             // 
             // btnOptimize
             // 
-            this.btnOptimize.Location = new System.Drawing.Point(30, 35);
+            this.btnOptimize.Location = new System.Drawing.Point(24, 46);
             this.btnOptimize.Name = "btnOptimize";
             this.btnOptimize.Size = new System.Drawing.Size(75, 23);
             this.btnOptimize.TabIndex = 26;
@@ -373,7 +377,7 @@
             this.panel1.Controls.Add(this.groupBox2);
             this.panel1.Controls.Add(this.groupBox3);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(5, 59);
+            this.panel1.Location = new System.Drawing.Point(5, 53);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1342, 570);
             this.panel1.TabIndex = 20;
@@ -386,7 +390,9 @@
             this.tsbtnZoomOut,
             this.tsbtnZoomFit,
             this.tsbtnZoomIn,
-            this.tslblZoom});
+            this.tslblZoom,
+            this.tsbtnMirrorY,
+            this.tsbtnMirrorX});
             this.toolStrip1.Location = new System.Drawing.Point(540, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(802, 25);
@@ -434,6 +440,29 @@
             this.tslblZoom.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.tslblZoom.Click += new System.EventHandler(this.tslblZoom_Click);
             // 
+            // tsbtnMirrorY
+            // 
+            this.tsbtnMirrorY.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.tsbtnMirrorY.CheckOnClick = true;
+            this.tsbtnMirrorY.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsbtnMirrorY.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbtnMirrorY.Name = "tsbtnMirrorY";
+            this.tsbtnMirrorY.Size = new System.Drawing.Size(54, 22);
+            this.tsbtnMirrorY.Text = "Mirror Y";
+            this.tsbtnMirrorY.Click += new System.EventHandler(this.tsbtnMirrorY_Click);
+            // 
+            // tsbtnMirrorX
+            // 
+            this.tsbtnMirrorX.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.tsbtnMirrorX.CheckOnClick = true;
+            this.tsbtnMirrorX.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsbtnMirrorX.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnMirrorX.Image")));
+            this.tsbtnMirrorX.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbtnMirrorX.Name = "tsbtnMirrorX";
+            this.tsbtnMirrorX.Size = new System.Drawing.Size(54, 22);
+            this.tsbtnMirrorX.Text = "Mirror X";
+            this.tsbtnMirrorX.Click += new System.EventHandler(this.tsbtnMirrorX_Click);
+            // 
             // pnlPicture
             // 
             this.pnlPicture.AutoScroll = true;
@@ -463,7 +492,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(5, 5);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1342, 54);
+            this.panel2.Size = new System.Drawing.Size(1342, 48);
             this.panel2.TabIndex = 21;
             // 
             // frmFileImport
@@ -515,12 +544,10 @@
         private System.Windows.Forms.Button btnFtUp;
         private System.Windows.Forms.Button btnFtDn;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.ComboBox cbxSelect;
         private System.Windows.Forms.Button btnNone;
         private System.Windows.Forms.Button btnDot;
         private System.Windows.Forms.Button btnOriginXY;
         private System.Windows.Forms.Button btnRef1;
-        private System.Windows.Forms.Button btnRef2;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btnLine;
         private System.Windows.Forms.GroupBox groupBox4;
@@ -536,6 +563,10 @@
         private System.Windows.Forms.ToolStripLabel tslblZoom;
         private System.Windows.Forms.PictureBox picBxPrevImg;
         private System.Windows.Forms.Panel pnlPicture;
+        private System.Windows.Forms.Button btnApDel;
+        private System.Windows.Forms.Button btnFtDel;
+        private System.Windows.Forms.ToolStripButton tsbtnMirrorY;
+        private System.Windows.Forms.ToolStripButton tsbtnMirrorX;
     }
 }
 
