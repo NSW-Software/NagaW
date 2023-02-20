@@ -144,6 +144,11 @@ namespace NagaW
                     Para[3] = new DPara($"{index} Serpentine", cmd.Para[3], 0, 1, EUnit.NONE, 0, new string[] { "No", "Yes" });
                     break;
 
+                case ECmd.PATTERN_SETUP:
+                    Para[0] = new DPara($"{index} X Adjust %", cmd.Para[0], 0, 100, EUnit.PERCENTAGE, 0);
+                    Para[1] = new DPara($"{index} Y Adjust %", cmd.Para[1], 0, 100, EUnit.PERCENTAGE, 0);
+                    break;
+
                 case ECmd.CLUSTER_GAP_SETUP:
                     Para[0] = new DPara($"{index} Cluster Gap", cmd.Para[0], minDist, maxDist, EUnit.MILLIMETER);
                     break;
@@ -154,6 +159,7 @@ namespace NagaW
                 case ECmd.HEIGHT_SETUP:
                     Para[0] = new DPara($"{index} SettleTime", cmd.Para[0], 0, 2000, EUnit.MILLISECOND, 0);
                     Para[1] = new DPara($"{index} Range ULimit", cmd.Para[1], 0, 5, EUnit.MILLIMETER);
+                    Para[2] = new DPara($"{index} Meas Mode", cmd.Para[2], 0, 1, EUnit.NONE, 0, Enum.GetNames(typeof(EHeightMeasMode)));
                     break;
                 case ECmd.NEEDLE_VAC_CLEAN:
                 case ECmd.NEEDLE_FLUSH:

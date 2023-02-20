@@ -642,10 +642,13 @@ namespace NagaW
         DYNAMIC_JET_DOT = 260,          //  FRX         FRY                                                         Disp?
         DYNAMIC_JET_DOT_SW,             //  FRX         FRY                                                         Disp?       JetDir 
 
+        PATTERN_SETUP = 279,
         PATTERN_SPIRAL = 280,
         PATTERN_RECT_SPIRAL,
         PATTERN_RECT_FILL,
         PATTERN_STAR,
+        PATTERN_CROSS,
+        PATTERN_MULTIDOT = 286,
 
         PAT_ALIGN_UNIT = 504,           //  FRX         FRY         FRZ         FRX2        FRY2        FRZ2         MinScore    MaxXYOffset MaxAngle    OptionBits
         PAT_ALIGN_CLUSTER = 505,        //  FRX         FRY         FRZ         FRX2        FRY2        FRZ2         MinScore    MaxXYOffset MaxAngle    OptionBits
@@ -736,7 +739,7 @@ namespace NagaW
                     case ECmd.LINE_SETUP: Info = $"LStartDelay:{Para[0]} LSpeed:{Para[1]} LEndDelay:{Para[2]} Wait:{Para[3]} TailLength:{Para[4]}"; break;
                     case ECmd.CUT_TAIL_SETUP: Info = $"Type:{(ECutTailType)(int)Para[0]} Length:{Para[1]} Height:{Para[2]} Speed{Para[3]}"; break;
                     case ECmd.DYNAMIC_JET_SETUP: Info = $"{(Para[0] is 0 ? "" : "Pre; ")}{(Para[2] is 0 ? "" : "Post; ")}Dist:{Para[1]}"; break;
-
+                    case ECmd.PATTERN_SETUP: Info = $"X %:{Para[0]} Y %:{Para[1]}"; break;
 
                     case ECmd.DOT:
                     case ECmd.LINE_START:
@@ -749,6 +752,8 @@ namespace NagaW
                     case ECmd.DYNAMIC_JET_DOT:
                     case ECmd.DYNAMIC_JET_DOT_SW: Info = $"{(Para[6] is 0 ? "*" : "")} " + new PointD(Para[0], Para[1]).ToStringForDisplay() + " " + Enum.GetNames(typeof(EDynamicJetDir))[(int)Para[7]]; break;
 
+                    case ECmd.PATTERN_MULTIDOT:
+                    case ECmd.PATTERN_CROSS:
                     case ECmd.PATTERN_STAR:
                     case ECmd.PATTERN_SPIRAL:
                     case ECmd.PATTERN_RECT_FILL:
@@ -945,6 +950,9 @@ namespace NagaW
             double lineRelGap = 0, lineRelGapLength = 0;
             double clusterGap = 0;
 
+            //pattern disp param
+            double patDispXPercent = 1; double patDispYPercent = 1;
+
             TEZMCAux.TOutput trigCam = gantryIdx == 0 ? GMotDef.Out4 : GMotDef.Out9;
 
             TEZMCAux.TOutput trig = null;
@@ -1096,9 +1104,12 @@ namespace NagaW
 
                 PointI[] ij = new PointI[] { clusterCR, unitCR };
                 PointD ptFuncRel = Translate(new PointD(cmd.Para[0], cmd.Para[1]) + instBoard.CurrentMLayout.Unit.RelPos(unitCR), instBoard.LayerData[layoutNo].GetUnitAlign(ij));
+                PointD newRelUnit = Translate(new PointD(cmd.Para[0], cmd.Para[1]), instBoard.LayerData[layoutNo].GetUnitAlign(ij)) + instBoard.CurrentMLayout.Unit.RelPos(unitCR);
+                //var temp = instBoard.CurrentMLayout.Unit.RelPos(unitCR);
+                //var temp1 = boardOrigin + relCluster + temp + Translate(new PointD(cmd.Para[0], cmd.Para[1]), instBoard.LayerData[layoutNo].GetUnitAlign(ij));
                 lastFuncRelPos = ptFuncRel;
 
-                PointD ptAbs = boardOrigin + relCluster + ptFuncRel;
+                PointD ptAbs = boardOrigin + relCluster + newRelUnit;
                 if (runMode > ERunMode.Camera) { ptAbs = ptAbs + GSetupPara.Calibration.NeedleXYOffset[gantry.Index]; }
                 lastAbsPos.X = ptAbs.X;
                 lastAbsPos.Y = ptAbs.Y;
@@ -1441,6 +1452,14 @@ namespace NagaW
                             break;
                         }
                     #endregion
+                    case ECmd.PATTERN_SETUP:
+                        #region
+                        {
+                            patDispXPercent = cmd.Para[0] / 100;
+                            patDispYPercent = cmd.Para[1] / 100;
+                            break;
+                        }
+                    #endregion
 
                     case ECmd.DOT:
                         #region
@@ -1640,35 +1659,35 @@ namespace NagaW
 
                             if (runMode == ERunMode.Normal)
                             {
-                                //var isDisp = cmd.Para[6] is 0;
-                                var stopDisp = PrevTCmd().Para[6] is 0 && cmd.Para[6] is 1;
+                                var isDisp = cmd.Para[6] is 0;
+                                //var stopDisp = PrevTCmd().Para[6] is 0 && cmd.Para[6] is 1;
 
                                 switch (dispCtrl.PumpType)
                                 {
                                     case EPumpType.VERMES_3280:
                                         {
-                                            if (stopDisp) cmdBuffer += $"MOVE_OP({trig.OutputNo}, 0) ";
+                                            if (isDisp) cmdBuffer += $"MOVE_OP({trig.OutputNo}, 1) ";
                                             break;
                                         }
                                     case EPumpType.SP:
                                         {
-                                            if (stopDisp) cmdBuffer += TFPump.SP.EndDispCmd(spParam[gantry.Index], fpressIO, ppressIO, vacIO);
+                                            if (isDisp) cmdBuffer += TFPump.SP.StartDispCmd(spParam[gantry.Index], fpressIO, ppressIO, vacIO);
                                             break;
                                         }
                                     case EPumpType.SPLite:
                                     case EPumpType.TP:
                                         {
-                                            if (stopDisp) cmdBuffer += TFPump.TP.EndDispCmd(spParam[gantry.Index], fpressIO, ppressIO, vacIO);
+                                            if (isDisp) cmdBuffer += TFPump.TP.StartDispCmd(spParam[gantry.Index], fpressIO, ppressIO, vacIO);
                                             break;
                                         }
                                     case EPumpType.HM:
                                         {
-                                            if (stopDisp) cmdBuffer += TFPump.HM.PurgeStopCmd(gantry.Index, hmParam[gantry.Index], fpressIO, vacIO);
+                                            if (isDisp) cmdBuffer += TFPump.HM.PurgeStartCmd(gantry.Index, hmParam[gantry.Index], fpressIO, vacIO);
                                             break;
                                         }
                                     case EPumpType.PNEUMATIC_JET:
                                         {
-                                            if (stopDisp) cmdBuffer += TFPump.PnuematicJet.EndDispCmd(pneumaticJet_Params[gantryIdx], fpressIO, ppressIO);
+                                            if (isDisp) cmdBuffer += TFPump.PnuematicJet.StartDispCmd(pneumaticJet_Params[gantryIdx], fpressIO, ppressIO);
                                             break;
                                         }
                                 }
@@ -2074,8 +2093,8 @@ namespace NagaW
 
                             void endDisp()
                             {
-                                var stopDisp = PrevTCmd().Para[6] is 0;
-                                if (!stopDisp) return;
+                                //var stopDisp = PrevTCmd().Para[6] is 0;
+                                //if (!stopDisp) return;
 
                                 switch (dispCtrl.PumpType)
                                 {
@@ -2438,15 +2457,18 @@ namespace NagaW
                     case ECmd.PATTERN_RECT_SPIRAL:
                         #region
                         {
+                            bufferModeTrackUnit = true;
                             TFunction f = new TFunction();
 
-                            var startpt = new PointD(cmd.Para[0], cmd.Para[1]);
-                            var endpt1 = new PointD(cmd.Para[2], cmd.Para[3]);
-                            var endpt2 = new PointD(cmd.Para[4], cmd.Para[5]);
+                            //var startpt = new PointD(cmd.Para[0], cmd.Para[1]);
+                            //var endpt1 = new PointD(cmd.Para[2], cmd.Para[3]);
+                            //var endpt2 = new PointD(cmd.Para[4], cmd.Para[5]);
 
-                            int interval = (int)cmd.Para[6]; double curvature = cmd.Para[7]; bool spiralout = (int)cmd.Para[8] is 0;
-
-                            var pts = PatternDisp.SquareSpiral(startpt, endpt1, endpt2, interval, curvature, spiralout);
+                            //int interval = (int)cmd.Para[6]; double curvature = cmd.Para[7]; bool spiralout = (int)cmd.Para[8] is 0;
+                            var tempcmd = new TCmd(cmd);
+                            PatternDisp.PatternResize(patDispXPercent, patDispYPercent, ref tempcmd);
+                            var pts = PatternDisp.SquareSpiral(tempcmd);
+                            //var pts = PatternDisp.SquareSpiral(startpt, endpt1, endpt2, interval, curvature, spiralout);
                             var lastNo = pts.Count - 1;
 
                             for (int i = 0; i < pts.Count; i++)
@@ -2540,6 +2562,12 @@ namespace NagaW
                                 }
                             }
 
+                            while (gantry.Axis[0].Busy)
+                            {
+                                //RefreshMap();
+                                Thread.Sleep(1);
+                            }
+                            cmdBuffer = sBase;
                             if (lineEDelay > 0) cmdBuffer += $"MOVE_DELAY({lineEDelay}) ";
                             if (runMode == ERunMode.Normal) endDisp(); 
                             void endDisp()
@@ -2602,7 +2630,10 @@ namespace NagaW
                     case ECmd.PATTERN_RECT_FILL:
                         #region
                         {
-                            var pts = PatternDisp.SquareFilling(cmd);
+                            bufferModeTrackUnit = true;
+                            var tempcmd = new TCmd(cmd);
+                            PatternDisp.PatternResize(patDispXPercent, patDispYPercent, ref tempcmd);
+                            var pts = PatternDisp.SquareFilling(tempcmd);
                             var lastNo = pts.Count - 1;
 
                             for (int i = 0; i < pts.Count; i++)
@@ -2696,6 +2727,12 @@ namespace NagaW
                                 }
                             }
 
+                            while (gantry.Axis[0].Busy)
+                            {
+                                //RefreshMap();
+                                Thread.Sleep(1);
+                            }
+                            cmdBuffer = sBase;
                             if (lineEDelay > 0) cmdBuffer += $"MOVE_DELAY({lineEDelay}) ";
                             if (runMode == ERunMode.Normal) endDisp();
                             void endDisp()
@@ -2758,12 +2795,16 @@ namespace NagaW
                     case ECmd.PATTERN_SPIRAL:
                         #region
                         {
-                            var centrePt = new PointD(cmd.Para[0], cmd.Para[1]);
-                            var endPt = new PointD(cmd.Para[2], cmd.Para[3]);
+                            bufferModeTrackUnit = true;
+                            var tempcmd = new TCmd(cmd);
+                            PatternDisp.PatternResize(patDispXPercent, patDispYPercent, ref tempcmd);
 
-                            int interval = (int)cmd.Para[6];
-                            double intervalResolutionPerc = cmd.Para[7] / 100;
-                            bool spiralout = cmd.Para[8] is 0;
+                            var centrePt = new PointD(tempcmd.Para[0], tempcmd.Para[1]);
+                            var endPt = new PointD(tempcmd.Para[2], tempcmd.Para[3]);
+
+                            int interval = (int)tempcmd.Para[6];
+                            double intervalResolutionPerc = tempcmd.Para[7] / 100;
+                            bool spiralout = tempcmd.Para[8] is 0;
                             //int endSpeedChange = (int)cmd.Para[7];
                             //bool counterCW = cmd.Para[8] > 0;
 
@@ -2857,6 +2898,12 @@ namespace NagaW
                                 }
                             }
 
+                            while (gantry.Axis[0].Busy)
+                            {
+                                //RefreshMap();
+                                Thread.Sleep(1);
+                            }
+                            cmdBuffer = sBase;
                             if (lineEDelay > 0) cmdBuffer += $"MOVE_DELAY({lineEDelay}) ";
                             if (runMode == ERunMode.Normal) endDisp();
                             void endDisp()
@@ -2916,12 +2963,18 @@ namespace NagaW
                             break;
                         }
                     #endregion
+                    case ECmd.PATTERN_CROSS:
                     case ECmd.PATTERN_STAR:
                         #region
                         {
+                            bufferModeTrackUnit = true;
                             PointI[] ij = new PointI[2] { clusterCR, unitCR };
 
-                            var pts = PatternDisp.Star(cmd);
+                            bool contDisp = cmd.Para[8] is 0;
+
+                            var tempcmd = new TCmd(cmd);
+                            PatternDisp.PatternResize(patDispXPercent, patDispYPercent, ref tempcmd);
+                            var pts = PatternDisp.Star(tempcmd, cmd.Cmd is ECmd.PATTERN_CROSS ? true : false);
 
                             for (int i = 0; i < pts.Count; i++)
                             {
@@ -2963,7 +3016,7 @@ namespace NagaW
                                             startDisp();
                                         }
 
-                                        if (lineSDelay > 0) cmdBuffer += $"MOVE_DELAY({lineSDelay}) ";
+                                        //if (lineSDelay > 0) cmdBuffer += $"MOVE_DELAY({lineSDelay}) ";
 
                                         TEZMCAux.DirectCommand(cmdBuffer);
                                         #endregion
@@ -2974,6 +3027,9 @@ namespace NagaW
                                         PointD relPos = (ptNew - lastFuncRelPos);
                                         lastFuncRelPos = ptNew;
 
+                                        cmdBuffer = sBase;
+                                        cmdBuffer += $"FORCE_SPEED={lineSpeed} ";
+
                                         if (runMode > ERunMode.Camera)
                                         {
                                             if (i % 2 != 0)
@@ -2982,19 +3038,22 @@ namespace NagaW
                                                 //cmdBuffer += $"FORCE_SPEED={dnSpeed} ";
                                                 //cmdBuffer += $"MOVESP(0,0,-{dispGap:f6}) ";
                                                 if (runMode == ERunMode.Normal) startDisp();
+                                                if (lineSDelay > 0) cmdBuffer += $"MOVE_DELAY({lineSDelay}) ";
                                                 //TEZMCAux.DirectCommand(cmdBuffer);
                                             }
                                             else
                                             {
                                                 //cmdBuffer = sBase;
-                                                if (runMode == ERunMode.Normal) endDisp();
+                                                if (lineEDelay > 0) cmdBuffer += $"MOVE_DELAY({lineEDelay}) ";
+                                                if (!contDisp)
+                                                {
+                                                    if (runMode == ERunMode.Normal) endDisp();
+                                                }
                                                 //cmdBuffer += $"FORCE_SPEED={retSpeed} ";
                                                 //cmdBuffer += $"MOVESP(0,0,{retDist:f6}) ";
                                                 //TEZMCAux.DirectCommand(cmdBuffer);
                                             }
                                         }
-                                        cmdBuffer = sBase;
-                                        cmdBuffer += $"FORCE_SPEED={lineSpeed} ";
                                         cmdBuffer += $"MOVESP({relPos.X:f6},{relPos.Y:f6},0) ";
                                         //cmdBuffer += $"MOVECIRCSP({relPos.X:f6},{relPos.Y:f6},{relCentre.X:f6},{relCentre.Y:f6},1) ";
 
@@ -3004,6 +3063,12 @@ namespace NagaW
                             }
 
                             #region End
+                            while (gantry.Axis[0].Busy)
+                            {
+                                //RefreshMap();
+                                Thread.Sleep(1);
+                            }
+                            cmdBuffer = sBase;
                             if (lineEDelay > 0) cmdBuffer += $"MOVE_DELAY({lineEDelay}) ";
                             if (runMode == ERunMode.Normal) endDisp();
 
@@ -3098,6 +3163,100 @@ namespace NagaW
                             break;
                         }
                     #endregion
+                    case ECmd.PATTERN_MULTIDOT:
+                        #region
+                        {
+                            PointI[] ij = new PointI[2] { clusterCR, unitCR };
+
+                            var column = (int)cmd.Para[6];
+                            var row = (int)cmd.Para[7];
+                            var runPath = (ERunPath)cmd.Para[8];
+
+                            var tempcmd = new TCmd(cmd);
+                            PatternDisp.PatternResize(patDispXPercent, patDispYPercent, ref tempcmd);
+                            var pitchCol = new PointD(tempcmd.Para[2] - tempcmd.Para[0], tempcmd.Para[3] - tempcmd.Para[1]) / column;
+                            var pitchRow = new PointD(tempcmd.Para[4] - tempcmd.Para[0], tempcmd.Para[5] - tempcmd.Para[1]) / row;
+                            var pts = PatternDisp.MultiDot(new PointI(column, row), pitchCol, pitchRow, runPath);
+
+                            for (int i = 0; i < pts.Count; i++)
+                            {
+                                TCmd temp = new TCmd(ECmd.DOT);
+                                temp.Para[0] = pts[0].X;
+                                temp.Para[1] = pts[0].Y;
+                                if (!MoveToStartGap2(temp)) return false;
+
+                                cmdBuffer = sBase;
+                                cmdBuffer += $"FORCE_SPEED ={dnSpeed} ";
+                                if (runMode > ERunMode.Camera)
+                                {
+                                    cmdBuffer += $"MOVEABSSP({lastAbsPos.X:f6},{lastAbsPos.Y:f6},{productZRun + dispGap:f6}) ";
+                                }
+
+                                if (dnWait > 0) cmdBuffer += $"MOVE_DELAY({dnWait}) ";
+
+                                if (runMode == ERunMode.Normal)
+                                {
+                                    var isDisp = cmd.Para[6] is 0;
+                                    switch (dispCtrl.PumpType)
+                                    {
+                                        case EPumpType.VERMES_3280:
+                                            {
+                                                if (isDisp) cmdBuffer += $"MOVE_OP({trig.OutputNo}, 1) ";
+                                                cmdBuffer += $"MOVE_DELAY({dotTime}) ";
+                                                if (isDisp) cmdBuffer += $"MOVE_OP({trig.OutputNo}, 0) ";
+                                                break;
+                                            }
+                                        case EPumpType.SP:
+                                            {
+                                                spParam[gantry.Index].DispTime.Value = (int)dotTime;
+                                                if (isDisp) cmdBuffer += TFPump.SP.ShotCmd(spParam[gantry.Index], fpressIO, ppressIO, vacIO);
+                                                break;
+                                            }
+                                        case EPumpType.SPLite:
+                                        case EPumpType.TP:
+                                            {
+                                                spParam[gantry.Index].DispTime.Value = (int)dotTime;
+                                                if (isDisp) cmdBuffer += TFPump.TP.ShotCmd(spParam[gantry.Index], fpressIO, ppressIO, vacIO);
+                                                break;
+                                            }
+                                        case EPumpType.HM:
+                                            {
+                                                if (isDisp) cmdBuffer += TFPump.HM.ShotCmd(gantryIdx, hmParam[gantryIdx], fpressIO, vacIO);
+                                                break;
+                                            }
+                                        case EPumpType.PNEUMATIC_JET:
+                                            {
+                                                if (isDisp) cmdBuffer += TFPump.PnuematicJet.ShotCmd(pneumaticJet_Params[gantryIdx], fpressIO, ppressIO);
+                                                break;
+                                            }
+                                    }
+                                }
+
+                                if (dotWait > 0) cmdBuffer += $"MOVE_DELAY({dotWait}) ";
+
+                                if (runMode > ERunMode.Camera)
+                                {
+                                    if (retDist > 0)
+                                    {
+                                        cmdBuffer += $"FORCE_SPEED ={retSpeed} ";
+                                        cmdBuffer += $"MOVESP(0,0,{retDist:f6}) ";
+                                        cmdBuffer += $"MOVE_DELAY({retWait}) ";
+                                    }
+                                    if (upDist > 0)
+                                    {
+                                        cmdBuffer += $"FORCE_SPEED={upSpeed} ";
+                                        cmdBuffer += $"MOVESP(0,0,{upDist:f6}) ";
+                                        cmdBuffer += $"MOVE_DELAY({upWait}) ";
+                                    }
+                                }
+
+                                TEZMCAux.DirectCommand(cmdBuffer);
+                                break;
+                            }
+
+                            break;
+                        }
+                    #endregion
 
                     case ECmd.PAT_ALIGN_SETUP:
                         #region
@@ -3112,6 +3271,7 @@ namespace NagaW
                         {
                             PointI[] ij = new PointI[2] { clusterCR, unitCR };
 
+                            PointD unitRel = GRecipes.MultiLayout[gantry.Index][layoutNo].Unit.RelPos(unitCR);
                             PointD localUnitRel = Translate(relUnit, instBoard.LayerData[layoutNo].GetUnitAlign(ij));
                             PointD unitOrigin = boardOrigin + relCluster + localUnitRel;
                             TAlignData alignData = new TAlignData();
@@ -3141,8 +3301,12 @@ namespace NagaW
                                     }
                             }
 
-                            instBoard.LayerData[layoutNo].SetUnitAlign(ij, alignData);
-                            instBoard.MAP.SetState(ij[0], ij[1], state);
+                            //instBoard.LayerData[layoutNo].SetUnitAlign(ij, alignData);
+                            //instBoard.MAP.SetState(ij[0], ij[1], state);
+
+
+                            instBoard.LayerData[layoutNo].SetUnitAlign(new PointI[] { clusterCR, unitCR }, alignData);
+                            instBoard.MAP.SetState(clusterCR, unitCR, state);
                             break;
                         }
                     #endregion
@@ -3912,7 +4076,8 @@ namespace NagaW
 
                             alignData = new TAlignData();
                             var cmd2 = new TCmd(cmd);
-                            cmd2.Para[9] = 0;
+                            cmd2.ID = cmd.ID;
+                            //cmd2.Para[9] = 0;
 
                             switch (PatAlignExecute(gantry, originAbs, cmd2, ref alignData, settleTime))
                             {
@@ -4508,11 +4673,8 @@ namespace NagaW
                     //gantry.MoveOpZAbs(GSystemCfg.Camera.Cameras[gantry.Index].DefaultFocusZ + cmd.Para[5]);
                     gantryGroup.MoveOpZAbs(GRecipes.Board[gantry.Index].StartPos.Z);
                     gantryGroup.MoveOpXYAbs(ptNew2.ToArray);
-                    Thread.Sleep(GProcessPara.Vision.SettleTime.Value);
+                    Thread.Sleep(settleTime);
 
-                    //TFCameras.Camera[gantryGroup.Index].Snap();
-                    //img = TFCameras.Camera[gantryGroup.Index].emgucvImage.Clone();
-                    //TFCameras.Camera[gantryGroup.Index].Live();
                     TFCamera1.Cameras[gantryGroup.Index].Snap();
                     img = TFCamera1.Cameras[gantryGroup.Index].emgucvImage.Clone();
                     TFCamera1.Cameras[gantryGroup.Index].Live();
@@ -4531,6 +4693,7 @@ namespace NagaW
 
                     var secpointIdx = cmd.Para[9] is 10 ? 0 : 1;
                     if (!TFVision.PatMatch(img, GRecipes.PatRecog[gantryGroup.Index][id].RegImage[secpointIdx], GRecipes.PatRecog[gantryGroup.Index][id].ImgThld[secpointIdx], new Rectangle[] { GRecipes.PatRecog[gantryGroup.Index][id].SearchRect[secpointIdx], GRecipes.PatRecog[gantryGroup.Index][id].PatRect[secpointIdx] }, ref pLoc, ref pLOfst, ref score)) return EAction.Fail;
+                   // if (!TFVision.PatMatch(img, GRecipes.PatRecog[gantryGroup.Index][id].RegImage[0], GRecipes.PatRecog[gantryGroup.Index][id].ImgThld[0], new Rectangle[] { GRecipes.PatRecog[gantryGroup.Index][id].SearchRect[0], GRecipes.PatRecog[gantryGroup.Index][id].PatRect[0] }, ref pLoc, ref pLOfst, ref score)) return EAction.Fail;
 
                     //TFCameras.Camera[gantryIdx].Live();
                     TFCamera1.Cameras[gantryIdx].Live();
@@ -4711,8 +4874,8 @@ namespace NagaW
             PointD ptRotate = new PointD(ptOri);
             //ptRotate.X = alignData.Datum.X + (ptRotate.X - alignData.Datum.X) * Math.Cos(angle) - (ptRotate.Y - alignData.Datum.Y) * Math.Sin(angle);
             //ptRotate.Y = alignData.Datum.Y + (ptRotate.X - alignData.Datum.X) * Math.Sin(angle) + (ptRotate.Y - alignData.Datum.Y) * Math.Cos(angle);
-            ptRotate.X = alignData.Datum.X + (ptOri.X - alignData.Datum.X) * Math.Cos(angle) - (ptOri.Y - alignData.Datum.Y) * Math.Sin(angle);
-            ptRotate.Y = alignData.Datum.Y + (ptOri.X - alignData.Datum.X) * Math.Sin(angle) + (ptOri.Y - alignData.Datum.Y) * Math.Cos(angle);
+            ptRotate.X = alignData.Datum.X + ((ptOri.X - alignData.Datum.X) * Math.Cos(angle)) - ((ptOri.Y - alignData.Datum.Y) * Math.Sin(angle));
+            ptRotate.Y = alignData.Datum.Y + ((ptOri.X - alignData.Datum.X) * Math.Sin(angle)) + ((ptOri.Y - alignData.Datum.Y) * Math.Cos(angle));
             PointD ptTranslate = new PointD(ptRotate) + alignData.Offset;
 
             return ptTranslate;
@@ -5031,7 +5194,14 @@ namespace NagaW
 
     public class PatternDisp
     {
-        private static List<PointD> MultiDot(PointI CR, PointD pitchCol, PointD pitchRow, ERunPath runPath)
+        public static void PatternResize(double xPercent, double yPercent, ref TCmd cmd)
+        {
+            cmd.Para[0] *= xPercent; cmd.Para[1] *= yPercent;
+            cmd.Para[2] *= xPercent; cmd.Para[3] *= yPercent;
+            cmd.Para[4] *= xPercent; cmd.Para[5] *= yPercent;
+        }
+
+        public static List<PointD> MultiDot(PointI CR, PointD pitchCol, PointD pitchRow, ERunPath runPath)
         {
             var dispPos = new List<PointD>();
             TLayout unitLayout = new TLayout()
@@ -5120,8 +5290,8 @@ namespace NagaW
             PointD pt2 = new PointD(tcmd.Para[2], tcmd.Para[3]);
             PointD pt3 = new PointD(tcmd.Para[4], tcmd.Para[5]);
             int interval = (int)tcmd.Para[6];
-            double lineWidth = tcmd.Para[7];
-            ERunPath runPath = (ERunPath)tcmd.Para[8];
+            //double lineWidth = tcmd.Para[7];
+            ERunPath runPath = (ERunPath)tcmd.Para[7];
 
             bool isXpath = runPath < ERunPath.Y_SPath;
 
@@ -5141,7 +5311,7 @@ namespace NagaW
             PointD endPt2 = new PointD(cmd.Para[4], cmd.Para[5]);
             int interval = (int)cmd.Para[6];
             double curvature = cmd.Para[7];
-            bool spiralout = (int)cmd.Para[8] is 1;
+            bool spiralout = (int)cmd.Para[8] is 0;
 
             return SquareSpiral(startPt, endPt1, endPt2, interval, curvature, spiralout);
         }
@@ -5232,7 +5402,7 @@ namespace NagaW
             return temp.Select(x => x.pt).ToList();
         }
 
-        public static List<PointD> Star(PointD startPt, PointD endPt1, PointD endPt2, int degree, double ratio)
+        public static List<PointD> Star(PointD startPt, PointD endPt1, PointD endPt2, int degree, double ratio, bool cross)
         {
             if (degree is 0) return new List<PointD>();
             List<PointD> dispPos = new List<PointD>();
@@ -5242,26 +5412,33 @@ namespace NagaW
 
             for (int i = 0; i < 360; i += degree)
             {
+                PointD tempRad = new PointD(0, 0);
                 var tempI = i / degree;
-                var tempRad = ratio < 1 && tempI % 2 > 0 ? new PointD(radiusX * ratio, radiusY * ratio) : new PointD(radiusX, radiusY);
+
+                if (cross)
+                    tempRad = ratio < 1 && tempI % 2 <= 0 ? new PointD(radiusX * ratio, radiusY * ratio) : new PointD(radiusX, radiusY);
+                else
+                    tempRad = ratio < 1 && tempI % 2 > 0 ? new PointD(radiusX * ratio, radiusY * ratio) : new PointD(radiusX, radiusY);
+
                 var x = centrePt.X + (tempRad.X * Math.Cos(i * Math.PI / 180));
                 var y = centrePt.Y + (tempRad.Y * Math.Sin(i * Math.PI / 180));
                 dispPos.Add(new PointD(centrePt));
                 dispPos.Add(new PointD(x, y));
             }
+            dispPos.Add(new PointD(centrePt));
 
             return dispPos;
         }
-        public static List<PointD> Star(TCmd cmd)
+        public static List<PointD> Star(TCmd cmd, bool cross = false)
         {
             PointD startPt = new PointD(cmd.Para[0], cmd.Para[1]);
             PointD endPt1 = new PointD(cmd.Para[2], cmd.Para[3]);
             PointD endPt2 = new PointD(cmd.Para[4], cmd.Para[5]);
 
-            int degree = (int)cmd.Para[6];
+            int degree = cross ? 45 : (int)cmd.Para[6];
             double ratio = cmd.Para[7] / 100;
 
-            return Star(startPt, endPt1, endPt2, degree, ratio);
+            return Star(startPt, endPt1, endPt2, degree, ratio, cross);
         }
     }
 

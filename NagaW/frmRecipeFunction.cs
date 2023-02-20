@@ -488,6 +488,7 @@ namespace NagaW
                     case ECmd.TP_SETUP:
                     case ECmd.HM_SETUP:
                     case ECmd.PNEUMATICS_JET_SETUP:
+                    case ECmd.PATTERN_SETUP:
                     //case ECmd.TEMP_SETUP:
                     //case ECmd.PRESSURE_MONITORING:
 
@@ -555,6 +556,8 @@ namespace NagaW
                             PointD bdOrigin = GRecipes.Board[gantry.Index].StartPos.GetPointD();
                             showForm(new frmRecipeHeightAlign(gantry, bdOrigin, tcmd, cmdIdx), edit); break;
                         }
+                    case ECmd.PATTERN_MULTIDOT:
+                    case ECmd.PATTERN_CROSS:
                     case ECmd.PATTERN_STAR:
                     case ECmd.PATTERN_SPIRAL:
                     case ECmd.PATTERN_RECT_FILL:

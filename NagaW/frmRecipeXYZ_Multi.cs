@@ -85,8 +85,21 @@ namespace NagaW
                     Para[5] = new DPara($"{index} Y2", tcmd.Para[5], min, max, EUnit.MILLIMETER);
 
                     Para[6] = new DPara($"{index} Interval", tcmd.Para[6], 0, 100, EUnit.COUNT, 0);
-                    Para[7] = new DPara($"{index} Line Width", tcmd.Para[7], 0, 100, EUnit.MILLIMETER);
-                    Para[8] = new DPara($"{index} Run Path", tcmd.Para[8], 0, 1, EUnit.NONE, 0, Enum.GetNames(typeof(ERunPath)));
+                    Para[7] = new DPara($"{index} Run Path", tcmd.Para[7], 0, 1, EUnit.NONE, 0, Enum.GetNames(typeof(ERunPath)));
+                    break;
+                case ECmd.PATTERN_CROSS:
+                    lblXY0.Text = "Start XY";
+                    lblXY1.Text = "End XY 1";
+                    lblXY2.Text = "End XY 2";
+                    Para[0] = new DPara($"{index} X0", tcmd.Para[0], min, max, EUnit.MILLIMETER);
+                    Para[1] = new DPara($"{index} Y0", tcmd.Para[1], min, max, EUnit.MILLIMETER);
+                    Para[2] = new DPara($"{index} X1", tcmd.Para[2], min, max, EUnit.MILLIMETER);
+                    Para[3] = new DPara($"{index} Y1", tcmd.Para[3], min, max, EUnit.MILLIMETER);
+                    Para[4] = new DPara($"{index} X2", tcmd.Para[4], min, max, EUnit.MILLIMETER);
+                    Para[5] = new DPara($"{index} Y2", tcmd.Para[5], min, max, EUnit.MILLIMETER);
+
+                    Para[7] = new DPara($"{index} Length Ratio", tcmd.Para[7], 0, 200, EUnit.PERCENTAGE, 0);
+                    Para[8] = new DPara($"{index} Cont. Disp", tcmd.Para[8], 0, 1, EUnit.NONE, 0, new string[] { "True", "False" });
                     break;
                 case ECmd.PATTERN_STAR:
                     lblXY0.Text = "Start XY";
@@ -100,8 +113,23 @@ namespace NagaW
                     Para[5] = new DPara($"{index} Y2", tcmd.Para[5], min, max, EUnit.MILLIMETER);
 
                     Para[6] = new DPara($"{index} Degree", tcmd.Para[6], 0, 360, EUnit.ANGLE, 0);
-                    Para[7] = new DPara($"{index} Length Ratio", tcmd.Para[7], 0, 100, EUnit.PERCENTAGE, 0);
-                    //Para[8] = new DPara($"{index} Run Path", tcmd.Para[8], 0, 1, EUnit.NONE, 0, Enum.GetNames(typeof(ERunPath)));
+                    Para[7] = new DPara($"{index} Length Ratio", tcmd.Para[7], 0, 200, EUnit.PERCENTAGE, 0);
+                    Para[8] = new DPara($"{index} Cont. Disp", tcmd.Para[8], 0, 1, EUnit.NONE, 0, new string[] { "True", "False" });
+                    break;
+                case ECmd.PATTERN_MULTIDOT:
+                    lblXY0.Text = "Start XY";
+                    lblXY1.Text = "End XY 1";
+                    lblXY2.Text = "End XY 2";
+                    Para[0] = new DPara($"{index} X0", tcmd.Para[0], min, max, EUnit.MILLIMETER);
+                    Para[1] = new DPara($"{index} Y0", tcmd.Para[1], min, max, EUnit.MILLIMETER);
+                    Para[2] = new DPara($"{index} X1", tcmd.Para[2], min, max, EUnit.MILLIMETER);
+                    Para[3] = new DPara($"{index} Y1", tcmd.Para[3], min, max, EUnit.MILLIMETER);
+                    Para[4] = new DPara($"{index} X2", tcmd.Para[4], min, max, EUnit.MILLIMETER);
+                    Para[5] = new DPara($"{index} Y2", tcmd.Para[5], min, max, EUnit.MILLIMETER);
+
+                    Para[6] = new DPara($"{index} Column", tcmd.Para[6], 0, 250, EUnit.NONE, 0);
+                    Para[7] = new DPara($"{index} Row", tcmd.Para[7], 0, 250, EUnit.NONE, 0);
+                    Para[8] = new DPara($"{index} Run Path", tcmd.Para[7], 0, 1, EUnit.NONE, 0, Enum.GetNames(typeof(ERunPath)));
                     break;
             }
 
@@ -147,6 +175,7 @@ namespace NagaW
                 case ECmd.PATTERN_RECT_SPIRAL: pts = PatternDisp.SquareSpiral(Tcmd); break;
                 case ECmd.PATTERN_SPIRAL: pts = PatternDisp.SpiralDisplay(Tcmd); break;
                 case ECmd.PATTERN_STAR: pts = PatternDisp.Star(Tcmd); break;
+                case ECmd.PATTERN_CROSS: pts = PatternDisp.Star(Tcmd, true); break;
             }
 
             if (pts.Count is 0) return;
