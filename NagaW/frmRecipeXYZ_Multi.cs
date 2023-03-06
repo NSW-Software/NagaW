@@ -129,7 +129,7 @@ namespace NagaW
 
                     Para[6] = new DPara($"{index} Column", tcmd.Para[6], 0, 250, EUnit.NONE, 0);
                     Para[7] = new DPara($"{index} Row", tcmd.Para[7], 0, 250, EUnit.NONE, 0);
-                    Para[8] = new DPara($"{index} Run Path", tcmd.Para[7], 0, 1, EUnit.NONE, 0, Enum.GetNames(typeof(ERunPath)));
+                    Para[8] = new DPara($"{index} Run Path", tcmd.Para[8], 0, 3, EUnit.NONE, 0, Enum.GetNames(typeof(ERunPath)));
                     break;
             }
 
@@ -176,6 +176,7 @@ namespace NagaW
                 case ECmd.PATTERN_SPIRAL: pts = PatternDisp.SpiralDisplay(Tcmd); break;
                 case ECmd.PATTERN_STAR: pts = PatternDisp.Star(Tcmd); break;
                 case ECmd.PATTERN_CROSS: pts = PatternDisp.Star(Tcmd, true); break;
+                case ECmd.PATTERN_MULTIDOT: return;
             }
 
             if (pts.Count is 0) return;
@@ -195,6 +196,12 @@ namespace NagaW
             Image img = new Bitmap((int)Math.Abs(pFs.Max(p => p.X) - pFs.Min(p => p.X)) + 2, (int)Math.Abs(pFs.Max(p => p.Y) - pFs.Min(p => p.Y)) + 2);
             Graphics g = Graphics.FromImage(img);
             g.DrawLines(new Pen(Color.Navy), pFs);
+
+            //var temp = new TCmd(Tcmd);
+            //PatternDisp.PatternShrink(1, 1, ref temp);
+            //PointF[] temp1 = new PointF[] { new PointF((float)temp.Para[4], (float)temp.Para[5]), new PointF((float)temp.Para[0], (float)temp.Para[1]), new PointF((float)temp.Para[2], (float)temp.Para[3]) };
+            //var a = temp1.Select(x => new PointF(-(float)(x.X - minX) * ratio, (float)(x.Y - minY) * ratio)).ToArray();
+            //g.DrawLines(new Pen(Color.Red), a);
 
             picBxPreviewImg.SizeMode = PictureBoxSizeMode.Zoom;
             picBxPreviewImg.Image = img;

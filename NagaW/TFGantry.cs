@@ -906,6 +906,7 @@ namespace NagaW
                             case EPumpType.HM:
                                 {
                                     var setup = new HM_Param(GRecipes.HM_Setups[gantry.Index]);
+                                    setup.DispTime.Value = dotTime;
                                     cmdBuffer += TFPump.HM.ShotCmd(gantry.Index, setup, fpressIO, vacIO);
                                     break;
                                 }
@@ -2805,7 +2806,7 @@ namespace NagaW
                     {
                         if (double.IsNaN(firsthvalue))
                         {
-                            GLog.LogProcess($"Notch alignment firstvalue: {hvalue}");
+                            GLog.LogProcess($"Notch alignment firstvalue, Height Value: {hvalue}");
 
                             firsthvalue = hvalue;
                             continue;
@@ -2821,7 +2822,7 @@ namespace NagaW
                                 RAxis.StopEmg();
                                 RAxis.SetParam(0, 30, 500, 500);
 
-                                GLog.LogProcess($"Notch > alignment successfully: {hvalue}");
+                                GLog.LogProcess($"Notch > alignment successfully, Height Value:: {hvalue}");
                                 return IsNotch = true;
                             }
 
@@ -2834,7 +2835,7 @@ namespace NagaW
 
                                 notch_edge_1 = RAxis.ActualPos;
 
-                                GLog.LogProcess($"Notch < alignment successfully: {hvalue}");
+                                GLog.LogProcess($"Notch < alignment successfully, Height Value:: {hvalue}");
                                 return IsNotch = true;
                             }
                         }
@@ -2846,7 +2847,7 @@ namespace NagaW
                     if (notch_edge_1 is 0) continue;
                 }
 
-                //GAlarm.Prompt(EAlarm.WAFER_NOTCH_ALIGNMENT_FAIL);
+                GAlarm.Prompt(EAlarm.WAFER_NOTCH_ALIGNMENT_FAIL);
                 return false;
             }
 
@@ -2954,6 +2955,7 @@ namespace NagaW
                 return false;
             }
 
+            GAlarm.Prompt(EAlarm.WAFER_NOTCH_ALIGNMENT_FAIL);
             return false;
         }
 

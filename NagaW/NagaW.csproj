@@ -78,7 +78,7 @@
     </Reference>
     <Reference Include="GemTaro, Version=4.3.5.5, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\GemTaro.dll</HintPath>
+      <HintPath>..\dll\GemTaro.dll</HintPath>
     </Reference>
     <Reference Include="MEDAQLib.NET">
       <HintPath>..\dll\MEDAQLib Release\MEDAQLib.NET.dll</HintPath>

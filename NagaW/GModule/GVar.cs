@@ -753,7 +753,7 @@ namespace NagaW
             public static DPara ResultState = new DPara(nameof(Weighing) + nameof(ResultState), 0, 0, 1, EUnit.COUNT, 0, new string[] { "Average", "Total" });
 
             public static bool CutTailEnable = false;
-            public static DPara XYCutSpeed = new DPara(nameof(Weighing) + nameof(XYCutSpeed), 10, 0, 300, EUnit.MILLIMETER_PER_SECOND);
+            public static DPara XYCutSpeed = new DPara(nameof(Weighing) + nameof(XYCutSpeed), 10, 0, 5000, EUnit.MILLIMETER_PER_SECOND);
         }
 
 

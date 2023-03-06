@@ -135,9 +135,9 @@ namespace NagaW
                         }
                     case GemTaro.SECSII.SFCode.S1F11:
                         {
-                            GemSystem.Secsii.DecodeBody(ref rawdata, out SList slist);
+                            //GemSystem.Secsii.DecodeBody(ref rawdata, out SList slist);
 
-                            var newlist = SearchDataS1F11(slist);
+                            var newlist = SearchDataS1F11();
 
                             GemSystem.GemHost_Send(GemTaro.SECSII.SFCode.S1F12, newlist, false);
                             GLog.LogSecsGems(ESecsGemsDir.HostToLocal, sfcode.ToString());
@@ -169,6 +169,14 @@ namespace NagaW
                         {
                             GemSystem.SetOnlineRemote();
                             GemSystem.GemHost_Send(GemTaro.SECSII.SFCode.S1F18, (byte)0, false);
+                            GLog.LogSecsGems(ESecsGemsDir.HostToLocal, sfcode.ToString());
+                            break;
+                        }
+                    case GemTaro.SECSII.SFCode.S1F23:
+                        {
+                            var newlist = SearchDataS1F23();
+
+                            GemSystem.GemHost_Send(GemTaro.SECSII.SFCode.S1F24, newlist, false);
                             GLog.LogSecsGems(ESecsGemsDir.HostToLocal, sfcode.ToString());
                             break;
                         }
@@ -254,26 +262,11 @@ namespace NagaW
                         }
                     case GemTaro.SECSII.SFCode.S5F5:
                         {
-                            GemSystem.Secsii.DecodeBody(ref rawdata, out SList slist);
+                            var newlist = SearchDataS5F5();
 
-                            var alid = Enum.GetValues(typeof(EAlarm)).OfType<EAlarm>().Select(x => $"{x}").ToList();
-
-                            var list = new SList();
-                            for (int i = 0; i < slist.Count; i++)
-                            {
-                                if (alid.Contains(slist[i]))
-                                {
-                                    var l = new SList()
-                                    {
-                                        i,
-                                        slist[i],
-                                    };
-                                    list.Add(l);
-                                }
-                            }
-
-                            GemSystem.GemHost_Send(GemTaro.SECSII.SFCode.S5F6, list, false);
+                            GemSystem.GemHost_Send(GemTaro.SECSII.SFCode.S5F6, newlist, false);
                             GLog.LogSecsGems(ESecsGemsDir.HostToLocal, sfcode.ToString());
+
                             break;
                         }
                     #endregion
@@ -289,7 +282,7 @@ namespace NagaW
                         {
                             GemSystem.Secsii.DecodeBody(ref rawdata, out dynamic ackc6);
 
-                            GemSystem.GemHost_Send(GemTaro.SECSII.SFCode.S6F11, rawdata, false);
+                            GemSystem.GemHost_Send(GemTaro.SECSII.SFCode.S6F12, rawdata, false);
                             GLog.LogSecsGems(ESecsGemsDir.LocalToHost, sfcode.ToString(), Log.TranslateText(ackc6));
                             break;
                         }
@@ -686,7 +679,7 @@ namespace NagaW
             }
             return slist;
         }
-        public static SList SearchDataS1F11(dynamic data)
+        public static SList SearchDataS1F11()
         {
             #region ExtractInfo
             SList slist = new SList();
@@ -697,91 +690,188 @@ namespace NagaW
 
             foreach (var m in members)
             {
-                if (m.Name == data)
+                object o = null;
+                #region GetObject
+                switch (m.MemberType)
                 {
-                    object o = null;
-                    #region GetObject
-                    switch (m.MemberType)
-                    {
-                        case MemberTypes.Field:
-                            {
-                                var f = m as FieldInfo;
-                                if (f.IsLiteral || f.IsInitOnly) break;
-                                o = f.GetValue(null);
-                                break;
-                            }
-                        case MemberTypes.Property:
-                            {
-                                var p = m as PropertyInfo;
-                                if (!p.CanWrite || !p.CanRead) break;
-                                o = p.GetValue(null);
-                                break;
-                            }
-                    }
-                    #endregion
+                    case MemberTypes.Field:
+                        {
+                            var f = m as FieldInfo;
+                            if (f.IsLiteral || f.IsInitOnly) break;
+                            o = f.GetValue(null);
+                            break;
+                        }
+                    case MemberTypes.Property:
+                        {
+                            var p = m as PropertyInfo;
+                            if (!p.CanWrite || !p.CanRead) break;
+                            o = p.GetValue(null);
+                            break;
+                        }
+                }
+                #endregion
 
-                    string value = "";
-                    switch (o)
-                    {
-                        case IPara ipara:
-                            {
-                                value += $"{ipara.Unit}";
-                                break;
-                            }
-                        case DPara dpara:
-                            {
-                                value += $"{dpara.Unit}";
-                                break;
-                            }
-                        case IPara[] iparas:
-                            {
-                                var ipara = iparas[0];
-                                value += $"{ipara.Unit}";
-                                break;
-                            }
-                        case DPara[] dparas:
-                            {
-                                var dpara = dparas[0];
-                                value += $"{dpara.Unit}";
-                                break;
-                            }
-                        case Enum evalue:
-                            {
-                                value += Enum.GetNames(o.GetType());
-                                break;
-                            }
-                        case string svalue:
-                        case byte btvalue:
-                        case short shvalue:
-                        case int ivalue:
-                        case long lvalue:
-                        case sbyte sbtvalue:
-                        case ushort ushvalue:
-                        case uint uivalue:
-                        case ulong ulvalue:
-                        case double dvalue:
-                        case float fvalue:
-                        case bool bvalue:
-                        case char cvalue:
-                        case decimal dcvalue:
-                        case DateTime dtvalue:
-                            {
-                                //value += o.GetType().Name;
-                                value += o.GetType();
-                                break;
-                            }
+                string value = "";
+                switch (o)
+                {
+                    case IPara ipara:
+                        {
+                            value += $"{ipara.Unit}";
+                            break;
+                        }
+                    case DPara dpara:
+                        {
+                            value += $"{dpara.Unit}";
+                            break;
+                        }
+                    case IPara[] iparas:
+                        {
+                            var ipara = iparas[0];
+                            value += $"{ipara.Unit}";
+                            break;
+                        }
+                    case DPara[] dparas:
+                        {
+                            var dpara = dparas[0];
+                            value += $"{dpara.Unit}";
+                            break;
+                        }
+                    case Enum evalue:
+                        {
+                            value += Enum.GetNames(o.GetType());
+                            break;
+                        }
+                    case string svalue:
+                    case byte btvalue:
+                    case short shvalue:
+                    case int ivalue:
+                    case long lvalue:
+                    case sbyte sbtvalue:
+                    case ushort ushvalue:
+                    case uint uivalue:
+                    case ulong ulvalue:
+                    case double dvalue:
+                    case float fvalue:
+                    case bool bvalue:
+                    case char cvalue:
+                    case decimal dcvalue:
+                    case DateTime dtvalue:
+                        {
+                            //value += o.GetType().Name;
+                            value += o.GetType();
+                            break;
+                        }
 
-                        default: continue;
-                    }
+                    default: continue;
+                }
 
-                    var newList = new SList()
+                var newList = new SList()
                     {
                         index,
                         m.DeclaringType.Name + m.Name,
                         value,
                     };
-                    slist.Add(newList);
+                slist.Add(newList);
+
+            }
+            #endregion
+
+            return slist;
+        }
+        public static SList SearchDataS1F23()
+        {
+            #region ExtractInfo
+            SList slist = new SList();
+            int index = 1;
+
+            var members = new List<MemberInfo>();
+            members = new Type[] { typeof(EEvent) }.SelectMany(x => x.GetAllMembers(BindingFlags.Static | BindingFlags.Public)).ToList();
+
+            foreach (var m in members)
+            {
+                object o = null;
+                #region GetObject
+                switch (m.MemberType)
+                {
+                    case MemberTypes.Field:
+                        {
+                            var f = m as FieldInfo;
+                            if (f.IsLiteral || f.IsInitOnly) break;
+                            o = f.GetValue(null);
+                            break;
+                        }
+                    case MemberTypes.Property:
+                        {
+                            var p = m as PropertyInfo;
+                            if (!p.CanWrite || !p.CanRead) break;
+                            o = p.GetValue(null);
+                            break;
+                        }
                 }
+                #endregion
+
+                string value = "";
+                switch (o)
+                {
+                    case IPara ipara:
+                        {
+                            value += $"{ipara.Unit}";
+                            break;
+                        }
+                    case DPara dpara:
+                        {
+                            value += $"{dpara.Unit}";
+                            break;
+                        }
+                    case IPara[] iparas:
+                        {
+                            var ipara = iparas[0];
+                            value += $"{ipara.Unit}";
+                            break;
+                        }
+                    case DPara[] dparas:
+                        {
+                            var dpara = dparas[0];
+                            value += $"{dpara.Unit}";
+                            break;
+                        }
+                    case Enum evalue:
+                        {
+                            value += Enum.GetNames(o.GetType());
+                            break;
+                        }
+                    case string svalue:
+                    case byte btvalue:
+                    case short shvalue:
+                    case int ivalue:
+                    case long lvalue:
+                    case sbyte sbtvalue:
+                    case ushort ushvalue:
+                    case uint uivalue:
+                    case ulong ulvalue:
+                    case double dvalue:
+                    case float fvalue:
+                    case bool bvalue:
+                    case char cvalue:
+                    case decimal dcvalue:
+                    case DateTime dtvalue:
+                        {
+                            //value += o.GetType().Name;
+                            value += o.GetType();
+                            break;
+                        }
+
+                    default: continue;
+                }
+
+                var newList = new SList()
+                    {
+                        index,
+                        m.DeclaringType.Name + m.Name,
+                        value,
+                    };
+                slist.Add(newList);
+
             }
             #endregion
 
@@ -796,6 +886,105 @@ namespace NagaW
 
             var members = new List<MemberInfo>();
             members = new Type[] { typeof(GSetupPara) }.SelectMany(x => x.GetAllMembers(BindingFlags.Static | BindingFlags.Public)).ToList();
+
+            foreach (var m in members)
+            {
+                object o = null;
+                #region GetObject
+                switch (m.MemberType)
+                {
+                    case MemberTypes.Field:
+                        {
+                            var f = m as FieldInfo;
+                            if (f.IsLiteral || f.IsInitOnly) break;
+                            o = f.GetValue(null);
+                            break;
+                        }
+                    case MemberTypes.Property:
+                        {
+                            var p = m as PropertyInfo;
+                            if (!p.CanWrite || !p.CanRead) break;
+                            o = p.GetValue(null);
+                            break;
+                        }
+                }
+                #endregion
+
+                string value = "";
+                switch (o)
+                {
+                    case IPara ipara:
+                        {
+                            value += ipara.Value.ToString();
+                            value += $",{ipara.Unit}";
+                            break;
+                        }
+                    case DPara dpara:
+                        {
+                            value += dpara.Value.ToString("f3");
+                            value += $",{dpara.Unit}";
+                            break;
+                        }
+                    case IPara[] iparas:
+                        {
+                            var ipara = iparas[0];
+                            value += ipara.Value.ToString();
+                            value += $",{ipara.Unit}";
+                            break;
+                        }
+                    case DPara[] dparas:
+                        {
+                            var dpara = dparas[0];
+                            value += dpara.Value.ToString("f3");
+                            value += $",{dpara.Unit}";
+                            break;
+                        }
+                    case Enum evalue:
+                        {
+                            value += o;
+                            value += "," + o.GetType().Name;
+
+                            var desc = string.Join("; ", Enum.GetNames(o.GetType()));
+                            value += $"({desc})";
+                            break;
+                        }
+                    case string svalue:
+                    case byte btvalue:
+                    case short shvalue:
+                    case int ivalue:
+                    case long lvalue:
+                    case sbyte sbtvalue:
+                    case ushort ushvalue:
+                    case uint uivalue:
+                    case ulong ulvalue:
+                    case double dvalue:
+                    case float fvalue:
+                    case bool bvalue:
+                    case char cvalue:
+                    case decimal dcvalue:
+                    case DateTime dtvalue:
+                        {
+                            value += o;
+                            value += "," + o.GetType().Name;
+                            break;
+                        }
+
+                    default: continue;
+                }
+                slist.Add($"{index++},{m.DeclaringType.Name + m.Name}," + value);
+            }
+            #endregion
+
+            return slist;
+        }
+        public static SList SearchDataS5F5()
+        {
+            #region ExtractInfo
+            SList slist = new SList();
+            int index = 1;
+
+            var members = new List<MemberInfo>();
+            members = new Type[] { typeof(GAlarm) }.SelectMany(x => x.GetAllMembers(BindingFlags.Static | BindingFlags.Public)).ToList();
 
             foreach (var m in members)
             {

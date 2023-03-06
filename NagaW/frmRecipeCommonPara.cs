@@ -145,8 +145,8 @@ namespace NagaW
                     break;
 
                 case ECmd.PATTERN_SETUP:
-                    Para[0] = new DPara($"{index} X Adjust %", cmd.Para[0], 0, 100, EUnit.PERCENTAGE, 0);
-                    Para[1] = new DPara($"{index} Y Adjust %", cmd.Para[1], 0, 100, EUnit.PERCENTAGE, 0);
+                    Para[0] = new DPara($"{index} X Adjust Offset", cmd.Para[0], 0, 100, EUnit.MILLIMETER);
+                    Para[1] = new DPara($"{index} Y Adjust Offset", cmd.Para[1], 0, 100, EUnit.MILLIMETER);
                     break;
 
                 case ECmd.CLUSTER_GAP_SETUP:

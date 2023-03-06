@@ -739,7 +739,7 @@ namespace NagaW
                     case ECmd.LINE_SETUP: Info = $"LStartDelay:{Para[0]} LSpeed:{Para[1]} LEndDelay:{Para[2]} Wait:{Para[3]} TailLength:{Para[4]}"; break;
                     case ECmd.CUT_TAIL_SETUP: Info = $"Type:{(ECutTailType)(int)Para[0]} Length:{Para[1]} Height:{Para[2]} Speed{Para[3]}"; break;
                     case ECmd.DYNAMIC_JET_SETUP: Info = $"{(Para[0] is 0 ? "" : "Pre; ")}{(Para[2] is 0 ? "" : "Post; ")}Dist:{Para[1]}"; break;
-                    case ECmd.PATTERN_SETUP: Info = $"X %:{Para[0]} Y %:{Para[1]}"; break;
+                    case ECmd.PATTERN_SETUP: Info = $"X:{Para[0]}mm Y:{Para[1]}mm"; break;
 
                     case ECmd.DOT:
                     case ECmd.LINE_START:
@@ -795,6 +795,7 @@ namespace NagaW
                 if (Cmd >= ECmd.DOT && Cmd < ECmd.NEEDLE_VAC_CLEAN) s = "[Goto]";
                 if (Cmd == ECmd.HEIGHT_SET) s = string.Empty;
                 if (Cmd == ECmd.DYNAMIC_JET_DOT_SW) s = string.Empty;
+                if (Cmd == ECmd.PATTERN_SETUP) s = string.Empty;
                 return s;
             }
         }
@@ -951,7 +952,7 @@ namespace NagaW
             double clusterGap = 0;
 
             //pattern disp param
-            double patDispXPercent = 1; double patDispYPercent = 1;
+            double patDispXOffset = 0; double patDispYOffset = 0;
 
             TEZMCAux.TOutput trigCam = gantryIdx == 0 ? GMotDef.Out4 : GMotDef.Out9;
 
@@ -1455,8 +1456,8 @@ namespace NagaW
                     case ECmd.PATTERN_SETUP:
                         #region
                         {
-                            patDispXPercent = cmd.Para[0] / 100;
-                            patDispYPercent = cmd.Para[1] / 100;
+                            patDispXOffset = cmd.Para[0];
+                            patDispYOffset = cmd.Para[1];
                             break;
                         }
                     #endregion
@@ -2466,7 +2467,7 @@ namespace NagaW
 
                             //int interval = (int)cmd.Para[6]; double curvature = cmd.Para[7]; bool spiralout = (int)cmd.Para[8] is 0;
                             var tempcmd = new TCmd(cmd);
-                            PatternDisp.PatternResize(patDispXPercent, patDispYPercent, ref tempcmd);
+                            PatternDisp.PatternShrink(patDispXOffset, patDispYOffset, ref tempcmd);
                             var pts = PatternDisp.SquareSpiral(tempcmd);
                             //var pts = PatternDisp.SquareSpiral(startpt, endpt1, endpt2, interval, curvature, spiralout);
                             var lastNo = pts.Count - 1;
@@ -2632,7 +2633,7 @@ namespace NagaW
                         {
                             bufferModeTrackUnit = true;
                             var tempcmd = new TCmd(cmd);
-                            PatternDisp.PatternResize(patDispXPercent, patDispYPercent, ref tempcmd);
+                            PatternDisp.PatternShrink(patDispXOffset, patDispYOffset, ref tempcmd);
                             var pts = PatternDisp.SquareFilling(tempcmd);
                             var lastNo = pts.Count - 1;
 
@@ -2797,7 +2798,7 @@ namespace NagaW
                         {
                             bufferModeTrackUnit = true;
                             var tempcmd = new TCmd(cmd);
-                            PatternDisp.PatternResize(patDispXPercent, patDispYPercent, ref tempcmd);
+                            PatternDisp.PatternShrink(patDispXOffset, patDispYOffset, ref tempcmd);
 
                             var centrePt = new PointD(tempcmd.Para[0], tempcmd.Para[1]);
                             var endPt = new PointD(tempcmd.Para[2], tempcmd.Para[3]);
@@ -2973,7 +2974,7 @@ namespace NagaW
                             bool contDisp = cmd.Para[8] is 0;
 
                             var tempcmd = new TCmd(cmd);
-                            PatternDisp.PatternResize(patDispXPercent, patDispYPercent, ref tempcmd);
+                            PatternDisp.PatternShrink(patDispXOffset, patDispYOffset, ref tempcmd);
                             var pts = PatternDisp.Star(tempcmd, cmd.Cmd is ECmd.PATTERN_CROSS ? true : false);
 
                             for (int i = 0; i < pts.Count; i++)
@@ -3173,16 +3174,16 @@ namespace NagaW
                             var runPath = (ERunPath)cmd.Para[8];
 
                             var tempcmd = new TCmd(cmd);
-                            PatternDisp.PatternResize(patDispXPercent, patDispYPercent, ref tempcmd);
-                            var pitchCol = new PointD(tempcmd.Para[2] - tempcmd.Para[0], tempcmd.Para[3] - tempcmd.Para[1]) / column;
-                            var pitchRow = new PointD(tempcmd.Para[4] - tempcmd.Para[0], tempcmd.Para[5] - tempcmd.Para[1]) / row;
+                            PatternDisp.PatternShrink(patDispXOffset, patDispYOffset, ref tempcmd);
+                            var pitchCol = new PointD(tempcmd.Para[2] - tempcmd.Para[0], tempcmd.Para[3] - tempcmd.Para[1]) / (column - 1);
+                            var pitchRow = new PointD(tempcmd.Para[4] - tempcmd.Para[0], tempcmd.Para[5] - tempcmd.Para[1]) / (row - 1);
                             var pts = PatternDisp.MultiDot(new PointI(column, row), pitchCol, pitchRow, runPath);
 
                             for (int i = 0; i < pts.Count; i++)
                             {
                                 TCmd temp = new TCmd(ECmd.DOT);
-                                temp.Para[0] = pts[0].X;
-                                temp.Para[1] = pts[0].Y;
+                                temp.Para[0] = tempcmd.Para[0] + pts[i].X;
+                                temp.Para[1] = tempcmd.Para[1] + pts[i].Y;
                                 if (!MoveToStartGap2(temp)) return false;
 
                                 cmdBuffer = sBase;
@@ -3251,7 +3252,6 @@ namespace NagaW
                                 }
 
                                 TEZMCAux.DirectCommand(cmdBuffer);
-                                break;
                             }
 
                             break;
@@ -5194,11 +5194,19 @@ namespace NagaW
 
     public class PatternDisp
     {
-        public static void PatternResize(double xPercent, double yPercent, ref TCmd cmd)
+        public static void PatternShrink(double xOffset, double yOffset, ref TCmd cmd)
         {
-            cmd.Para[0] *= xPercent; cmd.Para[1] *= yPercent;
-            cmd.Para[2] *= xPercent; cmd.Para[3] *= yPercent;
-            cmd.Para[4] *= xPercent; cmd.Para[5] *= yPercent;
+            switch (cmd.Cmd)
+            {
+                default:
+                    cmd.Para[0] += xOffset; cmd.Para[1] -= yOffset;
+                    cmd.Para[2] -= xOffset; cmd.Para[3] -= yOffset;
+                    cmd.Para[4] += xOffset; cmd.Para[5] += yOffset;
+                    break;
+                case ECmd.PATTERN_SPIRAL:
+                    cmd.Para[2] -= xOffset; cmd.Para[3] -= yOffset;
+                    break;
+            }
         }
 
         public static List<PointD> MultiDot(PointI CR, PointD pitchCol, PointD pitchRow, ERunPath runPath)

@@ -526,8 +526,12 @@ namespace NagaW
                                 {
                                     case EWeighType.Mass:
                                         {
-                                            var setup = new SP_Param(sp_setup);
-                                            TFPump.SP.Shot_One(setup, gantryidx);
+                                            for (int i = 0; i < dotPerSample; i++)
+                                            {
+                                                var setup = new SP_Param(sp_setup);
+                                                TFPump.SP.Shot_One(setup, gantryidx);
+                                                Thread.Sleep(w_dotwait_ms);
+                                            }
                                             break;
                                         }
                                     case EWeighType.MassFlowRate:
@@ -547,8 +551,12 @@ namespace NagaW
                                 {
                                     case EWeighType.Mass:
                                         {
-                                            var setup = new HM_Param(hm_setup);
-                                            TFPump.HM.Shot_One(setup, gantryidx);
+                                            for (int i = 0; i < dotPerSample; i++)
+                                            {
+                                                var setup = new HM_Param(hm_setup);
+                                                TFPump.HM.Shot_One(setup, gantryidx);
+                                                Thread.Sleep(w_dotwait_ms);
+                                            }
                                             break;
                                         }
                                     case EWeighType.MassFlowRate:
