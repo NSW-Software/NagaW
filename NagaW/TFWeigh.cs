@@ -429,6 +429,10 @@ namespace NagaW
             //Cut Function
             bool cutTailEnable = GProcessPara.Weighing.CutTailEnable;
             double cutXYSpeed = GProcessPara.Weighing.XYCutSpeed.Value;
+            int zStepCount = (int)GProcessPara.Weighing.ZStepCount.Value;
+            double zStepDist = GProcessPara.Weighing.ZStepDist.Value;
+
+            int zStepMultiply = 1;
             #endregion
 
             try
@@ -486,7 +490,13 @@ namespace NagaW
                             }
                     }
 
-                    if (!gantry.MoveOpZAbs(w_pos.Z)) return false;
+                    double tempZStepDist = 0;
+                    if (Result.Count >= (zStepMultiply * zStepCount))
+                    {
+                        tempZStepDist = zStepMultiply * zStepDist;
+                        zStepMultiply++;
+                    }
+                    if (!gantry.MoveOpZAbs(w_pos.Z + tempZStepDist)) return false;
                     Thread.Sleep(w_startwait);
 
                     double beforeW = 0;

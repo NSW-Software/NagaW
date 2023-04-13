@@ -754,6 +754,8 @@ namespace NagaW
 
             public static bool CutTailEnable = false;
             public static DPara XYCutSpeed = new DPara(nameof(Weighing) + nameof(XYCutSpeed), 10, 0, 5000, EUnit.MILLIMETER_PER_SECOND);
+            public static DPara ZStepCount = new DPara(nameof(Weighing) + nameof(ZStepCount), 0, 0, 100, EUnit.COUNT, 0);
+            public static DPara ZStepDist = new DPara(nameof(Weighing) + nameof(ZStepDist), 0, 0, 100, EUnit.MILLIMETER);
         }
 
 

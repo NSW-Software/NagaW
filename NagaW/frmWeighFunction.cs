@@ -355,6 +355,8 @@ namespace NagaW
             lblEndPos.Text = GSetupPara.Weighing.EndPos[gantryIdx, (int)GSystemCfg.Pump.Pumps[gantryIdx].PumpType].ToStringForDisplay();
 
             lblSpeed.UpdatePara(GProcessPara.Weighing.XYCutSpeed);
+            lblZStepCount.UpdatePara(GProcessPara.Weighing.ZStepCount);
+            lblZStepDist.UpdatePara(GProcessPara.Weighing.ZStepDist);
             #endregion
         }
 
@@ -756,6 +758,17 @@ namespace NagaW
             GLog.SetPara(ref GProcessPara.Weighing.XYCutSpeed);
             UpdateDisplay();
         }
+        private void lblZStepCount_Click(object sender, EventArgs e)
+        {
+            GLog.SetPara(ref GProcessPara.Weighing.ZStepCount);
+            UpdateDisplay();
+        }
+        private void lblZStepDist_Click(object sender, EventArgs e)
+        {
+            GLog.SetPara(ref GProcessPara.Weighing.ZStepDist);
+            UpdateDisplay();
+        }
         #endregion
+
     }
 }

@@ -7,6 +7,9 @@ using System.Windows.Forms;
 using System.Threading;
 using System.IO;
 using System.Reflection;
+using System.ComponentModel;
+using System.Timers;
+using SpinnakerNET.GenApi;
 
 namespace NagaW
 {
@@ -77,6 +80,8 @@ namespace NagaW
             {
                 switch (sfcode)
                 {
+                    default: break;
+
                     #region S1
                     case GemTaro.SECSII.SFCode.S1F1:
                         {
@@ -187,7 +192,7 @@ namespace NagaW
                         {
                             GemSystem.Secsii.DecodeBody(ref rawdata, out SList slist);
 
-                            var retList = SearchDaraS2F13();
+                            var retList = SearchDataS2F13();
 
                             GemSystem.GemHost_Send(GemTaro.SECSII.SFCode.S2F14, retList, false);
                             GLog.LogSecsGems(ESecsGemsDir.HostToLocal, sfcode.ToString());
@@ -201,6 +206,70 @@ namespace NagaW
                             //GemSystem.SetOnlineRemote();
 
                             GLog.LogSecsGems(ESecsGemsDir.HostToLocal, sfcode.ToString());
+                            break;
+                        }
+                    case GemTaro.SECSII.SFCode.S2F23:
+                        {
+                            GemSystem.Secsii.DecodeBody(ref rawdata, out SList slist);
+
+                            bool terminate = slist[2] is 0;
+
+                            if (terminate)
+                            {
+                                if (TFTraceData.TraceDatas.Where(x => x.ID == slist[0]).Count() > 0)
+                                {
+                                    var data = TFTraceData.TraceDatas.Select(x => x.ID == slist[0]).ToList();
+                                    TFTraceData.TraceDatas.Remove(data[0]);
+                                }
+                            }
+                            else
+                            {
+                                if (TFTraceData.TraceDatas.Where(x => x.ID == slist[0]).Count() > 0)
+                                {
+                                    var data = TFTraceData.TraceDatas.Select(x => x.ID == slist[0]).ToList();
+                                    TFTraceData.TraceDatas.Remove(data[0]);
+                                }
+                                TETraceData traceData = new TETraceData();
+                                traceData.ID = slist[0];
+                                traceData.DataSamplePeriod = slist[1];
+                                traceData.TotalSamples = slist[2];
+                                traceData.ReportGroupSize = slist[3];
+
+                                for (int i = 4; i < slist.Count; i++) traceData.SVID.Add(slist[i]);
+
+                                traceData.Timer = new System.Threading.Timer(_ => OnCallBack(traceData), null, 0, (int)traceData.DataSamplePeriod.TotalMinutes);
+
+                                TFTraceData.TraceDatas.Add(new TETraceData(traceData));
+                            }
+
+                            GemSystem.GemHost_Send(GemTaro.SECSII.SFCode.S2F24, false);
+
+                            void OnCallBack(TETraceData data)
+                            {
+                                if (DateTime.Now.TimeOfDay >= data.DataSamplePeriod)
+                                {
+                                    SList tempList = new SList();
+                                    var list = SearchSVData();
+                                    for (int i = 0; i < list.Count; i++)
+                                    {
+                                        for (int j = 0; j < data.SVID.Count; j++)
+                                        {
+                                            if (data.SVID[j] == list[i].Item1) tempList.Add(data.SVID[j]);
+                                        }
+                                    }
+
+                                    var returnSList = new SList()
+                                    {
+                                        data.ID,
+                                        tempList.Count(),
+                                        DateTime.Now.ToString("yy:MM:dd:hh:mm:ss"),
+                                        new SList(tempList),
+                                    };
+
+                                    GemSystem.GemHost_Send(GemTaro.SECSII.SFCode.S6F1, returnSList, true);
+                                }
+                            }
+
                             break;
                         }
                     case GemTaro.SECSII.SFCode.S2F31:
@@ -877,9 +946,108 @@ namespace NagaW
 
             return slist;
         }
-        public static SList SearchDaraS2F13()
+        public static SList SearchDataS2F13()
         {
 
+            #region ExtractInfo
+            SList slist = new SList();
+            int index = 1;
+
+            var members = new List<MemberInfo>();
+            members = new Type[] { typeof(GSetupPara) }.SelectMany(x => x.GetAllMembers(BindingFlags.Static | BindingFlags.Public)).ToList();
+
+            foreach (var m in members)
+            {
+                object o = null;
+                #region GetObject
+                switch (m.MemberType)
+                {
+                    case MemberTypes.Field:
+                        {
+                            var f = m as FieldInfo;
+                            if (f.IsLiteral || f.IsInitOnly) break;
+                            o = f.GetValue(null);
+                            break;
+                        }
+                    case MemberTypes.Property:
+                        {
+                            var p = m as PropertyInfo;
+                            if (!p.CanWrite || !p.CanRead) break;
+                            o = p.GetValue(null);
+                            break;
+                        }
+                }
+                #endregion
+
+                string value = "";
+                switch (o)
+                {
+                    case IPara ipara:
+                        {
+                            value += ipara.Value.ToString();
+                            value += $",{ipara.Unit}";
+                            break;
+                        }
+                    case DPara dpara:
+                        {
+                            value += dpara.Value.ToString("f3");
+                            value += $",{dpara.Unit}";
+                            break;
+                        }
+                    case IPara[] iparas:
+                        {
+                            var ipara = iparas[0];
+                            value += ipara.Value.ToString();
+                            value += $",{ipara.Unit}";
+                            break;
+                        }
+                    case DPara[] dparas:
+                        {
+                            var dpara = dparas[0];
+                            value += dpara.Value.ToString("f3");
+                            value += $",{dpara.Unit}";
+                            break;
+                        }
+                    case Enum evalue:
+                        {
+                            value += o;
+                            value += "," + o.GetType().Name;
+
+                            var desc = string.Join("; ", Enum.GetNames(o.GetType()));
+                            value += $"({desc})";
+                            break;
+                        }
+                    case string svalue:
+                    case byte btvalue:
+                    case short shvalue:
+                    case int ivalue:
+                    case long lvalue:
+                    case sbyte sbtvalue:
+                    case ushort ushvalue:
+                    case uint uivalue:
+                    case ulong ulvalue:
+                    case double dvalue:
+                    case float fvalue:
+                    case bool bvalue:
+                    case char cvalue:
+                    case decimal dcvalue:
+                    case DateTime dtvalue:
+                        {
+                            value += o;
+                            value += "," + o.GetType().Name;
+                            break;
+                        }
+
+                    default: continue;
+                }
+                slist.Add($"{index++},{m.DeclaringType.Name + m.Name}," + value);
+            }
+            #endregion
+
+            return slist;
+        }
+        public static SList SearchDataS2F23()
+        {
             #region ExtractInfo
             SList slist = new SList();
             int index = 1;
@@ -1076,6 +1244,95 @@ namespace NagaW
 
             return slist;
         }
+
+
+        public static List<(string, double)> SearchSVData()
+        {
+            #region ExtractInfo
+            List<(string, double)> list = new List<(string, double)>();
+            int index = 1;
+
+            var members = new List<MemberInfo>();
+            members = new Type[] { typeof(GProcessPara) }.SelectMany(x => x.GetAllMembers(BindingFlags.Static | BindingFlags.Public)).ToList();
+
+            foreach (var m in members)
+            {
+                object o = null;
+                #region GetObject
+                switch (m.MemberType)
+                {
+                    case MemberTypes.Field:
+                        {
+                            var f = m as FieldInfo;
+                            if (f.IsLiteral || f.IsInitOnly) break;
+                            o = f.GetValue(null);
+                            break;
+                        }
+                    case MemberTypes.Property:
+                        {
+                            var p = m as PropertyInfo;
+                            if (!p.CanWrite || !p.CanRead) break;
+                            o = p.GetValue(null);
+                            break;
+                        }
+                }
+                #endregion
+
+                switch (o)
+                {
+                    case IPara ipara:
+                        {
+                            list.Add((ipara.Name, ipara.Value));
+                            break;
+                        }
+                    case DPara dpara:
+                        {
+                            list.Add((dpara.Name, dpara.Value));
+                            break;
+                        }
+                    case IPara[] iparas:
+                        {
+                            list.Add((iparas[0].Name, iparas[0].Value));
+                            break;
+                        }
+                    case DPara[] dparas:
+                        {
+                            list.Add((dparas[0].Name, dparas[0].Value));
+                            break;
+                        }
+                    case Enum evalue:
+                        {
+                            list.Add((evalue.ToString(), 0));
+                            break;
+                        }
+                    case string svalue:
+                    case byte btvalue:
+                    case short shvalue:
+                    case int ivalue:
+                    case long lvalue:
+                    case sbyte sbtvalue:
+                    case ushort ushvalue:
+                    case uint uivalue:
+                    case ulong ulvalue:
+                    case double dvalue:
+                    case float fvalue:
+                    case bool bvalue:
+                    case char cvalue:
+                    case decimal dcvalue:
+                    case DateTime dtvalue:
+                        {
+                            //list.Add((o.GetType().Name, o.GetType().));
+                            break;
+                        }
+
+                    default: continue;
+                }
+
+            }
+            #endregion
+
+            return list;
+        }
     }
 
     sealed class Log
@@ -1190,6 +1447,35 @@ namespace NagaW
         public TESecsEvent()
         {
 
+        }
+    }
+
+    class TFTraceData
+    {
+        public static BindingList<TETraceData> TraceDatas = new BindingList<TETraceData>();
+    }
+
+    public class TETraceData
+    {
+        public int ID { get; set; } = 0;
+        public TimeSpan DataSamplePeriod { get; set; } = new TimeSpan();
+        public int TotalSamples { get; set; } = 0;
+        public int ReportGroupSize { get; set; } = 0;
+        public List<string> SVID { get; set; } = new List<string>();
+        public System.Threading.Timer Timer { get; set; }
+
+        public TETraceData()
+        {
+
+        }
+        public TETraceData(TETraceData data)
+        {
+            this.ID = data.ID;
+            this.DataSamplePeriod = data.DataSamplePeriod;
+            this.TotalSamples = data.TotalSamples;
+            this.ReportGroupSize = data.ReportGroupSize;
+            this.SVID = data.SVID;
+            this.Timer = data.Timer;
         }
     }
 }

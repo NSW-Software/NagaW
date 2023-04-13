@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
@@ -151,6 +151,10 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.btnPump1 = new System.Windows.Forms.Button();
             this.btnPump2 = new System.Windows.Forms.Button();
+            this.lblZStepDist = new System.Windows.Forms.Label();
+            this.label40 = new System.Windows.Forms.Label();
+            this.lblZStepCount = new System.Windows.Forms.Label();
+            this.label44 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -751,7 +755,7 @@
             this.groupBox3.Controls.Add(this.groupBox10);
             this.groupBox3.Controls.Add(this.groupBox9);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox3.Location = new System.Drawing.Point(3, 425);
+            this.groupBox3.Location = new System.Drawing.Point(3, 494);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(604, 219);
             this.groupBox3.TabIndex = 5;
@@ -939,7 +943,7 @@
             this.groupBox1.Controls.Add(this.lblDotWait);
             this.groupBox1.Controls.Add(this.lblDotPerSample);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox1.Location = new System.Drawing.Point(3, 199);
+            this.groupBox1.Location = new System.Drawing.Point(3, 268);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(604, 226);
             this.groupBox1.TabIndex = 4;
@@ -1207,7 +1211,7 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox2.Location = new System.Drawing.Point(3, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(604, 196);
+            this.groupBox2.Size = new System.Drawing.Size(604, 265);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Position";
@@ -1225,6 +1229,10 @@
             // 
             // pnlCutFunction
             // 
+            this.pnlCutFunction.Controls.Add(this.lblZStepCount);
+            this.pnlCutFunction.Controls.Add(this.label44);
+            this.pnlCutFunction.Controls.Add(this.lblZStepDist);
+            this.pnlCutFunction.Controls.Add(this.label40);
             this.pnlCutFunction.Controls.Add(this.lblSpeed);
             this.pnlCutFunction.Controls.Add(this.label41);
             this.pnlCutFunction.Controls.Add(this.label38);
@@ -1233,7 +1241,7 @@
             this.pnlCutFunction.Controls.Add(this.lblEndPos);
             this.pnlCutFunction.Location = new System.Drawing.Point(6, 80);
             this.pnlCutFunction.Name = "pnlCutFunction";
-            this.pnlCutFunction.Size = new System.Drawing.Size(593, 95);
+            this.pnlCutFunction.Size = new System.Drawing.Size(593, 164);
             this.pnlCutFunction.TabIndex = 6;
             // 
             // lblSpeed
@@ -1348,11 +1356,11 @@
             // 
             // chartWeigh
             // 
-            chartArea3.Name = "ChartArea1";
-            this.chartWeigh.ChartAreas.Add(chartArea3);
+            chartArea1.Name = "ChartArea1";
+            this.chartWeigh.ChartAreas.Add(chartArea1);
             this.chartWeigh.Dock = System.Windows.Forms.DockStyle.Top;
-            legend3.Name = "Legend1";
-            this.chartWeigh.Legends.Add(legend3);
+            legend1.Name = "Legend1";
+            this.chartWeigh.Legends.Add(legend1);
             this.chartWeigh.Location = new System.Drawing.Point(3, 347);
             this.chartWeigh.Name = "chartWeigh";
             this.chartWeigh.Size = new System.Drawing.Size(604, 264);
@@ -1631,6 +1639,56 @@
             this.btnPump2.Visible = false;
             this.btnPump2.Click += new System.EventHandler(this.btnPump2_Click);
             // 
+            // lblZStepDist
+            // 
+            this.lblZStepDist.BackColor = System.Drawing.Color.White;
+            this.lblZStepDist.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblZStepDist.ForeColor = System.Drawing.Color.Navy;
+            this.lblZStepDist.Location = new System.Drawing.Point(122, 120);
+            this.lblZStepDist.Margin = new System.Windows.Forms.Padding(3);
+            this.lblZStepDist.Name = "lblZStepDist";
+            this.lblZStepDist.Size = new System.Drawing.Size(120, 25);
+            this.lblZStepDist.TabIndex = 14;
+            this.lblZStepDist.Text = "label8";
+            this.lblZStepDist.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblZStepDist.Click += new System.EventHandler(this.lblZStepDist_Click);
+            // 
+            // label40
+            // 
+            this.label40.ForeColor = System.Drawing.Color.Navy;
+            this.label40.Location = new System.Drawing.Point(3, 120);
+            this.label40.Margin = new System.Windows.Forms.Padding(3);
+            this.label40.Name = "label40";
+            this.label40.Size = new System.Drawing.Size(113, 25);
+            this.label40.TabIndex = 13;
+            this.label40.Text = "Z Step Dist";
+            this.label40.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblZStepCount
+            // 
+            this.lblZStepCount.BackColor = System.Drawing.Color.White;
+            this.lblZStepCount.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblZStepCount.ForeColor = System.Drawing.Color.Navy;
+            this.lblZStepCount.Location = new System.Drawing.Point(122, 89);
+            this.lblZStepCount.Margin = new System.Windows.Forms.Padding(3);
+            this.lblZStepCount.Name = "lblZStepCount";
+            this.lblZStepCount.Size = new System.Drawing.Size(120, 25);
+            this.lblZStepCount.TabIndex = 16;
+            this.lblZStepCount.Text = "label8";
+            this.lblZStepCount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblZStepCount.Click += new System.EventHandler(this.lblZStepCount_Click);
+            // 
+            // label44
+            // 
+            this.label44.ForeColor = System.Drawing.Color.Navy;
+            this.label44.Location = new System.Drawing.Point(3, 89);
+            this.label44.Margin = new System.Windows.Forms.Padding(3);
+            this.label44.Name = "label44";
+            this.label44.Size = new System.Drawing.Size(113, 25);
+            this.label44.TabIndex = 15;
+            this.label44.Text = "Z Step Count";
+            this.label44.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // frmWeighFunction
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -1798,5 +1856,9 @@
         private System.Windows.Forms.Button btnSet2;
         private System.Windows.Forms.Label lblEndPos;
         private System.Windows.Forms.CheckBox cbxCutFunc;
+        private System.Windows.Forms.Label lblZStepCount;
+        private System.Windows.Forms.Label label44;
+        private System.Windows.Forms.Label lblZStepDist;
+        private System.Windows.Forms.Label label40;
     }
 }

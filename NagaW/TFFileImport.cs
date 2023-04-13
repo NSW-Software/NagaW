@@ -144,6 +144,14 @@ namespace NagaW
                                     case "G02": interMode = EInterpolation.ClockWise; break;
                                     case "G03": interMode = EInterpolation.CounterClockWise; break;
                                 }
+
+                                if (line.Contains("D"))
+                                {
+                                    var temp = line.Remove(0, 3);
+                                    latest_aperture = temp;
+                                    interMode = EInterpolation.None;
+                                }
+
                                 continue;
                             }
                             #endregion

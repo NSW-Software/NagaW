@@ -3167,6 +3167,7 @@ namespace NagaW
                     case ECmd.PATTERN_MULTIDOT:
                         #region
                         {
+                            bufferModeTrackUnit = true;
                             PointI[] ij = new PointI[2] { clusterCR, unitCR };
 
                             var column = (int)cmd.Para[6];
@@ -3197,7 +3198,7 @@ namespace NagaW
 
                                 if (runMode == ERunMode.Normal)
                                 {
-                                    var isDisp = cmd.Para[6] is 0;
+                                    var isDisp = true;
                                     switch (dispCtrl.PumpType)
                                     {
                                         case EPumpType.VERMES_3280:
@@ -3754,7 +3755,7 @@ namespace NagaW
                         {
                             int cmdIndex = CmdEnabled.IndexOf(cmd);
                             int nextCmdIndex = cmdIndex + 1;
-                            if (CmdEnabled[nextCmdIndex].Cmd == ECmd.LINE_START || CmdEnabled[nextCmdIndex].Cmd == ECmd.DOT)
+                            if (CmdEnabled[nextCmdIndex].Cmd == ECmd.LINE_START || CmdEnabled[nextCmdIndex].Cmd == ECmd.DOT || (CmdEnabled[nextCmdIndex].Cmd > (ECmd)279 && CmdEnabled[nextCmdIndex].Cmd <= (ECmd)286))
                             { }
                             else
                             {
@@ -3777,6 +3778,7 @@ namespace NagaW
                                 if (!running) return false;
                                 Thread.Sleep(1);
                             }
+                            if (!gantry.MoveOpZAbs(0)) return false;
                             if (!HeightAlignExecute(gantry, unitOrigin, cmd, ref heightData)) return false;
 
                             HeightSetData = new THeightData(heightData);
