@@ -237,7 +237,7 @@ namespace NagaW
 
                                 for (int i = 4; i < slist.Count; i++) traceData.SVID.Add(slist[i]);
 
-                                traceData.Timer = new System.Threading.Timer(_ => OnCallBack(traceData), null, 0, (int)traceData.DataSamplePeriod.TotalMinutes);
+                                traceData.Timer = new System.Threading.Timer(_ => OnCallBack(traceData), null, 0, (int)traceData.DataSamplePeriod.TotalSeconds);
 
                                 TFTraceData.TraceDatas.Add(new TETraceData(traceData));
                             }
@@ -246,7 +246,7 @@ namespace NagaW
 
                             void OnCallBack(TETraceData data)
                             {
-                                if (DateTime.Now.TimeOfDay >= data.DataSamplePeriod)
+                                if (data.CurrentSample < data.TotalSamples)
                                 {
                                     SList tempList = new SList();
                                     var list = SearchSVData();
@@ -267,6 +267,11 @@ namespace NagaW
                                     };
 
                                     GemSystem.GemHost_Send(GemTaro.SECSII.SFCode.S6F1, returnSList, true);
+                                    data.CurrentSample++;
+                                }
+                                else
+                                {
+                                    data.Timer.Change(Timeout.Infinite, Timeout.Infinite);
                                 }
                             }
 
@@ -1463,6 +1468,7 @@ namespace NagaW
         public int ReportGroupSize { get; set; } = 0;
         public List<string> SVID { get; set; } = new List<string>();
         public System.Threading.Timer Timer { get; set; }
+        public int CurrentSample { get; set; } = 0;
 
         public TETraceData()
         {
@@ -1476,6 +1482,7 @@ namespace NagaW
             this.ReportGroupSize = data.ReportGroupSize;
             this.SVID = data.SVID;
             this.Timer = data.Timer;
+            this.CurrentSample = 0;
         }
     }
 }

@@ -2750,7 +2750,7 @@ namespace NagaW
         static TEZMCAux.TAxis RAxis = GMotDef.GRAxis;
 
         public static bool StopNotch = false;
-        public static bool NotchAlignmentLaser(double stepheight = 0, int angle = 0, double speed = 0)
+        public static bool NotchAlignmentLaser(double stepheight = 0, int angle = 0, double speed = 0, int overangle = 0)
         {
 
             try
@@ -2766,6 +2766,7 @@ namespace NagaW
                 if (stepheight <= 0) stepheight = GProcessPara.Wafer.WaferThickness.Value * 0.8;
                 if (angle <= 0) angle = GProcessPara.Wafer.NotchAngleCheck.Value;
                 if (speed <= 0) speed = GProcessPara.Wafer.NotchAlignSpeed.Value;
+                if (overangle <= 0) overangle = GProcessPara.Wafer.NotchOverAngle.Value;
 
                 //List<double> hvaluelist = new List<double>();
 
@@ -2779,8 +2780,9 @@ namespace NagaW
 
                 double notch_edge_1 = 0;//left notch edge
 
+                GLog.LogProcess($"Notch Alignment. Thickness: {stepheight}, Angle: {angle}, Speed: {speed}, Over Angle: {overangle}");
                 //apply detection every 45 degree, 360/45 = 8 times shift checking
-                for (int i = 0; i < 361; i += angle)
+                for (int i = 0; i < 361 + overangle; i += angle)
                 {
                     if (StopNotch)
                     {

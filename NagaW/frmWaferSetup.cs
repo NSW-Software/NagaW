@@ -68,6 +68,7 @@ namespace NagaW
             cbxLearnNotchVision.Checked = GProcessPara.Wafer.IsNotchVisionEnable;
             lblNotchVisionScore.UpdatePara(GProcessPara.Wafer.NotchVisonScore);
             lblCountVision.UpdatePara(GProcessPara.Wafer.NotchVisonRepeatCount);
+            lblOverAngle.UpdatePara(GProcessPara.Wafer.NotchOverAngle);
 
             GControl.UpdateFormControl(this);
         }
@@ -496,6 +497,12 @@ namespace NagaW
         private void lblCountVision_Click(object sender, EventArgs e)
         {
             GLog.SetPara(ref GProcessPara.Wafer.NotchVisonRepeatCount);
+            UpdateDisplay();
+        }
+
+        private void lblOverAngle_Click(object sender, EventArgs e)
+        {
+            GLog.SetPara(ref GProcessPara.Wafer.NotchOverAngle);
             UpdateDisplay();
         }
     }

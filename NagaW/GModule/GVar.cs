@@ -806,7 +806,7 @@ namespace NagaW
             public static DPara NotchVisonScore = new DPara(nameof(Wafer) + nameof(NotchVisonScore), 0.7, 0, 1, EUnit.PERCENTAGE);
             public static IPara NotchVisonRepeatCount = new IPara(nameof(Wafer) + nameof(NotchVisonRepeatCount), 1, 1, 10, EUnit.COUNT);
 
-            
+            public static IPara NotchOverAngle = new IPara(nameof(Wafer) + nameof(NotchOverAngle), 0, 0, 360, EUnit.ANGLE);
         }
 
         public static bool SaveFile(string filepath)
