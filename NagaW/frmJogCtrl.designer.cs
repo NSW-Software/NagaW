@@ -586,7 +586,7 @@
             this.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.Name = "frmJogCtrl";
             this.Padding = new System.Windows.Forms.Padding(5);
-            this.Text = "JogCtrl";
+            this.Text = "Jog Control";
             this.Load += new System.EventHandler(this.frmJogCtrl_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);

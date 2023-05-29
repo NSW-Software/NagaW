@@ -1981,9 +1981,11 @@ namespace NagaW
                                 relCenter = Circle.Center(new PointD(0, 0), relPass1, relPass2);
                                 circCCW = Circle.SweepAngle(relCenter, new PointD(0, 0), relPass1, relPass2) < 0 ? 0 : 1;
 
-                                if (Math.Abs(relCenter.X) > 100 || Math.Abs(relCenter.Y) > 100)
+                                bool x_error = Math.Abs(relCenter.X) > 100 || Double.IsNaN(relCenter.X) || Double.IsInfinity(relCenter.X);
+                                bool y_error = Math.Abs(relCenter.Y) > 100 || Double.IsNaN(relCenter.Y) || Double.IsInfinity(relCenter.Y);
+                                if (x_error || y_error)
                                 {
-                                    GAlarm.Prompt(EAlarm.RECIPE_INVALID_PARA, $"Command {CmdEnabled.IndexOf(cmd)}: '{cmd.Cmd}' Invalid Center Point Generated, Over 100mm.");
+                                    GAlarm.Prompt(EAlarm.RECIPE_INVALID_PARA, $"Command {CmdEnabled.IndexOf(cmd) + 1}: '{cmd.Cmd}' Invalid Center Point Generated, Over 100mm.");
                                     return false;
                                 }
                             }
@@ -2095,6 +2097,14 @@ namespace NagaW
                                 }
                             }
 
+
+                            TEZMCAux.DirectCommand(cmdBuffer);
+                            while (gantry.Axis[0].Busy)
+                            {
+                                //RefreshMap();
+                                Thread.Sleep(1);
+                            }
+                            cmdBuffer = sBase;
                             if (lineEDelay > 0) cmdBuffer += $"MOVE_DELAY({lineEDelay}) ";
                             if (runMode == ERunMode.Normal) endDisp();
 
@@ -5114,6 +5124,7 @@ namespace NagaW
 
             if ((startPt.X == passPt.X && passPt.X == endPt.X) || (startPt.Y == passPt.Y && passPt.Y == endPt.Y))
             {
+                GAlarm.Prompt(EAlarm.RECIPE_INVALID_PARA, "Points in 1 line. Unable to generate circle or arc.");
                 throw new Exception("Points in 1 line. Unable to generate circle or arc.");
             }
 

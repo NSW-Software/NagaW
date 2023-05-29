@@ -113,7 +113,7 @@
             this.lblFunctionClusterUnit.AutoSize = true;
             this.lblFunctionClusterUnit.Location = new System.Drawing.Point(3, 38);
             this.lblFunctionClusterUnit.Name = "lblFunctionClusterUnit";
-            this.lblFunctionClusterUnit.Size = new System.Drawing.Size(198, 18);
+            this.lblFunctionClusterUnit.Size = new System.Drawing.Size(167, 14);
             this.lblFunctionClusterUnit.TabIndex = 20;
             this.lblFunctionClusterUnit.Text = "Func: 1 Cluster: 4,5 Unit: 1,2";
             // 
@@ -165,7 +165,7 @@
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(3, 9);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(44, 18);
+            this.label9.Size = new System.Drawing.Size(37, 14);
             this.label9.TabIndex = 12;
             this.label9.Text = "Mode";
             // 
@@ -175,7 +175,7 @@
             this.cbxRunSelect.FormattingEnabled = true;
             this.cbxRunSelect.Location = new System.Drawing.Point(190, 6);
             this.cbxRunSelect.Name = "cbxRunSelect";
-            this.cbxRunSelect.Size = new System.Drawing.Size(99, 26);
+            this.cbxRunSelect.Size = new System.Drawing.Size(99, 22);
             this.cbxRunSelect.TabIndex = 13;
             this.cbxRunSelect.SelectionChangeCommitted += new System.EventHandler(this.cbxRunSelect_SelectionChangeCommitted);
             // 
@@ -185,7 +185,7 @@
             this.cbxRunMode.FormattingEnabled = true;
             this.cbxRunMode.Location = new System.Drawing.Point(46, 6);
             this.cbxRunMode.Name = "cbxRunMode";
-            this.cbxRunMode.Size = new System.Drawing.Size(91, 26);
+            this.cbxRunMode.Size = new System.Drawing.Size(91, 22);
             this.cbxRunMode.TabIndex = 11;
             this.cbxRunMode.SelectedIndexChanged += new System.EventHandler(this.cbxRunMode_SelectedIndexChanged);
             this.cbxRunMode.SelectionChangeCommitted += new System.EventHandler(this.cbxRunMode_SelectionChangeCommitted);
@@ -195,7 +195,7 @@
             this.label19.AutoSize = true;
             this.label19.Location = new System.Drawing.Point(143, 9);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(46, 18);
+            this.label19.Size = new System.Drawing.Size(41, 14);
             this.label19.TabIndex = 14;
             this.label19.Text = "Select";
             // 
@@ -211,7 +211,7 @@
             this.MinimumSize = new System.Drawing.Size(600, 600);
             this.Name = "frmRecipe";
             this.Padding = new System.Windows.Forms.Padding(6);
-            this.Text = "frmRecipe";
+            this.Text = "Recipe";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmRecipe_FormClosing);
             this.Load += new System.EventHandler(this.frmRecipe_Load);
             this.tabControl1.ResumeLayout(false);

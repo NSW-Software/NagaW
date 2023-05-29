@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
             this.btnViewVirtualMode = new System.Windows.Forms.Button();
             this.gbxVirtual = new System.Windows.Forms.GroupBox();
             this.chbxEnaDynJet = new System.Windows.Forms.CheckBox();
@@ -78,8 +80,6 @@
             this.lblLayoutRow = new System.Windows.Forms.Label();
             this.lblLayoutCol = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
             this.groupBox4.SuspendLayout();
             this.gbxVirtual.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -109,10 +109,28 @@
             this.groupBox4.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox4.Location = new System.Drawing.Point(0, 0);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(658, 264);
+            this.groupBox4.Size = new System.Drawing.Size(658, 252);
             this.groupBox4.TabIndex = 12;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Board";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(557, 90);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(43, 14);
+            this.label10.TabIndex = 29;
+            this.label10.Text = "Ref1 X";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(476, 90);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(44, 14);
+            this.label9.TabIndex = 28;
+            this.label9.Text = "Ref1 Y";
             // 
             // btnViewVirtualMode
             // 
@@ -135,7 +153,7 @@
             this.gbxVirtual.Controls.Add(this.btnGotoVirtualPos);
             this.gbxVirtual.Location = new System.Drawing.Point(12, 133);
             this.gbxVirtual.Name = "gbxVirtual";
-            this.gbxVirtual.Size = new System.Drawing.Size(463, 106);
+            this.gbxVirtual.Size = new System.Drawing.Size(463, 98);
             this.gbxVirtual.TabIndex = 26;
             this.gbxVirtual.TabStop = false;
             this.gbxVirtual.Text = "Virtual (Enable for recipe teaching only)";
@@ -145,7 +163,7 @@
             this.chbxEnaDynJet.AutoSize = true;
             this.chbxEnaDynJet.Location = new System.Drawing.Point(9, 59);
             this.chbxEnaDynJet.Name = "chbxEnaDynJet";
-            this.chbxEnaDynJet.Size = new System.Drawing.Size(197, 22);
+            this.chbxEnaDynJet.Size = new System.Drawing.Size(167, 18);
             this.chbxEnaDynJet.TabIndex = 26;
             this.chbxEnaDynJet.Text = "Enable DynamicJetDotSW";
             this.chbxEnaDynJet.UseVisualStyleBackColor = true;
@@ -317,7 +335,7 @@
             this.groupBox6.Controls.Add(this.lboxMLayoutList);
             this.groupBox6.Controls.Add(this.tbxMLayoutName);
             this.groupBox6.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox6.Location = new System.Drawing.Point(0, 264);
+            this.groupBox6.Location = new System.Drawing.Point(0, 252);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(658, 108);
             this.groupBox6.TabIndex = 13;
@@ -348,10 +366,10 @@
             // 
             this.lboxMLayoutList.Dock = System.Windows.Forms.DockStyle.Left;
             this.lboxMLayoutList.FormattingEnabled = true;
-            this.lboxMLayoutList.ItemHeight = 18;
-            this.lboxMLayoutList.Location = new System.Drawing.Point(3, 22);
+            this.lboxMLayoutList.ItemHeight = 14;
+            this.lboxMLayoutList.Location = new System.Drawing.Point(3, 18);
             this.lboxMLayoutList.Name = "lboxMLayoutList";
-            this.lboxMLayoutList.Size = new System.Drawing.Size(270, 83);
+            this.lboxMLayoutList.Size = new System.Drawing.Size(270, 87);
             this.lboxMLayoutList.TabIndex = 0;
             this.lboxMLayoutList.SelectedIndexChanged += new System.EventHandler(this.lboxMLayoutList_SelectedIndexChanged);
             // 
@@ -359,7 +377,7 @@
             // 
             this.tbxMLayoutName.Location = new System.Drawing.Point(279, 79);
             this.tbxMLayoutName.Name = "tbxMLayoutName";
-            this.tbxMLayoutName.Size = new System.Drawing.Size(172, 26);
+            this.tbxMLayoutName.Size = new System.Drawing.Size(172, 22);
             this.tbxMLayoutName.TabIndex = 0;
             this.tbxMLayoutName.TextChanged += new System.EventHandler(this.tbxMLayoutName_TextChanged);
             // 
@@ -369,9 +387,9 @@
             this.gbxLayout.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.gbxLayout.Controls.Add(this.gbox);
             this.gbxLayout.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbxLayout.Location = new System.Drawing.Point(0, 372);
+            this.gbxLayout.Location = new System.Drawing.Point(0, 360);
             this.gbxLayout.Name = "gbxLayout";
-            this.gbxLayout.Size = new System.Drawing.Size(658, 253);
+            this.gbxLayout.Size = new System.Drawing.Size(658, 244);
             this.gbxLayout.TabIndex = 14;
             this.gbxLayout.TabStop = false;
             this.gbxLayout.Text = "Layout";
@@ -405,9 +423,9 @@
             this.gbox.Controls.Add(this.lblLayoutCol);
             this.gbox.Controls.Add(this.label3);
             this.gbox.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbox.Location = new System.Drawing.Point(3, 22);
+            this.gbox.Location = new System.Drawing.Point(3, 18);
             this.gbox.Name = "gbox";
-            this.gbox.Size = new System.Drawing.Size(652, 228);
+            this.gbox.Size = new System.Drawing.Size(652, 223);
             this.gbox.TabIndex = 6;
             this.gbox.TabStop = false;
             this.gbox.Text = "Properties";
@@ -473,7 +491,7 @@
             this.rbtnCluster.AutoSize = true;
             this.rbtnCluster.Location = new System.Drawing.Point(69, 25);
             this.rbtnCluster.Name = "rbtnCluster";
-            this.rbtnCluster.Size = new System.Drawing.Size(73, 22);
+            this.rbtnCluster.Size = new System.Drawing.Size(62, 18);
             this.rbtnCluster.TabIndex = 9;
             this.rbtnCluster.Text = "Cluster";
             this.rbtnCluster.UseVisualStyleBackColor = true;
@@ -496,7 +514,7 @@
             this.rbtnUnit.Checked = true;
             this.rbtnUnit.Location = new System.Drawing.Point(9, 25);
             this.rbtnUnit.Name = "rbtnUnit";
-            this.rbtnUnit.Size = new System.Drawing.Size(54, 22);
+            this.rbtnUnit.Size = new System.Drawing.Size(47, 18);
             this.rbtnUnit.TabIndex = 10;
             this.rbtnUnit.TabStop = true;
             this.rbtnUnit.Text = "Unit";
@@ -509,7 +527,7 @@
             this.cbxPath.FormattingEnabled = true;
             this.cbxPath.Location = new System.Drawing.Point(87, 177);
             this.cbxPath.Name = "cbxPath";
-            this.cbxPath.Size = new System.Drawing.Size(121, 26);
+            this.cbxPath.Size = new System.Drawing.Size(121, 22);
             this.cbxPath.TabIndex = 15;
             this.cbxPath.SelectionChangeCommitted += new System.EventHandler(this.cbxPath_SelectionChangeCommitted);
             // 
@@ -676,29 +694,11 @@
             this.label3.Text = "Pitch Row";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(476, 90);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(53, 18);
-            this.label9.TabIndex = 28;
-            this.label9.Text = "Ref1 Y";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(557, 90);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(52, 18);
-            this.label10.TabIndex = 29;
-            this.label10.Text = "Ref1 X";
-            // 
             // frmRecipeLayout
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 18F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(658, 728);
+            this.ClientSize = new System.Drawing.Size(658, 829);
             this.Controls.Add(this.gbxLayout);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox4);

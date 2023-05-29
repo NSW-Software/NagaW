@@ -57,7 +57,7 @@
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(0);
-            this.toolStrip1.Size = new System.Drawing.Size(597, 31);
+            this.toolStrip1.Size = new System.Drawing.Size(597, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -66,14 +66,14 @@
             this.tsbtnReticle.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.tsbtnReticle.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbtnReticle.Name = "tsbtnReticle";
-            this.tsbtnReticle.Size = new System.Drawing.Size(58, 28);
+            this.tsbtnReticle.Size = new System.Drawing.Size(46, 22);
             this.tsbtnReticle.Text = "Reticle";
             this.tsbtnReticle.Click += new System.EventHandler(this.tsbtnReticle_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 31);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // tsbtnSaveAs
             // 
@@ -81,7 +81,7 @@
             this.tsbtnSaveAs.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.tsbtnSaveAs.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbtnSaveAs.Name = "tsbtnSaveAs";
-            this.tsbtnSaveAs.Size = new System.Drawing.Size(90, 28);
+            this.tsbtnSaveAs.Size = new System.Drawing.Size(71, 22);
             this.tsbtnSaveAs.Text = "Save Image";
             this.tsbtnSaveAs.Click += new System.EventHandler(this.tsbtnSaveAs_Click);
             // 
@@ -90,7 +90,7 @@
             this.tsbtnZoomOut.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.tsbtnZoomOut.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbtnZoomOut.Name = "tsbtnZoomOut";
-            this.tsbtnZoomOut.Size = new System.Drawing.Size(29, 28);
+            this.tsbtnZoomOut.Size = new System.Drawing.Size(23, 22);
             this.tsbtnZoomOut.Text = "Z-";
             this.tsbtnZoomOut.Click += new System.EventHandler(this.tsbtnZoomOut_Click);
             // 
@@ -99,7 +99,7 @@
             this.tsZoomFit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.tsZoomFit.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsZoomFit.Name = "tsZoomFit";
-            this.tsZoomFit.Size = new System.Drawing.Size(29, 28);
+            this.tsZoomFit.Size = new System.Drawing.Size(24, 22);
             this.tsZoomFit.Text = "ZF";
             this.tsZoomFit.Click += new System.EventHandler(this.tsZoomFit_Click);
             // 
@@ -108,22 +108,22 @@
             this.tsbtnZoomIn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.tsbtnZoomIn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbtnZoomIn.Name = "tsbtnZoomIn";
-            this.tsbtnZoomIn.Size = new System.Drawing.Size(32, 28);
+            this.tsbtnZoomIn.Size = new System.Drawing.Size(26, 22);
             this.tsbtnZoomIn.Text = "Z+";
             this.tsbtnZoomIn.Click += new System.EventHandler(this.tsbtnZoomIn_Click);
             // 
             // tslblScale
             // 
             this.tslblScale.Name = "tslblScale";
-            this.tslblScale.Size = new System.Drawing.Size(111, 28);
+            this.tslblScale.Size = new System.Drawing.Size(86, 22);
             this.tslblScale.Text = "toolStripLabel1";
             // 
             // pnlImage
             // 
             this.pnlImage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlImage.Location = new System.Drawing.Point(0, 31);
+            this.pnlImage.Location = new System.Drawing.Point(0, 25);
             this.pnlImage.Name = "pnlImage";
-            this.pnlImage.Size = new System.Drawing.Size(597, 423);
+            this.pnlImage.Size = new System.Drawing.Size(597, 429);
             this.pnlImage.TabIndex = 2;
             // 
             // timer1
@@ -132,7 +132,7 @@
             // 
             // frmCamera
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 18F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(597, 454);
             this.Controls.Add(this.pnlImage);
@@ -140,7 +140,7 @@
             this.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.Navy;
             this.Name = "frmCamera";
-            this.Text = "frmCamera";
+            this.Text = "Camera";
             this.Load += new System.EventHandler(this.frmCamera_Load);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();

@@ -250,7 +250,7 @@ namespace NagaW
             this.ForeColor = System.Drawing.Color.Navy;
             this.Name = "frmFuncImport";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "frmFuncImport";
+            this.Text = "Function Import";
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel3.ResumeLayout(false);

@@ -484,19 +484,24 @@ namespace NagaW
                             {
                                 if (!TFPressCtrl.FPress[gantryidx].Set(hm_setup.FPress.Value)) return false;
 
-                                wdata.TuneVariableUnit = GSystemCfg.Display.PressUnit;
+                                wdata.TuneVariableUnit = hm_setup.DispRPM.Unit;
                                 wdata.TunePara = hm_setup.DispRPM.Value;
                                 break;
                             }
                     }
 
                     double tempZStepDist = 0;
-                    if (Result.Count >= (zStepMultiply * zStepCount))
+                    if (cutTailEnable)
                     {
-                        tempZStepDist = zStepMultiply * zStepDist;
-                        zStepMultiply++;
+                        if (Result.Count >= (zStepMultiply * zStepCount))
+                        {
+                            tempZStepDist = zStepMultiply * zStepDist;
+                            zStepMultiply++;
+                        }
+                        if (!gantry.MoveOpZAbs(w_pos.Z + tempZStepDist)) return false;
                     }
-                    if (!gantry.MoveOpZAbs(w_pos.Z + tempZStepDist)) return false;
+                    else
+                        if (!gantry.MoveOpZAbs(w_pos.Z)) return false;
                     Thread.Sleep(w_startwait);
 
                     double beforeW = 0;
