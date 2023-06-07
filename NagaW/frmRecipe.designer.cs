@@ -59,7 +59,7 @@
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.Padding = new System.Drawing.Point(0, 0);
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(692, 482);
+            this.tabControl1.Size = new System.Drawing.Size(692, 632);
             this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabControl1.TabIndex = 0;
             // 
@@ -69,7 +69,7 @@
             this.tpLayout.Location = new System.Drawing.Point(4, 39);
             this.tpLayout.Name = "tpLayout";
             this.tpLayout.Padding = new System.Windows.Forms.Padding(3);
-            this.tpLayout.Size = new System.Drawing.Size(684, 439);
+            this.tpLayout.Size = new System.Drawing.Size(684, 589);
             this.tpLayout.TabIndex = 1;
             this.tpLayout.Text = "Layout";
             // 
@@ -103,7 +103,7 @@
             this.panel2.Controls.Add(this.cbxRunMode);
             this.panel2.Controls.Add(this.label19);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(6, 488);
+            this.panel2.Location = new System.Drawing.Point(6, 638);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(692, 67);
             this.panel2.TabIndex = 16;
@@ -203,7 +203,7 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.PaleVioletRed;
-            this.ClientSize = new System.Drawing.Size(704, 561);
+            this.ClientSize = new System.Drawing.Size(704, 711);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.panel2);
             this.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));

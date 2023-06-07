@@ -27,6 +27,7 @@ namespace NagaW
 
                 string data = $"10100000,{alarm},{msg}";
                 TFSecsGems.SendMsg(GemTaro.SECSII.SFCode.S5F1, data);
+                TEZMCAux.SideDoorDetected = false;
 
                 Mtx.ReleaseMutex();
             });

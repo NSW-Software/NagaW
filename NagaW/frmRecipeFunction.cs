@@ -434,10 +434,10 @@ namespace NagaW
             var tcmd = GRecipes.Functions[gantry.Index][funcNo].Cmds[cmdIdx];
 
             PointD layoutRel = GRecipes.MultiLayout[gantry.Index][layoutNo].Cluster.RelPos(Inst.Board[gantry.Index].ClusterCR);
-            if (tcmd.Cmd == ECmd.HEIGHT_ALIGN_BOARD || tcmd.Cmd == ECmd.PAT_ALIGN_BOARD) layoutRel = new PointD();//Ignore relative cluster
+            if (tcmd.Cmd == ECmd.HEIGHT_ALIGN_BOARD || tcmd.Cmd == ECmd.PAT_ALIGN_BOARD || tcmd.Cmd == ECmd.PAT_ALIGN_ROTARY) layoutRel = new PointD();//Ignore relative cluster
 
             PointD unitRel = GRecipes.MultiLayout[gantry.Index][layoutNo].Unit.RelPos(Inst.Board[gantry.Index].UnitCR);
-            if (tcmd.Cmd == ECmd.HEIGHT_ALIGN_BOARD || tcmd.Cmd == ECmd.PAT_ALIGN_BOARD || tcmd.Cmd == ECmd.HEIGHT_ALIGN_CLUSTER || tcmd.Cmd == ECmd.PAT_ALIGN_CLUSTER) unitRel = new PointD();//Ignore relative unit
+            if (tcmd.Cmd == ECmd.HEIGHT_ALIGN_BOARD || tcmd.Cmd == ECmd.PAT_ALIGN_BOARD || tcmd.Cmd == ECmd.PAT_ALIGN_ROTARY || tcmd.Cmd == ECmd.HEIGHT_ALIGN_CLUSTER || tcmd.Cmd == ECmd.PAT_ALIGN_CLUSTER) unitRel = new PointD();//Ignore relative unit
 
             PointD origin = GRecipes.Board[gantry.Index].StartPos.GetPointD() + layoutRel + unitRel;
 

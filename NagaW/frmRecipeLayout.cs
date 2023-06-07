@@ -386,7 +386,7 @@ namespace NagaW
 
                 if (MessageBox.Show("Use pat align from Wafer MapData?\r\nOK to continue\r\nCancel to Skip", "Alignment", MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
-                    GRecipes.Functions[0].Clear();
+                    //GRecipes.Functions[0].Clear();
                     GRecipes.Functions[0].Add(function);
                 }
             }

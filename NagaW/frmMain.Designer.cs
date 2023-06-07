@@ -40,6 +40,7 @@
             this.btnRecipeRight = new System.Windows.Forms.Button();
             this.btnAuto = new System.Windows.Forms.Button();
             this.pnlTop = new System.Windows.Forms.Panel();
+            this.btnWeigh = new System.Windows.Forms.Button();
             this.btnWafer = new System.Windows.Forms.Button();
             this.btnConv = new System.Windows.Forms.Button();
             this.btnSettings = new System.Windows.Forms.Button();
@@ -67,7 +68,7 @@
             this.btn = new System.Windows.Forms.Button();
             this.pnlAuto = new System.Windows.Forms.Panel();
             this.btnAutoPump = new System.Windows.Forms.Button();
-            this.btnWeigh = new System.Windows.Forms.Button();
+            this.tmrSideDoor = new System.Windows.Forms.Timer(this.components);
             this.pnlTop.SuspendLayout();
             this.pnlSubSetup.SuspendLayout();
             this.ssBottom.SuspendLayout();
@@ -182,6 +183,16 @@
             this.pnlTop.Padding = new System.Windows.Forms.Padding(3);
             this.pnlTop.Size = new System.Drawing.Size(1254, 47);
             this.pnlTop.TabIndex = 16;
+            // 
+            // btnWeigh
+            // 
+            this.btnWeigh.Location = new System.Drawing.Point(536, 6);
+            this.btnWeigh.Name = "btnWeigh";
+            this.btnWeigh.Size = new System.Drawing.Size(100, 35);
+            this.btnWeigh.TabIndex = 24;
+            this.btnWeigh.Text = "Weigh";
+            this.btnWeigh.UseVisualStyleBackColor = true;
+            this.btnWeigh.Click += new System.EventHandler(this.btnWeigh_Click);
             // 
             // btnWafer
             // 
@@ -475,15 +486,9 @@
             this.btnAutoPump.Visible = false;
             this.btnAutoPump.Click += new System.EventHandler(this.btnAutoPump_Click_1);
             // 
-            // btnWeigh
+            // tmrSideDoor
             // 
-            this.btnWeigh.Location = new System.Drawing.Point(536, 6);
-            this.btnWeigh.Name = "btnWeigh";
-            this.btnWeigh.Size = new System.Drawing.Size(100, 35);
-            this.btnWeigh.TabIndex = 24;
-            this.btnWeigh.Text = "Weigh";
-            this.btnWeigh.UseVisualStyleBackColor = true;
-            this.btnWeigh.Click += new System.EventHandler(this.btnWeigh_Click);
+            this.tmrSideDoor.Tick += new System.EventHandler(this.tmrSideDoor_Tick);
             // 
             // frmMain
             // 
@@ -561,6 +566,7 @@
         private System.Windows.Forms.Button btnPressureMaster;
         private System.Windows.Forms.Button btnWafer;
         private System.Windows.Forms.Button btnWeigh;
+        private System.Windows.Forms.Timer tmrSideDoor;
     }
 }
 

@@ -77,7 +77,7 @@
             this.groupBox2.Controls.Add(this.btnValveUpDn);
             this.groupBox2.Location = new System.Drawing.Point(8, 209);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(433, 87);
+            this.groupBox2.Size = new System.Drawing.Size(433, 83);
             this.groupBox2.TabIndex = 29;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Function";
@@ -284,12 +284,12 @@
             this.groupBox1.Controls.Add(this.lblSetupPulse);
             this.groupBox1.Location = new System.Drawing.Point(8, 8);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(433, 199);
+            this.groupBox1.Size = new System.Drawing.Size(433, 195);
             this.groupBox1.TabIndex = 41;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Param";
             // 
-            // frmVermes3280Ctrl
+            // frmPumpSetup_Vermes32xx
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(473, 314);
@@ -300,7 +300,7 @@
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "frmVermes3280Ctrl";
+            this.Name = "frmPumpSetup_Vermes32xx";
             this.Padding = new System.Windows.Forms.Padding(5);
             this.Text = "frmVermes3280Ctrl";
             this.Load += new System.EventHandler(this.frmVermesCtrl_Load);

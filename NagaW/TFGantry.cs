@@ -2763,7 +2763,7 @@ namespace NagaW
                     return false;
                 }
 
-                if (stepheight <= 0) stepheight = GProcessPara.Wafer.WaferThickness.Value * 0.8;
+                if (stepheight <= 0) stepheight = GRecipes.Board[gantry.Index].WaferHeight.Value * 0.8;//GProcessPara.Wafer.WaferThickness.Value * 0.8;
                 if (angle <= 0) angle = GProcessPara.Wafer.NotchAngleCheck.Value;
                 if (speed <= 0) speed = GProcessPara.Wafer.NotchAlignSpeed.Value;
                 if (overangle <= 0) overangle = GProcessPara.Wafer.NotchOverAngle.Value;
@@ -2780,10 +2780,13 @@ namespace NagaW
 
                 double notch_edge_1 = 0;//left notch edge
 
-                GLog.LogProcess($"Notch Alignment. Thickness: {stepheight}, Angle: {angle}, Speed: {speed}, Over Angle: {overangle}");
+                GLog.LogProcess($"Notch Alignment. Thickness: {GRecipes.Board[gantry.Index].WaferHeight.Value}, Angle: {angle}, Speed: {speed}, Over Angle: {overangle}");
+                var prevAngle = angle;
                 //apply detection every 45 degree, 360/45 = 8 times shift checking
                 for (int i = 0; i < 361 + overangle; i += angle)
                 {
+                    if (i >= 360) angle = (int)(prevAngle * 1.6);
+
                     if (StopNotch)
                     {
                         StopNotch = false;
@@ -2820,6 +2823,8 @@ namespace NagaW
                             //5-3=2
                             if (((hvalue - firsthvalue) > stepheight) || (hvalue <= -50))
                             {
+                                if (Math.Abs(hvalue) > 50) break;
+                                
                                 notch_edge_1 = RAxis.ActualPos;
                                 RAxis.StopEmg();
                                 RAxis.SetParam(0, 30, 500, 500);
@@ -2831,6 +2836,8 @@ namespace NagaW
                             //3-5=-2
                             if ((firsthvalue - hvalue) < -stepheight)
                             {
+                                if (Math.Abs(hvalue) > 50) break;
+
                                 RAxis.StopEmg();
                                 RAxis.SetParam(0, 30, 500, 500);
                                 RAxis.MoveRel(-1);

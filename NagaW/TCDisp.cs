@@ -522,6 +522,9 @@ namespace NagaW
             {
                 try
                 {
+                    if (!TFSafety.CheckCalFinish()) return false;
+                    if (TEZMCAux.SideDoorDetected) return false;
+
                     bufferUnitCR = Inst.Board[gantryNo].UnitCR;
                     bufferClusterCR = Inst.Board[gantryNo].ClusterCR;
 

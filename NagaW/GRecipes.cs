@@ -1981,8 +1981,8 @@ namespace NagaW
                                 relCenter = Circle.Center(new PointD(0, 0), relPass1, relPass2);
                                 circCCW = Circle.SweepAngle(relCenter, new PointD(0, 0), relPass1, relPass2) < 0 ? 0 : 1;
 
-                                bool x_error = Math.Abs(relCenter.X) > 100 || Double.IsNaN(relCenter.X) || Double.IsInfinity(relCenter.X);
-                                bool y_error = Math.Abs(relCenter.Y) > 100 || Double.IsNaN(relCenter.Y) || Double.IsInfinity(relCenter.Y);
+                                bool x_error = Math.Abs(relCenter.X) > 200 || Double.IsNaN(relCenter.X) || Double.IsInfinity(relCenter.X);
+                                bool y_error = Math.Abs(relCenter.Y) > 200 || Double.IsNaN(relCenter.Y) || Double.IsInfinity(relCenter.Y);
                                 if (x_error || y_error)
                                 {
                                     GAlarm.Prompt(EAlarm.RECIPE_INVALID_PARA, $"Command {CmdEnabled.IndexOf(cmd) + 1}: '{cmd.Cmd}' Invalid Center Point Generated, Over 100mm.");

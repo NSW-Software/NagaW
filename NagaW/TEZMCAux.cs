@@ -552,7 +552,7 @@ namespace NagaW
         static UInt32 uiResponseLength = 1024;
         private static void execute(string cmd, ref string stringResult, bool silent = false, bool forceLog = false)//Execute Task
         {
-            if (!CheckSideDoor()) return;
+            //if (!CheckSideDoor()) return;
 
             CheckMoveFlag(cmd);
 
@@ -848,15 +848,19 @@ namespace NagaW
             return (int)QueryDouble($"TABLE({tableNo})");
         }
 
+        public static bool BoardTransferring = false;
+        public static bool SideDoorDetected = false;
         public static bool CheckSideDoor()
         {
             try
             {
                 if (GSystemCfg.Safety.SideDoorCheck)
                 {
+                    if (SideDoorDetected) return false;
                     var input = GMotDef.Inputs[(int)GSystemCfg.Safety.SideDoorSens];
                     if (input.Status)
                     {
+                        SideDoorDetected = true;
                         GAlarm.Prompt(EAlarm.SIDE_DOOR_PSNT, "Side Door Sensor Triggered. Please Check");
                         return false;
                     }

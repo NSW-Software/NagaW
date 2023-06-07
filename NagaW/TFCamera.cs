@@ -627,6 +627,7 @@ namespace NagaW
             }
             catch (Exception ex)
             {
+                TFCamera1.Cameras[0].Reconnect();
                 GAlarm.Prompt(EAlarm.VISION_UNDEFINED_ERROR, ex.Message.ToString());
                 return false;
             }

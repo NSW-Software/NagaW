@@ -78,7 +78,9 @@ namespace NagaW
                         {
                             continueDisp = false;
 
+                            TEZMCAux.BoardTransferring = true;
                             if (!TCWafer.AutoLoad(timeout.Value * 1000)) break;
+                            TEZMCAux.BoardTransferring = false;
                         }
 
                         continueDisp = false;
@@ -95,7 +97,9 @@ namespace NagaW
                         Inst.Board[0].RunMode = runMode;
                         if (!TCDisp.Run[0].All()) break;
 
+                        TEZMCAux.BoardTransferring = true;
                         if (!TCWafer.AutoUnload()) break;
+                        TEZMCAux.BoardTransferring = false;
                     }
 
                 });
@@ -120,6 +124,7 @@ namespace NagaW
             }
             finally
             {
+                TEZMCAux.BoardTransferring = false;
                 TFTower.Process(false);
 
                 GControl.UI_Enable();

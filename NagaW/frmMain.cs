@@ -50,6 +50,7 @@ namespace NagaW
             }
 
             tmrDisplay.Enabled = true;
+            tmrSideDoor.Enabled = true;
 
             TFTool.UpdateTool(tsTools);
             GControl.LogForm(this);
@@ -184,6 +185,18 @@ namespace NagaW
             tsslblSystemState.Text = "System State: " + GDefine.SystemState.ToString() + " L: " + TFGantry.GLStatus.ToString() + " R: " + TFGantry.GRStatus.ToString();
 
             //TCTempCtrl.TempMonitoring();
+        }
+        private void tmrSideDoor_Tick(object sender, EventArgs e)
+        {
+            if (TEZMCAux.BoardTransferring) return;
+            if (!TEZMCAux.CheckSideDoor())
+            {
+                TFGantry.GantryLeft.StopDecel();
+                TFGantry.GantryVR.StopDecel();
+
+                TCDisp.Run[0].Stop();
+                TCDisp.Run[0].bRun = false;
+            }
         }
 
         private void btnHomeAll_Click(object sender, EventArgs e)

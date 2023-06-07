@@ -120,6 +120,13 @@ namespace NagaW
             }
         }
 
+        public void Reconnect()
+        {
+            Disconnect();
+            Thread.Sleep(1000);
+            Connect();
+        }
+
         public void RegisterPicBox(ImageBox imageBox)
         {
             try
