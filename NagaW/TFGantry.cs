@@ -2829,7 +2829,8 @@ namespace NagaW
                                 RAxis.StopEmg();
                                 RAxis.SetParam(0, 30, 500, 500);
 
-                                GLog.LogProcess($"Notch > alignment successfully, Height Value:: {hvalue}");
+                                GLog.LogProcess($"Notch > alignment successfully, Height Value: {hvalue}");
+                                //GLog.LogProcess($"Notch > alignment successfully, Thickness: {Math.Abs(hvalue - firsthvalue)}");
                                 return IsNotch = true;
                             }
 
@@ -2844,13 +2845,15 @@ namespace NagaW
 
                                 notch_edge_1 = RAxis.ActualPos;
 
-                                GLog.LogProcess($"Notch < alignment successfully, Height Value:: {hvalue}");
+                                GLog.LogProcess($"Notch < alignment successfully, Height Value: {hvalue}");
+                                //GLog.LogProcess($"Notch > alignment successfully, Thickness: {Math.Abs(firsthvalue - hvalue)}");
                                 return IsNotch = true;
                             }
                         }
 
                         if (notch_edge_1 != 0) break;
-                        if (!RAxis.Busy) break;
+                        if (!RAxis.Busy) 
+                            break;
                     }
                     if (!exec) throw new Exception("no value");
                     if (notch_edge_1 is 0) continue;
@@ -2887,7 +2890,7 @@ namespace NagaW
                     #region
                     var edgeRev = GProcessPara.Wafer.NotchEdgeRev.Value;
 
-                    if (!gantry.GotoXYZ(new PointXYZ(xypos.X, xypos.Y + edgeRev, 0))) return false;
+                    if (!gantry.GotoXYZ(new PointXYZ(xypos.X, xypos.Y + 1.5, 0))) return false;
 
                     var YAxis = gantry.YAxis;
 
@@ -2899,15 +2902,20 @@ namespace NagaW
                         {
                             if ((hvalue - hvaluelist.FirstOrDefault() > stepheight) || (hvalue <= -50))
                             {
+                                bool over = false;
+                                if (Math.Abs(hvalue) > 50) over = true;
+
                                 //get edge pos
                                 var edgepos = YAxis.ActualPos;
                                 //stop movement
                                 YAxis.StopEmg();
                                 while (YAxis.Busy) Thread.Sleep(1);
                                 Thread.Sleep(100);
-                                YAxis.MoveAbs(edgepos + 1, true);
+                                YAxis.MoveAbs(edgepos + edgeRev, true);
                                 while (gantry.Busy) Thread.Sleep(1);
                                 Thread.Sleep(100);
+
+                                stepheight = over ? stepheight : Math.Min(Math.Abs(hvalue - hvaluelist.FirstOrDefault()) * 0.8, stepheight);
 
                                 findedge = true;
                                 return true;
