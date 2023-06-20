@@ -51,8 +51,9 @@ namespace NagaW
 
                 if (GDefine.SystemState != ESystemState.Ready)
                 {
-                    frmMsgbox msgbox = new frmMsgbox("System Not Ready.", MsgBoxBtns.OK);
-                    msgbox.ShowDialog();
+                    MsgBox.ShowDialog("System Not Ready.");
+                    //frmMsgbox msgbox = new frmMsgbox("System Not Ready.", MsgBoxBtns.OK);
+                    //msgbox.ShowDialog();
                     return;
                 }
 

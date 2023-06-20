@@ -4607,7 +4607,7 @@ namespace NagaW
                         var xy = new PointD(gantryGroup.Axis[0].ActualPos, gantryGroup.Axis[1].ActualPos);
 
                         GControl.UI_Enable();
-                        var msg = MsgBox.ShowDialog($"PA 1 Vision Match Low Score\r\nSetScore:{minScore}\r\nPA score:{score:f2}" + desc, MsgBoxBtns.OkAbortRetryIgnore);
+                        var msg = MsgBox.ShowDialog($"PA 1 Vision Match Low Score\r\nSetScore:{minScore}\r\nPA score:{score:f2}" + desc, MsgBoxBtns.OkAbortRetryIgnore, true);
                         GControl.UI_Disable(GControl.ExceptionCtrl);
                         //TFCameras.Camera[gantry.Index].Live();
                         TFCamera1.Cameras[gantry.Index].Live();
@@ -4645,7 +4645,7 @@ namespace NagaW
 
                     var xy = new PointD(gantryGroup.Axis[0].ActualPos, gantryGroup.Axis[1].ActualPos);
                     GControl.UI_Enable();
-                    var msg = MsgBox.ShowDialog($"PA 1 Offset Fail\r\nSetOffsetTol:{maxOfst}\r\nPA Offset:{Math.Abs(ofst.X)},{Math.Abs(ofst.Y)}\r\n" + desc, MsgBoxBtns.OkRetryAbort);
+                    var msg = MsgBox.ShowDialog($"PA 1 Offset Fail\r\nSetOffsetTol:{maxOfst}\r\nPA Offset:{Math.Abs(ofst.X)},{Math.Abs(ofst.Y)}\r\n" + desc, MsgBoxBtns.OkRetryAbort, true);
                     GControl.UI_Disable(GControl.ExceptionCtrl);
                     TFCamera1.Cameras[gantry.Index].Live();//TFCameras.Camera[gantry.Index].Live();
 
@@ -4738,7 +4738,7 @@ namespace NagaW
 
                             var xy = new PointD(gantryGroup.Axis[0].ActualPos, gantryGroup.Axis[1].ActualPos);
                             GControl.UI_Enable();
-                            var msg = MsgBox.ShowDialog($"PA 2 vision match low score\r\nSetScore:{minScore}\r\nPA score:{score}" + desc, MsgBoxBtns.OkRetryAbort);
+                            var msg = MsgBox.ShowDialog($"PA 2 vision match low score\r\nSetScore:{minScore}\r\nPA score:{score}" + desc, MsgBoxBtns.OkRetryAbort, true);
                             GControl.UI_Disable(GControl.ExceptionCtrl);
                             TFCamera1.Cameras[gantry.Index].Live();//TFCameras.Camera[gantry.Index].Live();
 
@@ -4774,7 +4774,7 @@ namespace NagaW
 
                         var xy = new PointD(gantryGroup.Axis[0].ActualPos, gantryGroup.Axis[1].ActualPos);
                         GControl.UI_Enable();
-                        var msg = MsgBox.ShowDialog($"PA 2 Offset Fail\r\nSetOffsetTol:{maxOfst}\r\nPA Offset:{Math.Abs(ofst.X)},{Math.Abs(ofst.Y)}\r\n" + desc, MsgBoxBtns.OkRetryAbort);
+                        var msg = MsgBox.ShowDialog($"PA 2 Offset Fail\r\nSetOffsetTol:{maxOfst}\r\nPA Offset:{Math.Abs(ofst.X)},{Math.Abs(ofst.Y)}\r\n" + desc, MsgBoxBtns.OkRetryAbort, true);
                         GControl.UI_Disable(GControl.ExceptionCtrl);
                         TFCamera1.Cameras[gantry.Index].Live();//TFCameras.Camera[gantry.Index].Live();
 
@@ -4825,7 +4825,7 @@ namespace NagaW
                     if (Math.Abs(angle) > maxAngle)
                     {
                         GControl.UI_Enable();
-                        var msg = MsgBox.ShowDialog($"PA Vision Match Angle Error{angle:f3}" + desc, MsgBoxBtns.OkRetryAbort);
+                        var msg = MsgBox.ShowDialog($"PA Vision Match Angle Error{angle:f3}" + desc, MsgBoxBtns.OkRetryAbort, true);
                         GControl.UI_Disable(GControl.ExceptionCtrl);
                         switch (msg)
                         {
@@ -4848,7 +4848,7 @@ namespace NagaW
 
                 bool ChangeID()
                 {
-                    var msg = MsgBox.ShowDialog($"Multisearch fail with ID:{id}.\nchange ID?", MsgBoxBtns.YesNo);
+                    var msg = MsgBox.ShowDialog($"Multisearch fail with ID:{id}.\nchange ID?", MsgBoxBtns.YesNo, true);
                     if (msg == DialogResult.Yes)
                     {
                         IPara para = new IPara($"Change Pattern ID:{id}", id, 0, GRecipes.PatRecog[gantry.Index].Count - 1, EUnit.NONE);

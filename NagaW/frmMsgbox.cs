@@ -26,6 +26,9 @@ namespace NagaW
 
     public partial class frmMsgbox : Form
     {
+        public DialogResult dr = DialogResult.Cancel;
+
+        private TEZMCAux.TOutput buzzer { get => GMotDef.Out35; }
         public frmMsgbox()
         {
             InitializeComponent();
@@ -39,14 +42,16 @@ namespace NagaW
 
             Text = "Message";
         }
-        public frmMsgbox(string msg, MsgBoxBtns btns) : this()
+        public frmMsgbox(string msg, MsgBoxBtns btns, bool alarm = false, bool manual = false) : this()
         {
             lblMsg.Text = msg;
-            panel1.Controls.OfType<Button>().ToList().ForEach(x => 
+            panel1.Controls.OfType<Button>().ToList().ForEach(x =>
             {
                 x.Visible = false;
                 x.TabStop = false;
             });
+
+            if (!manual) btnManual.Parent.Controls.Remove(btnManual);
 
             //Accept = OK share OK button and return DialogResult.OK
             //Skip = Ignore share Skip button and return DialogResult.Ignore
@@ -90,62 +95,78 @@ namespace NagaW
                     btnAbort.Visible = btnOK.Visible = btnRetry.Visible = true;
                     btnOK.Text = "Accept";
                     break;
+                //case MsgBoxBtns.RetryManualAbort:
+                //    btnOK.Visible = btnRetry.Visible = btnAbort.Visible = true;
+                //    btnOK.Text = "Manual";
+                //    break;
             }
+            btnBuzzerMute.Visible = alarm;
         }
         private void frmMsgbox_Load(object sender, EventArgs e)
         {
-            //Location = new Point(Location.X, 0);
-            //When frmMain is not created, prompt in default location Primary Screen Center
-
-            if (Application.OpenForms[0].Name.Contains("frmMain")) Location = new Point(Location.X, Application.OpenForms[0].Top);
+            if (!GSystemCfg.Option.PromptMSg_AckPAtAlignment_Centred)
+            {
+                if (Application.OpenForms[0].Name.Contains("frmMain"))
+                    Location = new Point(Location.X, Application.OpenForms[0].Top);
+            }
             BringToFront();
             GControl.LogForm(this);
-            TopMost = true;
-            TopLevel = true;
+
+            timer1.Interval = 1000;
             timer1.Enabled = true;
         }
-
         private void btnOK_Click(object sender, EventArgs e)
         {
-            DialogResult = DialogResult.OK;
+            dr = DialogResult.OK;
             Close();
         }
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            DialogResult = DialogResult.Cancel;
+            dr = DialogResult.Cancel;
             Close();
         }
         private void btnRetry_Click(object sender, EventArgs e)
         {
-            DialogResult = DialogResult.Retry;
+            dr = DialogResult.Retry;
             Close();
         }
         private void btnYes_Click(object sender, EventArgs e)
         {
-            DialogResult = DialogResult.Yes;
+            dr = DialogResult.Yes;
             Close();
         }
         private void btnNo_Click(object sender, EventArgs e)
         {
-            DialogResult = DialogResult.No;
+            dr = DialogResult.No;
             Close();
         }
         private void btnAbort_Click(object sender, EventArgs e)
         {
-            DialogResult = DialogResult.Abort;
+            dr = DialogResult.Abort;
             Close();
         }
         private void btnIgnore_Click(object sender, EventArgs e)
         {
-            DialogResult = DialogResult.Ignore;
+            dr = DialogResult.Ignore;
             Close();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            BringToFront();
             TopMost = true;
             TopLevel = true;
+            BringToFront();
+        }
+
+        private void btnBuzzerMute_Click(object sender, EventArgs e)
+        {
+            buzzer.Status = false;
+        }
+
+        private void btnManual_Click(object sender, EventArgs e)
+        {
+            dr = DialogResult.None;
+            Close();
         }
     }
 }

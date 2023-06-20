@@ -220,8 +220,7 @@ namespace NagaW
         {
             if (TFGantry.GLStatus != EStatus.Ready)
             {
-                frmMsgbox msgbox = new frmMsgbox("Gantry Left Not Ready.", MsgBoxBtns.OK);
-                msgbox.ShowDialog();
+                MsgBox.ShowDialog("Gantry Left Not Ready.");
                 return false;
             }
 
@@ -233,15 +232,13 @@ namespace NagaW
                 if ((i & 0x02) > 0) strAxis += GantryLeft.Axis[1].Name + " ";
                 if ((i & 0x03) > 0) strAxis += GantryLeft.Axis[2].Name + " ";
 
-                frmMsgbox msgbox = new frmMsgbox("Gantry Left  Error. " + strAxis, MsgBoxBtns.OK);
-                msgbox.ShowDialog();
+                MsgBox.ShowDialog("Gantry Left  Error. " + strAxis);
                 return false;
             }
 
             if (!GantryLeft.Enabled)
             {
-                frmMsgbox msgbox = new frmMsgbox("Gantry Left no enabled.", MsgBoxBtns.OK);
-                msgbox.ShowDialog();
+                MsgBox.ShowDialog("Gantry Left no enabled.");
                 return false;
             }
 
@@ -328,8 +325,7 @@ namespace NagaW
         {
             if (TFGantry.GRStatus != EStatus.Ready)
             {
-                frmMsgbox msgbox = new frmMsgbox("Gantry Right Not Ready.", MsgBoxBtns.OK);
-                msgbox.ShowDialog();
+                MsgBox.ShowDialog("Gantry Right Not Ready.");
                 return false;
             }
 
@@ -341,18 +337,15 @@ namespace NagaW
                 if ((i & 0x02) > 0) strAxis += GantryRight.Axis[1].Name + " ";
                 if ((i & 0x03) > 0) strAxis += GantryRight.Axis[2].Name + " ";
 
-                frmMsgbox msgbox = new frmMsgbox("Gantry Right  Error. " + strAxis, MsgBoxBtns.OK);
-                msgbox.ShowDialog();
+                MsgBox.ShowDialog("Gantry Right  Error. ");
                 return false;
             }
 
             if (!GantryRight.Enabled)
             {
-                frmMsgbox msgbox = new frmMsgbox("Gantry Right no enabled.", MsgBoxBtns.OK);
-                msgbox.ShowDialog();
+                MsgBox.ShowDialog("Gantry Right no enabled.");
                 return false;
             }
-
             return true;
         }
 
@@ -2373,6 +2366,8 @@ namespace NagaW
 
         public static bool IsNotch = false;
 
+        public static bool IsProcessing = false; 
+
         //lifer motor stroke 21 - lifter Z-dimension stroke 12
         public static bool LifterUp()
         {
@@ -2750,12 +2745,20 @@ namespace NagaW
         static TEZMCAux.TAxis RAxis = GMotDef.GRAxis;
 
         public static bool StopNotch = false;
-        public static bool NotchAlignmentLaser(double stepheight = 0, int angle = 0, double speed = 0, int overangle = 0)
+        public static bool NotchAlignmentLaser(/*double stepheight = 0, int angle = 0, double speed = 0, int overangle = 0*/)
         {
+            double stepheight = 0;
+            int angle = 0;
+            double speed = 0;
+            int overangle = 0;
 
             try
             {
+                IsProcessing = true;
+                Thread.Sleep(100);
                 IsNotch = false;
+
+                int consecutiveCount = 0;
 
                 if (!IsWaferDetected)
                 {
@@ -2777,14 +2780,14 @@ namespace NagaW
                 if (!gantry.GotoXYZ(new PointXYZ(xypos.X, xypos.Y, 0))) return false;
 
                 double rotaryactualpos = RAxis.ActualPos;
-
                 double notch_edge_1 = 0;//left notch edge
 
-                GLog.LogProcess($"Notch Alignment. Thickness: {GRecipes.Board[gantry.Index].WaferHeight.Value}, Angle: {angle}, Speed: {speed}, Over Angle: {overangle}");
+                GLog.LogProcess($"Notch Alignment. StepHeight: {stepheight}, Angle: {angle}, Speed: {speed}, Over Angle: {overangle}");
                 var prevAngle = angle;
                 //apply detection every 45 degree, 360/45 = 8 times shift checking
                 for (int i = 0; i < 361 + overangle; i += angle)
                 {
+
                     if (i >= 360) angle = (int)(prevAngle * 1.6);
 
                     if (StopNotch)
@@ -2792,6 +2795,9 @@ namespace NagaW
                         StopNotch = false;
                         return false;
                     }
+
+                _redo:
+
                     if (!findnotchedge()) return false;
 
                     while (gantry.Busy) Thread.Sleep(1);
@@ -2821,10 +2827,24 @@ namespace NagaW
                         if (notch_edge_1 is 0)
                         {
                             //5-3=2
-                            if (((hvalue - firsthvalue) > stepheight) || (hvalue <= -50))
+                            if ((/*Math.Abs*/(hvalue - firsthvalue) > stepheight) || (hvalue <= -50))
                             {
-                                if (Math.Abs(hvalue) > 50) break;
-                                
+                                if (Math.Abs(hvalue) >= 50)
+                                {
+                                    if (++consecutiveCount < GProcessPara.Wafer.OORCounter.Value)
+                                    {
+                                        RAxis.StopEmg();
+                                        GLog.LogProcess($"Notch > alignment OutofRange, Height Value:: {hvalue} [-999], Counter{consecutiveCount}");
+                                        RAxis.MoveRel(-angle / 2);
+                                        goto _redo;
+                                    }
+
+                                    notch_edge_1 = RAxis.ActualPos;
+                                    RAxis.StopEmg();
+                                    RAxis.SetParam(0, 30, 500, 500);
+                                    GLog.LogProcess($"Notch > alignment successfully, Height Value:: {hvalue} [-999]");
+                                    return IsNotch = true;
+                                }
                                 notch_edge_1 = RAxis.ActualPos;
                                 RAxis.StopEmg();
                                 RAxis.SetParam(0, 30, 500, 500);
@@ -2834,19 +2854,31 @@ namespace NagaW
                             }
 
                             //3-5=-2
-                            if ((firsthvalue - hvalue) < -stepheight)
-                            {
-                                if (Math.Abs(hvalue) > 50) break;
+                            //if ((firsthvalue - hvalue) < -stepheight)
+                            //{
+                            //    if (Math.Abs(hvalue) >= 50)
+                            //    {
+                            //        if (++consecutiveCount < GProcessPara.Wafer.OORCounter.Value) goto _redo;
 
-                                RAxis.StopEmg();
-                                RAxis.SetParam(0, 30, 500, 500);
-                                RAxis.MoveRel(-1);
 
-                                notch_edge_1 = RAxis.ActualPos;
+                            //        RAxis.StopEmg();
+                            //        RAxis.SetParam(0, 30, 500, 500);
+                            //        RAxis.MoveRel(-1);
 
-                                GLog.LogProcess($"Notch < alignment successfully, Height Value:: {hvalue}");
-                                return IsNotch = true;
-                            }
+                            //        notch_edge_1 = RAxis.ActualPos;
+                            //        GLog.LogProcess($"Notch < alignment successfully, Height Value:: {hvalue} [-999]");
+                            //        return IsNotch = true;
+                            //    }
+
+                            //    RAxis.StopEmg();
+                            //    RAxis.SetParam(0, 30, 500, 500);
+                            //    RAxis.MoveRel(-1);
+
+                            //    notch_edge_1 = RAxis.ActualPos;
+
+                            //    GLog.LogProcess($"Notch < alignment successfully, Height Value:: {hvalue}");
+                            //    return IsNotch = true;
+                            //}
                         }
 
                         if (notch_edge_1 != 0) break;
@@ -2868,6 +2900,7 @@ namespace NagaW
 
             finally
             {
+                IsProcessing = false;
                 RAxis.SetParam(0, 30, 500, 500);
                 RAxis.StopEmg();
             }
@@ -2891,7 +2924,7 @@ namespace NagaW
 
                     var YAxis = gantry.YAxis;
 
-                    YAxis.MoveRel(new double[] { 0, 2, 1000, 1000, 0 }, -5, false);
+                    YAxis.MoveRel(new double[] { 0, 1, 1000, 1000, 0 }, -5, false);
                     while (TFHSensors.Sensor[gantry.Index].GetValue(ref hvalue))
                     {
                         hvaluelist.Add(hvalue);
@@ -2905,7 +2938,8 @@ namespace NagaW
                                 YAxis.StopEmg();
                                 while (YAxis.Busy) Thread.Sleep(1);
                                 Thread.Sleep(100);
-                                YAxis.MoveAbs(edgepos + 1, true);
+                                //YAxis.MoveAbs(edgepos + 1, true);
+                                YAxis.MoveAbs(edgepos + GProcessPara.Wafer.NotchEdgeRev.Value, true);
                                 while (gantry.Busy) Thread.Sleep(1);
                                 Thread.Sleep(100);
 

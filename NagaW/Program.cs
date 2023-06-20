@@ -26,7 +26,6 @@ namespace NagaW
             }
             mutex.WaitOne();
 
-            TCSystem.StartUp();
             Application.Run(new frmMain());
 
             TCSystem.ShutDown();

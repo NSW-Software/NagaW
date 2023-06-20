@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 
 namespace NagaW
 {
@@ -85,10 +86,13 @@ namespace NagaW
             }
             return true;
         }
+
+        Mutex Mtx = new Mutex();
         public bool GetValue(ref double value)
         {
             try
             {
+                Mtx.WaitOne();
                 switch (Type)
                 {
                     case TEMEDAQ.EType.CL3000: CL3.GetValue(Index, out value); break;
@@ -111,6 +115,10 @@ namespace NagaW
                         break;
                 }
                 return false;
+            }
+            finally
+            {
+                Mtx.ReleaseMutex();
             }
         }
         public bool IsConnected

@@ -653,12 +653,25 @@ namespace NagaW
     }
     class MsgBox
     {
-        public static DialogResult ShowDialog(string msg, MsgBoxBtns btns)
+        static System.Threading.Mutex mtx = new System.Threading.Mutex();
+        public static DialogResult ShowDialog(string msg, MsgBoxBtns btns, bool alarm = false, bool manual = false)
         {
-            var dr = new frmMsgbox(msg, btns).ShowDialog();
-            string log = $"Msg:{msg} Dialogresult:{dr}";
-            GLog.WriteLog(ELogType.NOTIFY, log);
-            return dr;
+            try
+            {
+                mtx.WaitOne();
+                if (alarm) TFTower.Error(true);
+                var frm = new frmMsgbox(msg, btns, alarm, manual);
+                //Application.OpenForms[0].Invoke(new Action(() => frm.ShowDialog()));
+                frm.ShowDialog();
+                if (alarm) TFTower.Error(false);
+                string log = $"Msg:{msg} Dialogresult:{frm.dr}";
+                GLog.WriteLog(ELogType.NOTIFY, log);
+                return frm.dr;
+            }
+            finally
+            {
+                mtx.ReleaseMutex();
+            }
         }
         public static DialogResult ShowDialog(string msg)
         {

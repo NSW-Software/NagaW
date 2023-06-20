@@ -34,6 +34,8 @@ namespace NagaW
             //Top = 0;//Screen.PrimaryScreen.WorkingArea.Height;
             this.SendToBack();
 
+            TCSystem.StartUp();
+
             Rectangle wa = Screen.PrimaryScreen.WorkingArea;
             int max = Math.Max(wa.Width, wa.Height);
             if (wa.Width > wa.Height)//Landscape

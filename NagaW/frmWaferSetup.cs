@@ -70,6 +70,9 @@ namespace NagaW
             lblCountVision.UpdatePara(GProcessPara.Wafer.NotchVisonRepeatCount);
             lblOverAngle.UpdatePara(GProcessPara.Wafer.NotchOverAngle);
 
+            lblOORCounter.UpdatePara(GProcessPara.Wafer.OORCounter);
+
+
             GControl.UpdateFormControl(this);
         }
 
@@ -504,6 +507,38 @@ namespace NagaW
         {
             GLog.SetPara(ref GProcessPara.Wafer.NotchOverAngle);
             UpdateDisplay();
+        }
+
+        private void cbxAutoThicknessDetect_Click(object sender, EventArgs e)
+        {
+            GProcessPara.Wafer.EnableAutoHeightDetect = !GProcessPara.Wafer.EnableAutoHeightDetect;
+            UpdateDisplay();
+        }
+
+        private void lblOORCounter_Click(object sender, EventArgs e)
+        {
+            GLog.SetPara(ref GProcessPara.Wafer.OORCounter);
+            UpdateDisplay();
+        }
+
+        private void btnBurnRun_Click(object sender, EventArgs e)
+        {
+            var res = MsgBox.ShowDialog("BurnRun, Continue?", MsgBoxBtns.OKCancel);
+            if (res != DialogResult.OK) return;
+
+            bool brun = true;
+            MsgBox.Processing("Notch Alignment",
+                () => {
+                    while (brun)
+                    {
+                        TCWafer.NotchAlignment();
+                        System.Threading.Thread.Sleep(1000);
+                    }}, 
+                () => 
+                {
+                    TCWafer.StopNotch = true;
+                    brun = false;
+                });
         }
     }
 }

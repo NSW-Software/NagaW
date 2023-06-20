@@ -83,9 +83,17 @@ namespace NagaW
             btnPosZ.BackColor = gantry.Axis[2].HLmtP ? Parent.BackColor : Color.Red;
             btnNegZ.BackColor = gantry.Axis[2].HLmtN ? Parent.BackColor : Color.Red;
 
+            var light = TFLightCtrl.lightPair.CurrentLight;
+
+            trackBar1.Value = light.C1;
+            trackBar2.Value = light.C2;
+            trackBar3.Value = light.C3;
+            trackBar4.Value = light.C4;
+
             lblLaser.ForeColor = measLaser ? Color.Red : this.ForeColor;
             if (bLaserPool)
             {
+                if (TCWafer.IsProcessing) return;
                 double value = 0;
                 if (!TFHSensors.Sensor[gantry.Index].GetValue(ref value)) bLaserPool = false;
                 lblLaser.Text = (value - laserZero).ToString("f3");
@@ -94,13 +102,6 @@ namespace NagaW
             {
                 lblLaser.Text = "----";
             }
-
-            var light = TFLightCtrl.lightPair.CurrentLight;
-
-            trackBar1.Value = light.C1;
-            trackBar2.Value = light.C2;
-            trackBar3.Value = light.C3;
-            trackBar4.Value = light.C4;
         }
 
         private void btnOK_Click(object sender, EventArgs e)

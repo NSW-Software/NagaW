@@ -807,6 +807,9 @@ namespace NagaW
             public static IPara NotchVisonRepeatCount = new IPara(nameof(Wafer) + nameof(NotchVisonRepeatCount), 1, 1, 10, EUnit.COUNT);
 
             public static IPara NotchOverAngle = new IPara(nameof(Wafer) + nameof(NotchOverAngle), 0, 0, 360, EUnit.ANGLE);
+            public static IPara OORCounter = new IPara(nameof(Wafer) + nameof(OORCounter), 0, 0, 10, EUnit.COUNT);
+
+            public static bool EnableAutoHeightDetect = false;
         }
 
         public static bool SaveFile(string filepath)
