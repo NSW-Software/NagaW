@@ -3599,122 +3599,122 @@ namespace NagaW
                     #endregion
 
                     case ECmd.HEIGHT_PROFILE_SETUP:
-                        #region
-                        {
-                            if (!FirstHeight25D) break;
-                            double pitch = cmd.Para[0];
-                            double h25DSpeed = cmd.Para[1];
+                    //    #region
+                    //    {
+                    //        if (!FirstHeight25D) break;
+                    //        double pitch = cmd.Para[0];
+                    //        double h25DSpeed = cmd.Para[1];
 
-                            List<double> result = new List<double>();
-                            List<double> tempPos = new List<double>();
-                            PointD lastPos = new PointD();
-                            PointD dist = new PointD();
-                            PointD segment = new PointD();
-                            int count = 0;
+                    //        List<double> result = new List<double>();
+                    //        List<double> tempPos = new List<double>();
+                    //        PointD lastPos = new PointD();
+                    //        PointD dist = new PointD();
+                    //        PointD segment = new PointD();
+                    //        int count = 0;
 
-                            List<int> dataCount = new List<int>();
+                    //        List<int> dataCount = new List<int>();
 
-                            PointI[] ij = new PointI[2] { clusterCR, unitCR };
+                    //        PointI[] ij = new PointI[2] { clusterCR, unitCR };
 
-                            PointD unitOrigin = boardOrigin + relCluster;
-                            unitOrigin = unitOrigin + GSetupPara.Calibration.LaserOffset[gantry.Index];
+                    //        PointD unitOrigin = boardOrigin + relCluster;
+                    //        unitOrigin = unitOrigin + GSetupPara.Calibration.LaserOffset[gantry.Index];
 
-                            if (!Height25DData(true, ref result)) return false;
+                    //        if (!Height25DData(true, ref result)) return false;
 
-                            var totalUnit = Inst.Board[0].UnitCR;
+                    //        var totalUnit = Inst.Board[0].UnitCR;
 
-                            for (int i = 0; i < totalUnit.X; i++)
-                            {
-                                for (int j = 0; j < totalUnit.Y; j++)
-                                {
-                                    var tempUnitRel = GRecipes.MultiLayout[0][layoutNo].Unit.RelPos(new PointI(i, j));
-                                    var tempIJ = new PointI[] { new PointI(0, 0), new PointI(i, j) };
+                    //        for (int i = 0; i < totalUnit.X; i++)
+                    //        {
+                    //            for (int j = 0; j < totalUnit.Y; j++)
+                    //            {
+                    //                var tempUnitRel = GRecipes.MultiLayout[0][layoutNo].Unit.RelPos(new PointI(i, j));
+                    //                var tempIJ = new PointI[] { new PointI(0, 0), new PointI(i, j) };
 
-                                    cmdBuffer = sBase;
-                                    cmdBuffer += $"ENDMOVE_SPEED=1000 ";
-                                    TEZMCAux.DirectCommand(cmdBuffer);
-                                    cmdBuffer += sBase;
+                    //                cmdBuffer = sBase;
+                    //                cmdBuffer += $"ENDMOVE_SPEED=1000 ";
+                    //                TEZMCAux.DirectCommand(cmdBuffer);
+                    //                cmdBuffer += sBase;
 
-                                    foreach (var c in CmdEnabled)
-                                    {
-                                        switch (c.Cmd)
-                                        {
-                                            case ECmd.LINE_START:
-                                                lastPos = Translate(new PointD(c.Para[0], c.Para[1]) + tempUnitRel, instBoard.LayerData[layoutNo].GetUnitAlign(tempIJ));
-                                                unitOrigin += lastPos;
+                    //                foreach (var c in CmdEnabled)
+                    //                {
+                    //                    switch (c.Cmd)
+                    //                    {
+                    //                        case ECmd.LINE_START:
+                    //                            lastPos = Translate(new PointD(c.Para[0], c.Para[1]) + tempUnitRel, instBoard.LayerData[layoutNo].GetUnitAlign(tempIJ));
+                    //                            unitOrigin += lastPos;
 
-                                                THeightData heightData = new THeightData();
-                                                if (!HeightAlignExecute(gantry, unitOrigin, cmd, ref heightData)) return false;
+                    //                            THeightData heightData = new THeightData();
+                    //                            if (!HeightAlignExecute(gantry, unitOrigin, cmd, ref heightData)) return false;
 
-                                                instBoard.LayerData[layoutNo].SetUnitHeight(ij, heightData);
-                                                instBoard.MAP.SetState(tempIJ[0], tempIJ[1], state);
+                    //                            instBoard.LayerData[layoutNo].SetUnitHeight(ij, heightData);
+                    //                            instBoard.MAP.SetState(tempIJ[0], tempIJ[1], state);
 
-                                                dataCount = new List<int>();
+                    //                            dataCount = new List<int>();
 
-                                                break;
-                                            case ECmd.LINE_PASS:
-                                            case ECmd.LINE_END:
-                                                PointD oriPos = Translate(new PointD(c.Para[0], c.Para[1]) + tempUnitRel, instBoard.LayerData[layoutNo].GetUnitAlign(tempIJ));
-                                                dist = oriPos - lastPos;
-                                                bool isRow = Math.Abs(dist.X) > Math.Abs(dist.Y);
-                                                count = (int)(isRow ? Math.Abs(dist.X) / pitch : Math.Abs(dist.Y) / pitch);
-                                                count = count is 0 ? 1 : count;
-                                                segment = new PointD(dist.X / count, dist.Y / count);
+                    //                            break;
+                    //                        case ECmd.LINE_PASS:
+                    //                        case ECmd.LINE_END:
+                    //                            PointD oriPos = Translate(new PointD(c.Para[0], c.Para[1]) + tempUnitRel, instBoard.LayerData[layoutNo].GetUnitAlign(tempIJ));
+                    //                            dist = oriPos - lastPos;
+                    //                            bool isRow = Math.Abs(dist.X) > Math.Abs(dist.Y);
+                    //                            count = (int)(isRow ? Math.Abs(dist.X) / pitch : Math.Abs(dist.Y) / pitch);
+                    //                            count = count is 0 ? 1 : count;
+                    //                            segment = new PointD(dist.X / count, dist.Y / count);
 
-                                                dataCount.Add(count);
+                    //                            dataCount.Add(count);
 
-                                                #region Trigger Pos
-                                                for (int x = 0; x < count; x++)
-                                                {
-                                                    unitOrigin += segment;
-                                                    tempPos.Add(isRow ? unitOrigin.X : unitOrigin.Y);
-                                                }
+                    //                            #region Trigger Pos
+                    //                            for (int x = 0; x < count; x++)
+                    //                            {
+                    //                                unitOrigin += segment;
+                    //                                tempPos.Add(isRow ? unitOrigin.X : unitOrigin.Y);
+                    //                            }
 
-                                                int table_startIdx = (gantryIdx + 1) * 10000;
-                                                int table_endIdx = table_startIdx + tempPos.Count - 1;
+                    //                            int table_startIdx = (gantryIdx + 1) * 10000;
+                    //                            int table_endIdx = table_startIdx + tempPos.Count - 1;
 
-                                                for (int x = 0; x < tempPos.Count; x++)
-                                                {
-                                                    cmdBuffer = $"TABLE({table_startIdx + x},{tempPos[x]}) ";
-                                                    TEZMCAux.DirectCommand(cmdBuffer);
-                                                }
-                                                #endregion
+                    //                            for (int x = 0; x < tempPos.Count; x++)
+                    //                            {
+                    //                                cmdBuffer = $"TABLE({table_startIdx + x},{tempPos[x]}) ";
+                    //                                TEZMCAux.DirectCommand(cmdBuffer);
+                    //                            }
+                    //                            #endregion
 
-                                                cmdBuffer = $"BASE({(isRow ? gantry.XAxis.AxisNo : gantry.YAxis.AxisNo)}) ";
-                                                cmdBuffer += $"HW_PSWITCH2(1,{hTrig.OutputNo},1,{table_startIdx},{table_endIdx},{(tempPos[1] - tempPos[0] > 0 ? 1 : 0)}) ";
-                                                TEZMCAux.DirectCommand(cmdBuffer);
+                    //                            cmdBuffer = $"BASE({(isRow ? gantry.XAxis.AxisNo : gantry.YAxis.AxisNo)}) ";
+                    //                            cmdBuffer += $"HW_PSWITCH2(1,{hTrig.OutputNo},1,{table_startIdx},{table_endIdx},{(tempPos[1] - tempPos[0] > 0 ? 1 : 0)}) ";
+                    //                            TEZMCAux.DirectCommand(cmdBuffer);
 
-                                                cmdBuffer = sBase;
-                                                lastPos = oriPos;
-                                                cmdBuffer += $"FORCE_SPEED={h25DSpeed} ";
-                                                cmdBuffer += $"MOVESP({oriPos.X:f6},{oriPos.Y:f6},0) ";
-                                                TEZMCAux.DirectCommand(cmdBuffer);
-                                                Thread.Sleep(1);
-                                                while (gantry.Busy) Thread.Sleep(1);
+                    //                            cmdBuffer = sBase;
+                    //                            lastPos = oriPos;
+                    //                            cmdBuffer += $"FORCE_SPEED={h25DSpeed} ";
+                    //                            cmdBuffer += $"MOVESP({oriPos.X:f6},{oriPos.Y:f6},0) ";
+                    //                            TEZMCAux.DirectCommand(cmdBuffer);
+                    //                            Thread.Sleep(1);
+                    //                            while (gantry.Busy) Thread.Sleep(1);
 
-                                                cmdBuffer = $"BASE({(isRow ? gantry.XAxis.AxisNo : gantry.YAxis.AxisNo)})8 ";
-                                                cmdBuffer += $"HW_PSWITCH2(2) ";
-                                                cmdBuffer += $"HW_TIMER(0,0,0,1,0,{hTrig.OutputNo} ";
-                                                TEZMCAux.DirectCommand(cmdBuffer);
-                                                break;
-                                            default: break;
-                                        }
-                                    }
-                                    TEZMCAux.Execute(cmdBuffer);
+                    //                            cmdBuffer = $"BASE({(isRow ? gantry.XAxis.AxisNo : gantry.YAxis.AxisNo)})8 ";
+                    //                            cmdBuffer += $"HW_PSWITCH2(2) ";
+                    //                            cmdBuffer += $"HW_TIMER(0,0,0,1,0,{hTrig.OutputNo} ";
+                    //                            TEZMCAux.DirectCommand(cmdBuffer);
+                    //                            break;
+                    //                        default: break;
+                    //                    }
+                    //                }
+                    //                TEZMCAux.Execute(cmdBuffer);
 
-                                    while (gantry.Busy) Thread.Sleep(1);
+                    //                while (gantry.Busy) Thread.Sleep(1);
 
-                                    if (!Height25DData(false, ref result)) return false;
-                                    instBoard.LayerData[layoutNo].Set25DHeight(ij, result);
-                                    instBoard.LayerData[layoutNo].Set25DCount(ij, dataCount);
-                                }
-                            }
+                    //                if (!Height25DData(false, ref result)) return false;
+                    //                instBoard.LayerData[layoutNo].Set25DHeight(ij, result);
+                    //                instBoard.LayerData[layoutNo].Set25DCount(ij, dataCount);
+                    //            }
+                    //        }
 
-                            FirstHeight25D = false;
+                    //        FirstHeight25D = false;
 
-                            break;
-                        }
-                    #endregion
+                    //        break;
+                    //    }
+                    //#endregion
                     case ECmd.HEIGHT_SETUP:
                         #region
                         {
@@ -4217,7 +4217,7 @@ namespace NagaW
                             cmd2.ID = cmd.ID;
                             //cmd2.Para[9] = 0;
 
-                            switch (PatAlignExecute(gantry, originAbs, cmd2, ref alignData, settleTime))
+                            switch (PatAlignExecute(gantry, originAbs, cmd2, ref alignData, settleTime, false, multisearchEn))
                             {
                                 case EAction.Skip:
                                     {
@@ -5120,56 +5120,57 @@ namespace NagaW
 
         public bool Height25DData(bool open, ref List<double> result)
         {
-            List<double> value = new List<double>();
-            int dataSensor = 0;
-            try
-            {
-                if (open)
-                {
-                    TFHSensors.Sensor[0].SetTrigModeSw = true;
-                    TFHSensors.Sensor[0].TrigMode = true;
-                    TFHSensors.Sensor[0].TrigLevel = true;
-                    TFHSensors.Sensor[0].TrigCount = 1;
-                    TFHSensors.Sensor[0].ClearBuffer();
-                }
-                else
-                {
-                    if (!TFHSensors.Sensor[0].DataAvail(ref dataSensor))
-                    {
-                        GAlarm.Prompt(EAlarm.CONFOCAL_VALUE_ERROR, "HEIGHT_25D Scan, There is no data obtained.");
-                        return false;
-                    }
-                    int[] rawData = new int[dataSensor];
-                    double[] scaleData = new double[dataSensor];
-                    int length = 0;
+            return false;
+            //List<double> value = new List<double>();
+            //int dataSensor = 0;
+            //try
+            //{
+            //    if (open)
+            //    {
+            //        TFHSensors.Sensor[0].SetTrigModeSw = true;
+            //        TFHSensors.Sensor[0].TrigMode = true;
+            //        TFHSensors.Sensor[0].TrigLevel = true;
+            //        TFHSensors.Sensor[0].TrigCount = 1;
+            //        TFHSensors.Sensor[0].ClearBuffer();
+            //    }
+            //    else
+            //    {
+            //        if (!TFHSensors.Sensor[0].DataAvail(ref dataSensor))
+            //        {
+            //            GAlarm.Prompt(EAlarm.CONFOCAL_VALUE_ERROR, "HEIGHT_25D Scan, There is no data obtained.");
+            //            return false;
+            //        }
+            //        int[] rawData = new int[dataSensor];
+            //        double[] scaleData = new double[dataSensor];
+            //        int length = 0;
 
-                    if (!TFHSensors.Sensor[0].TransferData(rawData, scaleData, ref length))
-                    {
-                        GAlarm.Prompt(EAlarm.CONFOCAL_VALUE_ERROR, "HEIGHT_25D Scan, Transfer Data Error.");
-                        return false;
-                    }
+            //        if (!TFHSensors.Sensor[0].TransferData(rawData, scaleData, ref length))
+            //        {
+            //            GAlarm.Prompt(EAlarm.CONFOCAL_VALUE_ERROR, "HEIGHT_25D Scan, Transfer Data Error.");
+            //            return false;
+            //        }
 
-                    result = scaleData.ToList();
+            //        result = scaleData.ToList();
 
-                    if (result.Where(x => Math.Abs(x) > 50).ToList().Count > 0)
-                    {
-                        GAlarm.Prompt(EAlarm.CONFOCAL_VALUE_ERROR, "HEIGHT_25D Scan, Invalid Height Value.");
-                        return false;
-                    }
+            //        if (result.Where(x => Math.Abs(x) > 50).ToList().Count > 0)
+            //        {
+            //            GAlarm.Prompt(EAlarm.CONFOCAL_VALUE_ERROR, "HEIGHT_25D Scan, Invalid Height Value.");
+            //            return false;
+            //        }
 
-                    TFHSensors.Sensor[0].ClearBuffer();
-                    TFHSensors.Sensor[0].TrigMode = false;
-                    TFHSensors.Sensor[0].TrigLevel = false;
-                    TFHSensors.Sensor[0].SetTrigModeSw = false;
-                    TFHSensors.Sensor[0].TrigCount = 0;
-                }
-                return true;
-            }
-            catch
-            {
-                GAlarm.Prompt(EAlarm.HEIGHT_ALIGN_OVER_OFFSET, "HEIGHT_25D Scan Error.");
-                return false;
-            }
+            //        TFHSensors.Sensor[0].ClearBuffer();
+            //        TFHSensors.Sensor[0].TrigMode = false;
+            //        TFHSensors.Sensor[0].TrigLevel = false;
+            //        TFHSensors.Sensor[0].SetTrigModeSw = false;
+            //        TFHSensors.Sensor[0].TrigCount = 0;
+            //    }
+            //    return true;
+            //}
+            //catch
+            //{
+            //    GAlarm.Prompt(EAlarm.HEIGHT_ALIGN_OVER_OFFSET, "HEIGHT_25D Scan Error.");
+            //    return false;
+            //}
         }
 
         public PointD PatMultiSearch(int i)

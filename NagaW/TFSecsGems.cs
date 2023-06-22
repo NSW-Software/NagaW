@@ -61,7 +61,7 @@ namespace NagaW
             try
             {
                 GemSystem.Gem_Stop();
-
+                GemSystem.SFMessageReceived -= GemSystem_SFMessageReceived;
                 Connected = false;
 
                 return true;
@@ -790,29 +790,39 @@ namespace NagaW
                 {
                     case IPara ipara:
                         {
-                            value += $"{ipara.Unit}";
+                            value += ipara.Value.ToString();
+
+                            //value += $"{ipara.Unit}";
                             break;
                         }
                     case DPara dpara:
                         {
-                            value += $"{dpara.Unit}";
+                            value += dpara.Value.ToString("f3");
+
+                            //value += $"{dpara.Unit}";
                             break;
                         }
                     case IPara[] iparas:
                         {
                             var ipara = iparas[0];
-                            value += $"{ipara.Unit}";
+                            value += ipara.Value.ToString();
+
+                            //value += $"{ipara.Unit}";
                             break;
                         }
                     case DPara[] dparas:
                         {
                             var dpara = dparas[0];
-                            value += $"{dpara.Unit}";
+                            value += dpara.Value.ToString("f3");
+
+                            //value += $"{dpara.Unit}";
                             break;
                         }
                     case Enum evalue:
                         {
-                            value += Enum.GetNames(o.GetType());
+                            value += o;
+
+                            //value += Enum.GetNames(o.GetType());
                             break;
                         }
                     case string svalue:
@@ -831,8 +841,9 @@ namespace NagaW
                     case decimal dcvalue:
                     case DateTime dtvalue:
                         {
+                            value += o;
+
                             //value += o.GetType().Name;
-                            value += o.GetType();
                             break;
                         }
 
@@ -841,7 +852,7 @@ namespace NagaW
 
                 var newList = new SList()
                     {
-                        index,
+                        index++,
                         m.DeclaringType.Name + m.Name,
                         value,
                     };
