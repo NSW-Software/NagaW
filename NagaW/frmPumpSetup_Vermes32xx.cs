@@ -64,6 +64,7 @@ namespace NagaW
         private void timer1_Tick(object sender, EventArgs e)
         {
             btnVermesIOTrig.BackColor = TrigOutput.Status ? Color.Lime : SystemColors.ControlDark;
+            btnVmsPurge.BackColor = Purging ? Color.Lime : SystemColors.ControlDark;
         }
 
         bool valveIsUp = false;
@@ -177,5 +178,33 @@ namespace NagaW
             V_Pump.Adjust(TrigOutput);
         }
 
+        bool Purging = false;
+        Vermes3280_Param V_Setup_Purge = new Vermes3280_Param();
+        private void btnVmsPurge_Click(object sender, EventArgs e)
+        {
+            if (!Purging)
+            {
+                V_Setup_Purge = new Vermes3280_Param(V_Setup);
+                V_Setup_Purge.Pulses.Value = 0;
+                V_Pump.TriggerAset(V_Setup_Purge);
+                Thread.Sleep(100);
+
+                FPressIO.Status = true;
+                TrigOutput.Status = true;
+                Purging = true;
+            }
+            else
+            {
+                FPressIO.Status = false;
+                TrigOutput.Status = false;
+
+                VacIO.Status = true;
+                Thread.Sleep(50);
+                VacIO.Status = false;
+
+                V_Pump.TriggerAset(V_Setup);
+                Purging = false;
+            }
+        }
     }
 }

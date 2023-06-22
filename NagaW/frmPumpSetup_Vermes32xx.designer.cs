@@ -49,6 +49,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnVmsPurge = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -72,6 +73,7 @@
             // 
             this.groupBox2.AutoSize = true;
             this.groupBox2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox2.Controls.Add(this.btnVmsPurge);
             this.groupBox2.Controls.Add(this.btnAdjust);
             this.groupBox2.Controls.Add(this.btnVermesIOTrig);
             this.groupBox2.Controls.Add(this.btnValveUpDn);
@@ -289,6 +291,17 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Param";
             // 
+            // btnVmsPurge
+            // 
+            this.btnVmsPurge.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Lime;
+            this.btnVmsPurge.Location = new System.Drawing.Point(175, 25);
+            this.btnVmsPurge.Name = "btnVmsPurge";
+            this.btnVmsPurge.Size = new System.Drawing.Size(80, 37);
+            this.btnVmsPurge.TabIndex = 38;
+            this.btnVmsPurge.Text = "Purge";
+            this.btnVmsPurge.UseVisualStyleBackColor = true;
+            this.btnVmsPurge.Click += new System.EventHandler(this.btnVmsPurge_Click);
+            // 
             // frmPumpSetup_Vermes32xx
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -332,5 +345,6 @@
         private System.Windows.Forms.Button btnVermesIOTrig;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btnAdjust;
+        private System.Windows.Forms.Button btnVmsPurge;
     }
 }
