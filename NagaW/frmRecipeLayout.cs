@@ -48,8 +48,8 @@ namespace NagaW
             lblBoardStartPos.Text = GRecipes.Board[gantry.Index].StartPos.ToStringForDisplay();
             lblBoardHeight.Text = GRecipes.Board[gantry.Index].Height.ToString("f3") + " mm";
 
-            MLayout = GRecipes.MultiLayout[gantry.Index][Math.Max(0, 0)];
-            btnCopy.Text = "Copy " + (gantry.Index == 0 ? "R" : "L");
+            MLayout = GRecipes.MultiLayout[gantry.Index][Math.Max(lboxMLayoutList.SelectedIndex, 0)];
+            //btnCopy.Text = "Copy " + (gantry.Index == 0 ? "R" : "L");
 
             bool isCluster = rbtnCluster.Checked;
             name = $"Layout:{MLayout} [{(isCluster ? "Cluster" : "Unit")}]";
@@ -97,6 +97,7 @@ namespace NagaW
         private void lboxMLayoutList_SelectedIndexChanged(object sender, EventArgs e)
         {
             rbtnUnit.Checked = true;
+            Inst.Board[gantry.Index].LayoutNoDisplay = lboxMLayoutList.SelectedIndex;
             UpdateDisplay();
         }
 
@@ -308,7 +309,8 @@ namespace NagaW
                 return;
             }
 
-            frmMap = new frmRecipeMap(gantry, GRecipes.Maps[gantry.Index][0]);
+            int idx = lboxMLayoutList.SelectedIndex;
+            frmMap = new frmRecipeMap(gantry, GRecipes.Maps[gantry.Index][idx]);
             frmMap.TopLevel = frmMap.TopMost = true;
             frmMap.StartPosition = FormStartPosition.CenterScreen;
 
@@ -322,15 +324,20 @@ namespace NagaW
             frmMap.FormClosing += (a, b) =>
             {
                 frmMap = null;
-                Inst.Board[gantry.Index].MAP = new TMAP(GRecipes.Maps[gantry.Index][0]);
+                Inst.Board[gantry.Index].MAP = new TMAP(GRecipes.Maps[gantry.Index][idx]);
                 var frmmap = Application.OpenForms.OfType<frmRecipeMap>().FirstOrDefault();
                 if (frmmap != null) frmmap.RefreshUI();
             };
         }
         private void MapRefine()
         {
-            int idx = 0;
-            if (GRecipes.Maps[gantry.Index].Count is 0) GRecipes.Maps[gantry.Index].Add(new TMAP());
+            int idx = lboxMLayoutList.SelectedIndex;//0;
+            //if (GRecipes.Maps[gantry.Index].Count is 0) GRecipes.Maps[gantry.Index].Add(new TMAP());
+            if (GRecipes.Maps[gantry.Index].Count <= idx)
+            {
+                while (GRecipes.Maps[gantry.Index].Count <= idx) GRecipes.Maps[gantry.Index].Add(new TMAP());
+                GRecipes.Maps[gantry.Index][idx] = new TMAP(MLayout);
+            }
 
             GRecipes.Maps[gantry.Index][idx].ClusterL = new TLayout(MLayout.Cluster);
             GRecipes.Maps[gantry.Index][idx].UnitL = new TLayout(MLayout.Unit);
@@ -442,6 +449,54 @@ namespace NagaW
         private void btnGotoVirtualPos_Click(object sender, EventArgs e)
         {
             gantry.MoveOpXYAbs(VirtualStartPos.GetPointD().ToArray);
+        }
+
+        private void lboxMLayoutList_MouseDown(object sender, MouseEventArgs e)
+        {
+            switch (e.Button)
+            {
+                default:
+                    return;
+
+                case MouseButtons.Right:
+                    {
+                        ContextMenuStrip cms = new ContextMenuStrip();
+                        cms.Items.Add("Add");
+                        cms.Items.Add("Remove");
+                        cms.Show(Cursor.Position);
+                        cms.ItemClicked += (a, b) =>
+                        {
+                            switch (b.ClickedItem.Text)
+                            {
+                                case "Add":
+                                    {
+                                        GRecipes.MultiLayout[gantry.Index].Add(new TMultiLayout { Index = GRecipes.MultiLayout[gantry.Index][GRecipes.MultiLayout[gantry.Index].Count - 1].Index + 1 });
+                                        GRecipes.MultiLayout[gantry.Index].ResetBindings();
+                                        Inst.Board[gantry.Index].LayerData.Add(new TUnit());
+
+                                        UpdateDisplay();
+                                    }
+                                    break;
+                                case "Remove":
+                                    {
+                                        if (GRecipes.MultiLayout[gantry.Index].Count == 1)
+                                        {
+                                            MsgBox.ShowDialog("Minimum 1 layout is needed.");
+                                            return;
+                                        }
+                                        if (MsgBox.ShowDialog("Removing layout will affect Function LayoutNo,Continue?", MsgBoxBtns.YesNo) != DialogResult.Yes) return;
+                                        GRecipes.MultiLayout[gantry.Index].RemoveAt(lboxMLayoutList.SelectedIndex);
+                                        GRecipes.MultiLayout[gantry.Index].ResetBindings();
+                                        Inst.Board[gantry.Index].LayerData.RemoveAt(lboxMLayoutList.SelectedIndex);
+                                        UpdateDisplay();
+                                    }
+                                    break;
+                            }
+                        };
+
+                    }
+                    break;
+            }
         }
     }
 }

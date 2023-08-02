@@ -293,9 +293,12 @@ namespace NagaW
             [Description("Text change red color when value out of range")]
             public static bool NotifyOutOfRange { get; set; } = true;
 
-            [DisplayName("Pressure SI unit")]
+            [DisplayName("Pressure SI Unit")]
             [Description("Text change red color when value out of range")]
             public static EUnit PressUnit { get; set; } = EUnit.MPA;
+            [DisplayName("Precisor SI Unit")]
+            [Description("Show mm / angle for precisor parameter")]
+            public static EUnit PrecisorUnit { get; set; } = EUnit.ANGLE;
         }
         public class Advance
         {
@@ -447,9 +450,9 @@ namespace NagaW
             public static PointXYZ AutoLoadPos = new PointXYZ();
             public static PointXYZ AirBlowPos = new PointXYZ();
 
-            public static DPara PrecisorPos_1 = new DPara(nameof(Wafer) + nameof(PrecisorPos_1), 0, 0, 130, EUnit.ANGLE);
-            public static DPara PrecisorPos_2 = new DPara(nameof(Wafer) + nameof(PrecisorPos_2), 0, 0, 130, EUnit.ANGLE);
-            public static DPara PrecisorPos_3 = new DPara(nameof(Wafer) + nameof(PrecisorPos_3), 0, 0, 130, EUnit.ANGLE);
+            public static DPara PrecisorPos_1 = new DPara(nameof(Wafer) + nameof(PrecisorPos_1), 0, 0, 150, EUnit.ANGLE);
+            public static DPara PrecisorPos_2 = new DPara(nameof(Wafer) + nameof(PrecisorPos_2), 0, 0, 150, EUnit.ANGLE);
+            public static DPara PrecisorPos_3 = new DPara(nameof(Wafer) + nameof(PrecisorPos_3), 0, 0, 150, EUnit.ANGLE);
 
             public static PointXYZ TeachNotchCamPos = new PointXYZ();
 

@@ -193,6 +193,12 @@ namespace NagaW
             if (TEZMCAux.BoardTransferring) return;
             if (!TEZMCAux.CheckSideDoor())
             {
+                foreach (var run in TCDisp.Run)
+                {
+                    run.Stop();
+                    run.bRun = false;
+                }
+
                 TFGantry.GantryLeft.StopDecel();
                 TFGantry.GantryVR.StopDecel();
 

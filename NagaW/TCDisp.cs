@@ -99,10 +99,6 @@ namespace NagaW
         //Height - 1D
         private readonly THeightData[,,,] Cluster_Unit_HeightData = new THeightData[TLayout.MAX_CLUSTER_CR, TLayout.MAX_CLUSTER_CR, TLayout.MAX_UNIT_CR, TLayout.MAX_UNIT_CR];
 
-        //Height - 2.5D
-        private readonly List<double>[,,,] Height_25D_Data = new List<double>[TLayout.MAX_CLUSTER_CR, TLayout.MAX_CLUSTER_CR, TLayout.MAX_UNIT_CR, TLayout.MAX_UNIT_CR];
-        private readonly List<int>[,,,] Height_25D_Count = new List<int>[TLayout.MAX_CLUSTER_CR, TLayout.MAX_CLUSTER_CR, TLayout.MAX_UNIT_CR, TLayout.MAX_UNIT_CR];
-
         public void DispState(PointI contiguouCR, EDispState dispState)
         {
             _DispState[contiguouCR.X, contiguouCR.Y] = dispState;
@@ -149,30 +145,6 @@ namespace NagaW
                     Cluster_Unit_HeightData[clusterCR_unitCR[0].X, clusterCR_unitCR[0].Y, clusterCR_unitCR[1].X, clusterCR_unitCR[1].Y].HMatrixVal.Add(heightData.HMatrixVal[0]);
                     break;
             }
-        }
-
-        public List<double> Get25DHeight(PointI[] clusterCR_unitCR, ref int segment)
-        {
-            var data = Height_25D_Data[clusterCR_unitCR[0].X, clusterCR_unitCR[0].Y, clusterCR_unitCR[1].X, clusterCR_unitCR[1].Y];
-            if (data is null) data = new List<double>();
-
-            var count = Height_25D_Count[clusterCR_unitCR[0].X, clusterCR_unitCR[0].Y, clusterCR_unitCR[1].X, clusterCR_unitCR[1].Y][0];
-            var retData = Height_25D_Data[clusterCR_unitCR[0].X, clusterCR_unitCR[0].Y, clusterCR_unitCR[1].X, clusterCR_unitCR[1].Y].GetRange(0, count);
-
-            Height_25D_Data[clusterCR_unitCR[0].X, clusterCR_unitCR[0].Y, clusterCR_unitCR[1].X, clusterCR_unitCR[1].Y].RemoveRange(0, count);
-            Height_25D_Count[clusterCR_unitCR[0].X, clusterCR_unitCR[0].Y, clusterCR_unitCR[1].X, clusterCR_unitCR[1].Y].RemoveAt(0);
-
-            segment = count;
-
-            return retData;
-        }
-        public void Set25DHeight(PointI[] clusterCR_unitCR, List<double> heightData)
-        {
-            Height_25D_Data[clusterCR_unitCR[0].X, clusterCR_unitCR[0].Y, clusterCR_unitCR[1].X, clusterCR_unitCR[1].Y] = new List<double>(heightData);
-        }
-        public void Set25DCount(PointI[] clusterCR_unitCR, List<int> count)
-        {
-            Height_25D_Count[clusterCR_unitCR[0].X, clusterCR_unitCR[0].Y, clusterCR_unitCR[1].X, clusterCR_unitCR[1].Y] = new List<int>(count);
         }
 
         //Reset Buffer
@@ -388,11 +360,33 @@ namespace NagaW
                     return GRecipes.Functions[GantryNo][FuncNo].LayoutNo;
                 }
             }
+            public int LayoutNoDisplay { get; set; }
+            public TMultiLayout CurrentMLayoutDisplay
+            {
+                get
+                {
+                    if (multilayoutDisplay is null)
+                    {
+                        multilayoutDisplay = new TMultiLayout();
+                        multilayoutDisplay.Copy(GRecipes.MultiLayout[GantryNo][LayoutNoDisplay]);
+
+                    }
+                    return multilayoutDisplay;
+                }
+            }
+            public TMultiLayout multilayoutDisplay = null;
+            private TMultiLayout multiLayout = null;
             public TMultiLayout CurrentMLayout
             {
                 get
                 {
-                    return GRecipes.MultiLayout[GantryNo][LayoutNo];
+                    if (multiLayout is null)
+                    {
+                        multiLayout = new TMultiLayout();
+                        multiLayout.Copy(GRecipes.MultiLayout[GantryNo][LayoutNo]);
+
+                    }
+                    return multiLayout;
                 }
             }
 
@@ -403,13 +397,15 @@ namespace NagaW
             public double[] tempZ = new double[] { 0, 0 };
 
             public TAlignData BoardAlignData = null;
-            public TUnit[] LayerData = Enumerable.Range(0, TMultiLayout.MAX_LAYER).Select(x => new TUnit()).ToArray();
+            //public TUnit[] LayerData = Enumerable.Range(0, TMultiLayout.MAX_LAYER).Select(x => new TUnit()).ToArray();
+            public BindingList<TUnit> LayerData = new BindingList<TUnit>(Enumerable.Range(0, TMultiLayout.MAX_LAYER).Select(x => new TUnit()).ToList());
 
             public TMAP MAP = null;
 
             public double ThetaPos = 0;
             public void ClearData()
             {
+                multiLayout = null;
                 FuncNo = 0;
 
                 ClusterCR = new PointI(0, 0);
@@ -420,7 +416,7 @@ namespace NagaW
                 ThetaPos = 0;
                 try//temporary, need to check why exception
                 {
-                    MAP = new TMAP(GRecipes.Maps[GantryNo][0]);
+                    MAP = new TMAP(GRecipes.Maps[GantryNo][LayoutNo]);
                 }
                 catch { };
             }

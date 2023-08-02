@@ -202,6 +202,21 @@ namespace NagaW
             PointD intersectPt = new PointD((pt2.X * splitRatio) + (pt1.X * (1 - splitRatio)), (pt2.Y * splitRatio) + (pt1.Y * (1 - splitRatio)));
             return intersectPt;
         }
+        public static List<PointD> GetLineSengmentByLength(PointD pt1, PointD pt2, double segmentLength)
+        {
+            var length = TwoPointsLength(pt1, pt2);
+            int count = (int)(length / segmentLength);
+
+            return GetLineSengmentByCount(pt1, pt2, count);
+        }
+        public static List<PointD> GetLineSengmentByCount(PointD pt1, PointD pt2, int segmentCount)
+        {
+            List<PointD> res = new List<PointD> { pt1 };
+            for (int i = 1; i < segmentCount; i++) res.Add(HalfWayPoint(pt1, pt2, ((double)i / (double)segmentCount)));
+            res.Add(pt2);
+
+            return res;
+        }
 
         public static PointD Center(PointD startPt, PointD passPt, PointD endPt)
         {

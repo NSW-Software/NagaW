@@ -15,7 +15,7 @@ namespace NagaW
 
     public class TFFileImport
     {
-        public enum EFileType { Gerber_RS274X, OBD_v7, DXF, Excel_New };
+        public enum EFileType { Gerber_RS274X, OBD_v7, DXF, Excel_New, Pixell };
         public enum EUnit { undefined, mm, inch }
         public enum EInterpolation { None, Linear, ClockWise, CounterClockWise, };
 
@@ -814,6 +814,171 @@ namespace NagaW
                 //catch (Exception ex) { MessageBox.Show(ex.Message.ToString()); };
 
                 return true;
+            }
+        }
+
+        public class Pixell
+        {
+            static StreamReader Reader = null;
+            public static bool Decode(string filename, ref List<TFunction> function)
+            {
+                double ratio = 1;
+                List<TFunction> list = new List<TFunction>();
+                try
+                {
+                    Reader = new StreamReader(filename);
+
+                    string line = Reader.ReadLine().Trim();
+                    list.Add(new TFunction() { Name = "NSW Import" });
+
+                    double startPt_X = 0; double startPt_Y = 0;
+                    double x = 0; double y = 0;
+                    string pattern = "";
+                    double width = 0;
+                    double height = 0;
+                    double radius = 0;
+                    bool interpolation = false;
+
+                    while (line != "EOF")
+                    {
+                        TCmd cmd = new TCmd();
+
+                        line = Reader.ReadLine().Trim();
+                        var datas = line.Split(' ');
+
+                        if (datas[0] == "RATIO") ratio = double.Parse(datas[1]);
+
+                        if (datas[0] == "PATTERN")
+                        {
+                            switch (int.Parse(datas[1]))
+                            {
+                                case 0: pattern = "DATUM"; break;
+                                case 1: pattern = "DOT"; break;
+                                case 2: pattern = "LINE"; break;
+                                case 3: pattern = "RECT"; break;
+                                case 4: pattern = "CIRCLE"; break;
+                            }
+                        }
+
+                        if (datas[0] == "LOCATION_X") x = double.Parse(datas[1]);
+
+                        if (datas[0] == "LOCATION_Y") y = -1 * double.Parse(datas[1]);
+
+                        if (datas[0] == "WIDTH") width = double.Parse(datas[1]);
+
+                        if (datas[0] == "HEIGHT") height = double.Parse(datas[1]);
+
+                        if (datas[0] == "RADIUS") radius = double.Parse(datas[1]);
+
+                        if (datas[0] == "INTERPOLATION_END") interpolation = datas[1] is "TRUE" ? true : false;
+
+                        if (datas[0] == "END_PATTERN")
+                        {
+                            switch (pattern)
+                            {
+                                case "DATUM":
+                                    {
+                                        startPt_X = Convert(ratio, x, startPt_X);
+                                        startPt_Y = Convert(ratio, y, startPt_Y);
+                                        continue;
+                                    }
+                                case "DOT":
+                                    {
+                                        cmd.Cmd = ECmd.DOT;
+                                        cmd.Para[0] = Convert(ratio, x, startPt_X);
+                                        cmd.Para[1] = Convert(ratio, y, startPt_Y);
+                                        break;
+                                    }
+                                case "LINE":
+                                    {
+                                        int count = list[0].Cmds.Count;
+                                        bool ok = count > 0;
+
+                                        cmd.Cmd = ECmd.LINE_START;
+                                        cmd.Para[0] = Convert(ratio, x, startPt_X);
+                                        cmd.Para[1] = Convert(ratio, y, startPt_Y);
+
+                                        if (!interpolation)
+                                        {
+                                            if (ok)
+                                            {
+                                                cmd.Cmd = list[0].Cmds[count - 1].Cmd == ECmd.LINE_START || list[0].Cmds[count - 1].Cmd == ECmd.LINE_PASS ? ECmd.LINE_PASS : ECmd.LINE_START;
+                                            }
+                                            else
+                                            {
+                                                cmd.Cmd = ECmd.LINE_START;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            cmd.Cmd = ECmd.LINE_END;
+                                        }
+                                        break;
+                                    }
+                                case "RECT":
+                                    {
+                                        for (int i = 0; i < 4; i++)
+                                        {
+                                            TCmd tempcmd = new TCmd();
+                                            switch (i)
+                                            {
+                                                case 0:
+                                                    cmd.Cmd = ECmd.LINE_START;
+                                                    cmd.Para[0] = Convert(ratio, x, startPt_X);
+                                                    cmd.Para[1] = Convert(ratio, y, startPt_Y);
+                                                    list[0].Cmds.Add(new TCmd(cmd));
+                                                    break;
+                                                case 1:
+                                                    tempcmd.Cmd = ECmd.LINE_PASS;
+                                                    tempcmd.Para[0] = Convert(ratio, x + width, startPt_X);
+                                                    tempcmd.Para[1] = Convert(ratio, y, startPt_Y);
+                                                    list[0].Cmds.Add(new TCmd(tempcmd));
+                                                    break;
+                                                case 2:
+                                                    tempcmd.Cmd = ECmd.LINE_PASS;
+                                                    tempcmd.Para[0] = Convert(ratio, x + width, startPt_X);
+                                                    tempcmd.Para[1] = Convert(ratio, y - height, startPt_Y);
+                                                    list[0].Cmds.Add(new TCmd(tempcmd));
+                                                    break;
+                                                case 3:
+                                                    tempcmd.Cmd = ECmd.LINE_PASS;
+                                                    tempcmd.Para[0] = Convert(ratio, x, startPt_X);
+                                                    tempcmd.Para[1] = Convert(ratio, y - height, startPt_Y);
+                                                    list[0].Cmds.Add(new TCmd(tempcmd));
+                                                    break;
+                                            }
+                                        }
+
+                                        cmd.Cmd = ECmd.LINE_END;
+                                        break;
+                                    }
+                                //case "CIRCLE":
+                                //    {
+                                //        cmd.Cmd = ECmd.CIRCLE;
+                                //        cmd.Para[0] = Convert(ratio, x + radius, startPt_X); //End Point X
+                                //        cmd.Para[1] = Convert(ratio, y, startPt_Y); //End Point Y
+                                //        cmd.Para[3] = Convert(ratio, x, startPt_X); //Center Point X
+                                //        cmd.Para[4] = Convert(ratio, y, startPt_Y); //Center Point Y
+                                //        break;
+                                //    }
+                            }
+                            list[0].Cmds.Add(new TCmd(cmd));
+                        }
+
+                        function = new List<TFunction>(list);
+                    }
+
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+
+            private static double Convert(double ratio, double pos, double startPt)
+            {
+                return pos / ratio - startPt;
             }
         }
 

@@ -46,6 +46,9 @@ namespace NagaW
             lblP1Pos.UpdatePara(GSetupPara.Wafer.PrecisorPos_1);
             lblP2Pos.UpdatePara(GSetupPara.Wafer.PrecisorPos_2);
             lblP3Pos.UpdatePara(GSetupPara.Wafer.PrecisorPos_3);
+            //lblP1Pos.Text = $"{GSetupPara.Wafer.PrecisorPos_1} {GSystemCfg.Display.PrecisorUnit}";
+            //lblP2Pos.Text = $"{GSetupPara.Wafer.PrecisorPos_2} {GSystemCfg.Display.PrecisorUnit}";
+            //lblP3Pos.Text = $"{GSetupPara.Wafer.PrecisorPos_3} {GSystemCfg.Display.PrecisorUnit}";
 
             lblPrecisorSpeed.UpdatePara(GProcessPara.Wafer.PrecisorSpeed);
             lblPrecisorAcc.UpdatePara(GProcessPara.Wafer.PrecisorAccel);
@@ -187,11 +190,13 @@ namespace NagaW
         {
             if (!TCWafer.SMEMA_ING)
             {
+                TEZMCAux.BoardTransferring = true;
                 GControl.UI_Disable(sender as Button);
                 (sender as Button).Text = "STOP Auto Load";
                 await Task.Run(() => TCWafer.AutoLoad());
                 (sender as Button).Text = "Auto Load";
                 GControl.UI_Enable();
+                TEZMCAux.BoardTransferring = false;
             }
             else
             {
@@ -204,11 +209,13 @@ namespace NagaW
         {
             if (!TCWafer.SMEMA_ING)
             {
+                TEZMCAux.BoardTransferring = true;
                 GControl.UI_Disable(sender as Button);
                 (sender as Button).Text = "STOP Auto Unload";
                 await Task.Run(() => TCWafer.AutoUnload());
                 (sender as Button).Text = "Auto Unload";
                 GControl.UI_Enable();
+                TEZMCAux.BoardTransferring = false;
             }
             else
             {
@@ -539,6 +546,11 @@ namespace NagaW
                     TCWafer.StopNotch = true;
                     brun = false;
                 });
+        }
+
+        private void PrecisorConversion(DPara para)
+        {
+
         }
     }
 }

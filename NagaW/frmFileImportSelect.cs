@@ -138,6 +138,9 @@ namespace NagaW
                 case (int)TFFileImport.EFileType.Excel_New:
                     if (!TFFileImport.Excel.Decode(fileName, ref funcs)) return;
                     break;
+                case (int)TFFileImport.EFileType.Pixell:
+                    if (!TFFileImport.Pixell.Decode(fileName, ref funcs)) return;
+                    break;
             }
 
             Functions = new BindingList<TFunction>(funcs);
