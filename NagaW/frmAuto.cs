@@ -181,6 +181,8 @@ namespace NagaW
 
         private async void btnAutoLoad_Click(object sender, EventArgs e)
         {
+            if (!TEZMCAux.CheckSideDoor()) return;
+
             if (!TCWafer.SMEMA_ING)
             {
                 TEZMCAux.BoardTransferring = true;
@@ -189,7 +191,7 @@ namespace NagaW
                 await Task.Run(() => TCWafer.AutoLoad(timeout.Value));
                 (sender as Button).Text = "Auto Load";
                 GControl.UI_Enable();
-                TEZMCAux.BoardTransferring = true;
+                TEZMCAux.BoardTransferring = false;
             }
             else
             {
@@ -199,6 +201,8 @@ namespace NagaW
         }
         private async void btnAutoUnload_Click(object sender, EventArgs e)
         {
+            if (!TEZMCAux.CheckSideDoor()) return;
+
             if (!TCWafer.SMEMA_ING)
             {
                 TEZMCAux.BoardTransferring = true;
@@ -217,12 +221,16 @@ namespace NagaW
         }
         private async void btnManualLoad_Click(object sender, EventArgs e)
         {
+            if (!TEZMCAux.CheckSideDoor()) return;
+
             GControl.UI_Disable();
             await Task.Run(() => TCWafer.Manual_Load());
             GControl.UI_Enable();
         }
         private async void btnManualUnload_Click(object sender, EventArgs e)
         {
+            if (!TEZMCAux.CheckSideDoor()) return;
+
             GControl.UI_Disable();
             await Task.Run(() => TCWafer.Manual_Unload());
             GControl.UI_Enable();
