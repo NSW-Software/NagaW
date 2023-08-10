@@ -1,0 +1,466 @@
+commit 1e2f3a8a266fbf85d879b766ef6f81df8998dfb0
+Author: cheahaunyik <cheahaunyik@gmail.com>
+Date:   Wed Aug 2 21:47:02 2023 +0800
+
+    ver 1.0.27.1
+    > refactor checksidedoor system
+
+commit b3a821ca2faf7a793df838ffea145aa2d7597730
+Author: cheahaunyik <cheahaunyik@gmail.com>
+Date:   Wed Aug 2 18:29:15 2023 +0800
+
+    ver 1.0.27.0
+    >update sensors handling for auto and manual
+    >update height profiling
+
+commit 8fdaf06de7e9ffb9ef5988f27299eb153921d179
+Merge: 23e78b8 1fcfb88
+Author: cheahaunyik <cheahaunyik@gmail.com>
+Date:   Thu Jun 22 08:05:40 2023 +0800
+
+    ver 1.0.26.6 (remerge)
+
+commit 23e78b8be5212e8c7024538fbe4adad330e6892d
+Author: cheahaunyik <cheahaunyik@gmail.com>
+Date:   Thu Jun 22 08:03:21 2023 +0800
+
+    ver 1.0.26.6 recompile
+
+commit 4fa446a47a3e98b056453d1a20d505b4b84f7fb4
+Merge: c18210e 5ba57d4
+Author: cheahaunyik <cheahaunyik@gmail.com>
+Date:   Thu Jun 22 08:02:46 2023 +0800
+
+    ver 1.0.26.6
+    > refactor notch alignment
+    > solve TFSECSGEM duplicate event handler issue
+    > solve TFSECSGEM SVID from S1F11 no ID issue
+
+commit 1fcfb882f70176ae6379ef18f28db6ee852b9603
+Author: yihui1998 <yihui3246@gmail.com>
+Date:   Tue Jun 20 19:20:48 2023 +0800
+
+    ver 1.0.25.22 Bug Fixes
+
+commit c18210e705e503d5e89793ced0c7acb3ffd09d8c
+Author: cheahaunyik <cheahaunyik@gmail.com>
+Date:   Tue Jun 20 14:15:42 2023 +0800
+
+    1.0.26.0
+
+commit 5ba57d4b7b1bbd7aa568c6d7c2341b3c9cf0b6dd
+Author: yihui1998 <yihui3246@gmail.com>
+Date:   Mon Jun 19 19:17:40 2023 +0800
+
+    ver 1.0.25.22 Overwrite
+    
+    - Notch Alignment hardcode +1mm when gantry go to search position
+    - Distance rev will be applied on Notch Alignment when found edge
+
+commit 8f36a0a9b29204cc9f3d3e878de15a5d0725828e
+Author: yihui1998 <yihui3246@gmail.com>
+Date:   Wed Jun 7 10:14:03 2023 +0800
+
+    ver 1.0.25.22
+    
+    - SideDoor Sensor, added checking in frmMain, check except in board transfer section.
+    - After import Wafer Map, existing function will not be removed
+    - ARC_PASS centre point check changed from 100 to 200
+    - Will only turn on heater during system initiliaze when it is enabled
+    - Angle will * 1.6 during second turn of notch alignment
+
+commit ab78ac3804c556bca5e6c4511556bda75ba80e8f
+Author: yihui1998 <yihui3246@gmail.com>
+Date:   Mon May 29 18:54:48 2023 +0800
+
+    ver 1.0.25.21 Overwrite
+
+commit 6418c558533edc6b561786d4ff41c99bb723ad4f
+Author: yihui1998 <yihui3246@gmail.com>
+Date:   Wed Apr 26 11:53:28 2023 +0800
+
+    ver 1.0.25.21
+    
+    Wafer will turn another round if V Notch not able to be found
+    SecsGems add S2F23 function (Trace Data)
+
+commit 0fa4a8edc0bb4b176cbf4eae28b854acd6301a76
+Author: yihui1998 <yihui3246@gmail.com>
+Date:   Thu Apr 13 17:57:08 2023 +0800
+
+    ver 1.0.25.20
+    
+    Weighing add step up Z while dispensing on weighing system
+    TFSecsGem add S2F23
+
+commit fc198c5711cf08a54f2e3a35dad7b6b8eee03e4e
+Author: yihui1998 <yihui3246@gmail.com>
+Date:   Mon Mar 6 14:04:49 2023 +0800
+
+    ver 1.0.25.19
+
+commit d62c3ed417468f0af4be21d6483d97416ad32456
+Author: yihui1998 <yihui3246@gmail.com>
+Date:   Mon Feb 20 09:28:08 2023 +0800
+
+    ver 1.0.25.18
+    
+    - Bug of Pat Align Unit solved.
+    - Bug of Pattern Dispense solved.
+    - Added PATTERN_CROSS command
+
+commit 6f2663e8cf077d000d31e36fd65510de4d2c6063
+Author: yihui1998 <yihui3246@gmail.com>
+Date:   Fri Jan 20 11:32:31 2023 +0800
+
+    ver 1.0.25.17
+
+commit a0286c06dbab709ed20cba245bfed14a93c9d664
+Author: yihui1998 <yihui3246@gmail.com>
+Date:   Tue Jan 17 11:39:05 2023 +0800
+
+    ver 1.0.25.16
+
+commit a163df5a0ed1865af03b491ddc2bea1fd7054743
+Author: yihui1998 <yihui3246@gmail.com>
+Date:   Fri Dec 16 09:15:39 2022 +0800
+
+    ver 1.0.25.15
+
+commit 1ea6ec76e3cd94643783bb11433ef69e3aa056d8
+Author: yihui1998 <yihui3246@gmail.com>
+Date:   Wed Dec 14 10:18:45 2022 +0800
+
+    ver 1.0.25.14
+
+commit 9ea1a17e639e233d646deeba9a28a60ec6a52439
+Author: yihui1998 <yihui3246@gmail.com>
+Date:   Tue Dec 6 10:10:10 2022 +0800
+
+    ver 1.0.25.13
+
+commit 560bd69490f37a7a924c516c3cf4bea28c0d7b6e
+Author: yihui1998 <yihui3246@gmail.com>
+Date:   Wed Nov 23 16:29:00 2022 +0800
+
+    ver 1.0.25.12
+
+commit 20e9d1879a844b7cdf388462a698f60cb2bfc7e0
+Author: yihui1998 <yihui3246@gmail.com>
+Date:   Wed Nov 9 09:57:48 2022 +0800
+
+    ver 1.0.25.10
+    
+    frmCamera:
+    - Update rightclick Goto function
+    frmWeighFunction:
+    - CPK function
+    TFTools:
+    - VacOnOff function in shortcut
+    
+    Gerber File in process
+
+commit 24419965b2ba987cc94bbe81393f9c187e65c9d2
+Author: yihui1998 <yihui3246@gmail.com>
+Date:   Tue Nov 1 10:43:25 2022 +0800
+
+    ver 1.0.25.9
+    
+    -All Thread.Sleep(0) changed to Thread.Sleep(1)
+    -MVC_GenTL function modify
+
+commit c2d50e7bba1ab4be08421ab5429eb7937b4e1dc1
+Author: yihui1998 <yihui3246@gmail.com>
+Date:   Wed Oct 26 17:36:28 2022 +0800
+
+    ver 1.0.25.8
+
+commit d69b77ad4c948f794931248f2c2bf9e5ab372e00
+Author: yihui1998 <yihui3246@gmail.com>
+Date:   Wed Oct 12 16:53:30 2022 +0800
+
+    ver 1.0.25.7
+
+commit 59bb13f275345c13720c8db078430ea50bc182ca
+Author: yihui1998 <yihui3246@gmail.com>
+Date:   Thu Sep 29 15:59:33 2022 +0800
+
+    ver 1.0.25.6 Overwrite
+
+commit cc743545071b33a20b0a81c3c4a0b697a12ad0bf
+Author: yihui1998 <yihui3246@gmail.com>
+Date:   Mon Sep 19 15:05:18 2022 +0800
+
+    ver 1.0.25.6
+    
+    TEZMCAux:
+    - Added CheckSideDoor()
+
+commit 6e6ad2f42f4963cd66827ede5114caf74ddb66e7
+Author: yihui1998 <yihui3246@gmail.com>
+Date:   Mon Sep 5 14:19:37 2022 +0800
+
+    ver 1.0.25.5
+    
+    frmSetup:
+    - Added reset button to reset HSensor value
+    TFCamera:
+    - Added StopGrab() function in Disconnect()
+
+commit 64d2abbd9bddc596d3a6c4054d1677d803f55e6b
+Author: yihui1998 <yihui3246@gmail.com>
+Date:   Wed Aug 24 14:39:07 2022 +0800
+
+    ver 1.0.25.4
+    
+    GProcess.Weighing added RepeatCount
+    frmWeighFunction:
+    - TFGantry.GantryLeft changed to GantrySetup
+    GRecipes:
+    - USE_WEIGH, && changed to || in LINE_PASS
+
+commit 21f711df54541dbb5fbeff2420570141e70c62c5
+Author: yihui1998 <yihui3246@gmail.com>
+Date:   Thu Aug 18 10:41:10 2022 +0800
+
+    ver 1.0.25.3
+    
+    Weighing module is ready
+
+commit 73319ebb2d38785bf1b565f7e713073e0e82dd90
+Author: yihui1998 <yihui3246@gmail.com>
+Date:   Wed Aug 17 15:42:39 2022 +0800
+
+    ver 1.0.25.2
+    
+    - Added Safety option
+    - TCDisp, recipe will check the sensor before run
+
+commit 4e36635203d5df30828c29756ef4a9d02a190b43
+Author: yihui1998 <yihui3246@gmail.com>
+Date:   Fri Jul 22 08:46:33 2022 +0800
+
+    ver 1.0.25.1
+    
+    TFGantry:
+    - PurgeStage, change "MOVE_OP{dispIO}, 1" to "MOVE_OP{dispio.OutputNo}, 1"
+    TFWeight:
+    - Close Vac at the end of process for Vermes
+
+commit 3acd3f62a5377adbc0d2ca981ba0ee3620e3344e
+Author: yihui1998 <yihui3246@gmail.com>
+Date:   Sun Jul 10 12:43:21 2022 +0800
+
+    ver 1.0.25.0
+    Added SecsGem feature into NagaW
+
+commit 2eb126ff7b7dc892af911702d7501f33ac4d5dd1
+Author: yihui1998 <yihui3246@gmail.com>
+Date:   Mon Jul 4 11:59:49 2022 +0800
+
+    ver 1.0.24.1
+    GMotDef:
+    - Added Input from 48 to 63
+    GVar:
+    - Weighing -> Pos change size from 7 to 103
+    frmConfig:
+    - Added Weighing
+    frmWeighFunction:
+    - gantryIdx changed from GantryLeft to GantrySetup
+
+commit 4a5c461aa7cd87a882d345abc7035649ef6ff428
+Merge: ea55b20 c919c4a
+Author: cheahaunyik <cheahaunyik@gmail.com>
+Date:   Mon Jun 27 09:29:31 2022 +0800
+
+    Remerge Ver 1.0.24.0
+
+commit ea55b2051650b545bbdf829480b6f6bc72d9540d
+Author: cheahaunyik <cheahaunyik@gmail.com>
+Date:   Mon Jun 27 09:27:28 2022 +0800
+
+    Ver 1.0.24.0
+    -Update MVC Camera class
+    -Modify TFCamera class (centrelize Flir and MVC camera)
+    -Modify TFLightCtrl (add bufferIN/OUT release)
+
+commit c919c4acbdab483a979ffad106ebdefb6749c8b4
+Author: yihui1998 <yihui3246@gmail.com>
+Date:   Mon Jun 27 09:22:32 2022 +0800
+
+    ver 1.0.23.1
+    frmMain:
+    -Enable "Weighing" button
+    frmRecipeFunction:
+    -Press Run to disable or enable all
+    -Copy and Paste features
+
+commit 60df84679079452e64e6989ec0baee7f302d9b11
+Author: cheahaunyik <cheahaunyik@gmail.com>
+Date:   Thu Jun 16 09:41:09 2022 +0800
+
+    ver 1.0.23.0
+    -add MVC camControl, class with dll
+    -fix needle clean per unit with 0 malfunction issue
+    -add gerber file import feature
+
+commit 5285c44237bca473ee1686895edcb7e91d447181
+Author: cheahaunyik <cheahaunyik@gmail.com>
+Date:   Mon Jun 13 10:51:43 2022 +0800
+
+    ver 1.0.21.0
+    -add function copypaste
+    -optimize notch control
+
+commit 851a4830cc54a9828318d1c46fa99121c13e71b1
+Author: cheahaunyik <cheahaunyik@gmail.com>
+Date:   Tue May 24 12:03:35 2022 +0800
+
+    ver 1.0.20.0
+    -update to .net framework 4.7.2
+
+commit b581622d90ac7393e788d908f2bcce99dbeb882a
+Author: cheahaunyik <cheahaunyik@gmail.com>
+Date:   Tue May 24 11:51:20 2022 +0800
+
+    ver 1.0.18.5
+    -update properties version
+
+commit 91da173e061daf3908a44f580f290007c77240af
+Author: cheahaunyik <cheahaunyik@gmail.com>
+Date:   Tue May 24 11:49:47 2022 +0800
+
+    Ver 1.0.18.5
+    -Fix load wafermap error
+    -add GControl.UpdateFormControl to forms
+
+commit 463d6eff752d8c30e02ffa84d5c7ff5b13ea407b
+Author: cheahaunyik <cheahaunyik@gmail.com>
+Date:   Sun May 22 19:13:50 2022 +0800
+
+    ver 1.0.20.0
+    -add ZTouch EncoderRes setup
+    -add wafer height para with recipe
+    -add change PatRec ID
+
+commit b72965da4d0acd760ce6e9565b21960821a6251d
+Author: cheahaunyik <cheahaunyik@gmail.com>
+Date:   Wed Apr 27 18:00:42 2022 +0800
+
+    ver 1.0.17.0
+    - add Pat Align Multisearch
+
+commit 7029c3763514fa838b8a9878aea833e78d4d7cda
+Author: yihui1998 <yihui3246@gmail.com>
+Date:   Tue Apr 26 18:32:10 2022 +0800
+
+    NagaW_v1.0.16.6
+    - PatAlign: MultiSearch Function
+
+commit fba218d4373c1cb11ee43414812b1f8bd91a16b3
+Author: cheahaunyik <cheahaunyik@gmail.com>
+Date:   Tue Apr 26 09:51:20 2022 +0800
+
+    ver 1.0.16.5
+    -fix PatAlignRotary fix exec UI Disable problem
+    -fix dynamic Jetting predisp fail issue
+    -add frmConfig export Gem Data collection
+
+commit 494f01c09b919043be67bbc88ace2dc31a1f8ed3
+Author: cheahaunyik <cheahaunyik@gmail.com>
+Date:   Sun Apr 17 14:57:58 2022 +0800
+
+    ver 1.0.15
+    -update UI refresh, prevent miss position issue
+    -resolve stop/cancel, throw exception issue
+    -cam cant live after alignment issue
+
+commit de1325b0756a9eb04a5fc2d79da2b7eb3c00a515
+Author: cheahaunyik <cheahaunyik@gmail.com>
+Date:   Fri Apr 1 15:52:28 2022 +0800
+
+    Ver 1.0.15.0
+    - add notch align status on AutoPage
+    - fix pattern alignment 2nd point camera lost focus issue
+
+commit d8cbf1d702ead997c8826ccb7813541f8abaf881
+Author: cheahaunyik <cheahaunyik@gmail.com>
+Date:   Tue Mar 1 13:58:52 2022 +0800
+
+    Ver 1.0.13.0
+    -fix notch alignment fail detection issue (confocal return 0)
+    -fix minor function error
+
+commit 325c503887dca687aa687c240ea4333ecec9e3c4
+Author: cheahaunyik <cheahaunyik@gmail.com>
+Date:   Wed Dec 29 14:29:26 2021 +0800
+
+    Ver 1.0.11.0
+    -fix autorun autoload fail issue
+    -apply async await for jog control
+    -add color on tstool in frmMain
+    -set GR speed profile when GR is used
+    -define TFTower for towerlight process
+    -add pre-vac enable function
+    -edit TEZMCAux open method
+
+commit 1655500fec9cd9238d1b9c043fcfb3b7dc3cb995
+Author: cheahaunyik <cheahaunyik@gmail.com>
+Date:   Wed Nov 24 15:50:56 2021 +0800
+
+    Ver 1.0.7.0
+    -Remove unuse button at frmMain
+    -Remove GantryR pump tab
+
+commit ab35dac39aebab1c8ee6019ecd024428cc54e216
+Author: cheahaunyik <cheahaunyik@gmail.com>
+Date:   Mon Nov 22 14:49:07 2021 +0800
+
+    Ver 1.0.6.0
+    -enchance notch alignment feature
+    -add software Icon
+    -enhance reticle fucntion, fix graphic issue, scale to measurement
+    -add serpentine dynamic dispense feature
+
+commit 7e5bfbfaeac7b522e5b7e0a19e2635322fb7aba9
+Author: cheahaunyik <cheahaunyik@gmail.com>
+Date:   Thu Nov 11 17:21:20 2021 +0800
+
+    Ver 1.0.3.5
+    -fix notch aligment function
+    -add notch alignment parameter as input
+    -change default logtype for frmlog
+    -link function in frmAuto
+
+commit 73b5066fa50cb57ec655bad439dd5af4c79514f9
+Author: cheahaunyik <cheahaunyik@gmail.com>
+Date:   Tue Nov 9 16:16:19 2021 +0800
+
+    Ver 1.0.3.0
+    -fix camera hang after dispense
+    -fix set startpos from XY with mapdata
+    -add lifter stroke para
+    -add virtual startpos for xypos set
+
+commit ff092e0c0f3ef7df5de385369a8ae9b3432c2214
+Author: cheahaunyik <cheahaunyik@gmail.com>
+Date:   Mon Oct 18 15:55:54 2021 +0800
+
+    Ver 1.0.01.0
+    -refine version no
+    -add post-disp for dynamic jet
+    -add trigger vac when use fpress, to depressurize air
+    -remove conveyor tab in config and process tab
+    -adding notch alignment
+
+commit daf6a4ad8a765fc0ffd202764d3affb748736728
+Author: cheahaunyik <cheahaunyik@gmail.com>
+Date:   Wed Sep 29 15:51:30 2021 +0800
+
+    Add project files.
+
+commit 26128cc6f5b376eaace3ceccc75c7f64482b3ea9
+Author: cheahaunyik <cheahaunyik@gmail.com>
+Date:   Wed Sep 29 15:50:42 2021 +0800
+
+    Add .gitignore and .gitattributes.

@@ -1966,7 +1966,7 @@ namespace NagaW
                                 bool y_error = Math.Abs(relCenter.Y) > 200 || Double.IsNaN(relCenter.Y) || Double.IsInfinity(relCenter.Y);
                                 if (x_error || y_error)
                                 {
-                                    GAlarm.Prompt(EAlarm.RECIPE_INVALID_PARA, $"Command {CmdEnabled.IndexOf(cmd) + 1}: '{cmd.Cmd}' Invalid Center Point Generated, Over 100mm.");
+                                    GAlarm.Prompt(EAlarm.RECIPE_INVALID_PARA, $"Command {CmdEnabled.IndexOf(cmd) + 1}: '{cmd.Cmd}' Invalid Center Point Generated, Over 200mm.");
                                     return false;
                                 }
                             }
@@ -3610,7 +3610,7 @@ namespace NagaW
                             switch (HeightCal(hsensorValue, heightRangeULimit, clusterCR, unitCR, out double avr))
                             {
                                 case EAction.Accept: break;
-                                case EAction.Fail: return false;
+                                case EAction.Fail: state = EDispState.NG; instBoard.LayerData[layoutNo].GetUnitHeight(ij).Status = EHeightAlignStatus.Error; return false;
                                 case EAction.Skip: state = EDispState.NG; return true;
                             }
                             heightData.MeasMode = HeightMatrix == true ? EHeightMeasMode.Matrix : EHeightMeasMode.Average;
@@ -3648,7 +3648,7 @@ namespace NagaW
                             switch (HeightCal(hsensorValue, heightRangeULimit, clusterCR, unitCR, out double avr))
                             {
                                 case EAction.Accept: break;
-                                case EAction.Fail: return false;
+                                case EAction.Fail: state = EDispState.NG; instBoard.LayerData[layoutNo].GetUnitHeight(ij).Status = EHeightAlignStatus.Error; return false;
                                 case EAction.Skip: state = EDispState.NG; return true;
                             }
 
@@ -3706,7 +3706,7 @@ namespace NagaW
                             switch (HeightCal(hsensorValue, heightRangeULimit, clusterCR, unitCR, out double avr))
                             {
                                 case EAction.Accept: break;
-                                case EAction.Fail: return false;
+                                case EAction.Fail: state = EDispState.NG; instBoard.LayerData[layoutNo].GetUnitHeight(ij).Status = EHeightAlignStatus.Error; return false;
                                 case EAction.Skip: state = EDispState.NG; return true;
                             }
 
