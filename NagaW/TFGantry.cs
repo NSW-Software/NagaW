@@ -2658,7 +2658,9 @@ namespace NagaW
 
                 if (!LifterUp()) return false;
 
+                TEZMCAux.BoardTransferring = true;
                 SMEMA_UP_OUT.Status = true;
+                GLog.LogProcess("SMEMA_UP_OUT -> True");
 
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
@@ -2668,6 +2670,7 @@ namespace NagaW
                     if (!SMEMA_ING)
                     {
                         SMEMA_UP_OUT.Status = false;
+                        TEZMCAux.BoardTransferring = false;
                         return false;
                     }
                     if (stopwatch.ElapsedMilliseconds > timeout_ms)
@@ -2677,11 +2680,13 @@ namespace NagaW
                         return false;
                     }
                 }
+                GLog.LogProcess("SMEMA_UP_IN -> Received");
 
                 if (!CatchWafer()) return false;
 
                 SMEMA_UP_OUT.Status = false;
-
+                TEZMCAux.BoardTransferring = false;
+                GLog.LogProcess("SMEMA_UP_OUT -> False");
             }
             catch
             {
@@ -2691,6 +2696,8 @@ namespace NagaW
             {
                 SMEMA_UP_OUT.Status = false;
                 SMEMA_ING = false;
+                TEZMCAux.BoardTransferring = false;
+                GLog.LogProcess("SMEMA_UP_OUT -> False, Error.");
             }
             return true;
         }
@@ -2708,9 +2715,11 @@ namespace NagaW
 
                 if (!ReleaseWafer()) return false;
 
+                TEZMCAux.BoardTransferring = true;
                 SMEMA_DN_OUT.Status = true;
                 Thread.Sleep(200);
                 SMEMA_DN_OUT.Status = false;
+                GLog.LogProcess("SMEMA_DN_OUT -> True");
 
                 while (!SMEMA_DN_IN.Status)
                 {
@@ -2718,11 +2727,15 @@ namespace NagaW
                     if (!SMEMA_ING)
                     {
                         SMEMA_DN_OUT.Status = false;
+                        TEZMCAux.BoardTransferring = false;
                         return false;
                     }
                 }
+                GLog.LogProcess("SMEMA_DN_IN -> Received");
 
                 SMEMA_DN_OUT.Status = false;
+                TEZMCAux.BoardTransferring = false;
+                GLog.LogProcess("SMEMA_DN_OUT -> False");
 
                 if (!LifterHoming()) return false;
 
@@ -2737,6 +2750,7 @@ namespace NagaW
             {
                 SMEMA_DN_OUT.Status = false;
                 SMEMA_ING = false;
+                TEZMCAux.BoardTransferring = false;
             }
             return true;
 

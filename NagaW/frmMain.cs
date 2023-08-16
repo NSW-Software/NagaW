@@ -261,7 +261,10 @@ namespace NagaW
         private void btnLoadRecipe_Click(object sender, EventArgs e)
         {
             GRecipes.Load();
-            PublishFormCloseAll();
+            PublishFormCloseAll(); 
+            TCDisp.Run[0].CancelBuffer();
+            foreach (var b in Inst.Board) b.ClearData();
+            
         }
         private void btnSaveRecipe_Click(object sender, EventArgs e)
         {

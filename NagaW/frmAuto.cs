@@ -80,9 +80,9 @@ namespace NagaW
                         {
                             continueDisp = false;
 
-                            TEZMCAux.BoardTransferring = true;
+                            //TEZMCAux.BoardTransferring = true;
                             if (!TCWafer.AutoLoad(timeout.Value * 1000)) break;
-                            TEZMCAux.BoardTransferring = false;
+                            //TEZMCAux.BoardTransferring = false;
                         }
 
                         continueDisp = false;
@@ -99,9 +99,9 @@ namespace NagaW
                         Inst.Board[0].RunMode = runMode;
                         if (!TCDisp.Run[0].All()) break;
 
-                        TEZMCAux.BoardTransferring = true;
+                        //TEZMCAux.BoardTransferring = true;
                         if (!TCWafer.AutoUnload()) break;
-                        TEZMCAux.BoardTransferring = false;
+                        //TEZMCAux.BoardTransferring = false;
                     }
 
                 });
@@ -185,13 +185,13 @@ namespace NagaW
 
             if (!TCWafer.SMEMA_ING)
             {
-                TEZMCAux.BoardTransferring = true;
+                //TEZMCAux.BoardTransferring = true;
                 GControl.UI_Disable(sender as Button);
                 (sender as Button).Text = "STOP Auto Load";
                 await Task.Run(() => TCWafer.AutoLoad(timeout.Value));
                 (sender as Button).Text = "Auto Load";
                 GControl.UI_Enable();
-                TEZMCAux.BoardTransferring = false;
+                //TEZMCAux.BoardTransferring = false;
             }
             else
             {
@@ -205,13 +205,13 @@ namespace NagaW
 
             if (!TCWafer.SMEMA_ING)
             {
-                TEZMCAux.BoardTransferring = true;
+                //TEZMCAux.BoardTransferring = true;
                 GControl.UI_Disable(sender as Button);
                 (sender as Button).Text = "STOP Auto Unload";
                 await Task.Run(() => TCWafer.AutoUnload());
                 (sender as Button).Text = "Auto Unload";
                 GControl.UI_Enable();
-                TEZMCAux.BoardTransferring = false;
+                //TEZMCAux.BoardTransferring = false;
             }
             else
             {

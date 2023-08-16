@@ -190,13 +190,11 @@ namespace NagaW
         {
             if (!TCWafer.SMEMA_ING)
             {
-                TEZMCAux.BoardTransferring = true;
                 GControl.UI_Disable(sender as Button);
                 (sender as Button).Text = "STOP Auto Load";
                 await Task.Run(() => TCWafer.AutoLoad());
                 (sender as Button).Text = "Auto Load";
                 GControl.UI_Enable();
-                TEZMCAux.BoardTransferring = false;
             }
             else
             {
@@ -209,13 +207,11 @@ namespace NagaW
         {
             if (!TCWafer.SMEMA_ING)
             {
-                TEZMCAux.BoardTransferring = true;
                 GControl.UI_Disable(sender as Button);
                 (sender as Button).Text = "STOP Auto Unload";
                 await Task.Run(() => TCWafer.AutoUnload());
                 (sender as Button).Text = "Auto Unload";
                 GControl.UI_Enable();
-                TEZMCAux.BoardTransferring = false;
             }
             else
             {

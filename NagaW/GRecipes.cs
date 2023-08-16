@@ -3607,16 +3607,20 @@ namespace NagaW
 
                             hsensorValue.Add(heightData.HMatrixVal[0].Z);
 
+                            bool abort = false;
                             switch (HeightCal(hsensorValue, heightRangeULimit, clusterCR, unitCR, out double avr))
                             {
                                 case EAction.Accept: break;
-                                case EAction.Fail: state = EDispState.NG; instBoard.LayerData[layoutNo].GetUnitHeight(ij).Status = EHeightAlignStatus.Error; return false;
-                                case EAction.Skip: state = EDispState.NG; return true;
+                                case EAction.Fail: abort = true; state = EDispState.NG; break;//instBoard.LayerData[layoutNo].GetUnitHeight(ij).Status = EHeightAlignStatus.Error; return false;
+                                case EAction.Skip: state = EDispState.NG; break;//return true;
                             }
                             heightData.MeasMode = HeightMatrix == true ? EHeightMeasMode.Matrix : EHeightMeasMode.Average;
 
                             instBoard.LayerData[layoutNo].SetUnitHeight(ij, heightData);
                             instBoard.MAP.SetState(ij[0], ij[1], state);
+
+                            if (abort) return false;
+
                             break;
                         }
                     #endregion
@@ -3645,11 +3649,12 @@ namespace NagaW
 
                             hsensorValue.Add(heightData.HMatrixVal[0].Z);
 
+                            bool abort = false;
                             switch (HeightCal(hsensorValue, heightRangeULimit, clusterCR, unitCR, out double avr))
                             {
                                 case EAction.Accept: break;
-                                case EAction.Fail: state = EDispState.NG; instBoard.LayerData[layoutNo].GetUnitHeight(ij).Status = EHeightAlignStatus.Error; return false;
-                                case EAction.Skip: state = EDispState.NG; return true;
+                                case EAction.Fail: abort = true; state = EDispState.NG; break;//instBoard.LayerData[layoutNo].GetUnitHeight(ij).Status = EHeightAlignStatus.Error; return false;
+                                case EAction.Skip: state = EDispState.NG; break;//return true;
                             }
 
                             heightData.MeasMode = HeightMatrix == true ? EHeightMeasMode.Matrix : EHeightMeasMode.Average;
@@ -3660,20 +3665,26 @@ namespace NagaW
                                 {
                                     instBoard.LayerData[layoutNo].SetUnitHeight(new PointI[2] { clusterCR, new PointI(i, j) }, heightData);
 
-                                    if (instBoard.MAP.GetState(clusterCR, new PointI(i, j)) == EDispState.READY)
-                                    {
-                                        instBoard.MAP.SetState(clusterCR, new PointI(i, j), state);
-                                    }
+                                    //if (instBoard.MAP.GetState(clusterCR, new PointI(i, j)) == EDispState.READY)
+                                    //{
+                                    //    instBoard.MAP.SetState(clusterCR, new PointI(i, j), state);
+                                    //}
+                                    instBoard.MAP.SetState(clusterCR, new PointI(i, j), state);
 
                                     EndunitCRs.Add(new PointI(i, j));
                                 }
 
-                            instBoard.LayerData[layoutNo].GetUnitHeight(ij).Status = EHeightAlignStatus.Processing;
+                            instBoard.LayerData[layoutNo].GetUnitHeight(ij).Status = state is EDispState.NG ? EHeightAlignStatus.Error : EHeightAlignStatus.Processing;
+                            //instBoard.LayerData[layoutNo].GetUnitHeight(ij).Status = EHeightAlignStatus.Processing;
                             if (C_count++ >= CmdEnabled.Where(x => x.Cmd == cmd.Cmd).Count())
                             {
-                                instBoard.LayerData[layoutNo].GetUnitHeight(ij).Status = EHeightAlignStatus.Aligned;
+                                instBoard.LayerData[layoutNo].GetUnitHeight(ij).Status = state is EDispState.NG ? EHeightAlignStatus.Error : EHeightAlignStatus.Processing;
+                                //instBoard.LayerData[layoutNo].GetUnitHeight(ij).Status = EHeightAlignStatus.Aligned;
                                 hsensorValue.Clear();
                             }
+
+                            if (abort) return false;
+
                             break;
                         }
                     #endregion
@@ -3703,11 +3714,12 @@ namespace NagaW
 
                             hsensorValue.Add(heightData.HMatrixVal[0].Z);
 
+                            bool abort = false;
                             switch (HeightCal(hsensorValue, heightRangeULimit, clusterCR, unitCR, out double avr))
                             {
                                 case EAction.Accept: break;
-                                case EAction.Fail: state = EDispState.NG; instBoard.LayerData[layoutNo].GetUnitHeight(ij).Status = EHeightAlignStatus.Error; return false;
-                                case EAction.Skip: state = EDispState.NG; return true;
+                                case EAction.Fail: abort = true; state = EDispState.NG; break;//instBoard.LayerData[layoutNo].GetUnitHeight(ij).Status = EHeightAlignStatus.Error; return false;
+                                case EAction.Skip: state = EDispState.NG; break;//return true;
                             }
 
                             //heightData.SensorValue = avr;
@@ -3725,10 +3737,11 @@ namespace NagaW
                                     {
                                         instBoard.LayerData[layoutNo].SetUnitHeight(new PointI[2] { currentClusterCR, new PointI(i, j) }, heightData);
 
-                                        if (instBoard.MAP.GetState(currentClusterCR, new PointI(i, j)) == EDispState.READY)
-                                        {
-                                            instBoard.MAP.SetState(currentClusterCR, new PointI(i, j), state);
-                                        }
+                                        //if (instBoard.MAP.GetState(currentClusterCR, new PointI(i, j)) == EDispState.READY)
+                                        //{
+                                        //    instBoard.MAP.SetState(currentClusterCR, new PointI(i, j), state);
+                                        //}
+                                        instBoard.MAP.SetState(currentClusterCR, new PointI(i, j), state);
 
                                         EndunitCRs.Add(new PointI(i, j));
                                     }
@@ -3738,12 +3751,15 @@ namespace NagaW
                                 if (currentClusterCR.IsZero) break;
                             }
 
-                            instBoard.LayerData[layoutNo].GetUnitHeight(ij).Status = EHeightAlignStatus.Processing;
+                            instBoard.LayerData[layoutNo].GetUnitHeight(ij).Status = state is EDispState.NG ? EHeightAlignStatus.Error : EHeightAlignStatus.Processing;
                             if (C_count++ >= CmdEnabled.Where(x => x.Cmd == cmd.Cmd).Count())
                             {
-                                instBoard.LayerData[layoutNo].GetUnitHeight(ij).Status = EHeightAlignStatus.Aligned;
+                                instBoard.LayerData[layoutNo].GetUnitHeight(ij).Status = state is EDispState.NG ? EHeightAlignStatus.Error : EHeightAlignStatus.Aligned;
                                 hsensorValue.Clear();
                             }
+
+                            if (abort) return false;
+
                             break;
                         }
                     #endregion
