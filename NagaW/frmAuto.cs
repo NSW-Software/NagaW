@@ -98,7 +98,6 @@ namespace NagaW
 
                         Inst.Board[0].RunMode = runMode;
                         if (!TCDisp.Run[0].All()) break;
-
                         //TEZMCAux.BoardTransferring = true;
                         if (!TCWafer.AutoUnload()) break;
                         //TEZMCAux.BoardTransferring = false;

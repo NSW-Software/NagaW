@@ -922,7 +922,13 @@ namespace NagaW
         public bool Execute(ERunMode runMode, PointD boardOrigin, PointD relCluster, PointD relUnit, double productZAbs, int layoutNo, PointI clusterCR, PointI unitCR, List<PointI> EndclusterCRs, List<PointI> EndunitCRs, TMAP map)
         {
             EDispState state = EDispState.COMPLETE;
-            if (map.GetState(clusterCR, unitCR) != EDispState.READY) return true;
+            //if (map.GetState(clusterCR, unitCR) != EDispState.READY) return true;
+            switch (map.GetState(clusterCR, unitCR))
+            {
+                default: return true;
+                case EDispState.READY: break;
+                case EDispState.NG: return false;
+            }
             //if (!TCPressCtrl.CheckMainAir()) return false;
             var pressuremaster = GRecipes.PressureSetups[gantry.Index];
 
@@ -3617,7 +3623,9 @@ namespace NagaW
                             heightData.MeasMode = HeightMatrix == true ? EHeightMeasMode.Matrix : EHeightMeasMode.Average;
 
                             instBoard.LayerData[layoutNo].SetUnitHeight(ij, heightData);
-                            instBoard.MAP.SetState(ij[0], ij[1], state);
+                            bool skip = instBoard.MAP.GetState(ij[0], ij[1]) == EDispState.DEFAULT_SKIP || instBoard.MAP.GetState(ij[0], ij[1]) == EDispState.INSTANT_SKIP;
+                            if (!skip) instBoard.MAP.SetState(ij[0], ij[1], state);
+                            //instBoard.MAP.SetState(ij[0], ij[1], state);
 
                             if (abort) return false;
 
@@ -3669,7 +3677,9 @@ namespace NagaW
                                     //{
                                     //    instBoard.MAP.SetState(clusterCR, new PointI(i, j), state);
                                     //}
-                                    instBoard.MAP.SetState(clusterCR, new PointI(i, j), state);
+                                    bool skip = instBoard.MAP.GetState(clusterCR, new PointI(i, j)) == EDispState.DEFAULT_SKIP || instBoard.MAP.GetState(clusterCR, new PointI(i, j)) == EDispState.INSTANT_SKIP;
+                                    if (!skip) instBoard.MAP.SetState(clusterCR, new PointI(i, j), state);
+                                    //instBoard.MAP.SetState(clusterCR, new PointI(i, j), state);
 
                                     EndunitCRs.Add(new PointI(i, j));
                                 }
@@ -3741,7 +3751,8 @@ namespace NagaW
                                         //{
                                         //    instBoard.MAP.SetState(currentClusterCR, new PointI(i, j), state);
                                         //}
-                                        instBoard.MAP.SetState(currentClusterCR, new PointI(i, j), state);
+                                        bool skip = instBoard.MAP.GetState(currentClusterCR, new PointI(i, j)) == EDispState.DEFAULT_SKIP || instBoard.MAP.GetState(currentClusterCR, new PointI(i, j)) == EDispState.INSTANT_SKIP;
+                                        if (!skip) instBoard.MAP.SetState(currentClusterCR, new PointI(i, j), state);
 
                                         EndunitCRs.Add(new PointI(i, j));
                                     }
