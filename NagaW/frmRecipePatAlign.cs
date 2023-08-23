@@ -195,7 +195,7 @@ namespace NagaW
             PointD ptRel = TFVision.Translate(relPos, alignData);
             ptPos += ptRel;
 
-            TFLightCtrl.LightPair[gantry.Index].Set(GRecipes.Lighting[gantry.Index][Tcmd.ID]);
+            TFLightCtrl.LightPair[gantry.Index].Set(GRecipes.Lighting[gantry.Index + 1][Tcmd.ID]);
 
             GControl.UI_Disable();
             try
@@ -306,6 +306,8 @@ namespace NagaW
                 GRecipes.PatRecog[gantry.Index][id].ImgThld[1] = thld;
                 GRecipes.PatRecog[gantry.Index][id].SearchRect[1] = rects[0];
                 GRecipes.PatRecog[gantry.Index][id].PatRect[1] = rects[1];
+
+                GRecipes.Lighting[gantry.Index + 1][id] = new LightRGBA(TFLightCtrl.LightPair[gantry.Index].CurrentLight);
 
                 return;
             }

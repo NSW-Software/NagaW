@@ -33,7 +33,6 @@ namespace NagaW
         public PointD Offset = new PointD(0, 0);
         public double Angle_Rad = 0;
         public List<double> Scores = new List<double>();
-        //public LightRGBA Lighting = new LightRGBA();
         public TAlignData()
         {
             Status = EPatAlignStatus.None;
@@ -49,7 +48,6 @@ namespace NagaW
             Offset = alignData.Offset;
             Angle_Rad = alignData.Angle_Rad;
             Scores = alignData.Scores;
-            //Lighting = alignData.Lighting;
         }
         public double Angle_Deg
         {

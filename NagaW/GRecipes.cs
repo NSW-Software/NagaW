@@ -4697,6 +4697,7 @@ namespace NagaW
                     PointD ptNew2 = originAbs + ptNew1 + (ptOri2 - ptOri1) + offset2;
 
                     //gantry.MoveOpZAbs(GSystemCfg.Camera.Cameras[gantry.Index].DefaultFocusZ + cmd.Para[5]);
+                    TFLightCtrl.LightPair[gantryGroup.Index].Set(GRecipes.Lighting[gantryGroup.Index + 1][id]);
                     gantryGroup.MoveOpZAbs(GRecipes.Board[gantry.Index].StartPos.Z);
                     gantryGroup.MoveOpXYAbs(ptNew2.ToArray);
                     Thread.Sleep(settleTime);
