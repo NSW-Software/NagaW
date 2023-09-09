@@ -112,6 +112,9 @@
             this.cbxLearnNotchVision = new System.Windows.Forms.CheckBox();
             this.btnLearnNotchVision = new System.Windows.Forms.Button();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.btnBurnRun = new System.Windows.Forms.Button();
+            this.label24 = new System.Windows.Forms.Label();
+            this.lblOORCounter = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.lblOverAngle = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
@@ -127,9 +130,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.lblNotchTeachCamPos = new System.Windows.Forms.Label();
             this.btnNotchAlign = new System.Windows.Forms.Button();
-            this.label24 = new System.Windows.Forms.Label();
-            this.lblOORCounter = new System.Windows.Forms.Label();
-            this.btnBurnRun = new System.Windows.Forms.Button();
+            this.label25 = new System.Windows.Forms.Label();
+            this.lblPrecisorTimeout = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.groupBox8.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -698,6 +700,8 @@
             // 
             this.groupBox6.AutoSize = true;
             this.groupBox6.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox6.Controls.Add(this.label25);
+            this.groupBox6.Controls.Add(this.lblPrecisorTimeout);
             this.groupBox6.Controls.Add(this.label16);
             this.groupBox6.Controls.Add(this.lblPrecisorAcc);
             this.groupBox6.Controls.Add(this.label14);
@@ -720,7 +724,7 @@
             this.groupBox6.Location = new System.Drawing.Point(0, 335);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Padding = new System.Windows.Forms.Padding(3, 3, 3, 0);
-            this.groupBox6.Size = new System.Drawing.Size(809, 151);
+            this.groupBox6.Size = new System.Drawing.Size(809, 186);
             this.groupBox6.TabIndex = 6;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Precisor setting";
@@ -773,7 +777,7 @@
             // 
             // btnPrecisorHoming
             // 
-            this.btnPrecisorHoming.Location = new System.Drawing.Point(563, 93);
+            this.btnPrecisorHoming.Location = new System.Drawing.Point(563, 128);
             this.btnPrecisorHoming.Name = "btnPrecisorHoming";
             this.btnPrecisorHoming.Size = new System.Drawing.Size(95, 40);
             this.btnPrecisorHoming.TabIndex = 17;
@@ -783,7 +787,7 @@
             // 
             // btnPrecisorON
             // 
-            this.btnPrecisorON.Location = new System.Drawing.Point(462, 93);
+            this.btnPrecisorON.Location = new System.Drawing.Point(462, 128);
             this.btnPrecisorON.Name = "btnPrecisorON";
             this.btnPrecisorON.Size = new System.Drawing.Size(95, 40);
             this.btnPrecisorON.TabIndex = 16;
@@ -933,7 +937,7 @@
             this.groupBox7.Controls.Add(this.label13);
             this.groupBox7.Controls.Add(this.lblLifterSpeed);
             this.groupBox7.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox7.Location = new System.Drawing.Point(0, 486);
+            this.groupBox7.Location = new System.Drawing.Point(0, 521);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Padding = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.groupBox7.Size = new System.Drawing.Size(809, 99);
@@ -1124,13 +1128,45 @@
             this.groupBox9.Controls.Add(this.btnLearnNotchVision);
             this.groupBox9.Controls.Add(this.btnNotchAlign);
             this.groupBox9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox9.Location = new System.Drawing.Point(0, 585);
+            this.groupBox9.Location = new System.Drawing.Point(0, 620);
             this.groupBox9.Name = "groupBox9";
             this.groupBox9.Padding = new System.Windows.Forms.Padding(3, 3, 3, 0);
-            this.groupBox9.Size = new System.Drawing.Size(809, 244);
+            this.groupBox9.Size = new System.Drawing.Size(809, 209);
             this.groupBox9.TabIndex = 8;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Notch Alignment";
+            // 
+            // btnBurnRun
+            // 
+            this.btnBurnRun.Location = new System.Drawing.Point(6, 150);
+            this.btnBurnRun.Name = "btnBurnRun";
+            this.btnBurnRun.Size = new System.Drawing.Size(95, 40);
+            this.btnBurnRun.TabIndex = 46;
+            this.btnBurnRun.Text = "BurnRun";
+            this.btnBurnRun.UseVisualStyleBackColor = true;
+            this.btnBurnRun.Click += new System.EventHandler(this.btnBurnRun_Click);
+            // 
+            // label24
+            // 
+            this.label24.Location = new System.Drawing.Point(244, 150);
+            this.label24.Margin = new System.Windows.Forms.Padding(3);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(65, 40);
+            this.label24.TabIndex = 44;
+            this.label24.Text = "OOR Counter";
+            // 
+            // lblOORCounter
+            // 
+            this.lblOORCounter.BackColor = System.Drawing.Color.White;
+            this.lblOORCounter.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblOORCounter.Location = new System.Drawing.Point(315, 150);
+            this.lblOORCounter.Margin = new System.Windows.Forms.Padding(3);
+            this.lblOORCounter.Name = "lblOORCounter";
+            this.lblOORCounter.Size = new System.Drawing.Size(140, 25);
+            this.lblOORCounter.TabIndex = 45;
+            this.lblOORCounter.Text = "label6";
+            this.lblOORCounter.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblOORCounter.Click += new System.EventHandler(this.lblOORCounter_Click);
             // 
             // label22
             // 
@@ -1298,37 +1334,28 @@
             this.btnNotchAlign.UseVisualStyleBackColor = true;
             this.btnNotchAlign.Click += new System.EventHandler(this.btnNotchAlign_Click);
             // 
-            // label24
+            // label25
             // 
-            this.label24.Location = new System.Drawing.Point(244, 150);
-            this.label24.Margin = new System.Windows.Forms.Padding(3);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(65, 40);
-            this.label24.TabIndex = 44;
-            this.label24.Text = "OOR Counter";
+            this.label25.Location = new System.Drawing.Point(447, 87);
+            this.label25.Margin = new System.Windows.Forms.Padding(3);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(65, 25);
+            this.label25.TabIndex = 22;
+            this.label25.Text = "Timeout";
+            this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // lblOORCounter
+            // lblPrecisorTimeout
             // 
-            this.lblOORCounter.BackColor = System.Drawing.Color.White;
-            this.lblOORCounter.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblOORCounter.Location = new System.Drawing.Point(315, 150);
-            this.lblOORCounter.Margin = new System.Windows.Forms.Padding(3);
-            this.lblOORCounter.Name = "lblOORCounter";
-            this.lblOORCounter.Size = new System.Drawing.Size(140, 25);
-            this.lblOORCounter.TabIndex = 45;
-            this.lblOORCounter.Text = "label6";
-            this.lblOORCounter.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lblOORCounter.Click += new System.EventHandler(this.lblOORCounter_Click);
-            // 
-            // btnBurnRun
-            // 
-            this.btnBurnRun.Location = new System.Drawing.Point(6, 150);
-            this.btnBurnRun.Name = "btnBurnRun";
-            this.btnBurnRun.Size = new System.Drawing.Size(95, 40);
-            this.btnBurnRun.TabIndex = 46;
-            this.btnBurnRun.Text = "BurnRun";
-            this.btnBurnRun.UseVisualStyleBackColor = true;
-            this.btnBurnRun.Click += new System.EventHandler(this.btnBurnRun_Click);
+            this.lblPrecisorTimeout.BackColor = System.Drawing.Color.White;
+            this.lblPrecisorTimeout.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblPrecisorTimeout.Location = new System.Drawing.Point(518, 87);
+            this.lblPrecisorTimeout.Margin = new System.Windows.Forms.Padding(3);
+            this.lblPrecisorTimeout.Name = "lblPrecisorTimeout";
+            this.lblPrecisorTimeout.Size = new System.Drawing.Size(140, 25);
+            this.lblPrecisorTimeout.TabIndex = 23;
+            this.lblPrecisorTimeout.Text = "label6";
+            this.lblPrecisorTimeout.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblPrecisorTimeout.Click += new System.EventHandler(this.lblPrecisorTimeout_Click);
             // 
             // frmWaferSetup
             // 
@@ -1469,5 +1496,7 @@
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Label lblOORCounter;
         private System.Windows.Forms.Button btnBurnRun;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label lblPrecisorTimeout;
     }
 }

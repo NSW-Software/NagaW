@@ -52,6 +52,7 @@ namespace NagaW
 
             lblPrecisorSpeed.UpdatePara(GProcessPara.Wafer.PrecisorSpeed);
             lblPrecisorAcc.UpdatePara(GProcessPara.Wafer.PrecisorAccel);
+            lblPrecisorTimeout.UpdatePara(GProcessPara.Wafer.PrecisorTimeout);
 
             lblLifterSpeed.UpdatePara(GProcessPara.Wafer.LifterSpeed);
             lblLifterAccel.UpdatePara(GProcessPara.Wafer.LifterAccel);
@@ -85,7 +86,6 @@ namespace NagaW
             await Task.Run(() => TCWafer.Manual_Load());
             GControl.UI_Enable();
         }
-
         private async void btnManualUnload_Click(object sender, EventArgs e)
         {
             GControl.UI_Disable();
@@ -98,7 +98,6 @@ namespace NagaW
             GLog.SetPos(ref GSetupPara.Wafer.ManualLoadPos, gantry.PointXYZ, nameof(GSetupPara.Wafer.ManualLoadPos));
             UpdateDisplay();
         }
-
         private void btnGotoManualLoadPos_Click(object sender, EventArgs e)
         {
             gantry.GotoXYZ(GSetupPara.Wafer.ManualLoadPos);
@@ -109,7 +108,6 @@ namespace NagaW
             GLog.SetPos(ref GSetupPara.Wafer.AirBlowPos, gantry.PointXYZ, nameof(GSetupPara.Wafer.AirBlowPos));
             UpdateDisplay();
         }
-
         private void btnAirBlowPosGoto_Click(object sender, EventArgs e)
         {
             gantry.GotoXYZ(GSetupPara.Wafer.AirBlowPos);
@@ -132,22 +130,18 @@ namespace NagaW
         {
             TCWafer.WaferVacLow.Status = !TCWafer.WaferVacLow.Status;
         }
-
         private void btnSVChuckVacOn_Click(object sender, EventArgs e)
         {
             TCWafer.ChuckVac.Status = !TCWafer.ChuckVac.Status;
         }
-
         private void btnSVWaferVacOn_Click(object sender, EventArgs e)
         {
             TCWafer.WaferVacHigh.Status = !TCWafer.WaferVacHigh.Status;
         }
-
         private void btnSVWaferExhOn_Click(object sender, EventArgs e)
         {
             TCWafer.WaferExh.Status = !TCWafer.WaferExh.Status;
         }
-
         private void btnBlowerIonizer_Click(object sender, EventArgs e)
         {
             TCWafer.AirBlow.Status = !TCWafer.AirBlow.Status;
@@ -179,7 +173,6 @@ namespace NagaW
             GLog.SetPos(ref GSetupPara.Wafer.AutoLoadPos, gantry.PointXYZ, "Wafer Load Pos");
             UpdateDisplay();
         }
-
         private void btnAutoPosGoto_Click(object sender, EventArgs e)
         {
             gantry.GotoXYZ(GSetupPara.Wafer.AutoLoadPos);
@@ -202,7 +195,6 @@ namespace NagaW
                 TCWafer.SMEMA_ING = false;
             }
         }
-
         private async void btnAutoUnload_Click(object sender, EventArgs e)
         {
             if (!TCWafer.SMEMA_ING)
@@ -220,33 +212,35 @@ namespace NagaW
             }
         }
 
-        private void lblP1Pos_Click(object sender, EventArgs e)
-        {
-            GLog.SetPara(ref GSetupPara.Wafer.PrecisorPos_1);
-            UpdateDisplay();
-        }
-
-        private void lblP2Pos_Click(object sender, EventArgs e)
-        {
-            GLog.SetPara(ref GSetupPara.Wafer.PrecisorPos_2);
-            UpdateDisplay();
-        }
-
-        private void lblP3Pos_Click(object sender, EventArgs e)
-        {
-            GLog.SetPara(ref GSetupPara.Wafer.PrecisorPos_3);
-            UpdateDisplay();
-        }
-
         private void lblP1Speed_Click(object sender, EventArgs e)
         {
             GLog.SetPara(ref GProcessPara.Wafer.PrecisorSpeed);
             UpdateDisplay();
         }
-
         private void lblP1Acc_Click(object sender, EventArgs e)
         {
             GLog.SetPara(ref GProcessPara.Wafer.PrecisorAccel);
+            UpdateDisplay();
+        }
+        private void lblPrecisorTimeout_Click(object sender, EventArgs e)
+        {
+            GLog.SetPara(ref GProcessPara.Wafer.PrecisorTimeout);
+            UpdateDisplay();
+        }
+
+        private void lblP1Pos_Click(object sender, EventArgs e)
+        {
+            GLog.SetPara(ref GSetupPara.Wafer.PrecisorPos_1);
+            UpdateDisplay();
+        }
+        private void lblP2Pos_Click(object sender, EventArgs e)
+        {
+            GLog.SetPara(ref GSetupPara.Wafer.PrecisorPos_2);
+            UpdateDisplay();
+        }
+        private void lblP3Pos_Click(object sender, EventArgs e)
+        {
+            GLog.SetPara(ref GSetupPara.Wafer.PrecisorPos_3);
             UpdateDisplay();
         }
 
@@ -255,13 +249,11 @@ namespace NagaW
             GSetupPara.Wafer.PrecisorPos_1.Value = GMotDef.Preciser_0.ActualPos;
             UpdateDisplay();
         }
-
         private void btnP2PosSet_Click(object sender, EventArgs e)
         {
             GSetupPara.Wafer.PrecisorPos_2.Value = GMotDef.Preciser_1.ActualPos;
             UpdateDisplay();
         }
-
         private void btnP3PosSet_Click(object sender, EventArgs e)
         {
             GSetupPara.Wafer.PrecisorPos_3.Value = GMotDef.Preciser_2.ActualPos;
@@ -275,7 +267,6 @@ namespace NagaW
             Action cancel = () => target.Stop();
             MsgBox.Processing($"Moving {target.Name}", act, cancel);
         }
-
         private void btnP2PosGoto_Click(object sender, EventArgs e)
         {
             var target = GMotDef.Preciser_1;
@@ -283,7 +274,6 @@ namespace NagaW
             Action cancel = () => target.Stop();
             MsgBox.Processing($"Moving {target.Name}", act, cancel);
         }
-
         private void btnP3PosGoto_Click(object sender, EventArgs e)
         {
             var target = GMotDef.Preciser_2;
@@ -304,13 +294,11 @@ namespace NagaW
             GLog.SetPara(ref GProcessPara.Wafer.LifterSpeed);
             UpdateDisplay();
         }
-
         private void lblLifterAccel_Click(object sender, EventArgs e)
         {
             GLog.SetPara(ref GProcessPara.Wafer.LifterAccel);
             UpdateDisplay();
         }
-
         private void lblLifterStroke_Click(object sender, EventArgs e)
         {
             GLog.SetPara(ref GProcessPara.Wafer.LifterStroke);
@@ -323,18 +311,16 @@ namespace NagaW
             await Task.Run(() => TCWafer.LifterUp());
             GControl.UI_Enable();
         }
-
-        private async void btnPrecisorHoming_Click(object sender, EventArgs e)
-        {
-            GControl.UI_Disable();
-            await Task.Run(() => TCWafer.PrecisorHoming());
-            GControl.UI_Enable();
-        }
-
         private async void btnLifterHoming_Click(object sender, EventArgs e)
         {
             GControl.UI_Disable();
             await Task.Run(() => TCWafer.LifterHoming());
+            GControl.UI_Enable();
+        }
+        private async void btnPrecisorHoming_Click(object sender, EventArgs e)
+        {
+            GControl.UI_Disable();
+            await Task.Run(() => TCWafer.PrecisorHoming());
             GControl.UI_Enable();
         }
 
@@ -367,7 +353,6 @@ namespace NagaW
 
             TCWafer.SMEMA_UP_OUT.Status = !TCWafer.SMEMA_UP_OUT.Status;
         }
-
         private void btnSMEMA_DnOut_Click(object sender, EventArgs e)
         {
             TCWafer.SMEMA_DN_OUT.Status = !TCWafer.SMEMA_DN_OUT.Status;
@@ -384,13 +369,11 @@ namespace NagaW
             GLog.SetPos(ref GSetupPara.Wafer.TeachNotchCamPos, gantry.PointXYZ, nameof(GSetupPara.Wafer.TeachNotchCamPos));
             UpdateDisplay();
         }
-
         private void btnNotchTeachCamPosGoto_Click(object sender, EventArgs e)
         {
             TFLightCtrl.LightPair[gantry.Index].Set(GRecipes.Board[gantry.Index].LightDefault);
             gantry.GotoXYZ(GSetupPara.Wafer.TeachNotchCamPos);
         }
-
         private void btnNotchAlign_Click(object sender, EventArgs e)
         {
             GControl.UI_Disable();
@@ -544,9 +527,5 @@ namespace NagaW
                 });
         }
 
-        private void PrecisorConversion(DPara para)
-        {
-
-        }
     }
 }

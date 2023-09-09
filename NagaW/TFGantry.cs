@@ -2414,10 +2414,27 @@ namespace NagaW
                     TEZMCAux.Execute($"DATUM({0})AXIS({i})");
                     TEZMCAux.Execute($"DATUM({homemode})AXIS({i})");
                 }
-                while (GMotDef.Preciser_0.Busy) Thread.Sleep(1);
-                while (GMotDef.Preciser_1.Busy) Thread.Sleep(1);
-                while (GMotDef.Preciser_2.Busy) Thread.Sleep(1);
 
+                Stopwatch sw = new Stopwatch();
+
+                sw.Restart();
+                while (GMotDef.Preciser_0.Busy)
+                {
+                    if (sw.ElapsedMilliseconds >= GProcessPara.Wafer.PrecisorTimeout.Value) return false;
+                    Thread.Sleep(1);
+                }
+                sw.Restart();
+                while (GMotDef.Preciser_1.Busy)
+                {
+                    if (sw.ElapsedMilliseconds >= GProcessPara.Wafer.PrecisorTimeout.Value) return false;
+                    Thread.Sleep(1);
+                }
+                sw.Restart();
+                while (GMotDef.Preciser_2.Busy)
+                {
+                    if (sw.ElapsedMilliseconds >= GProcessPara.Wafer.PrecisorTimeout.Value) return false;
+                    Thread.Sleep(1);
+                }
             }
             catch
             {

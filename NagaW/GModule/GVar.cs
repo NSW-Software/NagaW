@@ -813,6 +813,8 @@ namespace NagaW
             public static IPara OORCounter = new IPara(nameof(Wafer) + nameof(OORCounter), 0, 0, 10, EUnit.COUNT);
 
             public static bool EnableAutoHeightDetect = false;
+
+            public static DPara PrecisorTimeout = new DPara(nameof(Wafer) + nameof(PrecisorTimeout), 0, 0, 30000, EUnit.MILLISECOND);
         }
 
         public static bool SaveFile(string filepath)

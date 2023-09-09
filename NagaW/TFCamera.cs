@@ -635,6 +635,7 @@ namespace NagaW
             {
                 if (imgTemplate != null) imgTemplate.Dispose();
                 if (imgResult != null) imgResult.Dispose();
+                if (image != null) image.Dispose();
             }
         }
 
