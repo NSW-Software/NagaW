@@ -215,6 +215,9 @@ namespace NagaW
             [Category("Pump")]
             [Browsable(false)]
             public ECOM Comport { get; set; }
+
+            [Category("Others")]
+            public bool VermesSprayEnable { get; set; }
             #endregion
             public static Pump[] Pumps = Enumerable.Range(0, Count).Select(x => new Pump()).ToArray();
         }
@@ -814,7 +817,7 @@ namespace NagaW
 
             public static bool EnableAutoHeightDetect = false;
 
-            public static DPara PrecisorTimeout = new DPara(nameof(Wafer) + nameof(PrecisorTimeout), 0, 0, 30000, EUnit.MILLISECOND);
+            public static DPara PrecisorTimeout = new DPara(nameof(Wafer) + nameof(PrecisorTimeout), 0, 0, 30000, EUnit.MILLISECOND, 0);
         }
 
         public static bool SaveFile(string filepath)

@@ -2420,19 +2420,31 @@ namespace NagaW
                 sw.Restart();
                 while (GMotDef.Preciser_0.Busy)
                 {
-                    if (sw.ElapsedMilliseconds >= GProcessPara.Wafer.PrecisorTimeout.Value) return false;
+                    if (sw.ElapsedMilliseconds >= GProcessPara.Wafer.PrecisorTimeout.Value)
+                    {
+                        GAlarm.Prompt(EAlarm.WAFER_PRECISOR_HOMING_FAIL);
+                        return false;
+                    }
                     Thread.Sleep(1);
                 }
                 sw.Restart();
                 while (GMotDef.Preciser_1.Busy)
                 {
-                    if (sw.ElapsedMilliseconds >= GProcessPara.Wafer.PrecisorTimeout.Value) return false;
+                    if (sw.ElapsedMilliseconds >= GProcessPara.Wafer.PrecisorTimeout.Value)
+                    {
+                        GAlarm.Prompt(EAlarm.WAFER_PRECISOR_HOMING_FAIL);
+                        return false;
+                    }
                     Thread.Sleep(1);
                 }
                 sw.Restart();
                 while (GMotDef.Preciser_2.Busy)
                 {
-                    if (sw.ElapsedMilliseconds >= GProcessPara.Wafer.PrecisorTimeout.Value) return false;
+                    if (sw.ElapsedMilliseconds >= GProcessPara.Wafer.PrecisorTimeout.Value)
+                    {
+                        GAlarm.Prompt(EAlarm.WAFER_PRECISOR_HOMING_FAIL);
+                        return false;
+                    }
                     Thread.Sleep(1);
                 }
             }

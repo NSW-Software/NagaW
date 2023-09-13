@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Data.SqlTypes;
 using System.Threading.Tasks;
+using Emgu.CV.Structure;
 
 namespace NagaW
 {
@@ -1493,9 +1494,18 @@ namespace NagaW
                                 {
                                     case EPumpType.VERMES_3280:
                                         {
-                                            if (isDisp) cmdBuffer += $"MOVE_OP({trig.OutputNo}, 1) ";
+                                            bool spray = GSystemCfg.Pump.Pumps[0].VermesSprayEnable;
+                                            if (isDisp)
+                                            {
+                                                cmdBuffer += $"MOVE_OP({trig.OutputNo}, 1) ";
+                                                if (spray) cmdBuffer += $"MOBE_OP({ppressIO.OutputNo}, 1) ";
+                                            }
                                             cmdBuffer += $"MOVE_DELAY({dotTime}) ";
-                                            if (isDisp) cmdBuffer += $"MOVE_OP({trig.OutputNo}, 0) ";
+                                            if (isDisp)
+                                            {
+                                                cmdBuffer += $"MOVE_OP({trig.OutputNo}, 0) ";
+                                                if (spray) cmdBuffer += $"MOVE_OP({ppressIO.OutputNo}, 0) ";
+                                            }
                                             break;
                                         }
                                     case EPumpType.SP:
@@ -1599,7 +1609,11 @@ namespace NagaW
                                 {
                                     case EPumpType.VERMES_3280:
                                         {
-                                            if (isDisp) cmdBuffer += $"MOVE_OP({trig.OutputNo}, 1) ";
+                                            if (isDisp)
+                                            {
+                                                cmdBuffer += $"MOVE_OP({trig.OutputNo}, 1) ";
+                                                if (GSystemCfg.Pump.Pumps[0].VermesSprayEnable) cmdBuffer += $"MOVE_OP({ppressIO.OutputNo}, 1) ";
+                                            }
                                             break;
                                         }
                                     case EPumpType.SP:
@@ -1675,7 +1689,11 @@ namespace NagaW
                                 {
                                     case EPumpType.VERMES_3280:
                                         {
-                                            if (isDisp) cmdBuffer += $"MOVE_OP({trig.OutputNo}, 1) ";
+                                            if (isDisp)
+                                            {
+                                                cmdBuffer += $"MOVE_OP({trig.OutputNo}, 1) ";
+                                                if (GSystemCfg.Pump.Pumps[0].VermesSprayEnable) cmdBuffer += $"MOVE_OP({ppressIO.OutputNo}, 1) ";
+                                            }
                                             break;
                                         }
                                     case EPumpType.SP:
@@ -1859,6 +1877,7 @@ namespace NagaW
                                         case EPumpType.VERMES_3280:
                                             {
                                                 cmdBuffer += $"MOVE_OP({trig.OutputNo}, 0) ";
+                                                if (GSystemCfg.Pump.Pumps[0].VermesSprayEnable) cmdBuffer += $"MOVE_OP({ppressIO.OutputNo}, 0) ";
                                                 break;
                                             }
                                         case EPumpType.SP:
@@ -1898,6 +1917,7 @@ namespace NagaW
                                         case EPumpType.VERMES_3280:
                                             {
                                                 cmdBuffer += $"MOVE_OP({trig.OutputNo}, 1) ";
+                                                if (GSystemCfg.Pump.Pumps[0].VermesSprayEnable) cmdBuffer += $"MOVE_OP({ppressIO.OutputNo}, 1) ";
                                                 break;
                                             }
                                         case EPumpType.SP:
@@ -1987,7 +2007,11 @@ namespace NagaW
                                 {
                                     case EPumpType.VERMES_3280:
                                         {
-                                            if (stopDisp) cmdBuffer += $"MOVE_OP({trig.OutputNo}, 0) ";
+                                            if (stopDisp)
+                                            {
+                                                cmdBuffer += $"MOVE_OP({trig.OutputNo}, 0) ";
+                                                if (GSystemCfg.Pump.Pumps[0].VermesSprayEnable) cmdBuffer += $"MOVE_OP({ppressIO.OutputNo}, 0) ";
+                                            }
                                             break;
                                         }
                                     case EPumpType.SP:
@@ -2105,6 +2129,7 @@ namespace NagaW
                                     case EPumpType.VERMES_3280:
                                         {
                                             cmdBuffer += $"MOVE_OP({trig.OutputNo}, 0) ";
+                                            if (GSystemCfg.Pump.Pumps[0].VermesSprayEnable) cmdBuffer += $"MOVE_OP({ppressIO.OutputNo}, 0) ";
                                             break;
                                         }
                                     case EPumpType.SP:
@@ -2517,7 +2542,11 @@ namespace NagaW
                                             {
                                                 case EPumpType.VERMES_3280:
                                                     {
-                                                        if (isDisp) cmdBuffer += $"MOVE_OP({trig.OutputNo}, 1) ";
+                                                        if (isDisp)
+                                                        {
+                                                            cmdBuffer += $"MOVE_OP({trig.OutputNo}, 1) ";
+                                                            if (GSystemCfg.Pump.Pumps[0].VermesSprayEnable) cmdBuffer += $"MOVE_OP({ppressIO.OutputNo}, 1) ";
+                                                        }
                                                         break;
                                                     }
                                                 case EPumpType.SP:
@@ -2581,6 +2610,7 @@ namespace NagaW
                                     case EPumpType.VERMES_3280:
                                         {
                                             cmdBuffer += $"MOVE_OP({trig.OutputNo}, 0) ";
+                                            if (GSystemCfg.Pump.Pumps[0].VermesSprayEnable) cmdBuffer += $"MOVE_OP({ppressIO.OutputNo}, 0) ";
                                             break;
                                         }
                                     case EPumpType.SP:
@@ -2682,7 +2712,11 @@ namespace NagaW
                                             {
                                                 case EPumpType.VERMES_3280:
                                                     {
-                                                        if (isDisp) cmdBuffer += $"MOVE_OP({trig.OutputNo}, 1) ";
+                                                        if (isDisp)
+                                                        {
+                                                            cmdBuffer += $"MOVE_OP({trig.OutputNo}, 1) ";
+                                                            if (GSystemCfg.Pump.Pumps[0].VermesSprayEnable) cmdBuffer += $"MOVE_OP({ppressIO.OutputNo}, 1) ";
+                                                        }
                                                         break;
                                                     }
                                                 case EPumpType.SP:
@@ -2746,6 +2780,7 @@ namespace NagaW
                                     case EPumpType.VERMES_3280:
                                         {
                                             cmdBuffer += $"MOVE_OP({trig.OutputNo}, 0) ";
+                                            if (GSystemCfg.Pump.Pumps[0].VermesSprayEnable) cmdBuffer += $"MOVE_OP({ppressIO.OutputNo}, 0) ";
                                             break;
                                         }
                                     case EPumpType.SP:
@@ -2852,7 +2887,11 @@ namespace NagaW
                                 {
                                     case EPumpType.VERMES_3280:
                                         {
-                                            if (isDisp) cmdBuffer += $"MOVE_OP({trig.OutputNo}, 1) ";
+                                            if (isDisp)
+                                            {
+                                                cmdBuffer += $"MOVE_OP({trig.OutputNo}, 1) ";
+                                                if (GSystemCfg.Pump.Pumps[0].VermesSprayEnable) cmdBuffer += $"MOVE_OP({ppressIO.OutputNo}, 1) ";
+                                            }
                                             break;
                                         }
                                     case EPumpType.SP:
@@ -2917,6 +2956,7 @@ namespace NagaW
                                     case EPumpType.VERMES_3280:
                                         {
                                             cmdBuffer += $"MOVE_OP({trig.OutputNo}, 0) ";
+                                            if (GSystemCfg.Pump.Pumps[0].VermesSprayEnable) cmdBuffer += $"MOVE_OP({ppressIO.OutputNo}, 0) ";
                                             break;
                                         }
                                     case EPumpType.SP:
@@ -3100,7 +3140,11 @@ namespace NagaW
                                 {
                                     case EPumpType.VERMES_3280:
                                         {
-                                            if (isDisp) cmdBuffer += $"MOVE_OP({trig.OutputNo}, 1) ";
+                                            if (isDisp)
+                                            {
+                                                cmdBuffer += $"MOVE_OP({trig.OutputNo}, 1) ";
+                                                if (GSystemCfg.Pump.Pumps[0].VermesSprayEnable) cmdBuffer += $"MOVE_OP({ppressIO.OutputNo}, 1) ";
+                                            }
                                             break;
                                         }
                                     case EPumpType.SP:
@@ -3134,6 +3178,7 @@ namespace NagaW
                                     case EPumpType.VERMES_3280:
                                         {
                                             cmdBuffer += $"MOVE_OP({trig.OutputNo}, 0) ";
+                                            if (GSystemCfg.Pump.Pumps[0].VermesSprayEnable) cmdBuffer += $"MOVE_OP({ppressIO.OutputNo}, 0) ";
                                             break;
                                         }
                                     case EPumpType.SP:
@@ -3206,9 +3251,17 @@ namespace NagaW
                                     {
                                         case EPumpType.VERMES_3280:
                                             {
-                                                if (isDisp) cmdBuffer += $"MOVE_OP({trig.OutputNo}, 1) ";
+                                                if (isDisp)
+                                                {
+                                                    cmdBuffer += $"MOVE_OP({trig.OutputNo}, 1) ";
+                                                    if (GSystemCfg.Pump.Pumps[0].VermesSprayEnable) cmdBuffer += $"MOVE_OP({ppressIO.OutputNo}, 1) ";
+                                                }
                                                 cmdBuffer += $"MOVE_DELAY({dotTime}) ";
-                                                if (isDisp) cmdBuffer += $"MOVE_OP({trig.OutputNo}, 0) ";
+                                                if (isDisp)
+                                                {
+                                                    cmdBuffer += $"MOVE_OP({trig.OutputNo}, 0) ";
+                                                    if (GSystemCfg.Pump.Pumps[0].VermesSprayEnable) cmdBuffer += $"MOVE_OP({ppressIO.OutputNo}, 0) ";
+                                                }
                                                 break;
                                             }
                                         case EPumpType.SP:
