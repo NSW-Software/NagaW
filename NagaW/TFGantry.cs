@@ -13,6 +13,7 @@ namespace NagaW
 {
     using Emgu.CV;
     using Emgu.CV.Structure;
+    using System.Windows.Forms.DataVisualization.Charting;
 
     class TFCommon
     {
@@ -2406,7 +2407,7 @@ namespace NagaW
         {
             try
             {
-                int homemode = 4;
+                int homemode = 3;
 
                 for (int i = 0; i < 3; i++)
                 {
@@ -2423,6 +2424,7 @@ namespace NagaW
                     if (sw.ElapsedMilliseconds >= GProcessPara.Wafer.PrecisorTimeout.Value)
                     {
                         GAlarm.Prompt(EAlarm.WAFER_PRECISOR_HOMING_FAIL);
+                        StopEmg();
                         return false;
                     }
                     Thread.Sleep(1);
@@ -2433,6 +2435,7 @@ namespace NagaW
                     if (sw.ElapsedMilliseconds >= GProcessPara.Wafer.PrecisorTimeout.Value)
                     {
                         GAlarm.Prompt(EAlarm.WAFER_PRECISOR_HOMING_FAIL);
+                        StopEmg();
                         return false;
                     }
                     Thread.Sleep(1);
@@ -2443,9 +2446,14 @@ namespace NagaW
                     if (sw.ElapsedMilliseconds >= GProcessPara.Wafer.PrecisorTimeout.Value)
                     {
                         GAlarm.Prompt(EAlarm.WAFER_PRECISOR_HOMING_FAIL);
+                        StopEmg();
                         return false;
                     }
                     Thread.Sleep(1);
+                }
+                void StopEmg()
+                {
+                    for (int i = 0; i < 3; i++) TEZMCAux.Execute($"BASE({i}) CANCEL(3)");
                 }
             }
             catch
