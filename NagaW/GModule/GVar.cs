@@ -217,6 +217,7 @@ namespace NagaW
             public ECOM Comport { get; set; }
 
             [Category("Others")]
+            [DisplayName("Vermes Spary Enable")]
             public bool VermesSprayEnable { get; set; }
             #endregion
             public static Pump[] Pumps = Enumerable.Range(0, Count).Select(x => new Pump()).ToArray();
