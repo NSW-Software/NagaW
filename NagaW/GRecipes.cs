@@ -1497,8 +1497,8 @@ namespace NagaW
                                             bool spray = GSystemCfg.Pump.Pumps[0].VermesSprayEnable;
                                             if (isDisp)
                                             {
-                                                cmdBuffer += $"MOVE_OP({trig.OutputNo}, 1) ";
                                                 if (spray) cmdBuffer += $"MOBE_OP({ppressIO.OutputNo}, 1) ";
+                                                cmdBuffer += $"MOVE_OP({trig.OutputNo}, 1) ";
                                             }
                                             cmdBuffer += $"MOVE_DELAY({dotTime}) ";
                                             if (isDisp)

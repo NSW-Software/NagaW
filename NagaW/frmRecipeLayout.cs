@@ -48,7 +48,8 @@ namespace NagaW
             lblBoardStartPos.Text = GRecipes.Board[gantry.Index].StartPos.ToStringForDisplay();
             lblBoardHeight.Text = GRecipes.Board[gantry.Index].Height.ToString("f3") + " mm";
 
-            MLayout = GRecipes.MultiLayout[gantry.Index][Math.Max(lboxMLayoutList.SelectedIndex, 0)];
+            //MLayout = GRecipes.MultiLayout[gantry.Index][Math.Max(lboxMLayoutList.SelectedIndex, 0)];
+            MLayout = GRecipes.MultiLayout[gantry.Index][0];
             //btnCopy.Text = "Copy " + (gantry.Index == 0 ? "R" : "L");
 
             bool isCluster = rbtnCluster.Checked;
